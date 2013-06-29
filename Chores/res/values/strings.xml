@@ -11,5 +11,6 @@ roomates</string>
 settings</string>
 <string name="apartment_tableTitle">Apartment chores</string>
 <string name="apartment_historyButtoonText">Show history</string>
+<string name="card_img_description">image of card</string>
 
 </resources>

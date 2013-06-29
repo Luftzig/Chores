@@ -3,23 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@android:color/background_dark" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1.80"
+            android:text="chore name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="74dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:contentDescription="@string/card_img_description"
+            android:src="@drawable/five_dollars" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:layout_weight="14.29"
+        android:contentDescription="@string/card_img_description"
+        android:src="@drawable/ic_launcher" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="chore name"
-        android:textColor="@android:color/darker_gray"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_weight="81.27"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text="Deadline"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/holo_red_dark" />
+
+    </LinearLayout>
 
 </LinearLayout>
