@@ -6,5 +6,8 @@
     <dimen name="aartment_buttons_height">40dp</dimen>
     <dimen name="apartment_buttons_textSize">14sp</dimen>
     <dimen name="apartment_title_height">50dp</dimen>
+    <dimen name="apartment_table_row__height">10dp</dimen>
+    <dimen name="apartment_table__height">60dp</dimen>
+     <dimen name="apartment_history_button_textSize">12sp</dimen>
 
 </resources>

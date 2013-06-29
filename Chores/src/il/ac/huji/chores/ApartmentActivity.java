@@ -4,7 +4,6 @@ import il.ac.huji.chores.R;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 
 public class ApartmentActivity extends Activity {
 

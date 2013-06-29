@@ -2,6 +2,8 @@ package il.ac.huji.chores;
 
 import android.app.Fragment;
 
+import il.ac.huji.chores.ChoreInterface.CHORE_STATUS;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +28,20 @@ public class ApartmentChoresFragment extends Fragment {
 
 	 public void onActivityCreated (Bundle savedInstanceState)
 	 {
+		 super.onActivityCreated(savedInstanceState);
 		 
 		 getActivity().setContentView(R.layout.fragment_apartment);
 		 
 	     List<ChoreInterface> chores = new ArrayList<ChoreInterface>();
 	     
-	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30)));
-	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23)));
+	     chores.add(new ApartmentChore("baba", new Date(2013, 4, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_DONE));
+	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30),CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 6, 23), CHORE_STATUS.STATUS_MISS));
 	        
 
 	     ListView listCourses = (ListView)getActivity().findViewById(R.id.apartmentListChores);

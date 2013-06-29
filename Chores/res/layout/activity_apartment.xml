@@ -8,4 +8,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ApartmentActivity" >
 
+    <fragment
+        android:id="@+id/fragment1"
+        android:name="il.ac.huji.chores.ApartmentChoresFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

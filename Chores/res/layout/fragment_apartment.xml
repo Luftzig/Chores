@@ -39,13 +39,13 @@
             android:layout_weight="1"
             android:background="@android:color/darker_gray"
             android:text="@string/apartment_settingsButton"
-            android:textSize="@dimen/apartment_buttons_textSize"  />
+            android:textSize="@dimen/apartment_buttons_textSize" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/apartment_title_height"
+        android:layout_height="44dp"
         android:gravity="center"
         android:text="@string/apartment_tableTitle"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -53,13 +53,17 @@
     <ListView
         android:id="@+id/apartmentListChores"
         android:layout_width="match_parent"
-        android:layout_height="386dp" >
+        android:layout_height="@dimen/apartment_table__height"
+        android:layout_gravity="top"
+        android:layout_weight="0.16" >
     </ListView>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/historyButton"
         android:layout_width="322dp"
-        android:layout_height="match_parent"
-        android:text="@string/apartment_historyButtoonText" />
+        android:layout_height="31dp"
+        android:text="@string/apartment_historyButtoonText"
+        android:visibility="visible"
+        android:textSize="@dimen/apartment_history_button_textSize" />
 
 </LinearLayout>
