@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">il.ac.huji.chores</string>
+    <string name="action_settings">Settings</string>
+    <string name="apartment_editChoresButton">Add/Edit
+chores</string>
+    <string name="apartment_inviteButton">Invite
+roomates</string>
+    <string name="apartment_settingsButton">Apartment
+settings</string>
+<string name="apartment_tableTitle">Apartment chores</string>
+<string name="apartment_historyButtoonText">Show history</string>
+
+</resources>
