@@ -20,7 +20,8 @@ import android.widget.TextView;
 
 public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 	
-	static public final String DATE_FORMAT = "Starts from:\n%02d/%02d/%02d";
+	static public final String DATE_FORMAT_START = "Starts from:\n%02d/%02d/%02d";
+	static public final String DATE_FORMAT_END = "Deadline:\n%02d/%02d/%02d";
 
 	public ApartmentChoresDisplayAdapter(Context context, List<ChoreInterface> courses) {
 		super(context, R.layout.apartment_chores_table_row, courses);
@@ -37,15 +38,18 @@ public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 		if(chore.getStatus() == CHORE_STATUS.STATUS_DONE){
 			view.setBackgroundColor(Color.GREEN);
 		}else if(chore.getStatus() == CHORE_STATUS.STATUS_FUTURE){
-			view.setBackgroundColor(Color.LTGRAY);
+			view.setBackgroundColor(Color.WHITE);
 		}else{
 			view.setBackgroundColor(Color.RED);
 		}
 		
+		//set chore info
+		TextView choreName = (TextView)view.findViewById(R.id.choreName);
 		TextView assignedTo = (TextView)view.findViewById(R.id.assignedTo);
 		TextView start = (TextView)view.findViewById(R.id.startsFrom);
 		TextView deadline = (TextView)view.findViewById(R.id.deadline);
 		
+		choreName.setText(chore.getName());
 		assignedTo.setText("Assigned to:\n" + chore.getAssignedTo());
 		
 		
@@ -56,7 +60,7 @@ public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 		int curMonth = cal.get(Calendar.MONTH);
 		int curYear = cal.get(Calendar.YEAR);
 		
-		String time = String.format(DATE_FORMAT, curDay, curMonth, curYear % 100); //get only 2 last digits
+		String time = String.format(DATE_FORMAT_START, curDay, curMonth, curYear % 100); //get only 2 last digits
 		start.setText(time);
 		
 		//deadline time
@@ -65,7 +69,7 @@ public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 		curMonth = cal.get(Calendar.MONTH);
 		cal.get(Calendar.YEAR);
 		
-		time = String.format(DATE_FORMAT, curDay, curMonth, curYear % 100); //get only 2 last digits
+		time = String.format(DATE_FORMAT_END, curDay, curMonth, curYear % 100); //get only 2 last digits
 		deadline.setText(time);
 		
 		return view;

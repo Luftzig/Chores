@@ -55,15 +55,17 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/apartment_table__height"
         android:layout_gravity="top"
-        android:layout_weight="0.16" >
+        android:layout_marginBottom="1dp"
+        android:layout_weight="0.12" >
+
     </ListView>
 
     <Button
         android:id="@+id/historyButton"
         android:layout_width="322dp"
-        android:layout_height="31dp"
+        android:layout_height="34dp"
         android:text="@string/apartment_historyButtoonText"
-        android:visibility="visible"
-        android:textSize="@dimen/apartment_history_button_textSize" />
+        android:textSize="@dimen/apartment_history_button_textSize"
+        android:visibility="visible" />
 
 </LinearLayout>

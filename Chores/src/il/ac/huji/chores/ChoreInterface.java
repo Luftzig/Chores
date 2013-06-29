@@ -5,6 +5,11 @@ import java.util.Date;
 public interface ChoreInterface {
 
 	/*
+	 * gets chore name
+	 */
+	public String getName();
+	
+	/*
 	 * gets chore's owner
 	 */
 	public String getAssignedTo();

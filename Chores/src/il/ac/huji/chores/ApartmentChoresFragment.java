@@ -34,14 +34,14 @@ public class ApartmentChoresFragment extends Fragment {
 		 
 	     List<ChoreInterface> chores = new ArrayList<ChoreInterface>();
 	     
-	     chores.add(new ApartmentChore("baba", new Date(2013, 4, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_DONE));
-	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30),CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
-	     chores.add(new ApartmentChore("blah",  new Date(2013, 6, 23),  new Date(2013, 6, 23), CHORE_STATUS.STATUS_MISS));
+	     chores.add(new ApartmentChore("wash dishes", "baba", new Date(2013, 4, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("wash dishes", "blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_DONE));
+	     chores.add(new ApartmentChore("task1", "baba", new Date(2013, 9, 23), new Date(2013, 9, 30),CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("walk dog", "bob",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("task1", "baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("task2","blah",  new Date(2013, 6, 23),  new Date(2013, 9, 23), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("task2","baba", new Date(2013, 9, 23), new Date(2013, 9, 30), CHORE_STATUS.STATUS_FUTURE));
+	     chores.add(new ApartmentChore("task1","blah",  new Date(2013, 6, 23),  new Date(2013, 6, 23), CHORE_STATUS.STATUS_MISS));
 	        
 
 	     ListView listCourses = (ListView)getActivity().findViewById(R.id.apartmentListChores);

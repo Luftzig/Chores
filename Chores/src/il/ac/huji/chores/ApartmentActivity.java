@@ -13,6 +13,4 @@ public class ApartmentActivity extends Activity {
 		setContentView(R.layout.activity_apartment);
 	}
 
-
-
 }
