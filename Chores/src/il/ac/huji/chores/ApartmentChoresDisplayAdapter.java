@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 	
-	static public final String DATE_FORMAT_START = "Starts from:\n%02d/%02d/%02d";
-	static public final String DATE_FORMAT_END = "Deadline:\n%02d/%02d/%02d";
+	static public final String DATE__START = "Starts from:\n";
+	static public final String DATE__END = "Deadline:\n";
 
 	public ApartmentChoresDisplayAdapter(Context context, List<ChoreInterface> courses) {
 		super(context, R.layout.apartment_chores_table_row, courses);
@@ -52,25 +52,13 @@ public class ApartmentChoresDisplayAdapter extends ArrayAdapter<ChoreInterface>{
 		choreName.setText(chore.getName());
 		assignedTo.setText("Assigned to:\n" + chore.getAssignedTo());
 		
-		
-		Calendar cal = Calendar.getInstance();
 		//start time
-		cal.setTime(chore.getStartsFrom());
-		int curDay = cal.get(Calendar.DAY_OF_MONTH);
-		int curMonth = cal.get(Calendar.MONTH);
-		int curYear = cal.get(Calendar.YEAR);
+		String time = chore.getPrintableDate(chore.getStartsFrom());
+		start.setText(DATE__START + time);
 		
-		String time = String.format(DATE_FORMAT_START, curDay, curMonth, curYear % 100); //get only 2 last digits
-		start.setText(time);
-		
-		//deadline time
-		cal.setTime(chore.getDeadline());
-		curDay = cal.get(Calendar.DAY_OF_MONTH);
-		curMonth = cal.get(Calendar.MONTH);
-		cal.get(Calendar.YEAR);
-		
-		time = String.format(DATE_FORMAT_END, curDay, curMonth, curYear % 100); //get only 2 last digits
-		deadline.setText(time);
+		//deadline
+		time = chore.getPrintableDate(chore.getDeadline());
+		deadline.setText(DATE__END + time);
 		
 		return view;
 	}
