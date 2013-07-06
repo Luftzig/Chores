@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -24,8 +25,16 @@ settings</string>
 	<string name="chores_settings_forbid">Forbid roomates from taking my chores</string>
 	<string name="chores_settings_disable_reminders">Disable reminders about upcoming chores</string>
 	<string name="reminders_title">Reminders</string>
-	<string name="reminders_settings_hours">hours reminder before deadline</string>
+	<string name="reminders_settings_hours">hours reminder before deadline</string>	
+	<string name="card_deadline_textStart">Deadline:  </string>
+	<string name="card_choretype_textStart">Chore type:  </string>
+	<string name="card_funfact_textStart">Fun fact:  </string>
+	<string name="card_statistics_textStart">Statistics:  </string>
+	<string name="card_coins_num_textend">X</string>
+
+	<string name="button_suggestchore_text">Suggest chore</string>
+	<string name="button_stealchore_text">Steal chore</string>
+	<string name="button_done_text">I\'m done!</string>
 	
-	
-	
+
 </resources>
