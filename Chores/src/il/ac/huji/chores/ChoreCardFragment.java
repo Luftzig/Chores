@@ -1,6 +1,6 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.ChoreInterface.CHORE_STATUS;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 
 import java.util.Calendar;
 
@@ -34,7 +34,7 @@ public class ChoreCardFragment extends Fragment {
 	  * and organiz UI accordingly (set right text in text view and buttons, removes buttons if needed).
 	  * ownerOpen - true if the the owner of this card is the one who opened the card. false otherwise.
 	  */
-	 public void OrganizeUIParts(ChoreInterface chore, boolean ownerOpen){
+	 public void OrganizeUIParts(Chore chore, boolean ownerOpen){
 		 
 		 //set chore name
 		 TextView name = (TextView)getActivity().findViewById(R.id.card_chore_name);

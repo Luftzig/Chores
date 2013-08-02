@@ -14,7 +14,7 @@ public class ChoreCardActivity extends Activity {
 		
 		//get arguments to the card
 		Intent intent= getIntent();
-		ChoreInterface choreInterface = (ChoreInterface)intent.getSerializableExtra("choreData");
+		Chore choreInterface = (Chore)intent.getSerializableExtra("choreData");
 		boolean ownerOpen = intent.getBooleanExtra("ownerOpen", false);
 		
 		//set argiments in card fragments
