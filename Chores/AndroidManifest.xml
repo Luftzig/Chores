@@ -8,13 +8,15 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="il.ac.huji.chores.MainActivity"
+            android:name="il.ac.huji.chores.MyChoresActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +39,10 @@
         <activity
             android:name="il.ac.huji.chores.SettingsFragment"
             android:label="@string/title_activity_settings_fragment" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.MyChoresActivity"
+            android:label="@string/title_activity_my_chores" >
         </activity>
     </application>
 
