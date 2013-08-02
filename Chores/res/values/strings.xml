@@ -1,14 +1,11 @@
-
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">il.ac.huji.chores</string>
+    <string name="app_name">Chores</string>
     <string name="action_settings">Settings</string>
-    <string name="apartment_editChoresButton">Add/Edit
-chores</string>
+    <string name="apartment_editChoresButton">Add/Edit Chores</string>
     <string name="apartment_inviteButton">Invite roomates</string>
-    <string name="apartment_settingsButton">Apartment
-settings</string>
+    <string name="apartment_settingsButton">Apartment settings</string>
     <string name="apartment_tableTitle">Apartment chores</string>
     <string name="apartment_historyButtoonText">Show history</string>
     <string name="card_img_description">image of card</string>
@@ -17,9 +14,9 @@ settings</string>
     <string name="title_activity_settings">Settings Activity</string>
     <string name="title_activity_settings_fragment">Settings Fragment</string>
     <string name="settings_notifications_title">Notifications</string>
-    <string name="notifications_settings_roomate_missed_chore">Roomate missed a chore</string>
-	<string name="notifications_settings_roomate_stole_chore">Roomate stole my chore</string>
-	<string name="notifications_settings_roomate_finished_chore">Roomate finished a chore</string>
+    <string name="notifications_settings_roomate_missed_chore">Roommate missed a chore</string>
+	<string name="notifications_settings_roomate_stole_chore">Roommate stole my chore</string>
+	<string name="notifications_settings_roomate_finished_chore">Roommate finished a chore</string>
 	<string name="notifications_settings_new_chores">New chores divided</string>
 	<string name="chores_title">Chores</string>
 	<string name="chores_settings_forbid">Forbid roomates from taking my chores</string>
@@ -35,6 +32,7 @@ settings</string>
 	<string name="button_suggestchore_text">Suggest chore</string>
 	<string name="button_stealchore_text">Steal chore</string>
 	<string name="button_done_text">I\'m done!</string>
-	
-
+	<string name="my_chores_headline_text">My Chores</string>
+	<string name="my_chores_row_title_placeholder">Chore placeholder</string>
+	<string name="chore_edit_button_text">Edit Chore</string>
 </resources>

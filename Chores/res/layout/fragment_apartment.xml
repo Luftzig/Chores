@@ -9,7 +9,7 @@
         android:layout_height="@dimen/apartment_title_height" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/myChoresRowEditButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/myChoresRowTitle"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_margin="10dp"
