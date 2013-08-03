@@ -1,12 +1,12 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.MyChoresFragment.OnFragmentInteractionListener;
-
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
@@ -19,20 +19,10 @@ public class MyChoresActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_chores);
-        AppSetup setup = AppSetup.getInstance((Context)this);
-        // DialogFragment newApartmentDialog = new NewApartmentDialogFragment();
-        // newApartmentDialog.show(getFragmentManager(), "new_apartment");
-        Button createButton = (Button)findViewById(R.id.myChoresCreateButton);
-        createButton.setOnClickListener(new OnClickListener() {
-            
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RoommatesApartment apartment = new RoommatesApartment();
-                apartment.setName("Anna's place");
-                apartment.createApartment();
-			}
-        });
+        AppSetup setup = AppSetup.getInstance((Context) this);
+        // Create new apartment dialog
+        Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+        startActivity(intent);
     }
 
     @Override

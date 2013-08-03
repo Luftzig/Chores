@@ -1,10 +1,13 @@
 package il.ac.huji.chores;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,94 +23,30 @@ import android.widget.Button;
  * instance of this fragment.
  * 
  */
-public class NewApartmentDialogFragment extends DialogFragment {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+public class NewApartmentDialogFragment extends Fragment {
 
-	// TODO: Rename and change types of parameters
+    private RoommatesApartment apartment;
 
-	private OnFragmentInteractionListener mListener;
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+    }
 
-	/**
-	 * Use this factory method to create a new instance of this fragment using
-	 * the provided parameters.
-	 * 
-	 * @return A new instance of fragment NewApartmentDialogFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
-	public static NewApartmentDialogFragment newInstance() {
-		NewApartmentDialogFragment fragment = new NewApartmentDialogFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
-
-	public NewApartmentDialogFragment() {
-		// Required empty public constructor
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-		}
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.fragment_new_apartment_dialog, container, false);
-        Button finishButton = (Button)view.findViewById(R.id.finishButton);
-        finishButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                RoommatesApartment apartment = new RoommatesApartment();
-                apartment.setName("Anna's place");
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_new_apartment_dialog, container, false);
+        Button finishBtn = (Button) view.findViewById(R.id.newApartmentFinishButton);
+        finishBtn.setOnClickListener( new OnClickListener() {
+            @Override public void onClick(View v) {
+                apartment = new RoommatesApartment();
+                apartment.setName("Test1");
                 apartment.createApartment();
+                Log.d(getClass().toString(), "Apartment created");
             }
         });
-
         return view;
-	}
-
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onButtonPressed(Uri uri) {
-		if (mListener != null) {
-			mListener.onFragmentInteraction(uri);
-		}
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		try {
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		mListener = null;
-	}
-
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
-		public void onFragmentInteraction(Uri uri);
-	}
+    }
 
 }
