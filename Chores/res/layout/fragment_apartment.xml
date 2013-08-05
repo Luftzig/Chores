@@ -9,7 +9,7 @@
         android:layout_height="@dimen/apartment_title_height" >
 
         <Button
-            android:id="@+id/myChoresRowEditButton"
+            android:id="@+id/ApartmentChoresFragment_editChores_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
@@ -20,7 +20,7 @@
             android:textSize="@dimen/apartment_buttons_textSize" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/ApartmentChoresFragment_inviteRoomates_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -31,7 +31,7 @@
             android:textSize="@dimen/apartment_buttons_textSize" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/ApartmentChoresFragment_apartmentSettings_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

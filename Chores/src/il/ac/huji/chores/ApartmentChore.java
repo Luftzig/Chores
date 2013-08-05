@@ -9,7 +9,11 @@ public class ApartmentChore implements Chore {
     
     //static public final String DATE_FORMAT = "%02d/%02d/%02d";
     
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L; //implements Serializable
+	private String name;
     private String assignedTo;
     private Date startsFrom;
     private Date deadline;

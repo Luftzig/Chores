@@ -42,5 +42,7 @@
     <string name="title_activity_my_chores">MyChoresActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="card_activity_extra1_name">choreData</string>
+    <string name="card_activity_extra2_name">ownerOpen</string>
 
 </resources>

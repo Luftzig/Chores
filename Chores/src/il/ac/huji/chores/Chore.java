@@ -1,8 +1,9 @@
 package il.ac.huji.chores;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public interface Chore {
+public interface Chore extends Serializable{
 
 	//Possible statuses a chore.
 	enum CHORE_STATUS{
@@ -43,7 +44,7 @@ public interface Chore {
 	/*
 	 * gets the chore type (family)
 	 */
-	// TODO: should it be here? Only the chore cards needs it. Maybe it should be local.
+	// TODO: move to local (in chore card)
 	public String getType(); 
 
 	/*
