@@ -42,20 +42,16 @@
             android:label="@string/title_activity_settings_fragment" >
         </activity>
         <activity
-            android:name="il.ac.huji.chores.MyChoresActivity"
-            android:label="@string/title_activity_my_chores" >
-        </activity>
-        <activity
             android:name="il.ac.huji.chores.NewApartmentDialogActivity"
             android:label="" >
         </activity>
         <activity
-            android:name="il.ac.huji.chores.ChoresActionBarActivity"
-            android:label="@string/title_activity_chores_action_bar" >
-        </activity>
-        <activity
             android:name="il.ac.huji.chores.NewChoreDialogActivity"
             android:label="@string/title_activity_new_chore_dialog" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.ChoreCardActivity"
+            android:label="@string/title_activity_apartment_settings" >
         </activity>
     </application>
 

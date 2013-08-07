@@ -81,5 +81,7 @@
     <string name="new_chore_dialog_everyone_checkbox_text">Should be done by everyone together.</string>
     <string name="new_chore_dialog_create_button_text">Create Chore</string>
     <string name="new_chore_dialog_cancel_button_text">Discard</string>
+    <string name="card_activity_extra1_name">choreData</string>
+    <string name="card_activity_extra2_name">ownerOpen</string>
 
 </resources>

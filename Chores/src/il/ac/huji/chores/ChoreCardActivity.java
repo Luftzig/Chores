@@ -14,15 +14,15 @@ public class ChoreCardActivity extends Activity {
 		
 		//get arguments to the card
 		Intent intent= getIntent();
-		Chore choreInterface = (Chore)intent.getSerializableExtra("choreData");
+		Chore chore = (Chore)intent.getSerializableExtra("choreData");
 		boolean ownerOpen = intent.getBooleanExtra("ownerOpen", false);
 		
 		//set argiments in card fragments
 		ChoreCardFragment cardFrag = (ChoreCardFragment)getFragmentManager().findFragmentById(R.id.card_fragment);
 
-		if (cardFrag != null && choreInterface != null) {
+		if (cardFrag != null && chore != null) {
 		 
-			cardFrag.OrganizeUIParts(choreInterface, ownerOpen);
+			cardFrag.OrganizeUIParts(chore, ownerOpen);
 		}
 		
 	}
