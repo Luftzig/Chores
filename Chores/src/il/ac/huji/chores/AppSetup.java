@@ -1,6 +1,7 @@
 package il.ac.huji.chores;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.parse.Parse;
 
@@ -12,6 +13,7 @@ public class AppSetup {
     private AppSetup(Context ctx) {
         _ctx = ctx;
         Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
+        Log.d("AppSetup", "Parse initialized");
         //  PushService.subscribe(_ctx, "", AppSetup.class);
         //  PushService.setDefaultPushCallback(_ctx, AppSetup.class);
     }

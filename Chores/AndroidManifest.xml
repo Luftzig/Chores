@@ -8,13 +8,16 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="il.ac.huji.chores.MainActivity"
+            android:name="il.ac.huji.chores.MyChoresActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +40,18 @@
         <activity
             android:name="il.ac.huji.chores.SettingsFragment"
             android:label="@string/title_activity_settings_fragment" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.NewApartmentDialogActivity"
+            android:label="" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.NewChoreDialogActivity"
+            android:label="@string/title_activity_new_chore_dialog" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.ChoreCardActivity"
+            android:label="@string/title_activity_apartment_settings" >
         </activity>
     </application>
 

@@ -13,5 +13,6 @@
     <dimen name="apartment_info__height">35dp</dimen>
     <dimen name="apartment_table__height">320dp</dimen>
      <dimen name="apartment_history_button_textSize">12sp</dimen>
+     <dimen name="dialog_questions_margin">16dp</dimen>
 
 </resources>

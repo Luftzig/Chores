@@ -1,11 +1,8 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.Chore.CHORE_STATUS;
-
 import java.util.Calendar;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +65,7 @@ public class ChoreCardFragment extends Fragment {
 		 Calendar otherTime = Calendar.getInstance();
 		 otherTime.setTime(chore.getStartsFrom());
 		 boolean beforeStartDate = today.before(otherTime);
+
 		 
 		 //check if deadline have passed
 		 otherTime.setTime(chore.getDeadline());
@@ -78,7 +76,6 @@ public class ChoreCardFragment extends Fragment {
 
 		 
 		 if(beforeStartDate){ // can't do chore yet
-			 
 			 rightButton.setEnabled(false);
 			 rightButton.setVisibility(Button.GONE);
 			 
@@ -95,7 +92,7 @@ public class ChoreCardFragment extends Fragment {
 				 
 		 }
 		 else if(afterDeadline){ // deadline have passed
-		
+	
 			 // no buttons
 			 rightButton.setEnabled(false);
 			 rightButton.setVisibility(Button.GONE);
