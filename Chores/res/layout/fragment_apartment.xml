@@ -20,7 +20,7 @@
             android:textSize="@dimen/apartment_buttons_textSize" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/newChoreDialogCancelButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
