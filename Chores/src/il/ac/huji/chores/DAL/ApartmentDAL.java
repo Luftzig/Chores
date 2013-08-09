@@ -1,3 +1,5 @@
+package il.ac.huji.chores.DAL;
+
 import java.util.List;
 import il.ac.huji.chores.*;
 

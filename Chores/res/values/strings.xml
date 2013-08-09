@@ -31,6 +31,9 @@
     <string name="apartment_historyButtoonText">Show history</string>
     <string name="card_img_description">image of card</string>
     <string name="title_activity_apartment_settings">Apartment Settings</string>
+    <string name="title_activity_apartment">Apartment</string>
+    <string name="title_activity_add_edit_chores">Add or edit chores</string>
+    <string name="title_activity_chore_card">Chore Card</string>
     <string name="apartment_leaveButton">Leave apartment</string>
     <string name="title_activity_settings">Settings Activity</string>
     <string name="title_activity_settings_fragment">Settings Fragment</string>
@@ -75,7 +78,7 @@
     <string name="title_activity_new_chore_dialog">NewChoreDialogActivity</string>
     <string name="new_chore_dialog_what_text">What should be done?</string>
     <string name="new_chore_dialog_how_many_prompt">Who many times?</string>
-    <string name="new_chore_dialog_every_prompt">Every...</string>
+    <string name="new_chore_dialog_every_prompt">Every&#8230;</string>
     <string name="new_chore_dialog_coins_text">coins.</string>
     <string name="new_chore_dialog_value_prompt">"For how many "</string>
     <string name="new_chore_dialog_everyone_checkbox_text">Should be done by everyone together.</string>
@@ -83,5 +86,8 @@
     <string name="new_chore_dialog_cancel_button_text">Discard</string>
     <string name="card_activity_extra1_name">choreData</string>
     <string name="card_activity_extra2_name">ownerOpen</string>
+    <string name="add_edit_chores_title">Add or edit chores</string>
+    <string name="add_edit_chores_add_chore_button_title">Add chore</string>
+    <string name="new_chore_extra1_name">choreData</string>
 
 </resources>

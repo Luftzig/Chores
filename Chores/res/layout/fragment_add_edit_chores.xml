@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/AddEditChoresFragment_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/add_edit_chores_title"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/AddEditChoresFragment_Addchore_button"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="@string/add_edit_chores_add_chore_button_title"
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+    <ListView
+        android:id="@+id/AddEditChoresFragment_choresList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>

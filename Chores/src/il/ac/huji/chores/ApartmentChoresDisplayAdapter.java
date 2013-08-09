@@ -3,13 +3,7 @@ package il.ac.huji.chores;
 
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-
-
-import android.R.color;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
