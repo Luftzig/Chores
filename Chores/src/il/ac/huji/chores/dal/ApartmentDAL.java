@@ -1,5 +1,6 @@
 package il.ac.huji.chores.dal;
 import java.util.ArrayList;
+
 import java.util.List;
 import il.ac.huji.chores.RoommatesApartment;
 import com.parse.*;

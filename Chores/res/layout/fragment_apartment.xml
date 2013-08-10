@@ -20,17 +20,6 @@
             android:textSize="@dimen/apartment_buttons_textSize" />
 
         <Button
-            android:id="@+id/ApartmentChoresFragment_inviteRoomates_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@android:color/darker_gray"
-            android:text="@string/apartment_inviteButton"
-            android:textSize="@dimen/apartment_buttons_textSize" />
-
-        <Button
             android:id="@+id/ApartmentChoresFragment_apartmentSettings_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="fill_parent"

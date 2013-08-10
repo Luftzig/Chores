@@ -53,7 +53,11 @@
         </activity>
         <activity
             android:name="il.ac.huji.chores.ChoreCardActivity"
-            android:label="@string/title_activity_apartment_settings" >
+            android:label="@string/title_activity_chore_card" >
+        </activity>
+         <activity
+            android:name="il.ac.huji.chores.AddEditChoresActivity"
+            android:label="@string/title_activity_add_edit_chores" >
         </activity>
         <activity
             android:name="il.ac.huji.chores.dal.DALTestActivity"
@@ -64,6 +68,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+            android:name="il.ac.huji.chores.ApartmentActivity"
+            android:label="@string/title_activity_apartment" >
+        </activity>
+
     </application>
 
 </manifest>
