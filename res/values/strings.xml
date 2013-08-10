@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="days_of_the_week_array">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-    </string-array>
-    <string-array name="chores_divison_periods">
-        <item>Twice a Week</item>
-        <item>Once a Week</item>
-        <item>Every Two Weeks</item>
-        <item>Every Three Weeks</item>
-        <item>Every Four Weeks</item>
-        <item>Every Five Weeks</item>
-        <item>Every Six Weeks</item>
-        <item>Once a Month</item>
-        <item>Every Two Months</item>
-    </string-array>
-
     <string name="app_name">Chores</string>
     <string name="action_settings">Settings</string>
     <string name="apartment_editChoresButton">Add/Edit Chores</string>
@@ -63,26 +42,7 @@
     <string name="title_activity_my_chores">MyChoresActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="new_apartment_dialog_title_text">Creating new apartment</string>
-    <string name="new_apartment_dialog_name_prompt">Choose a name for your apartment.</string>
-    <string name="help_icon_text">Click for help</string>
-    <string name="new_apartment_dialog_chores_division_prompt">Choose on what day chores will given</string>
-    <string name="new_apartment_dialog_divison_period_prompt">How often chores will be divided?</string>
-    <string name="new_apartment_dialog_create">Create Apartment</string>
-    <string name="new_apartment_dialog_name_hint">E.g. your apartment\'s address</string>
-    <string name="new_apartment_invite_roommates_prompt">Invite your roommates</string>
-    <string name="title_activity_chores_action_bar">ChoresActionBarActivity</string>
-    <string name="title_activity_new_chore_dialog">NewChoreDialogActivity</string>
-    <string name="new_chore_dialog_what_text">What should be done?</string>
-    <string name="new_chore_dialog_how_many_prompt">Who many times?</string>
-    <string name="new_chore_dialog_every_prompt">Every...</string>
-    <string name="new_chore_dialog_coins_text">coins.</string>
-    <string name="new_chore_dialog_value_prompt">"For how many "</string>
-    <string name="new_chore_dialog_everyone_checkbox_text">Should be done by everyone together.</string>
-    <string name="new_chore_dialog_create_button_text">Create Chore</string>
-    <string name="new_chore_dialog_cancel_button_text">Discard</string>
     <string name="card_activity_extra1_name">choreData</string>
     <string name="card_activity_extra2_name">ownerOpen</string>
-    <string name="title_activity_daltest">DALTestActivity</string>
 
 </resources>

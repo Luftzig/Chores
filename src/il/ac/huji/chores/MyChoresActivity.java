@@ -1,6 +1,5 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.dal.ApartmentDAL;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -22,12 +21,8 @@ public class MyChoresActivity extends FragmentActivity {
         setContentView(R.layout.activity_my_chores);
         AppSetup setup = AppSetup.getInstance((Context) this);
         // Create new apartment dialog
-       // Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-       // startActivity(intent);
-        ApartmentDAL.Setup(this);
-		RoommatesApartment apt = new RoommatesApartment();
-		apt.setName("Anna's apartment");
-		ApartmentDAL.CreateApartment(apt);
+        Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -8,11 +8,9 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
-        android:name="il.ac.huji.chores"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -34,7 +32,6 @@
             android:name="il.ac.huji.chores.ApartmentSettingsActivity"
             android:label="@string/title_activity_apartment_settings" >
         </activity>
-        
         <activity
             android:name="il.ac.huji.chores.SettingsActivity"
             android:label="@string/title_activity_settings" >
@@ -48,21 +45,8 @@
             android:label="" >
         </activity>
         <activity
-            android:name="il.ac.huji.chores.NewChoreDialogActivity"
-            android:label="@string/title_activity_new_chore_dialog" >
-        </activity>
-        <activity
             android:name="il.ac.huji.chores.ChoreCardActivity"
             android:label="@string/title_activity_apartment_settings" >
-        </activity>
-        <activity
-            android:name="il.ac.huji.chores.dal.DALTestActivity"
-            android:label="@string/title_activity_daltest" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
