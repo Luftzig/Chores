@@ -1,4 +1,4 @@
-package il.ac.huji.chores.dal;
+package il.ac.huji.chores.DAL;
 
 import org.json.JSONArray;
 
@@ -7,7 +7,7 @@ import com.parse.GetCallback;
 import com.parse.*;
 
 
-public class RoomateDAL extends BasicDAL {
+public class RoommateDAL extends BasicDAL {
 
 	private static String _username;
 	public static void setUserName(String username) {
