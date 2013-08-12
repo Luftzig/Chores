@@ -6,6 +6,7 @@ import com.parse.ParseUser;
 
 import il.ac.huji.chores.*;
 import android.content.Context;
+
 public  class BasicDAL {
 	
 	protected static Context context;
@@ -25,6 +26,7 @@ public  class BasicDAL {
 		roommateID = ParseUser.getCurrentUser().getObjectId();
 		 
 	}
+
 	public static void Setup(){
 
 		Parse.initialize(context,
@@ -37,8 +39,4 @@ public  class BasicDAL {
 		roommateID = ParseUser.getCurrentUser().getObjectId();
 		 
 	}
-	
-	
-	
-
 }

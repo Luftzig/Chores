@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 import java.util.List;
 import il.ac.huji.chores.RoommatesApartment;
+
+import android.util.Log;
+
 import com.parse.*;
 
 public class ApartmentDAL extends BasicDAL {
@@ -15,6 +18,7 @@ public class ApartmentDAL extends BasicDAL {
 		//apartment.add("apartmentCreator",apt.getApartmentCreator());
 		ArrayList<String> roommates = new ArrayList<String>();
 		roommates.add(roommateID);
+        Log.d("ApartmentDAL", "apartment = " + apartment + " roommates = " + roommates);
 		apartment.add("Roomates",roommates);
 		apartment.saveInBackground(new SaveCallback() {
 			   public void done(ParseException e) {

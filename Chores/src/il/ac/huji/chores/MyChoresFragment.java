@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dummy.DummyContent;
 
 /**
@@ -73,6 +74,8 @@ public class MyChoresFragment extends Fragment implements
 
 		// Set the adapter
 		mListView = (AbsListView) view.findViewById(android.R.id.list);
+        // XXX : We use a mockup ID!
+        mAdapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores("TestUserID"));
 		((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
 		// Set OnItemClickListener so we can be notified on item clicks

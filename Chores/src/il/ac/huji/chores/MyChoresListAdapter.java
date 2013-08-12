@@ -20,24 +20,6 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
     }
 
     @Override
-    public Chore getItem(int position) {
-        // TODO Auto-generated method stub
-        return super.getItem(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return super.getItemId(position);
-    }
-
-    @Override
-    public int getPosition(Chore item) {
-        // TODO Auto-generated method stub
-        return super.getPosition(item);
-    }
-
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Chore chore = getItem(position);
         LayoutInflater inflater = LayoutInflater.from(getContext());

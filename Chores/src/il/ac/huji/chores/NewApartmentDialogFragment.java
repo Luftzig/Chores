@@ -1,7 +1,11 @@
 package il.ac.huji.chores;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,10 +16,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.provider.ContactsContract;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass. Activities that
@@ -104,6 +110,21 @@ public class NewApartmentDialogFragment extends Fragment {
                 Log.d(getClass().toString(), "Apartment created");
             }
         });
+
+        // Invite Contacts
+        // Get contact list for autocomplete
+        AutoCompleteTextView inviteEdit = (AutoCompleteTextView) view.findViewById(R.id.newApartmentInviteEditText);
+        ContentResolver cr = getActivity().getContentResolver();
+        Uri contacts = Uri.parse("content://icc/adn");
+        Cursor contactsCursor = cr.query(contacts, null, null, null, null);
+        SimpleCursorAdapter contactsAdapter = new SimpleCursorAdapter(
+                getActivity(),
+                android.R.layout.simple_dropdown_item_1line,
+                contactsCursor,
+                new String[] {"name"},
+                new int[] {android.R.id.text1},
+                0);
+        inviteEdit.setAdapter(contactsAdapter);
         return view;
     }
 

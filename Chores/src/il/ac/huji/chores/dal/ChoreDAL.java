@@ -22,7 +22,7 @@ public class ChoreDAL extends BasicDAL{
 		return false;
 	}
 
-	public static List<Chore> getRoomatesChores(String roomateID) {
+	public static List<Chore> getRoommatesChores(String roomateID) {
 		return null;
 	}
 
