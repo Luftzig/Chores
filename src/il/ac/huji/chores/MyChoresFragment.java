@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import il.ac.huji.chores.DAL.ChoreDAL;
 import il.ac.huji.chores.dummy.DummyContent;
 
 /**
@@ -25,15 +26,6 @@ import il.ac.huji.chores.dummy.DummyContent;
  */
 public class MyChoresFragment extends Fragment implements
 		AbsListView.OnItemClickListener {
-
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
-
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -53,8 +45,6 @@ public class MyChoresFragment extends Fragment implements
 			String param2) {
 		MyChoresFragment fragment = new MyChoresFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_PARAM1, param1);
-		args.putString(ARG_PARAM2, param2);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -71,8 +61,6 @@ public class MyChoresFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 
 		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
 		}
 
 		// TODO: Change Adapter to display your content
@@ -86,6 +74,8 @@ public class MyChoresFragment extends Fragment implements
 
 		// Set the adapter
 		mListView = (AbsListView) view.findViewById(android.R.id.list);
+        // XXX : We use a mockup ID!
+        mAdapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores("TestUserID"));
 		((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
 		// Set OnItemClickListener so we can be notified on item clicks

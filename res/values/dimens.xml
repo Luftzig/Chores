@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="aartment_buttons_height">40dp</dimen>
+    <dimen name="apartment_buttons_textSize">14sp</dimen>
+    <dimen name="apartment_chore_info_textSize">12sp</dimen>
+    <dimen name="apartment_chore_name_textSize">20sp</dimen>
+    <dimen name="apartment_title_height">50dp</dimen>
+    <dimen name="apartment_table_row__height">65dp</dimen>
+    <dimen name="apartment_choreName__height">30dp</dimen>
+    <dimen name="apartment_info__height">35dp</dimen>
+    <dimen name="apartment_table__height">320dp</dimen>
+     <dimen name="apartment_history_button_textSize">12sp</dimen>
+     <dimen name="dialog_questions_margin">16dp</dimen>
+
+</resources>

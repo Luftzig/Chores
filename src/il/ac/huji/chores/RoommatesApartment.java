@@ -1,5 +1,6 @@
 package il.ac.huji.chores;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
@@ -42,8 +43,8 @@ public class RoommatesApartment implements Apartment {
     /**
      * @param _roommates the _roommates to set
      */
-    public void set_roommates(List<String> _roommates) {
-        this._roommates = _roommates;
+    public void set_roommates(List<String> roommates) {
+        this._roommates = roommates;
     }
 
     /**
@@ -66,5 +67,6 @@ public class RoommatesApartment implements Apartment {
     public void setName(String name) {
         this._name = name;
     }
+
 
 }

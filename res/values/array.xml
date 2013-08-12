@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="chore_names_array">
+        <item>Washing dishes</item>
+        <item>Floor sweeping</item>
+        <item>Cleaning bathrooms</item>
+    </string-array>
+    <string-array name="how_many_array">
+        <item>Once</item>
+        <item>Twice</item>
+        <item>3 times</item>
+        <item>4 times</item>
+        <item>5 times</item>
+        <item>6 times</item>
+    </string-array>
+     <string-array name="every_array">
+        <item>every day</item>
+        <item>every week</item>
+        <item>every month</item>
+        <item>every year</item>
+        <item>and that\'s it</item>
+    </string-array>
+     <string-array name="values_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>Most chosen</item>
+    </string-array>
+</resources>
