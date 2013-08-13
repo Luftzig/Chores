@@ -53,7 +53,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/historyButton"
+        android:id="@+id/ApartmentChoresFragment_historyButton"
         android:layout_width="322dp"
         android:layout_height="34dp"
         android:text="@string/apartment_historyButtoonText"

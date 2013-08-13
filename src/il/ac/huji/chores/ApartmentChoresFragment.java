@@ -2,9 +2,11 @@ package il.ac.huji.chores;
 
 import android.app.Fragment;
 import android.content.Intent;
-import il.ac.huji.chores.dummy.DummyChoreDAL;
-import il.ac.huji.chores.dummy.GeneralDal;
+import il.ac.huji.chores.DAL.ChoreDAL;
+import il.ac.huji.chores.DAL.RoomateDAL;
 
+
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Bundle;
@@ -20,6 +22,9 @@ import android.widget.ListView;
 public class ApartmentChoresFragment extends Fragment {
     
     private ArrayAdapter<Chore> _adapter;
+    private String _oldestChoreDisplayed = null;
+    private static final int HISTORY_FUNC_AMMOUNT = 5; // when the history button is pressed HISTORY_FUNC_AMMOUNT more chores are displayed
+    private String _userName = null;
     
      @Override
       public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +39,10 @@ public class ApartmentChoresFragment extends Fragment {
          
          getActivity().setContentView(R.layout.fragment_apartment);
 
-         List<Chore> chores = DummyChoreDAL.getAllChores();//TODO change to real chore DAL
+         List<Chore> chores = ChoreDAL.getAllChores();
+         if(chores != null){
+        	 _oldestChoreDisplayed = checkOldestChoreInList(chores);
+         }
          
          ListView listChores = (ListView)getActivity().findViewById(R.id.apartmentListChores);
          
@@ -48,7 +56,10 @@ public class ApartmentChoresFragment extends Fragment {
             	final Chore chore = (Chore) parent.getItemAtPosition(position);
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
-            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), GeneralDal.getUserName()));//TODO(Shani): change to real dal
+            	if(_userName == null){
+            		_userName = new RoomateDAL().getUserName();
+            	}
+            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
             	startActivity(intent);
             }
         });
@@ -86,10 +97,38 @@ public class ApartmentChoresFragment extends Fragment {
 				 startActivity(intent);
 			}
 		 });
+		 
+		 // apartment settings button
+		 final Button history = (Button)getActivity().findViewById(R.id.ApartmentChoresFragment_historyButton);
+		 history.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				
+				//chores history button
+				List<Chore> histChores = ChoreDAL.getUserOldChores(_oldestChoreDisplayed, HISTORY_FUNC_AMMOUNT);
+				if(histChores == null){
+					return;
+				}
+				_adapter.addAll(histChores);
+				//check what is the current oldest chore
+			}
+		 });
          
      }
      
-     static private boolean IsThisTheUser(String choreOwner, String userName)
+     //check what chore is the oldest (deadline-wise) from a given list.
+    private String checkOldestChoreInList(List<Chore> histChores) {
+    	
+    	if(histChores.size() == 0){
+    		return null;
+    	}
+    	 
+		Collections.sort(histChores, new DeadlineComparator());
+		return histChores.get(0).getID();
+	}
+
+	static private boolean IsThisTheUser(String choreOwner, String userName)
      {
     	 return choreOwner.equals(userName);
      }

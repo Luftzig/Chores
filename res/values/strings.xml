@@ -28,7 +28,7 @@
     <string name="apartment_inviteButton">Invite roomates</string>
     <string name="apartment_settingsButton">Apartment settings</string>
     <string name="apartment_tableTitle">Apartment chores</string>
-    <string name="apartment_historyButtoonText">Show history</string>
+    <string name="apartment_historyButtoonText">Show more history</string>
     <string name="card_img_description">image of card</string>
     <string name="title_activity_apartment_settings">Apartment Settings</string>
     <string name="title_activity_apartment">Apartment</string>

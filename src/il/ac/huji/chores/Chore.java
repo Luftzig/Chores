@@ -9,6 +9,11 @@ public interface Chore extends Serializable{
 	enum CHORE_STATUS{
 		STATUS_DONE, STATUS_MISS, STATUS_FUTURE
 	}
+	
+	/*
+	 * get the id of this chore in the DB.
+	 */
+	public String getID();
 
 	/*
 	 * gets chore name

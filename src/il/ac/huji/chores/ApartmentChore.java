@@ -6,12 +6,7 @@ import java.util.Date;
  * 
  */
 public class ApartmentChore implements Chore {
-    
-    //static public final String DATE_FORMAT = "%02d/%02d/%02d";
-    
-    /**
-	 * 
-	 */
+        
 	private static final long serialVersionUID = 1L; //implements Serializable
 	private String name;
     private String assignedTo;
@@ -22,10 +17,12 @@ public class ApartmentChore implements Chore {
     private String funFact;
     private String statistics;
     private int coinsNum;
+    private String id;
     
-    public ApartmentChore(String name, String assignedTo, Date startsFrom, Date deadline,
+    public ApartmentChore(String id, String name, String assignedTo, Date startsFrom, Date deadline,
                          CHORE_STATUS status, String type, String funFact, String statistics, int coinsNum){
         
+    	this.id = id;
         this.name = name;;
         this.assignedTo = assignedTo;
         this. startsFrom = startsFrom;
@@ -97,4 +94,9 @@ public class ApartmentChore implements Chore {
     public int getStyle() {
         throw new UnsupportedOperationException("Styles are not supported yet");
     }
+
+	@Override
+	public String getID() {
+		return id;
+	}
 }
