@@ -94,4 +94,5 @@
     <string name="new_apartment_dialog_invite_button_text">Invite!</string>
     <string name="new_chore_before_coins_spinner">value:</string>
     <string name="new_chore_dialog_update_button_text">Update Chore</string>
+    <string name="new_chore_dialog_values_most_chosen">  (most chosen)</string>
 </resources>

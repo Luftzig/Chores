@@ -1,6 +1,7 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
+import il.ac.huji.chores.DAL.ChoreDAL;
 import android.R.xml;
 import android.app.Activity;
 import android.app.Fragment;
@@ -28,8 +29,8 @@ public class NewChoreDialogFragment extends Fragment {
 	private int _value;
 	private String[] _xmlList_howMany;
 	private String[] _xmlList_every;
-	private Boolean _isEdit = false;
-	
+	private Boolean _isEdit = false;	
+	private String[] chore_values;// chore values.
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +43,12 @@ public class NewChoreDialogFragment extends Fragment {
     public void onActivityCreated (Bundle savedInstanceState)
     {
     	super.onActivityCreated(savedInstanceState);
-    	
+    	    	
     	_xmlList_howMany = getResources().getStringArray(R.array.how_many_array);
     	_xmlList_every = getResources().getStringArray(R.array.every_array);
+    	
+    	//default chore name (needed for most chosen values
+    	_choreName = getResources().getStringArray(R.array.chore_names_array)[0];
     	
     	//if it's edit chore, defaults are according to the existing chore
     	final ChoreInfo chore = (ChoreInfo)getActivity().getIntent().getSerializableExtra(getResources().getString(R.string.new_chore_extra1_name));
@@ -116,7 +120,12 @@ public class NewChoreDialogFragment extends Fragment {
     	choreNameSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
     	    @Override
     	    public void onItemSelected(AdapterView<?> parent, View selectedItemView, int position, long id) {
-    	        _choreName = parent.getItemAtPosition(position).toString();
+    	        String curChoreName = parent.getItemAtPosition(position).toString();
+    	        if(_choreName != curChoreName){
+    	        	// change most chosen value
+    	        	_choreName = curChoreName;
+    	        	changeMostChosen(_choreName);
+    	        }
     	    }
 
     	    @Override
@@ -176,10 +185,14 @@ public class NewChoreDialogFragment extends Fragment {
     	
     	//choose value from the spinner
     	Spinner valueSpinner = (Spinner) getActivity().findViewById(R.id.newChoreDialogValueSpinner);
-    	ArrayAdapter<CharSequence> valueAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.values_array, android.R.layout.simple_spinner_item);
-    	valueAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    	// Apply the adapter to the spinner
+    	
+    	chore_values = getResources().getStringArray(R.array.values_array);
+    	
+    	changeMostChosen(_choreName);//change the most chosen in the chores_values list
+    	
+    	ArrayAdapter<CharSequence> valueAdapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item, chore_values);
     	valueSpinner.setAdapter(valueAdapter);
+    	
     	if(_isEdit){//set default 
     		int ind = valueAdapter.getPosition(Integer.toString(chore.getCoinsNum()));
     		valueSpinner.setSelection(ind);
@@ -188,7 +201,8 @@ public class NewChoreDialogFragment extends Fragment {
     	valueSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
     	    @Override
     	    public void onItemSelected(AdapterView<?> parent, View selectedItemView, int position, long id) {
-    	        _value = (Integer.parseInt(parent.getItemAtPosition(position).toString()));
+    	    	
+    	        _value = Integer.parseInt((parent.getItemAtPosition(position).toString().substring(0, 1)));// only the first character is the value
     	    }
 
     	    @Override
@@ -273,6 +287,14 @@ public class NewChoreDialogFragment extends Fragment {
 			
 		 });
 
+    }
+    
+    //changes most chosen value in the values list 
+    private void changeMostChosen(String choreName){
+    	int mostChosen = ChoreDAL.getChoreStatisticsVal(_choreName); //handle statistics value
+    	if(mostChosen != -1){
+    		chore_values[mostChosen] = "" + mostChosen + getResources().getString(R.string.new_chore_dialog_values_most_chosen);
+    	}
     }
     
 

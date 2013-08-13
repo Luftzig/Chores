@@ -42,4 +42,14 @@ public class ChoreDAL extends BasicDAL{
 		return null;
 	}
 
+	/*
+	 * returns the most chosen value for this chore
+	 * Every call keeps the previous the results - to return it in the next call if there's no network.
+	 * If there's no network and no saved value, return -1.
+	 */
+	public static int getChoreStatisticsVal(String _choreName) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

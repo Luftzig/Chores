@@ -48,7 +48,7 @@ public class ApartmentChoresFragment extends Fragment {
             	final Chore chore = (Chore) parent.getItemAtPosition(position);
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
-            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), GeneralDal.getUserName()));//TODO(Shani): move it inside the card or get it from the caller
+            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), GeneralDal.getUserName()));//TODO(Shani): change to real dal
             	startActivity(intent);
             }
         });
