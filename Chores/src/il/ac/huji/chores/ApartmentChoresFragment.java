@@ -2,8 +2,8 @@ package il.ac.huji.chores;
 
 import android.app.Fragment;
 import android.content.Intent;
-import il.ac.huji.chores.DAL.ChoreDAL;
-import il.ac.huji.chores.DAL.RoomateDAL;
+import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
 
 
 import java.util.Collections;
@@ -57,7 +57,7 @@ public class ApartmentChoresFragment extends Fragment {
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
             	if(_userName == null){
-            		_userName = new RoomateDAL().getUserName();
+            		_userName = new RoommateDAL().getUserName();
             	}
             	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
             	startActivity(intent);

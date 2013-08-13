@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import il.ac.huji.chores.DAL.ChoreDAL;
+import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dummy.DummyContent;
 
 /**

@@ -1,5 +1,5 @@
 package il.ac.huji.chores;
-import il.ac.huji.chores.DAL.ChoreDAL;
+import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dummy.ChoreInfoDal;
 
 import java.util.List;

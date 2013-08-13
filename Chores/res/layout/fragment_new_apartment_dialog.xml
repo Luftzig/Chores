@@ -140,7 +140,7 @@
                     android:ems="10"
                     android:imeOptions="actionDone"
                     android:text="@string/new_apartment_dialog_invite_autocomplete_prompt"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="true" />
 
                 <Button
                     android:id="@+id/newApartmentInviteButton"

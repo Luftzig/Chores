@@ -1,6 +1,6 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.DAL.ApartmentDAL;
+import il.ac.huji.chores.dal.ApartmentDAL;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;

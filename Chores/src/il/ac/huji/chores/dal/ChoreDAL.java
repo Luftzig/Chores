@@ -1,4 +1,4 @@
-package il.ac.huji.chores.DAL;
+package il.ac.huji.chores.dal;
 import com.parse.Parse;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package il.ac.huji.chores.DAL;
+package il.ac.huji.chores.dal;
 
 import il.ac.huji.chores.RoommatesApartment;
 

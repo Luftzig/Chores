@@ -1,8 +1,7 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
-import il.ac.huji.chores.DAL.ChoreDAL;
-import android.R.xml;
+import il.ac.huji.chores.dal.ChoreDAL;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
