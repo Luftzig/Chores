@@ -1,5 +1,7 @@
 package il.ac.huji.chores.dal;
 
+import java.util.List;
+
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
@@ -30,8 +32,8 @@ public class DALTestActivity extends Activity {
 		setContentView(R.layout.activity_daltest);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("apt");
-		ApartmentDAL.createApartment(apt);
-
+		String apartmentID = ApartmentDAL.createApartment(apt);
+		List<String> roommates = ApartmentDAL.getApartmentRoomates(apartmentID);
 	}
 	
 	@Override

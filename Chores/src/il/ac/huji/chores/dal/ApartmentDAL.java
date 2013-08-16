@@ -36,26 +36,26 @@ public class ApartmentDAL {
 		}
 		
 		if (apartmentsList.size() > 0)
-			return apartmentsList.get(0).getString("apartmentName");
+			return apartmentsList.get(0).getObjectId();
 		else
 			return null;
 	}
 
-	public List<String> getApartmentRoomates(String apartmentID) {
+	public static List<String> getApartmentRoomates(String apartmentID) {
 		List<ParseObject> apartmentsList = new ArrayList<ParseObject>();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
-		query.whereEqualTo("_id", apartmentID);
-		query.findInBackground(new FindCallback<ParseObject>() {
-			public void done(List<ParseObject> apartmentsList, ParseException e) {
-				if (e == null) {
-					System.out.println( "Retrieved "
-							+ apartmentsList.size() + " results");
-				} else {
-					System.out.println( "Error: " + e.getMessage());
-				}
-			}
-		});
+		query.whereEqualTo("objectId", apartmentID);
+		try {
+			apartmentsList = query.find();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		if(apartmentsList.size() >0)
 		return apartmentsList.get(0).getList("Roommates");
+		else
+			return null;
 	}
 
 
