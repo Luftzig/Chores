@@ -18,12 +18,13 @@ public class AppSetup {
     private Context _ctx;
     private String _username;
     private String _password;
+
     private AppSetup(Context ctx) {
         _ctx = ctx;
         //Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
         Log.d("AppSetup", "Parse initialized");
         setupDAL();
-        loginParse();
+        // loginParse();
         //  PushService.subscribe(_ctx, "", AppSetup.class);
         //  PushService.setDefaultPushCallback(_ctx, AppSetup.class);
     }
@@ -34,9 +35,11 @@ public class AppSetup {
         }
         return instance;
     }
+
     private String loginParse(){
     	return RoommateDAL.Login(_username, _password);
     }
+
     private void setupDAL(){
 
 		Parse.initialize(_ctx,
@@ -45,6 +48,7 @@ public class AppSetup {
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
+		RoommateDAL.Login("anna", "anna123");
 		//push notifications 
 		PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {

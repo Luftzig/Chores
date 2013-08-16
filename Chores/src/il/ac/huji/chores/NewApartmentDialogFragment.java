@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import java.util.ArrayList;
+
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
@@ -46,6 +48,7 @@ public class NewApartmentDialogFragment extends Fragment {
 
     private RoommatesApartment apartment;
     private int invitedIds = 0;
+    private ArrayList<String> invited;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -56,14 +59,15 @@ public class NewApartmentDialogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_apartment_dialog, container, false);
+        invited = new ArrayList<String>();
 
         // Move focus from the name textEdit
-        EditText nameInput = (EditText) view.findViewById(R.id.newApartmentNameEdit);
+        final EditText nameInput = (EditText) view.findViewById(R.id.newApartmentNameEdit);
         nameInput.setOnEditorActionListener(
             new EditText.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH
+                    if (actionId == EditorInfo.IME_ACTION_SEND
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || (event.getAction() == KeyEvent.ACTION_DOWN 
                             && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -89,7 +93,7 @@ public class NewApartmentDialogFragment extends Fragment {
             };
 
         // Populate divison day spinner
-        Spinner divisonDaySpinner = (Spinner) view.findViewById(R.id.newApartmentDivisionDaySpinner);
+        final Spinner divisonDaySpinner = (Spinner) view.findViewById(R.id.newApartmentDivisionDaySpinner);
         @SuppressWarnings("rawtypes")
         ArrayAdapter divisonDayAdapter = ArrayAdapter.createFromResource(
                 getActivity(),
@@ -100,7 +104,7 @@ public class NewApartmentDialogFragment extends Fragment {
         divisonDaySpinner.setOnItemSelectedListener(spinnerSelectListener);
 
         // Populate divison period spinner
-        Spinner divisonPeriodSpinner = (Spinner) view.findViewById(R.id.newApartmentDivisonPeriodSpinner);
+        final Spinner divisonPeriodSpinner = (Spinner) view.findViewById(R.id.newApartmentDivisonPeriodSpinner);
         @SuppressWarnings("rawtypes")
         ArrayAdapter divisonPeriodAdapter =
             ArrayAdapter.createFromResource( 
@@ -115,18 +119,25 @@ public class NewApartmentDialogFragment extends Fragment {
         Button finishBtn = (Button) view.findViewById(R.id.newApartmentFinishButton);
         finishBtn.setOnClickListener( new OnClickListener() {
             @Override public void onClick(View v) {
-
+                Log.d("NewApartmentDialogFragment", "clicked create apartment");
+                String apartmentName = nameInput.getText().toString();
                 RoommatesApartment apartment = new RoommatesApartment();
+                String divisonDay = divisonDaySpinner.getSelectedItem().toString();
+                String divisonPeriod = divisonPeriodSpinner.getSelectedItem().toString();
+                apartment.setName(apartmentName);
+                apartment.setDivisionDay(divisonDay);
+                apartment.setDivisionFrequency(divisonPeriod);
                 try {
-					ApartmentDAL.createApartment(apartment);
-				} catch (ApartmentAlreadyExistsException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (UserNotLoggedInException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                Log.d(getClass().toString(), "Apartment created");
+                String apartmentId = ApartmentDAL.createApartment(apartment);
+                } catch (ApartmentAlreadyExistsException e) {
+                    //  TODO handle exception
+                    Log.d("NewApartmentDialogFragment", "Caught exception" + e);
+                } catch (UserNotLoggedInException e) {
+                    Log.d("NewApartmentDialogFragment", "Caught exception" + e);
+                }
+                Log.d(getClass().toString(), "Apartment created: " + apartment.toString());
+                // Return results
+                getActivity().finish();
             }
         });
 
@@ -196,6 +207,7 @@ public class NewApartmentDialogFragment extends Fragment {
 
         final LinearLayout invitedLayout = (LinearLayout) view.findViewById(R.id.newApartmentInvitedLayout);
         Button inviteButton = (Button) view.findViewById(R.id.newApartmentInviteButton);
+        /* 
         inviteEdit.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
@@ -208,11 +220,13 @@ public class NewApartmentDialogFragment extends Fragment {
                 return false;
             }
         });
+        */
 
         inviteButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 String contactName = inviteEdit.getText().toString();
+                invited.add(contactName);
                 final TextView nameView = new TextView(getActivity());
                 nameView.setText(contactName);
                 nameView.setId(invitedIds++);
