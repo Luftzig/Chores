@@ -58,12 +58,20 @@
     <string name="my_chores_headline_text">My Chores</string>
     <string name="my_chores_row_title_placeholder">Chore placeholder</string>
     <string name="chore_edit_button_text">Edit Chore</string>
+    <!-- Anna's keys 
     <string name="parse_client_key">CBnyHLzYGwlBz1YAOFMFakzalqWVosN3JRmpLmx4</string>
     <string name="parse_windows_key">n3yY1qWyL1qJ4HMZqGUE3mhX0lrdvXJuYuCIvOUo</string>
     <string name="parse_rest_key">Key 7ATSYPzLCuIUgxsMFKuwOFaFhdiqC2WQrlo21Jtv</string>
     <string name="parse_master_key">dneNmljVEFIMdiRAmPGLGvXt8ZjpAJgITQvisWBq</string>
     <string name="parse_app_id">G3vUvpy8mCgucxXp2RnSnFBs490CqfpWItmfA9hc</string>
+    -->
+    <string name="parse_client_key">lwIedRCoQhd7vcDkY0rXSxGTlQxtcaeXjlWfdXSN</string>
+    <string name="parse_windows_key">GMwSpgIsAB2rvvkMLVERRIjaa18EOTPsQPNJ0LTu</string>
+    <string name="parse_rest_key">Tu5aHmbnn2Bz7AXVfSb2CPOng7LaoGkJHH0YbVXr</string>
+    <string name="parse_master_key">BVqynDa3FCHFKeeHMuGPg26LQwYpafsA42jqsjxZ</string>
+    <string name="parse_app_id">oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG</string>
     <string name="title_activity_my_chores">MyChoresActivity</string>
+    <string name="title_activity_push_notifications_handler">push notifications handler activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_apartment_dialog_title_text">Creating new apartment</string>
@@ -95,4 +103,6 @@
     <string name="new_chore_before_coins_spinner">value:</string>
     <string name="new_chore_dialog_update_button_text">Update Chore</string>
     <string name="new_chore_dialog_values_most_chosen">  (most chosen)</string>
+
+
 </resources>

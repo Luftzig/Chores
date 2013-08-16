@@ -7,7 +7,7 @@ import com.parse.GetCallback;
 import com.parse.*;
 
 
-public class RoommateDAL extends BasicDAL {
+public class RoommateDAL {
 
 	private static String _username;
 	public static void setUserName(String username) {
@@ -27,14 +27,14 @@ public class RoommateDAL extends BasicDAL {
 		return _username;
 	}
 
-	public boolean createRoomateUser(String username) {
+	public boolean createRoomateUser(String username,String apartmentID) {
 
-		addNewRoomate(username);
-		addRoomateToApatment();
+		addNewRoomate(username,apartmentID);
+		addRoomateToApatment(username,apartmentID);
 		return true;
 	}
 
-	private void addNewRoomate(String username) {
+	private void addNewRoomate(String username,String apartmentID) {
 
 		ParseObject roomate = new ParseObject("Roomate");
 		roomate.put("username", username);
@@ -44,15 +44,15 @@ public class RoommateDAL extends BasicDAL {
 		roomate.saveInBackground();
 	}
 
-	private void addRoomateToApatment(){
+	private void addRoomateToApatment(String roommateID,String apartmentID){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
-		 
+		final String finalRoommateID = roommateID;
 		// Retrieve the object by id
 		query.getInBackground(apartmentID, new GetCallback<ParseObject>() {
 		  public void done(ParseObject apartment, ParseException e) {
 		    if (e == null) {
 		    	JSONArray roomates = (JSONArray)apartment.get("Rommates");
-		    	roomates.put(ParseUser.getCurrentUser());
+		    	roomates.put(finalRoommateID);
 		    	apartment.put("Roomates", roomates);
 		        apartment.saveInBackground();
 		    }

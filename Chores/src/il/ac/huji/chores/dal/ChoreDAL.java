@@ -7,7 +7,7 @@ import java.util.List;
 
 import il.ac.huji.chores.*;
 
-public class ChoreDAL extends BasicDAL{
+public class ChoreDAL{
 
 	public static String addChoreInfo(ChoreInfo choreInfo) {
 		return null;
