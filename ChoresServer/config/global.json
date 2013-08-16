@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Chores": {
+            "applicationId": "oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG", 
+            "masterKey": "BVqynDa3FCHFKeeHMuGPg26LQwYpafsA42jqsjxZ"
+        }, 
+        "_default": {
+            "link": "Chores"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.9"
+    }
+}
