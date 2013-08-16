@@ -28,6 +28,7 @@ public class RoommateDAL {
 			throw new UserNotLoggedInException("User is not logged in");
 		return (String) currentUser.get("apartmentID");
 	}
+	
 	public static String createRoommateUser(String username, String password,
 			String email) {
 
@@ -40,7 +41,7 @@ public class RoommateDAL {
 			user.signUp();
 			return user.getObjectId();
 		} catch (ParseException e) {
-			Log.e("createRoomateUser", e.toString());
+			Log.e("createRoommateUser", e.toString());
 			return null;
 		}
 	}
@@ -57,7 +58,7 @@ public class RoommateDAL {
 			currentUser.save();
 		} catch (ParseException e) {
 
-			Log.e("addRoomateToApatment", e.toString());
+			Log.e("addRoommateToApatment", e.toString());
 			return false;
 		}
 		return false;

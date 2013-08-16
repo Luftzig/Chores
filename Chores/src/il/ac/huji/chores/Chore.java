@@ -29,7 +29,8 @@ public interface Chore extends Serializable{
 	 * get chore's start
 	 */
 	public Date getStartsFrom();
-
+	
+	public void setID(String id);
 	/*
 	 * gets chore's deadline
 	 */

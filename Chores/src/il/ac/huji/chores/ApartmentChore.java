@@ -19,6 +19,7 @@ public class ApartmentChore implements Chore {
     private int coinsNum;
     private String id;
     
+    
     public ApartmentChore(String id, String name, String assignedTo, Date startsFrom, Date deadline,
                          CHORE_STATUS status, String type, String funFact, String statistics, int coinsNum){
         
@@ -98,5 +99,10 @@ public class ApartmentChore implements Chore {
 	@Override
 	public String getID() {
 		return id;
+	}
+	@Override
+	public void setID(String id) {
+		this.id = id;
+		
 	}
 }

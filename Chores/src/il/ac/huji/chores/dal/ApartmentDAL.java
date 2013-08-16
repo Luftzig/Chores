@@ -17,27 +17,31 @@ import com.parse.*;
 public class ApartmentDAL {
 
 	public static String createApartment(RoommatesApartment apt)
-			throws ApartmentAlreadyExistsException {
-		Log.d("createApartment", "apartment = " + apt.getName()
-				+ " roommates = " + apt.get_roommates());
+			throws ApartmentAlreadyExistsException, UserNotLoggedInException {
+		ParseUser curreentUser = ParseUser.getCurrentUser();
+		if(curreentUser == null){
+			throw new UserNotLoggedInException("User not logged in");
+		}
 		if (getApartmentID(apt.getName()) != null) {
 			throw new ApartmentAlreadyExistsException("Apartment "
 					+ apt.getName() + "already exists");
 		}
 		ParseObject apartment = new ParseObject("Apartment");
 		apartment.put("apartmentName", apt.getName());
-		if (apt.get_roommates() != null)
-			apartment.put("Roommates", apt.get_roommates());
+		apartment.add("Roommates", curreentUser.getObjectId());
+		
 		try {
 			apartment.save();
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
-		}
+		} 
 
-		return getApartmentID(apt.getName());
+		return apartment.getObjectId();
 	}
-
+	public static boolean inviteRoommate(String name,String number, String email){
+		return false;
+	}
 	public static String getApartmentID(String apartmentName) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
@@ -70,7 +74,7 @@ public class ApartmentDAL {
 		}
 	}
 
-	public static boolean addRoomateToApartment(String apartmentID)
+	public static boolean addRoommateToApartment(String apartmentID)
 			throws UserNotLoggedInException {
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null){
@@ -80,16 +84,11 @@ public class ApartmentDAL {
 		ParseObject apartment;
 		try {
 			apartment = query.get(apartmentID);
-			JSONArray roomates = (JSONArray) apartment.get("Rommates");
-			if (roomates == null) {
-				roomates = new JSONArray();
-			}
-			roomates.put(currentUser.getObjectId());
-			apartment.put("Roommates", roomates);
+			apartment.add("Roommates", currentUser.getObjectId());
 			apartment.save();
 			RoommateDAL.addApartmentToRoommate(apartmentID);
 		} catch (ParseException e) {
-			Log.e("addRoomateToApatment", e.toString());
+			Log.e("addRoommateToApatment", e.toString());
 			return false;
 		}
 		return true;
