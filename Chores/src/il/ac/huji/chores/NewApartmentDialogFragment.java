@@ -1,6 +1,8 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -115,7 +117,15 @@ public class NewApartmentDialogFragment extends Fragment {
             @Override public void onClick(View v) {
 
                 RoommatesApartment apartment = new RoommatesApartment();
-                ApartmentDAL.createApartment(apartment);
+                try {
+					ApartmentDAL.createApartment(apartment);
+				} catch (ApartmentAlreadyExistsException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UserNotLoggedInException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 Log.d(getClass().toString(), "Apartment created");
             }
         });
