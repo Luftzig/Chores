@@ -8,7 +8,7 @@ public class DALTest {
 		RoommatesApartment apt = new RoommatesApartment();
 		String aptName = "Anna's apartment";
 		apt.setName(aptName);
-		ApartmentDAL.CreateApartment(apt);
+		ApartmentDAL.createApartment(apt);
 		//System.out.println("after adding new apartment");
 	}
 }

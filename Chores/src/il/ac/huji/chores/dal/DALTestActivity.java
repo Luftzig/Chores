@@ -18,7 +18,7 @@ public class DALTestActivity extends Activity {
 		ApartmentDAL.Setup(this);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("Anna's apartment");
-		ApartmentDAL.CreateApartment(apt);
+		ApartmentDAL.createApartment(apt);
 	}
 
 	@Override
