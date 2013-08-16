@@ -12,7 +12,7 @@ import com.parse.*;
 
 public class ApartmentDAL {
 
-	public static String CreateApartment(RoommatesApartment apt) {
+	public static String createApartment(RoommatesApartment apt) {
 		System.out.println("apartment = " + apt.getName() + " roommates = "
 				+ apt.get_roommates());
 		ParseObject apartment = new ParseObject("Apartment");
@@ -57,5 +57,6 @@ public class ApartmentDAL {
 		});
 		return apartmentsList.get(0).getList("Roommates");
 	}
+
 
 }

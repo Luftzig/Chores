@@ -1,6 +1,5 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.dal.PushNotificationsHandlerActivity;
 import android.content.Context;
 import android.util.Log;
 
@@ -9,6 +8,7 @@ import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 import com.parse.SaveCallback;
 
 public class AppSetup {

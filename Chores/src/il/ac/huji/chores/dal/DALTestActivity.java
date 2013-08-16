@@ -30,7 +30,8 @@ public class DALTestActivity extends Activity {
 		setContentView(R.layout.activity_daltest);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("apt");
-		ApartmentDAL.CreateApartment(apt);
+		ApartmentDAL.createApartment(apt);
+
 	}
 	
 	@Override
