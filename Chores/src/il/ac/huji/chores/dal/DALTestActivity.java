@@ -1,5 +1,6 @@
 package il.ac.huji.chores.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.parse.Parse;
@@ -15,25 +16,49 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class DALTestActivity extends Activity {
 
 	@Override
 	protected void onStart (){
 		super.onStart();
-		Log.d("test","test");
-		System.out.println("test!");
+		setContentView(R.layout.activity_daltest);
 		Parse.initialize(this,
 				this.getResources().getString(R.string.parse_app_id),
 				this.getResources().getString(R.string.parse_client_key));
-		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
+		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-		setContentView(R.layout.activity_daltest);
-		RoommatesApartment apt = new RoommatesApartment();
+		//String roommateID =RoommateDAL.createRoommateUser("anna", "anna123","anna@gmail.com");
+		RoommateDAL.Login("anna", "anna123");
+		String apartmentID;
+		try {
+			apartmentID = RoommateDAL.getApartmentID();
+		} catch (UserNotLoggedInException e1) {
+			apartmentID = null;
+		}
+		/*RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("apt");
-		String apartmentID = ApartmentDAL.createApartment(apt);
-		List<String> roommates = ApartmentDAL.getApartmentRoomates(apartmentID);
+		*/
+		List<String> roommates = new ArrayList<String>();
+		//try {
+			//apartmentID = ApartmentDAL.createApartment(apt);
+			try {
+				ApartmentDAL.addRoomateToApartment(apartmentID);
+			} catch (UserNotLoggedInException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			roommates = ApartmentDAL.getApartmentRoommates(apartmentID);
+		//}// catch (ApartmentAlreadyExistsException e) {
+		//	Log.e("ApartmentAlreadyExistsException", e.toString());
+		//} catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		//}
+		
 	}
 	
 	@Override
