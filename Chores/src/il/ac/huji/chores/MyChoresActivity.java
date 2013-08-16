@@ -27,7 +27,7 @@ public class MyChoresActivity extends FragmentActivity {
         ApartmentDAL.Setup(this);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("Anna's apartment");
-		ApartmentDAL.createApartment(apt);
+		//ApartmentDAL.createApartment(apt);
     }
 
     @Override
