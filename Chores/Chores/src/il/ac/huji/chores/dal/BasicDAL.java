@@ -12,8 +12,8 @@ public  class BasicDAL {
 	protected static Context context;
 	protected static String apartmentID;
 	protected static String roommateID;
-	
-	public static void Setup(Context appContext){
+	//'protected static BasicDAL basicDAL = new BasicDAL();
+	protected BasicDAL(Context appContext){
 		context = appContext;
 		
 		Parse.initialize(context,
@@ -24,19 +24,7 @@ public  class BasicDAL {
 		ParseACL.setDefaultACL(defaultACL, true);
 		
 		roommateID = ParseUser.getCurrentUser().getObjectId();
-		 
 	}
 
-	public static void Setup(){
-
-		Parse.initialize(context,
-				"G3vUvpy8mCgucxXp2RnSnFBs490CqfpWItmfA9hc",
-				"CBnyHLzYGwlBz1YAOFMFakzalqWVosN3JRmpLmx4");
-		ParseUser.enableAutomaticUser();
-		ParseACL defaultACL = new ParseACL();
-		ParseACL.setDefaultACL(defaultACL, true);
-		
-		roommateID = ParseUser.getCurrentUser().getObjectId();
-		 
-	}
+	
 }

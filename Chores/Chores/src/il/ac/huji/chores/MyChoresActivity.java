@@ -24,7 +24,7 @@ public class MyChoresActivity extends FragmentActivity {
         // Create new apartment dialog
        // Intent intent = new Intent(this, NewApartmentDialogActivity.class);
        // startActivity(intent);
-        ApartmentDAL.Setup(this);
+        //ApartmentDAL.Setup(this);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("Anna's apartment");
 		ApartmentDAL.CreateApartment(apt);
