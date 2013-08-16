@@ -22,8 +22,9 @@ public class MyChoresActivity extends FragmentActivity {
         setContentView(R.layout.activity_my_chores);
         AppSetup setup = AppSetup.getInstance((Context) this);
         // Create new apartment dialog
-       // Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-       // startActivity(intent);
+        
+        Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+        startActivity(intent);
         //ApartmentDAL.Setup(this);
 		RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("Anna's apartment");

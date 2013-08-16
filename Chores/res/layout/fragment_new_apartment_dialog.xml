@@ -138,8 +138,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:hint="@string/new_apartment_dialog_invite_autocomplete_prompt"
+                    android:imeActionLabel="@string/new_apartment_dialog_invite_button_text"
                     android:imeOptions="actionDone"
-                    android:text="@string/new_apartment_dialog_invite_autocomplete_prompt"
+                    android:inputType="text"
                     android:textAllCaps="true" />
 
                 <Button
