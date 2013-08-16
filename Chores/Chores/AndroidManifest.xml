@@ -8,7 +8,10 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
-	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -59,6 +62,17 @@
             android:name="il.ac.huji.chores.ChoreCardActivity"
             android:label="@string/title_activity_apartment_settings" >
         </activity>
+        <activity
+            android:name="il.ac.huji.chores.PushNotificationsHandlerActivity"
+            android:label="@string/title_activity_push_notifications_handler" >
+        </activity>
+        <service android:name="com.parse.PushService" />
+		<receiver android:name="com.parse.ParseBroadcastReceiver">
+  			<intent-filter>
+  				<action android:name="android.intent.action.BOOT_COMPLETED" />
+   			 	<action android:name="android.intent.action.USER_PRESENT" />
+ 			 </intent-filter>
+		</receiver>
     </application>
 
 </manifest>
