@@ -57,7 +57,8 @@ public class ApartmentChoresFragment extends Fragment {
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
             	if(_userName == null){
-            		_userName = new RoommateDAL().getUserName();
+            	//	_userName = new RoommateDAL().getUserName();
+            		//TODO: SAVE USERNAME LOCALLY
             	}
             	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
             	startActivity(intent);
