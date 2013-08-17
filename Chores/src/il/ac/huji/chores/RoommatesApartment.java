@@ -100,6 +100,6 @@ public class RoommatesApartment implements Apartment {
 
     public String toString() {
         return "RoommatesApartment: " + _id + ", name " + _name + ", " 
-            + divisionDay + ", " + divisionFrequency + ", " + _roommates.toString();
+            + divisionDay + ", " + divisionFrequency;
     }
 }

@@ -1,6 +1,8 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,10 +27,7 @@ public class MyChoresActivity extends FragmentActivity {
         
         Intent intent = new Intent(this, NewApartmentDialogActivity.class);
         startActivity(intent);
-        //ApartmentDAL.Setup(this);
-		RoommatesApartment apt = new RoommatesApartment();
-		apt.setName("Anna's apartment");
-		//ApartmentDAL.createApartment(apt);
+        // TODO remove this static login
     }
 
     @Override

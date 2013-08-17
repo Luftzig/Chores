@@ -59,6 +59,7 @@ public class NewApartmentDialogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_apartment_dialog, container, false);
+        invited = new ArrayList<String>();
 
         // Move focus from the name textEdit
         final EditText nameInput = (EditText) view.findViewById(R.id.newApartmentNameEdit);
@@ -118,6 +119,7 @@ public class NewApartmentDialogFragment extends Fragment {
         Button finishBtn = (Button) view.findViewById(R.id.newApartmentFinishButton);
         finishBtn.setOnClickListener( new OnClickListener() {
             @Override public void onClick(View v) {
+                Log.d("NewApartmentDialogFragment", "clicked create apartment");
                 String apartmentName = nameInput.getText().toString();
                 RoommatesApartment apartment = new RoommatesApartment();
                 String divisonDay = divisonDaySpinner.getSelectedItem().toString();
@@ -134,6 +136,8 @@ public class NewApartmentDialogFragment extends Fragment {
                     Log.d("NewApartmentDialogFragment", "Caught exception" + e);
                 }
                 Log.d(getClass().toString(), "Apartment created: " + apartment.toString());
+                // Return results
+                getActivity().finish();
             }
         });
 
