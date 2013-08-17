@@ -7,6 +7,9 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
 
+import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
+import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.R;
 import il.ac.huji.chores.R.layout;
 import il.ac.huji.chores.R.menu;
@@ -17,6 +20,8 @@ import android.util.Log;
 import android.view.Menu;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
+import il.ac.huji.chores.exceptions.DataNotFoundException;
+import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class DALTestActivity extends Activity {
@@ -33,34 +38,56 @@ public class DALTestActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 		//String roommateID =RoommateDAL.createRoommateUser("anna", "anna123","anna@gmail.com");
 		RoommateDAL.Login("anna", "anna123");
-		String apartmentID;
+		/*String apartmentID;
 		try {
 			apartmentID = RoommateDAL.getApartmentID();
 		} catch (UserNotLoggedInException e1) {
 			apartmentID = null;
-		}
-		/*RoommatesApartment apt = new RoommatesApartment();
+		}*/
+		ChoreInfoInstance chore = new ChoreInfoInstance();
+		chore.setChoreInfoName("Anna's chore");
+		chore.setCoins(3);
+		chore.setIsEveryone(true);
+		chore.setHowMany(2);
+		chore.setPeriod(ChoreInfo.CHORE_INFO_PERIOD.CHORE_INFO_MONTH);
+		try {
+			String choreId;
+			try {
+			//	choreId = ChoreDAL.addChoreInfo(chore);
+				ChoreDAL.updateChoreInfoName("jQY3c2QQ8o", "YOAV'S CHORE");
+				ChoreDAL.updateCoins("jQY3c2QQ8o", 4);
+				ChoreDAL.updateFrequency("jQY3c2QQ8o",1);
+				ChoreDAL.updatePeriod("jQY3c2QQ8o", CHORE_INFO_PERIOD.CHORE_INFO_WEEK);
+			
+		} catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /*RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("apt");
 		*/
-		List<String> roommates = new ArrayList<String>();
+	/*List<String> roommates = new ArrayList<String>();
 		//try {
 			//apartmentID = ApartmentDAL.createApartment(apt);
 			try {
-				ApartmentDAL.addRoomateToApartment(apartmentID);
+				ApartmentDAL.addRoommateToApartment(apartmentID);
 			} catch (UserNotLoggedInException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			roommates = ApartmentDAL.getApartmentRoommates(apartmentID);
+			//roommates = ApartmentDAL.getApartmentRoommates(apartmentID);
 		//}// catch (ApartmentAlreadyExistsException e) {
 		//	Log.e("ApartmentAlreadyExistsException", e.toString());
 		//} catch (UserNotLoggedInException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-		//}
+		//}*/} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		}
 		
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

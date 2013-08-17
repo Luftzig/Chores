@@ -9,6 +9,8 @@ import il.ac.huji.chores.dal.RoommateDAL;
 import java.util.Collections;
 import java.util.List;
 
+import com.parse.ParseUser;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
+import il.ac.huji.chores.exceptions.*;
 public class ApartmentChoresFragment extends Fragment {
     
     private ArrayAdapter<Chore> _adapter;
@@ -57,8 +59,15 @@ public class ApartmentChoresFragment extends Fragment {
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
             	if(_userName == null){
-            	//	_userName = new RoommateDAL().getUserName();
-            		//TODO: SAVE USERNAME LOCALLY
+            		if(ParseUser.getCurrentUser() == null){
+            			try {
+							throw new UserNotLoggedInException("User is not logged in");
+						} catch (UserNotLoggedInException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+            		}
+            	_userName = ParseUser.getCurrentUser().getUsername();
             	}
             	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
             	startActivity(intent);

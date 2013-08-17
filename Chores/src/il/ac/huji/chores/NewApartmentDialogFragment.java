@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -128,6 +129,8 @@ public class NewApartmentDialogFragment extends Fragment {
                 String apartmentId = ApartmentDAL.createApartment(apartment);
                 } catch (ApartmentAlreadyExistsException e) {
                     //  TODO handle exception
+                    Log.d("NewApartmentDialogFragment", "Caught exception" + e);
+                } catch (UserNotLoggedInException e) {
                     Log.d("NewApartmentDialogFragment", "Caught exception" + e);
                 }
                 Log.d(getClass().toString(), "Apartment created: " + apartment.toString());
