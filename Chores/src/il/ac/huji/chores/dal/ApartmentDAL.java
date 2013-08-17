@@ -19,15 +19,15 @@ public class ApartmentDAL {
 	public static String createApartment(RoommatesApartment apt)
 			throws ApartmentAlreadyExistsException {
 		Log.d("createApartment", "apartment = " + apt.getName()
-				+ " roommates = " + apt.get_roommates());
+				+ " roommates = " + apt.getRoommates());
 		if (getApartmentID(apt.getName()) != null) {
 			throw new ApartmentAlreadyExistsException("Apartment "
 					+ apt.getName() + "already exists");
 		}
 		ParseObject apartment = new ParseObject("Apartment");
 		apartment.put("apartmentName", apt.getName());
-		if (apt.get_roommates() != null)
-			apartment.put("Roommates", apt.get_roommates());
+		if (apt.getRoommates() != null)
+			apartment.put("Roommates", apt.getRoommates());
 		try {
 			apartment.save();
 		} catch (ParseException e) {
