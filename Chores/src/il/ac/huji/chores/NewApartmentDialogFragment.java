@@ -1,10 +1,14 @@
 package il.ac.huji.chores;
 
+import il.ac.huji.chores.dal.ApartmentDAL;
+
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,8 +23,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.provider.Contacts;
 import android.provider.ContactsContract;
 
 /**
@@ -35,6 +43,7 @@ import android.provider.ContactsContract;
 public class NewApartmentDialogFragment extends Fragment {
 
     private RoommatesApartment apartment;
+    private int invitedIds = 0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -104,27 +113,103 @@ public class NewApartmentDialogFragment extends Fragment {
         Button finishBtn = (Button) view.findViewById(R.id.newApartmentFinishButton);
         finishBtn.setOnClickListener( new OnClickListener() {
             @Override public void onClick(View v) {
-                apartment = new RoommatesApartment();
-                apartment.setName("Test1");
-                apartment.createApartment();
+
+                RoommatesApartment apartment = new RoommatesApartment();
+                ApartmentDAL.createApartment(apartment);
                 Log.d(getClass().toString(), "Apartment created");
             }
         });
 
+        final String[] PEOPLE_PROJECTION = new String[] {
+                ContactsContract.Contacts._ID,
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.Contacts.HAS_PHONE_NUMBER,
+        };
+
+        class ContactsCursorAdapter extends CursorAdapter implements Filterable {
+            private ContentResolver content;
+
+            public ContactsCursorAdapter(Context context, Cursor c) {
+                super(context, c);
+                content = context.getContentResolver();
+            }
+
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                final LayoutInflater inflater = LayoutInflater.from(context);
+                final TextView view = (TextView) inflater.inflate(
+                        android.R.layout.simple_dropdown_item_1line, parent, false);
+                view.setText(cursor.getString(1));
+                Log.d("ContactsCursorAdapter", "new view " + cursor.getString(1));
+                return view;
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                Log.d("ContactsCursorAdapter", "Binding view " + cursor.getString(1));
+                ((TextView) view).setText(cursor.getString(1));
+            }
+
+            @Override
+            public String convertToString(Cursor cursor) {
+                return cursor.getString(1);
+            }
+
+            @Override
+            public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+                if (getFilterQueryProvider() != null) {
+                    return getFilterQueryProvider().runQuery(constraint);
+                }
+
+                StringBuilder buffer = null;
+                String[] args = null;
+                if (constraint != null) {
+                    buffer = new StringBuilder();
+                    buffer.append("UPPER(");
+                    buffer.append(ContactsContract.Contacts.DISPLAY_NAME);
+                    buffer.append(") GLOB ?");
+                    args = new String[] { constraint.toString().toUpperCase() + "*" };
+                }
+
+                return content.query(ContactsContract.Contacts.CONTENT_URI, PEOPLE_PROJECTION,
+                        buffer == null ? null : buffer.toString(), args,
+                        ContactsContract.Contacts.SORT_KEY_PRIMARY);
+            }
+        }
+
         // Invite Contacts
         // Get contact list for autocomplete
-        AutoCompleteTextView inviteEdit = (AutoCompleteTextView) view.findViewById(R.id.newApartmentInviteEditText);
+        final AutoCompleteTextView inviteEdit = (AutoCompleteTextView) view.findViewById(R.id.newApartmentInviteEditText);
         ContentResolver cr = getActivity().getContentResolver();
-        Uri contacts = Uri.parse("content://icc/adn");
-        Cursor contactsCursor = cr.query(contacts, null, null, null, null);
-        SimpleCursorAdapter contactsAdapter = new SimpleCursorAdapter(
-                getActivity(),
-                android.R.layout.simple_dropdown_item_1line,
-                contactsCursor,
-                new String[] {"name"},
-                new int[] {android.R.id.text1},
-                0);
-        inviteEdit.setAdapter(contactsAdapter);
+        Cursor contactsCursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        inviteEdit.setAdapter(new ContactsCursorAdapter(getActivity(), contactsCursor));
+
+        final LinearLayout invitedLayout = (LinearLayout) view.findViewById(R.id.newApartmentInvitedLayout);
+        Button inviteButton = (Button) view.findViewById(R.id.newApartmentInviteButton);
+        inviteEdit.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                String contactName = inviteEdit.getText().toString();
+                final TextView nameView = new TextView(getActivity());
+                nameView.setText(contactName);
+                nameView.setId(invitedIds++);
+                invitedLayout.addView(nameView);
+                inviteEdit.setText("");
+                return false;
+            }
+        });
+
+        inviteButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String contactName = inviteEdit.getText().toString();
+                final TextView nameView = new TextView(getActivity());
+                nameView.setText(contactName);
+                nameView.setId(invitedIds++);
+                invitedLayout.addView(nameView);
+                inviteEdit.setText("");
+            }
+        });
         return view;
     }
 

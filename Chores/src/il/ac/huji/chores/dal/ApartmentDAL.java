@@ -53,10 +53,9 @@ public class ApartmentDAL {
 			return null;
 		}
 		if(apartmentsList.size() >0)
-		return apartmentsList.get(0).getList("Roommates");
+            return apartmentsList.get(0).getList("Roommates");
 		else
 			return null;
 	}
-
 
 }
