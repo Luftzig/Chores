@@ -16,8 +16,8 @@ public class MyChoresActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_chores);
         AppSetup setup = AppSetup.getInstance((Context) this);
+        setContentView(R.layout.activity_my_chores);
 
         String apartmentId = null;
         try {
