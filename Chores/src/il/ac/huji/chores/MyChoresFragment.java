@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,7 +62,8 @@ public class MyChoresFragment extends Fragment {
 
 		// Set the adapter
 		ListView listView = (ListView) view.findViewById(R.id.myChoresFragmentListView);
-        ListAdapter adapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores("TestUserID"));
+        List<Chore> userChores = ChoreDAL.getRoommatesChores();
+        ListAdapter adapter = new MyChoresListAdapter(getActivity(), userChores);
 		((AdapterView<ListAdapter>) listView).setAdapter(adapter);
 
         Log.d("MyChoresFragment", "view created");
