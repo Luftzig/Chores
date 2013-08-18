@@ -48,13 +48,13 @@ public class DALTestActivity extends Activity {
 		String choreID;
 		try {
 			choreID = ChoreDAL.addChore(chore);
+			Chore choreResult  = ChoreDAL.getChore(choreID);
+			List<Chore> allChores = ChoreDAL.getAllChores();
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Chore choreResult  = ChoreDAL.getChore(choreID);
-		List<Chore> allChores = ChoreDAL.getAllChores();
-		
 		/*
 		 * String apartmentID; try { apartmentID = RoommateDAL.getApartmentID();
 		 * } catch (UserNotLoggedInException e1) { apartmentID = null; }
