@@ -135,7 +135,7 @@ public class ApartmentChoresFragment extends Fragment {
     	}
     	 
 		Collections.sort(histChores, new DeadlineComparator());
-		return histChores.get(0).getID();
+		return histChores.get(0).getId();
 	}
 
 	static private boolean IsThisTheUser(String choreOwner, String userName)

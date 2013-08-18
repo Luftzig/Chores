@@ -38,7 +38,7 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ChoreCardActivity.class);
-                intent.putExtra(Constants.CHORE_CARD_OPEN, chore.getID());
+                intent.putExtra(Constants.CHORE_CARD_OPEN, chore.getId());
                 v.getContext().startActivity(intent);
             }
         });
