@@ -22,12 +22,20 @@ public class RoommateDAL {
 			return null;
 		}
 	}
-
+	
 	public static String getApartmentID() throws UserNotLoggedInException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if(currentUser==null)
 			throw new UserNotLoggedInException("User is not logged in");
 		return (String) currentUser.get("apartmentID");
+	}
+	
+	public static String getUserID() throws UserNotLoggedInException{
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if(currentUser==null)
+			throw new UserNotLoggedInException("User is not logged in");
+		return (String) currentUser.getObjectId();
+		
 	}
 	
 	public static String createRoommateUser(String username, String password,
