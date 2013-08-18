@@ -132,7 +132,7 @@ public class ChoreDAL {
 		return false;
 	}
 
-	public Chore convergtParseObjectToChore(ParseObject obj) {
+	public static Chore convertParseObjectToChore(ParseObject obj) {
 		Chore chore = new ApartmentChore();
 		chore.setId(obj.getObjectId());
 		chore.setAssignedTo(obj.getString("assignedTo"));
@@ -156,14 +156,19 @@ public class ChoreDAL {
 	}
 
 	public static List<Chore> getRoommatesChores()
-			throws UserNotLoggedInException, ParseException {
+			throws UserNotLoggedInException {
 		String roomateID = RoommateDAL.getUserID();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		query.whereEqualTo("assignedTo", roomateID);
-		List<ParseObject> parseChores = query.find();
+		List<ParseObject> parseChores;
 		List<Chore> chores = new ArrayList<Chore>();
+		try {
+			parseChores = query.find();
+		} catch (ParseException e) {
+			return chores;
+		}
 		for (ParseObject chore : parseChores) {
-
+			chores.add(convertParseObjectToChore(chore));
 		}
 		return chores;
 	}
@@ -184,7 +189,15 @@ public class ChoreDAL {
 	}
 
 	public static Chore getChore(String choreID) {
-		return null;
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+		ParseObject chore;
+		try {
+			chore = query.get(choreID);
+		} catch (ParseException e) {
+			return null;
+		}
+		return convertParseObjectToChore(chore);
+
 	}
 
 	public static Chore getUserOldChores(Chore oldestdisplayed, int amount) {
