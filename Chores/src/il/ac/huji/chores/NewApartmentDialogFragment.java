@@ -128,7 +128,7 @@ public class NewApartmentDialogFragment extends Fragment {
                 apartment.setDivisionDay(divisonDay);
                 apartment.setDivisionFrequency(divisonPeriod);
                 try {
-                String apartmentId = ApartmentDAL.createApartment(apartment);
+                    String apartmentId = ApartmentDAL.createApartment(apartment);
                 } catch (ApartmentAlreadyExistsException e) {
                     //  TODO handle exception
                     Log.d("NewApartmentDialogFragment", "Caught exception" + e);

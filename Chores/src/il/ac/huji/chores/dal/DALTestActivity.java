@@ -45,7 +45,13 @@ public class DALTestActivity extends Activity {
 		// "anna123","anna@gmail.com");
 		RoommateDAL.Login("anna", "anna123");
 		Chore chore = new ApartmentChore(null, "anna's chore", ParseUser.getCurrentUser().getObjectId(), new Date(), new Date(), CHORE_STATUS.STATUS_FUTURE, null, null, null, 3);
-		String choreID = ChoreDAL.addChore(chore);
+		String choreID;
+		try {
+			choreID = ChoreDAL.addChore(chore);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Chore choreResult  = ChoreDAL.getChore(choreID);
 		List<Chore> allChores = ChoreDAL.getAllChores();
 		

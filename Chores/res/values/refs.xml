@@ -7,6 +7,6 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="fragment_mychoresfragment" type="layout">@layout/fragment_mychoresfragment_list</item>
+    <item name="fragment_mychoresfragment" type="layout">@layout/fragment_my_chores_list</item>
 
 </resources>
