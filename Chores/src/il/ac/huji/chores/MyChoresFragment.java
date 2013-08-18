@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import com.parse.ParseException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dummy.DummyContent;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 /**
  * A fragment representing a list of Items.
@@ -75,7 +78,15 @@ public class MyChoresFragment extends Fragment implements
 		// Set the adapter
 		mListView = (AbsListView) view.findViewById(android.R.id.list);
         // XXX : We use a mockup ID!
-        mAdapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores("TestUserID"));
+        try {
+			mAdapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores());
+		} catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
 		// Set OnItemClickListener so we can be notified on item clicks

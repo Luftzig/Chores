@@ -30,7 +30,6 @@ public interface Chore extends Serializable{
 	 */
 	public Date getStartsFrom();
 	
-	public void setID(String id);
 	/*
 	 * gets chore's deadline
 	 */
@@ -72,5 +71,23 @@ public interface Chore extends Serializable{
      * Return a style resource id for the chore item
      */
     public int getStyle();
+    
+	public void setId(String id);
+
+	public void setName(String name);
+
+	public void setAssignedTo(String assignedTo);
+	public void setStartsFrom(Date startsFrom);
+	public void setDeadline(Date deadline);
+
+	public void setStatus(CHORE_STATUS status);
+
+	public void setType(String type);
+
+	public void setFunFact(String funFact);
+
+	public void setStatistics(String statistics);
+
+	public void setCoinsNum(int coinsNum);
 }
 
