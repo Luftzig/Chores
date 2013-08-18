@@ -20,7 +20,7 @@ public class ApartmentChore implements Chore {
 	private int coinsNum;
 	private String id;
 
-	public ApartmentChore(){}
+	public ApartmentChore() {}
 	public ApartmentChore(String id, String name, String assignedTo,
 			Date startsFrom, Date deadline, CHORE_STATUS status, String type,
 			String funFact, String statistics, int coinsNum) {
@@ -100,7 +100,7 @@ public class ApartmentChore implements Chore {
 	}
 
 	@Override
-	public String getID() {
+	public String getId() {
 		return id;
 	}
 

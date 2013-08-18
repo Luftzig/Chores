@@ -13,7 +13,7 @@ public interface Chore extends Serializable{
 	/*
 	 * get the id of this chore in the DB.
 	 */
-	public String getID();
+	public String getId();
 
 	/*
 	 * gets chore name
