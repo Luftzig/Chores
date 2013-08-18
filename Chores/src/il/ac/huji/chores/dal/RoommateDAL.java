@@ -22,6 +22,7 @@ public class RoommateDAL {
 			return null;
 		}
 	}
+
 	public static String getApartmentID() throws UserNotLoggedInException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if(currentUser==null)

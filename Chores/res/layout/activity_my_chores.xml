@@ -8,15 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MyChoresActivity" >
 
-    <!-- 
     <fragment 
         android:id="@+id/myChoresFragment"
         android:name="il.ac.huji.chores.MyChoresFragment"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:layout_centerHorizontal="true" />
-     -->
 
+    <!-- 
     <Button
         android:id="@+id/myChoresCreateButton"
         android:layout_width="wrap_content"
@@ -25,5 +24,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
         android:text="Create apartment" />
+     -->
 
 </RelativeLayout>

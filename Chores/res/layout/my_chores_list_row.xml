@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/font_14px" />
 	
 	<!-- Pencil from: http://www.visualpharm.com -->
 
@@ -31,6 +32,6 @@
         android:maxHeight="@dimen/aartment_buttons_height"
         android:maxWidth="@dimen/aartment_buttons_height"
         android:scaleType="fitCenter"
-        android:src="@drawable/pencil_icon" />
+        android:src="@drawable/pencil_32px" />
 
 </LinearLayout>
