@@ -62,7 +62,6 @@ public class MyChoresFragment extends Fragment {
 		try {
 			adapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores());
 		} catch (UserNotLoggedInException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		((AdapterView<ListAdapter>) listView).setAdapter(adapter);
