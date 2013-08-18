@@ -11,9 +11,11 @@ import java.util.Date;
 import java.util.List;
 
 import il.ac.huji.chores.*;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
+import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class ChoreDAL{
@@ -103,11 +105,33 @@ public class ChoreDAL{
 		}
 	}
 
-	public static boolean updateChoreStatus(String choreId) {
+	public static boolean updateChoreStatus(String choreId,CHORE_STATUS status) throws FailedToUpdateStatusException {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
+		ParseObject chore;
+		try {
+			chore = query.get(choreId);
+			chore.put("status", status.toString());
+			chore.save();
+		} catch (ParseException e) {
+			throw new FailedToUpdateStatusException(e.toString());
+		}
+		
 		return false;
 	}
-
-	public static List<Chore> getRoommatesChores(String roommateID) {
+	//public Chore convergtParseObjectToChore
+	public static List<Chore> getRoommatesChores() throws UserNotLoggedInException, ParseException {
+		String roomateID = RoommateDAL.getUserID();
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+		query.whereEqualTo("assignedTo", roomateID);
+		List<ParseObject> parseChores = query.find();
+		List<Chore> chores =new ArrayList<Chore>();
+		for(ParseObject chore : parseChores){
+			
+		}
+		return chores;
+		
+		
+		
 		return null;
 	}
 
