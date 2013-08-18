@@ -145,12 +145,12 @@ public class ChoreDAL {
 	}
 
 	public static String addChore(Chore chore) throws ParseException {
-		ParseObject choreObj = new ParseObject("Chore");
-		choreObj.add("assignedTo", chore.getAssignedTo());
-		choreObj.add("coins", chore.getCoinsNum());
-		choreObj.add("name", chore.getName());
-		choreObj.add("startsFrom", chore.getStartsFrom());
-		choreObj.add("status", chore.getStatus().toString());
+		ParseObject choreObj = new ParseObject("Chores");
+		choreObj.put("assignedTo", chore.getAssignedTo());
+		choreObj.put("coins", chore.getCoinsNum());
+		choreObj.put("name", chore.getName());
+		choreObj.put("startsFrom", chore.getStartsFrom());
+		choreObj.put("status", chore.getStatus().toString());
 		choreObj.save();
 		return choreObj.getObjectId();
 	}
