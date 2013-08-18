@@ -1,6 +1,7 @@
 package il.ac.huji.chores.dal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.parse.Parse;
@@ -8,7 +9,10 @@ import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import il.ac.huji.chores.ApartmentChore;
+import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.R;
@@ -40,18 +44,29 @@ public class DALTestActivity extends Activity {
 		// String roommateID =RoommateDAL.createRoommateUser("anna",
 		// "anna123","anna@gmail.com");
 		RoommateDAL.Login("anna", "anna123");
+		Chore chore = new ApartmentChore(null, "anna's chore", ParseUser.getCurrentUser().getObjectId(), new Date(), new Date(), CHORE_STATUS.STATUS_FUTURE, null, null, null, 3);
+		String choreID;
+		try {
+			choreID = ChoreDAL.addChore(chore);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Chore choreResult  = ChoreDAL.getChore(choreID);
+		List<Chore> allChores = ChoreDAL.getAllChores();
+		
 		/*
 		 * String apartmentID; try { apartmentID = RoommateDAL.getApartmentID();
 		 * } catch (UserNotLoggedInException e1) { apartmentID = null; }
 		 */
-		ChoreInfoInstance chore = new ChoreInfoInstance();
+	/*	ChoreInfoInstance chore = new ChoreInfoInstance();
 		chore.setChoreInfoName("Anna's chore");
 		chore.setCoins(3);
 		chore.setIsEveryone(true);
 		chore.setHowMany(2);
 		chore.setPeriod(ChoreInfo.CHORE_INFO_PERIOD.CHORE_INFO_MONTH);
-		String choreId;
-		try {
+		String choreId;*/
+		/*try {
 			// choreId = ChoreDAL.addChoreInfo(chore);
 			/*
 			 * ChoreDAL.updateChoreInfoName("jQY3c2QQ8o", "YOAV'S CHORE");
@@ -59,13 +74,14 @@ public class DALTestActivity extends Activity {
 			 * ChoreDAL.updateFrequency("jQY3c2QQ8o",1);
 			 * ChoreDAL.updatePeriod("jQY3c2QQ8o",
 			 * CHORE_INFO_PERIOD.CHORE_INFO_WEEK);
-			 */
+			 *
 			List<ChoreInfo> list = ChoreDAL.getAllChoreInfo();
 
 		} catch (UserNotLoggedInException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} /*
+		} */
+		/*
 		 * RoommatesApartment apt = new RoommatesApartment();
 		 * apt.setName("apt");
 		 */
@@ -80,10 +96,10 @@ public class DALTestActivity extends Activity {
 		 * Log.e("ApartmentAlreadyExistsException", e.toString()); //} catch
 		 * (UserNotLoggedInException e) { // TODO Auto-generated catch block
 		 * //e.printStackTrace(); //}
-		 */catch (ParseException e) {
+		 *catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 

@@ -1,6 +1,7 @@
 package il.ac.huji.chores;
 
 import java.util.List;
+import com.parse.ParseException;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.dummy.DummyContent;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 /**
  * A fragment representing a list of Items.
@@ -63,7 +65,16 @@ public class MyChoresFragment extends Fragment {
 		// Set the adapter
 		ListView listView = (ListView) view.findViewById(R.id.myChoresFragmentListView);
         List<Chore> userChores = ChoreDAL.getRoommatesChores();
-        ListAdapter adapter = new MyChoresListAdapter(getActivity(), userChores);
+        ListAdapter adapter;
+		try {
+			adapter = new MyChoresListAdapter(getActivity(), ChoreDAL.getRoommatesChores());
+		} catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		((AdapterView<ListAdapter>) listView).setAdapter(adapter);
 
         Log.d("MyChoresFragment", "view created");
