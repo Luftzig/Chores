@@ -140,6 +140,8 @@ public class ChoreDAL {
 		chore.setDeadline(obj.getDate("deadline"));
 		chore.setName(obj.getString("name"));
 		chore.setStartsFrom(obj.getDate("startsFrom"));
+        Log.d("ChoreDAL", "chore status " + obj.getString("status"));
+        Log.d("ChoreDAL", "chore valueof status " + CHORE_STATUS.valueOf(obj.getString("status")));
 		chore.setStatus(CHORE_STATUS.valueOf(obj.getString("status")));
 		return chore;
 	}
