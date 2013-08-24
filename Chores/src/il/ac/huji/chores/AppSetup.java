@@ -25,12 +25,12 @@ public class AppSetup {
 
     private AppSetup(Context ctx) {
         _ctx = ctx;
-        //Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
+        Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
         Log.d("AppSetup", "Parse initialized");
         setupDAL();
         // loginParse();
-        //  PushService.subscribe(_ctx, "", AppSetup.class);
-        //  PushService.setDefaultPushCallback(_ctx, AppSetup.class);
+        //PushService.subscribe(_ctx, "", AppSetup.class);
+        //PushService.setDefaultPushCallback(_ctx, AppSetup.class);
         setupActionBar();
         
     }
