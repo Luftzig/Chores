@@ -98,7 +98,7 @@
     <string name="add_edit_chores_title">Add or edit chores</string>
     <string name="add_edit_chores_add_chore_button_title">Add chore</string>
     <string name="new_chore_extra1_name">choreData</string>
-    <string name="new_apartment_dialog_invite_autocomplete_prompt">Type contact name, E-Mail or Phone number</string>
+    <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite...</string>
     <string name="new_apartment_dialog_invite_button_text">Invite!</string>
     <string name="new_chore_before_coins_spinner">value:</string>
     <string name="new_chore_dialog_update_button_text">Update Chore</string>

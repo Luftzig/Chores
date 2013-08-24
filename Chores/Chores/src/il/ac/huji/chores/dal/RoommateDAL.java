@@ -1,62 +1,75 @@
 package il.ac.huji.chores.dal;
 
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
 import org.json.JSONArray;
 
+import android.util.Log;
+
 import com.parse.GetCallback;
+import com.parse.ParseException;
 
 import com.parse.*;
 
-
 public class RoommateDAL {
 
-	private static String _username;
-	public static void setUserName(String username) {
-		_username = username;
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Roomate");
-		query.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseObject>() {
-		  public void done(ParseObject roomate, ParseException e) {
-		    if (e == null) {
-		    	roomate.put("username", _username);
-		        roomate.saveInBackground();
-		    }
-		  }
-		});
+	public static String Login(String username, String password) {
+		try {
+			ParseUser.logIn(username, password);
+			return ParseUser.getCurrentUser().getObjectId();
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static String getApartmentID() throws UserNotLoggedInException{
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if(currentUser==null)
+			throw new UserNotLoggedInException("User is not logged in");
+		return (String) currentUser.get("apartmentID");
+	}
+	
+	public static String getUserID() throws UserNotLoggedInException{
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if(currentUser==null)
+			throw new UserNotLoggedInException("User is not logged in");
+		return (String) currentUser.getObjectId();
+		
+	}
+	
+	public static String createRoommateUser(String username, String password,
+			String email) {
+
+		ParseUser user = new ParseUser();
+		user.setUsername(username);
+		user.setPassword(password);
+		if (email != null)
+			user.setEmail(email);
+		try {
+			user.signUp();
+			return user.getObjectId();
+		} catch (ParseException e) {
+			Log.e("createRoommateUser", e.toString());
+			return null;
+		}
 	}
 
-	public String getUserName() {
-		return _username;
-	}
+	public static boolean addApartmentToRoommate(String apartmentID)
+			throws UserNotLoggedInException {
 
-	public boolean createRoomateUser(String username,String apartmentID) {
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser == null) {
+			throw new UserNotLoggedInException("User not logged in");
+		}
+		try {
+			currentUser.put("apartmentID", apartmentID);
+			currentUser.save();
+		} catch (ParseException e) {
 
-		addNewRoomate(username,apartmentID);
-		addRoomateToApatment(username,apartmentID);
-		return true;
-	}
-
-	private void addNewRoomate(String username,String apartmentID) {
-
-		ParseObject roomate = new ParseObject("Roomate");
-		roomate.put("username", username);
-		roomate.put("apartmentID", apartmentID);
-		roomate.put("roomateID", ParseUser.getCurrentUser());
-		roomate.setACL(new ParseACL(ParseUser.getCurrentUser()));
-		roomate.saveInBackground();
-	}
-
-	private void addRoomateToApatment(String roommateID,String apartmentID){
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
-		final String finalRoommateID = roommateID;
-		// Retrieve the object by id
-		query.getInBackground(apartmentID, new GetCallback<ParseObject>() {
-		  public void done(ParseObject apartment, ParseException e) {
-		    if (e == null) {
-		    	JSONArray roomates = (JSONArray)apartment.get("Rommates");
-		    	roomates.put(finalRoommateID);
-		    	apartment.put("Roomates", roomates);
-		        apartment.saveInBackground();
-		    }
-		  }
-		});
+			Log.e("addRoommateToApatment", e.toString());
+			return false;
+		}
+		return false;
 	}
 }

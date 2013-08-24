@@ -1,33 +1,39 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.dal.ApartmentDAL;
-import android.net.Uri;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 public class MyChoresActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_chores);
         AppSetup setup = AppSetup.getInstance((Context) this);
-        // Create new apartment dialog
-       // Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-       // startActivity(intent);
-        //ApartmentDAL.Setup(this);
-		RoommatesApartment apt = new RoommatesApartment();
-		apt.setName("Anna's apartment");
-		//ApartmentDAL.createApartment(apt);
+        setContentView(R.layout.activity_my_chores);
+
+        String apartmentId = null;
+        try {
+            apartmentId = RoommateDAL.getApartmentID();
+            Log.d("MyChoresActivity", "ApartmentId = " + apartmentId);
+        } catch (UserNotLoggedInException e) {
+            Log.d("MyChoresActivity", "User not logged in");
+            // TODO login
+        }
+        if (apartmentId == null) {
+            Log.d("MyChoresActivity", "No apartment");
+            Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+            startActivity(intent);
+            // TODO should get the apartmentID from the returned activity
+        }
+        // TODO remove this static login
     }
 
     @Override

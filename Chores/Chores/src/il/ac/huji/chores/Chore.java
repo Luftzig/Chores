@@ -9,11 +9,14 @@ public interface Chore extends Serializable{
 	enum CHORE_STATUS{
 		STATUS_DONE, STATUS_MISS, STATUS_FUTURE
 	}
+	public void setChoreInfoId(String id);
+	
+	public String getChoreInfoId();
 	
 	/*
 	 * get the id of this chore in the DB.
 	 */
-	public String getID();
+	public String getId();
 
 	/*
 	 * gets chore name
@@ -29,7 +32,7 @@ public interface Chore extends Serializable{
 	 * get chore's start
 	 */
 	public Date getStartsFrom();
-
+	
 	/*
 	 * gets chore's deadline
 	 */
@@ -71,5 +74,23 @@ public interface Chore extends Serializable{
      * Return a style resource id for the chore item
      */
     public int getStyle();
+    
+	public void setId(String id);
+
+	public void setName(String name);
+
+	public void setAssignedTo(String assignedTo);
+	public void setStartsFrom(Date startsFrom);
+	public void setDeadline(Date deadline);
+
+	public void setStatus(CHORE_STATUS status);
+
+	public void setType(String type);
+
+	public void setFunFact(String funFact);
+
+	public void setStatistics(String statistics);
+
+	public void setCoinsNum(int coinsNum);
 }
 

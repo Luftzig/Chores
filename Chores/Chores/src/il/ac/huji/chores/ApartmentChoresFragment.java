@@ -9,6 +9,8 @@ import il.ac.huji.chores.dal.RoommateDAL;
 import java.util.Collections;
 import java.util.List;
 
+import com.parse.ParseUser;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
+import il.ac.huji.chores.exceptions.*;
 public class ApartmentChoresFragment extends Fragment {
     
     private ArrayAdapter<Chore> _adapter;
@@ -39,7 +41,16 @@ public class ApartmentChoresFragment extends Fragment {
          
          getActivity().setContentView(R.layout.fragment_apartment);
 
-         List<Chore> chores = ChoreDAL.getAllChores();
+         List<Chore> chores = null;
+		try {
+			chores = ChoreDAL.getAllChores();
+		} catch (UserNotLoggedInException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FailedToRetriveAllChoresException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
          if(chores != null){
         	 _oldestChoreDisplayed = checkOldestChoreInList(chores);
          }
@@ -57,7 +68,15 @@ public class ApartmentChoresFragment extends Fragment {
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
             	if(_userName == null){
-            		_userName = new RoommateDAL().getUserName();
+            		if(ParseUser.getCurrentUser() == null){
+            			try {
+							throw new UserNotLoggedInException("User is not logged in");
+						} catch (UserNotLoggedInException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+            		}
+            	_userName = ParseUser.getCurrentUser().getUsername();
             	}
             	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
             	startActivity(intent);
@@ -106,7 +125,16 @@ public class ApartmentChoresFragment extends Fragment {
 			public void onClick(View view) {
 				
 				//chores history button
-				List<Chore> histChores = ChoreDAL.getUserOldChores(_oldestChoreDisplayed, HISTORY_FUNC_AMMOUNT);
+				List<Chore> histChores=null;
+				try {
+					histChores = ChoreDAL.getUserOldChores(_oldestChoreDisplayed, HISTORY_FUNC_AMMOUNT);
+				} catch (UserNotLoggedInException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FailedToRetrieveOldChoresException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if(histChores == null){
 					return;
 				}
@@ -125,7 +153,7 @@ public class ApartmentChoresFragment extends Fragment {
     	}
     	 
 		Collections.sort(histChores, new DeadlineComparator());
-		return histChores.get(0).getID();
+		return histChores.get(0).getId();
 	}
 
 	static private boolean IsThisTheUser(String choreOwner, String userName)
