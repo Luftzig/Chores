@@ -30,6 +30,7 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Chore chore = getItem(position);
+        Log.d("MyChoresListAdapter", "chore " + chore);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.my_chores_list_row, null);
         TextView choreTitle = (TextView) view.findViewById(R.id.myChoresRowTitle);
@@ -43,10 +44,15 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ChoreCardActivity.class);
-                intent.putExtra(Constants.CHORE_CARD_OPEN, chore.getId());
+                intent.putExtra(Constants.CHORE_CARD_OPEN, chore);
                 v.getContext().startActivity(intent);
             }
         });
-        return super.getView(position, convertView, parent);
+        return view;
+    }
+
+    @Override
+    public Chore getItem(int position) {
+        return chores.get(position);
     }
 }
