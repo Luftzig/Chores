@@ -12,6 +12,7 @@ import java.util.List;
 import com.parse.ParseUser;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,14 +35,23 @@ public class ApartmentChoresFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_apartment, container, false);
         return view;
       }
+     
+     public void onResume()
+     {
+         super.onResume();
+
+     }
+     
+     public void onCreate(Bundle savedInstanceState)
+     {
+         super.onActivityCreated(savedInstanceState);
+     }
 
      public void onActivityCreated (Bundle savedInstanceState)
      {
          super.onActivityCreated(savedInstanceState);
-         
-         getActivity().setContentView(R.layout.fragment_apartment);
-
-         List<Chore> chores = null;
+              
+         List<Chore> chores=null;
 		try {
 			chores = ChoreDAL.getAllChores();
 		} catch (UserNotLoggedInException e1) {

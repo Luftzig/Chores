@@ -103,6 +103,10 @@
     <string name="new_chore_before_coins_spinner">value:</string>
     <string name="new_chore_dialog_update_button_text">Update Chore</string>
     <string name="new_chore_dialog_values_most_chosen">  (most chosen)</string>
+    <string name="action_bar_my_chores">Home</string>
+    <string name="action_bar_apartment">Apartment</string>
+    <string name="action_bar_statistics">Statistics</string>
+    <string name="action_bar_settings">Settings</string>
 
 
 </resources>
