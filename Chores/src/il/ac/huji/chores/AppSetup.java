@@ -1,6 +1,10 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.dal.RoommateDAL;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
 
@@ -25,9 +29,67 @@ public class AppSetup {
         Log.d("AppSetup", "Parse initialized");
         setupDAL();
         // loginParse();
-        //  PushService.subscribe(_ctx, "", AppSetup.class);
-        //  PushService.setDefaultPushCallback(_ctx, AppSetup.class);
+//        PushService.subscribe(_ctx, "", AppSetup.class);
+//        PushService.setDefaultPushCallback(_ctx, AppSetup.class);
+       // setupPushNotifications();
+        setupActionBar();
+        
     }
+    
+//    private void setupPushNotifications(){
+//    	
+//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
+//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+//
+//    		@Override
+//    		public void done(ParseException arg0) {
+//    			if(arg0 != null){
+//    				Log.e("Exception", arg0.getStackTrace().toString());
+//    			}
+//    			else{
+//    				Log.e(" Null", "saveInBackground succeeded");
+//    			}
+//
+//    		}
+//    	});
+//    }
+
+    private void setupActionBar() {
+    	
+    	ActionBar bar = ((Activity)_ctx).getActionBar();
+    	bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    	String fragLabel = null;
+    	
+    	/** My chores tab handling **/
+    	fragLabel = ((Activity)_ctx).getResources().getString(R.string.action_bar_my_chores);
+    	Tab myChoresTab = bar.newTab();
+    	myChoresTab.setText(fragLabel);
+    	myChoresTab.setTabListener(new ChoresTabListener());
+    	bar.addTab(myChoresTab);
+    	
+    	/** Apartment tab handling **/
+    	fragLabel = ((Activity)_ctx).getResources().getString(R.string.action_bar_apartment);
+    	Tab apartmentTab = bar.newTab();
+    	apartmentTab.setText(fragLabel);
+    	apartmentTab.setTabListener(new ChoresTabListener());
+    	bar.addTab(apartmentTab);
+    	
+    	/** Statistics tab handling **/
+    	fragLabel = ((Activity)_ctx).getResources().getString(R.string.action_bar_statistics);
+    	Tab statisticsTab = bar.newTab();
+    	statisticsTab.setText(fragLabel);
+    	statisticsTab.setTabListener(new ChoresTabListener());
+    	bar.addTab(statisticsTab);
+    	
+    	/** Settings tab handling **/
+    	fragLabel = ((Activity)_ctx).getResources().getString(R.string.action_bar_settings);
+    	Tab settingsTab = bar.newTab();
+    	settingsTab.setText(fragLabel);
+    	settingsTab.setTabListener(new ChoresTabListener());
+    	bar.addTab(settingsTab);
+		
+	}
 
     public static AppSetup getInstance(Context ctx) {
         if (instance == null) {
