@@ -3,9 +3,11 @@ package il.ac.huji.chores.dal;
 import android.util.Log;
 
 import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +18,8 @@ import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
+import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
+import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
 import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
@@ -25,6 +29,10 @@ public class ChoreDAL {
 			throws UserNotLoggedInException, FailedToAddChoreInfoException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseObject chores = new ParseObject("ChoresInfo");
+		ParseACL permissions = new ParseACL();
+		permissions.setPublicWriteAccess(true);
+		permissions.setPublicReadAccess(true);
+		chores.setACL(permissions);
 		chores.put("apartment", apartmentID);
 		chores.put("choreName", choreInfo.getName());
 		chores.put("frequency", choreInfo.getHowManyInPeriod());
@@ -140,17 +148,23 @@ public class ChoreDAL {
 		chore.setDeadline(obj.getDate("deadline"));
 		chore.setName(obj.getString("name"));
 		chore.setStartsFrom(obj.getDate("startsFrom"));
-		chore.setStatus(CHORE_STATUS.valueOf(obj.getString("status")));
+		String choreStatus = obj.getString("status");
+		chore.setStatus(CHORE_STATUS.valueOf(choreStatus));
 		return chore;
 	}
 
-	public static String addChore(Chore chore) throws ParseException {
+	public static String addChore(Chore chore) throws ParseException, UserNotLoggedInException {
+		String apartment = RoommateDAL.getApartmentID();
 		ParseObject choreObj = new ParseObject("Chores");
 		choreObj.put("assignedTo", chore.getAssignedTo());
+		choreObj.put("apartment", apartment);
 		choreObj.put("coins", chore.getCoinsNum());
 		choreObj.put("name", chore.getName());
 		choreObj.put("startsFrom", chore.getStartsFrom());
+		choreObj.put("deadline", chore.getDeadline());
 		choreObj.put("status", chore.getStatus().toString());
+		choreObj.put("choreInfoId", chore.getChoreInfoId());
+		
 		choreObj.save();
 		return choreObj.getObjectId();
 	}
@@ -200,8 +214,32 @@ public class ChoreDAL {
 
 	}
 
-	public static Chore getUserOldChores(Chore oldestdisplayed, int amount) {
-		return null;
+	public static List<Chore> getUserAllOldChores() throws FailedToRetrieveOldChoresException, UserNotLoggedInException {
+		String roommateID = RoommateDAL.getUserID();
+		ParseQuery<ParseObject> queryDone = ParseQuery.getQuery("Chores");
+		//.whereEqualTo("assignedTo", roommateID)
+		queryDone.whereEqualTo("assignedTo", roommateID).whereEqualTo("status", CHORE_STATUS.STATUS_DONE.toString());
+		ParseQuery<ParseObject> queryMissed = ParseQuery.getQuery("Chores");
+		queryMissed.whereEqualTo("assignedTo", roommateID).whereEqualTo("status", CHORE_STATUS.STATUS_MISS.toString());
+		List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>> ();
+		queries.add(queryDone);
+		queries.add(queryMissed);
+		ParseQuery<ParseObject> query = ParseQuery.or(queries);
+		List<ParseObject> results;
+		
+		
+		try {
+			results = query.find();
+		} catch (ParseException e) {
+			throw new FailedToRetrieveOldChoresException(e.toString());
+		}
+		List<Chore> choresList = new ArrayList<Chore>();
+		Chore chore;
+		for (ParseObject parseChore : results) {
+			chore = convertParseObjectToChore(parseChore);
+			choresList.add(chore);
+		}
+		return choresList;
 	}
 
 	/*
@@ -218,21 +256,59 @@ public class ChoreDAL {
 	 * gets older chores. oldestChoreDisplayed is the parse id. if
 	 * oldestChoreDisplayed is null, there are no chores displayed at the moment
 	 * - return the first amount
+	 * @throws UserNotLoggedInException 
+	 * @throws FailedToRetrieveOldChoresException 
 	 */
 	public static List<Chore> getUserOldChores(String oldestChoreDisplayed,
-			int amount) {
-		// TODO Auto-generated method stub
-
-		return null;
+			int amount) throws UserNotLoggedInException, FailedToRetrieveOldChoresException {
+		if(oldestChoreDisplayed==null)
+			return null;
+		String roommateID = RoommateDAL.getUserID();
+		ParseQuery<ParseObject> queryDone = ParseQuery.getQuery("Chores");
+		queryDone.whereEqualTo("assignedTo", roommateID).whereEqualTo("name", oldestChoreDisplayed).whereEqualTo("status", CHORE_STATUS.STATUS_DONE.toString());
+		ParseQuery<ParseObject> queryMissed = ParseQuery.getQuery("Chores");
+		queryMissed.whereEqualTo("assignedTo", roommateID).whereEqualTo("name", oldestChoreDisplayed).whereEqualTo("status", CHORE_STATUS.STATUS_MISS.toString());
+		List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>> ();
+		queries.add(queryDone);
+		queries.add(queryMissed);
+		ParseQuery<ParseObject> query = ParseQuery.or(queries).orderByAscending("startsFrom");
+		List<ParseObject> results;
+		try {
+			results = query.find();
+		} catch (ParseException e) {
+			throw new FailedToRetrieveOldChoresException(e.toString());
+		}
+		List<Chore> choresList = new ArrayList<Chore>();
+		Chore chore;
+		for (int i=0;i<Math.min(results.size(), amount);i++) {
+			chore = convertParseObjectToChore(results.get(i));
+			choresList.add(chore);
+		}
+		return choresList;
 	}
 
 	/*
 	 * return all assigned (not done, deadline has not passed) chores. If there
 	 * are no chores, return an empty ArrayList.
 	 */
-	public static List<Chore> getAllChores() {
-		// TODO Auto-generated method stub
-		return new ArrayList<Chore>();
+	public static List<Chore> getAllChores() throws UserNotLoggedInException, FailedToRetriveAllChoresException {
+		String apartmentID = RoommateDAL.getApartmentID();
+		ParseQuery<ParseObject> queryfuture = ParseQuery.getQuery("Chores");
+		queryfuture.whereEqualTo("apartment", apartmentID).whereEqualTo("status", CHORE_STATUS.STATUS_FUTURE.toString());
+
+		List<ParseObject> results;
+		try {
+			results = queryfuture.find();
+		} catch (ParseException e) {
+			throw new FailedToRetriveAllChoresException(e.toString());
+		}
+		List<Chore> choresList = new ArrayList<Chore>();
+		Chore chore;
+		for (ParseObject parseChore : results) {
+			chore = convertParseObjectToChore(parseChore);
+			choresList.add(chore);
+		}
+		return choresList;
 	}
 
 	private static ChoreInfo convertParseObjectToChoreInfo(

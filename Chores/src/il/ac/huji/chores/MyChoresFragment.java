@@ -1,8 +1,10 @@
 package il.ac.huji.chores;
 
+import java.util.List;
+
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +53,7 @@ public class MyChoresFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+        Log.d("MyChoresFragment", "onCreateView");
 		View view = inflater.inflate(R.layout.fragment_my_chores_list, container, false);
 
 		// Set the adapter
@@ -64,6 +67,7 @@ public class MyChoresFragment extends Fragment {
 		}
 		((AdapterView<ListAdapter>) listView).setAdapter(adapter);
 
+        Log.d("MyChoresFragment", "view created");
 		return view;
 	}
 

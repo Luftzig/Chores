@@ -27,6 +27,10 @@ public class ApartmentDAL {
 					+ apt.getName() + "already exists");
 		}
 		ParseObject apartment = new ParseObject("Apartment");
+		ParseACL permissions = new ParseACL();
+		permissions.setPublicWriteAccess(true);
+		permissions.setPublicReadAccess(true);
+		apartment.setACL(permissions);
 		apartment.put("apartmentName", apt.getName());
 		apartment.add("Roommates", curreentUser.getObjectId());
 		
@@ -83,6 +87,7 @@ public class ApartmentDAL {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;
 		try {
+			String roommate = currentUser.getObjectId();
 			apartment = query.get(apartmentID);
 			apartment.add("Roommates", currentUser.getObjectId());
 			apartment.save();
