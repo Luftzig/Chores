@@ -31,29 +31,29 @@ public class AppSetup {
         // loginParse();
 //        PushService.subscribe(_ctx, "", AppSetup.class);
 //        PushService.setDefaultPushCallback(_ctx, AppSetup.class);
-       // setupPushNotifications();
+        setupPushNotifications();
         setupActionBar();
         
     }
     
-//    private void setupPushNotifications(){
-//    	
-//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-//
-//    		@Override
-//    		public void done(ParseException arg0) {
-//    			if(arg0 != null){
-//    				Log.e("Exception", arg0.getStackTrace().toString());
-//    			}
-//    			else{
-//    				Log.e(" Null", "saveInBackground succeeded");
-//    			}
-//
-//    		}
-//    	});
-//    }
+    private void setupPushNotifications(){
+    	
+    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
+    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+
+    		@Override
+    		public void done(ParseException arg0) {
+    			if(arg0 != null){
+    				Log.e("Exception", arg0.getStackTrace().toString());
+    			}
+    			else{
+    				Log.e(" Null", "saveInBackground succeeded");
+    			}
+
+    		}
+    	});
+    }
 
     private void setupActionBar() {
     	
@@ -111,22 +111,6 @@ public class AppSetup {
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
 		RoommateDAL.Login("anna", "anna123");
-		//push notifications 
-		PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-		ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-			
-			@Override
-			public void done(ParseException arg0) {
-				if(arg0 != null){
-					Log.e("exception", arg0.getStackTrace().toString());
-				}
-				else{
-					Log.e(" null", "nooooot");
-				}
-				
-			}
-		});
-		
     	
     }
 }

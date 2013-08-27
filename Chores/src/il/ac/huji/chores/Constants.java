@@ -4,6 +4,8 @@ public class Constants {
 
     // Constant strings
     public final static String CHORE_CARD_OPEN = "il.ac.huji.chores.CHORE_CARD_OPEN";
+    public static final String PARSE_DONE_CHANNEL_KEY="DONE";
+	public static final String PARSE_NEW_CHORES_CHANNEL_KEY="ASSIGNED";
 
     public enum ChoreDivideDay { 
         SUNDAY, MONDAY, TUESDAY, WEDENSDAY,

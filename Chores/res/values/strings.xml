@@ -107,6 +107,11 @@
     <string name="action_bar_apartment">Apartment</string>
     <string name="action_bar_statistics">Statistics</string>
     <string name="action_bar_settings">Settings</string>
+    <string name="my_chores_new_assigned_chores_notification_dialog_txt">New chores were assigned.</string>
+    <string name="my_chores_new_assigned_chores_notification_dialog_txt_question">Check out chores?</string>
+    <string name="settings_reminder_hours_before_hint">2</string>
+    <string name="settings_save_settings_button">Save</string>
+    <string name="settings_cancel_button">Cancel</string>
 
 
 </resources>

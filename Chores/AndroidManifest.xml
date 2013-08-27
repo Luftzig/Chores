@@ -21,18 +21,14 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="il.ac.huji.chores.ChoresMainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="il.ac.huji.chores.ApartmentSettingsFragment"
-            android:label="@string/title_activity_apartment_settings" >
-        </activity>
-        
         <activity
             android:name="il.ac.huji.chores.dal.DALTestActivity"
             android:label="@string/title_activity_apartment_settings" >
@@ -45,15 +41,12 @@
         
         <activity
             android:name="il.ac.huji.chores.ApartmentSettingsActivity"
-            android:label="@string/title_activity_apartment_settings" >
+            android:label="@string/title_activity_apartment_settings"
+            android:theme="@android:style/Theme.Dialog"  >
         </activity>
         <activity
             android:name="il.ac.huji.chores.SettingsActivity"
             android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
-            android:name="il.ac.huji.chores.SettingsFragment"
-            android:label="@string/title_activity_settings_fragment" >
         </activity>
         <activity
             android:name="il.ac.huji.chores.NewApartmentDialogActivity"

@@ -19,8 +19,7 @@ public class Settings {
 	}
 	
 	public class Reminders{
-		public boolean remind;
-		public int min;
+		public int hours;
 	}
 	
 	
