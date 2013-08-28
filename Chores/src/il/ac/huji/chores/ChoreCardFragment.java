@@ -1,11 +1,17 @@
 package il.ac.huji.chores;
 
+import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
+
 import java.util.Calendar;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +38,7 @@ public class ChoreCardFragment extends Fragment {
 	  * ownerOpen - true if the the owner of this card is the one who opened the card. false otherwise.
 	  */
 	 public void OrganizeUIParts(Chore chore, boolean ownerOpen){
+		
 		 
 		 //set chore name
 		 TextView name = (TextView)getActivity().findViewById(R.id.card_chore_name);
@@ -84,6 +91,7 @@ public class ChoreCardFragment extends Fragment {
 				 leftButton.setEnabled(true);
 				 leftButton.setVisibility(Button.VISIBLE);
 				 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));
+				 setListenersToCardButtons(null, leftButton, null, chore.getId());
 			 }
 			 else{ // no buttons
 				 leftButton.setEnabled(false);
@@ -110,6 +118,7 @@ public class ChoreCardFragment extends Fragment {
 				 leftButton.setEnabled(true);
 				 leftButton.setVisibility(Button.VISIBLE);
 				 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));
+				 setListenersToCardButtons(rightButton, leftButton, null, chore.getId());
 			 }
 			 else{ // steal chore button
 				 
@@ -119,8 +128,60 @@ public class ChoreCardFragment extends Fragment {
 				 leftButton.setEnabled(true);
 				 leftButton.setVisibility(Button.VISIBLE);
 				 leftButton.setText(getResources().getString(R.string.button_stealchore_text));
+				 setListenersToCardButtons(null, null, rightButton, chore.getId());
+				 
 			 }
 		 }
+	 }
+	 
+	 // Sets button listeners to the steal chore, done chore, and suggest chore buttons.
+	 //The function's arguments are the buttons, or null if the button shouldn't have any functionality.
+	 private void setListenersToCardButtons(Button doneButton, Button suggestButton, Button StealButton, String choreId){
+		
+		 final String id = choreId;
+
+		 if(doneButton != null){
+			 doneButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// update chore status to done
+					try {
+						ChoreDAL.updateChoreStatus(id, CHORE_STATUS.STATUS_FUTURE);
+						notifyRoomate();
+					} catch (FailedToUpdateStatusException e) {
+						// TODO (shani) decide what to do
+					}
+					
+				}
+			});
+		 }
+		 if(suggestButton != null){
+			 suggestButton.setOnClickListener(new OnClickListener() {
+
+				 @Override
+				 public void onClick(View v) {
+					 // TODO Auto-generated method stub
+
+				 }
+			 });
+		 }
+		 if(StealButton != null){
+			 StealButton.setOnClickListener(new OnClickListener() {
+
+				 @Override
+				 public void onClick(View v) {
+					 // TODO Auto-generated method stub
+
+				 }
+			 });
+		 }
+	 }
+	 
+	 //ask server to notify roomates about a change
+	 private void notifyRoomate()
+	 {
+		 //TODO
 	 }
 
 }

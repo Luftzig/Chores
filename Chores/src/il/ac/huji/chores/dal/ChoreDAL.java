@@ -47,6 +47,21 @@ public class ChoreDAL {
 		}
 		return chores.getObjectId();
 	}
+	
+	public static void updateAssignedTo(String choreID, String newOwner)
+			throws UserNotLoggedInException, DataNotFoundException {
+		String apartmentID = RoommateDAL.getApartmentID();
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+		ParseObject choreInfoObj;
+		try {
+			choreInfoObj = query.get(choreID);
+			choreInfoObj.put("assignedTo", newOwner);
+			choreInfoObj.save();
+		} catch (ParseException e) {
+			throw new DataNotFoundException("Chore with id " + choreID
+					+ " wasn't found");
+		}
+	}
 
 	public static void updateChoreInfoName(String choreID, String choreName)
 			throws UserNotLoggedInException, DataNotFoundException {
@@ -97,7 +112,7 @@ public class ChoreDAL {
 	public static void updateCoins(String choreID, int coins)
 			throws UserNotLoggedInException, DataNotFoundException {
 		String apartmentID = RoommateDAL.getApartmentID();
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		ParseObject choreInfoObj;
 		try {
 			choreInfoObj = query.get(choreID);
@@ -127,14 +142,15 @@ public class ChoreDAL {
 
 	public static boolean updateChoreStatus(String choreId, CHORE_STATUS status)
 			throws FailedToUpdateStatusException {
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		ParseObject chore;
 		try {
 			chore = query.get(choreId);
 			chore.put("status", status.toString());
 			chore.save();
 		} catch (ParseException e) {
-			throw new FailedToUpdateStatusException(e.toString());
+			
+			throw new FailedToUpdateStatusException(e.getMessage());
 		}
 
 		return false;
