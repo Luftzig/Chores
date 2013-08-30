@@ -22,20 +22,22 @@ public class ChoresMainActivity extends Activity {
 			
 	        AppSetup setup = AppSetup.getInstance((Context) this);
 
-			
 	        String apartmentId = null;
-//	        try {
-//	            apartmentId = RoommateDAL.getApartmentID();
-//	        } catch (UserNotLoggedInException e) {
-//	            // TODO login
-//	        }
-//	        if (apartmentId == null) {
-//	            Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-//	            startActivity(intent);
-//	            // TODO should get the apartmentID from the returned activity
-//	        }
-	        // TODO remove this static login
+	        try {
+	            apartmentId = RoommateDAL.getApartmentID();
+	        } catch (UserNotLoggedInException e) {
+	        	LoginActivity.OpenLoginScreen(this);
+
+	        }
+
+	        if (apartmentId == null) {
+	            Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+	            startActivity(intent);
+	            // TODO should get the apartmentID from the returned activity
+	        }
 	        
+			//start login activity (sign up inside)
+			LoginActivity.OpenLoginScreen(this);
 	 }
 	 
 	//this will be called if there's a new ASSIGNED actions - new chores were assigned

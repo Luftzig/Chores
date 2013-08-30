@@ -39,21 +39,21 @@ public class AppSetup {
     
     private void setupPushNotifications(){
     	
-    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-
-    		@Override
-    		public void done(ParseException arg0) {
-    			if(arg0 != null){
-    				Log.e("Exception", arg0.getStackTrace().toString());
-    			}
-    			else{
-    				Log.e(" Null", "saveInBackground succeeded");
-    			}
-
-    		}
-    	});
+//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
+//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+//
+//    		@Override
+//    		public void done(ParseException arg0) {
+//    			if(arg0 != null){
+//    				Log.e("Exception", arg0.getStackTrace().toString());
+//    			}
+//    			else{
+//    				Log.e(" Null", "saveInBackground succeeded");
+//    			}
+//
+//    		}
+//    	});
     }
 
     private void setupActionBar() {
@@ -111,10 +111,7 @@ public class AppSetup {
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-//		RoommateDAL.Login("anna", "anna123");
 		
-		//start login activity (sign up inside)
-		LoginActivity.OpenLoginScreen(_ctx);
     	
     }
 }

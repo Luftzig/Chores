@@ -58,12 +58,8 @@
             android:label="@string/title_activity_apartment_settings" >
         </activity>
         <activity
-            android:name="il.ac.huji.chores.PushNotificationsHandlerActivity"
-            android:label="@string/title_activity_push_notifications_handler" >
-        </activity>
-        <activity
             android:name="il.ac.huji.chores.LoginActivity"
-            android:label="@string/title_activity_push_notifications_handler" >
+            android:label="@string/title_activity_login" >
         </activity>
         <service android:name="com.parse.PushService" />
 		<receiver android:name="com.parse.ParseBroadcastReceiver">

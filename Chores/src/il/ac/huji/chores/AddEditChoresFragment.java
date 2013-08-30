@@ -123,8 +123,7 @@ public class AddEditChoresFragment extends Fragment {
 			try {
 				ChoreDAL.addChoreInfo(newChore);
 			} catch (UserNotLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LoginActivity.OpenLoginScreen(getActivity());
 			} catch (FailedToAddChoreInfoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

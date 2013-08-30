@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import java.io.Serializable;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +19,11 @@ public class LoginActivity extends Activity {
 
 	public static void OpenLoginScreen(Context context){
 		
+		boolean[] wait = {true};
 		Intent intent = new Intent(context, LoginActivity.class);
-		((Activity) context).startActivityForResult(intent, 3333);
+		intent.putExtra("wait_condition", wait);
+		((Activity) context).startActivity(intent);
+				
 	}
 	
 	@Override

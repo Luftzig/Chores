@@ -72,6 +72,7 @@
     <string name="parse_app_id">oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG</string>
     <string name="title_activity_my_chores">MyChoresActivity</string>
     <string name="title_activity_push_notifications_handler">push notifications handler activity</string>
+    <string name="title_activity_login">Login activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_apartment_dialog_title_text">Creating new apartment</string>

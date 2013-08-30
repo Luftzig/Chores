@@ -1,9 +1,14 @@
 package il.ac.huji.chores;
 
+import java.io.Serializable;
+
 import il.ac.huji.chores.dal.RoommateDAL;
 import android.app.Fragment;
+import android.content.Intent;
+
 import com.parse.ParseException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +30,7 @@ public class LoginFragment extends Fragment {
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		final boolean[] isLogin = {true}; //it's an array just so the value can change in the olClickListener inner function.
 		
 		
