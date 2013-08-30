@@ -22,7 +22,8 @@
         <activity
             android:name="il.ac.huji.chores.ChoresMainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:alwaysRetainTaskState="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,6 +59,10 @@
         </activity>
         <activity
             android:name="il.ac.huji.chores.PushNotificationsHandlerActivity"
+            android:label="@string/title_activity_push_notifications_handler" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.LoginActivity"
             android:label="@string/title_activity_push_notifications_handler" >
         </activity>
         <service android:name="com.parse.PushService" />

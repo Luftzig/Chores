@@ -93,7 +93,12 @@ public class DALTestActivity extends Activity {
 	//ParseUser.logOut();
 		//String roommateID =RoommateDAL.createRoommateUser("newRoommate",
 		// "123123","roommate@gmail.com");
-		RoommateDAL.Login("newRoommate", "123123");
+		try {
+			RoommateDAL.Login("newRoommate", "123123");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	/*	try {
 			ApartmentDAL.addRoommateToApartment(aptId);
 		} catch (UserNotLoggedInException e2) {
@@ -149,6 +154,9 @@ public class DALTestActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DataNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

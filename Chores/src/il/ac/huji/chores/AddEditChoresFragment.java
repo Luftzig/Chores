@@ -109,16 +109,15 @@ public class AddEditChoresFragment extends Fragment {
 						R.string.new_chore_extra1_name));
 
 		if (requestCode == 1111 && resultCode == Activity.RESULT_OK) {
-			/*try {
+			try {
 
 				ChoreDAL.addChoreInfo(newChore);
 			} catch (FailedToAddChoreInfoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UserNotLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+				LoginActivity.OpenLoginScreen(getActivity());
+			}
 			//TODO:UPDATE SPECIFIC FIELDS
 		} else if (requestCode == 2222 && resultCode == Activity.RESULT_OK) {
 			try {
@@ -141,4 +140,5 @@ public class AddEditChoresFragment extends Fragment {
 		}
 
 	}
+	
 }

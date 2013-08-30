@@ -1,12 +1,18 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -161,8 +167,8 @@ public class ChoreCardFragment extends Fragment {
 
 				 @Override
 				 public void onClick(View v) {
-					 // TODO Auto-generated method stub
-
+					 //start alert dialog to choose the roommate.
+					 openChoreSuggestionDialog();
 				 }
 			 });
 		 }
@@ -178,7 +184,49 @@ public class ChoreCardFragment extends Fragment {
 		 }
 	 }
 	 
-	 //ask server to notify roomates about a change
+	 
+	 private void openChoreSuggestionDialog() {//TODO
+		 
+//		 List<String> roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+//		final  List<String> mSelectedItems = new ArrayList<String>();
+//
+//		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); 
+//
+//		 builder.setTitle(getResources().getString(R.string.chore_suggestion_dialog_title))
+//
+//		           .setMultiChoiceItems(R.array.toppings, null, new DialogInterface.OnMultiChoiceClickListener() {
+//		               @Override
+//		               public void onClick(DialogInterface dialog, int which,
+//		                       boolean isChecked) {
+//		                   if (isChecked) {
+//		                       // If the user checked the item, add it to the selected items
+//		                       mSelectedItems.add(which);
+//		                   } else if (mSelectedItems.contains(which)) {
+//		                       // Else, if the item is already in the array, remove it 
+//		                       mSelectedItems.remove(Integer.valueOf(which));
+//		                   }
+//		               }
+//		           })
+//		    // Set the action buttons
+//		           .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//		               @Override
+//		               public void onClick(DialogInterface dialog, int id) {
+//		                   // User clicked OK, so save the mSelectedItems results somewhere
+//		                   // or return them to the component that opened the dialog
+//		                   ...
+//		               }
+//		           })
+//		           .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//		               @Override
+//		               public void onClick(DialogInterface dialog, int id) {
+//		                   ...
+//		               }
+//		           });
+
+		
+	}
+
+	//ask server to notify roomates about a change
 	 private void notifyRoomate()
 	 {
 		 //TODO

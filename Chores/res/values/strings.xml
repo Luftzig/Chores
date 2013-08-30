@@ -112,6 +112,21 @@
     <string name="settings_reminder_hours_before_hint">2</string>
     <string name="settings_save_settings_button">Save</string>
     <string name="settings_cancel_button">Cancel</string>
-
-
+    <string name="chore_suggestion_dialog_title">Suggest chore</string>
+    <string name="chore_suggestion_dialog_text">Suggest chore to:</string>
+    <string name="chore_suggestion_dialog_ok_button">Suggest</string>
+    <string name="chore_suggestion_dialog_cancel_button">Cancel</string>
+    <string name="login_app_title">Chores</string>
+    <string name="login_login_button">Login</string>
+    <string name="login_signup_button">Signup</string>
+    <string name="login_username_title">Username</string>
+    <string name="login_password_title">Password</string>
+    <string name="login_password_verify_title">Re-enter password</string>
+    <string name="login_want_signup_text">Don\'t have a user?</string>
+    <string name="login_want_login_text">Already have a user?</string>
+    <string name="login_bad_password_msg">Verification failed.</string>
+    <string name="login_bad_login_msg">Login failed. Try again.</string>
+    <string name="login_bad_signup_msg">Signup failed. Try again.</string>
+    <string name="login_signup_username_exist_msg">Username exist. Try again.</string>
+	<string name="chores_connection_failed">Connection failed</string>
 </resources>

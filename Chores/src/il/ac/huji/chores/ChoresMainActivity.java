@@ -24,16 +24,16 @@ public class ChoresMainActivity extends Activity {
 
 			
 	        String apartmentId = null;
-	        try {
-	            apartmentId = RoommateDAL.getApartmentID();
-	        } catch (UserNotLoggedInException e) {
-	            // TODO login
-	        }
-	        if (apartmentId == null) {
-	            Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-	            startActivity(intent);
-	            // TODO should get the apartmentID from the returned activity
-	        }
+//	        try {
+//	            apartmentId = RoommateDAL.getApartmentID();
+//	        } catch (UserNotLoggedInException e) {
+//	            // TODO login
+//	        }
+//	        if (apartmentId == null) {
+//	            Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+//	            startActivity(intent);
+//	            // TODO should get the apartmentID from the returned activity
+//	        }
 	        // TODO remove this static login
 	        
 	 }
@@ -103,6 +103,5 @@ public class ChoresMainActivity extends Activity {
 	  		AlertDialog alert = builder.create();
 	  		alert.show();
 	  	}
-	 
-
+	  	
 }

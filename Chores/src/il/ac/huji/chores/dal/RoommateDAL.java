@@ -2,24 +2,21 @@ package il.ac.huji.chores.dal;
 
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
-import org.json.JSONArray;
-
 import android.util.Log;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import com.parse.*;
 
 public class RoommateDAL {
 
-	public static String Login(String username, String password) {
+	public static String Login(String username, String password) throws ParseException {
 		try {
 			ParseUser.logIn(username, password);
 			return ParseUser.getCurrentUser().getObjectId();
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 	
@@ -38,20 +35,18 @@ public class RoommateDAL {
 		
 	}
 	
-	public static String createRoommateUser(String username, String password,
-			String email) {
+	public static String createRoommateUser(String username, String password) throws ParseException {
 
 		ParseUser user = new ParseUser();
 		user.setUsername(username);
 		user.setPassword(password);
-		if (email != null)
-			user.setEmail(email);
+
 		try {
 			user.signUp();
 			return user.getObjectId();
 		} catch (ParseException e) {
 			Log.e("createRoommateUser", e.toString());
-			return null;
+			throw e;
 		}
 	}
 

@@ -1,6 +1,7 @@
 package il.ac.huji.chores;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
@@ -55,8 +56,8 @@ public class ApartmentChoresFragment extends Fragment {
 		try {
 			chores = ChoreDAL.getAllChores();
 		} catch (UserNotLoggedInException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			
+			LoginActivity.OpenLoginScreen(getActivity());
 		} catch (FailedToRetriveAllChoresException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -170,6 +171,8 @@ public class ApartmentChoresFragment extends Fragment {
      {
     	 return choreOwner.equals(userName);
      }
+	
+	
      
 }
 

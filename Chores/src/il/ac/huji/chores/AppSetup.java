@@ -6,6 +6,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.parse.Parse;
@@ -98,7 +99,7 @@ public class AppSetup {
         return instance;
     }
 
-    private String loginParse(){
+    private String loginParse() throws ParseException{
     	return RoommateDAL.Login(_username, _password);
     }
 
@@ -110,7 +111,10 @@ public class AppSetup {
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-		RoommateDAL.Login("anna", "anna123");
+//		RoommateDAL.Login("anna", "anna123");
+		
+		//start login activity (sign up inside)
+		LoginActivity.OpenLoginScreen(_ctx);
     	
     }
 }
