@@ -112,6 +112,8 @@ public class AppSetup {
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
 		
-    	
+		//start login activity (sign up inside)
+		LoginActivity.OpenLoginScreen(_ctx, true);
+		
     }
 }

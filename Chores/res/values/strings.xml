@@ -130,4 +130,7 @@
     <string name="login_bad_signup_msg">Signup failed. Try again.</string>
     <string name="login_signup_username_exist_msg">Username exist. Try again.</string>
 	<string name="chores_connection_failed">Connection failed</string>
+	
+	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
+	<string name="chore_card_suggest_chore_suggest_button">Seggest</string>
 </resources>

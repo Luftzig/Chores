@@ -57,7 +57,7 @@ public class ApartmentChoresFragment extends Fragment {
 			chores = ChoreDAL.getAllChores();
 		} catch (UserNotLoggedInException e1) {
 			
-			LoginActivity.OpenLoginScreen(getActivity());
+			LoginActivity.OpenLoginScreen(getActivity(), false);
 		} catch (FailedToRetriveAllChoresException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

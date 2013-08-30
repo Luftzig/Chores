@@ -116,14 +116,14 @@ public class AddEditChoresFragment extends Fragment {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UserNotLoggedInException e) {
-				LoginActivity.OpenLoginScreen(getActivity());
+				LoginActivity.OpenLoginScreen(getActivity(), false);
 			}
 			//TODO:UPDATE SPECIFIC FIELDS
 		} else if (requestCode == 2222 && resultCode == Activity.RESULT_OK) {
 			try {
 				ChoreDAL.addChoreInfo(newChore);
 			} catch (UserNotLoggedInException e) {
-				LoginActivity.OpenLoginScreen(getActivity());
+				LoginActivity.OpenLoginScreen(getActivity(), false);
 			} catch (FailedToAddChoreInfoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -3,6 +3,7 @@ package il.ac.huji.chores;
 import java.io.Serializable;
 
 import il.ac.huji.chores.dal.RoommateDAL;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 
