@@ -35,6 +35,9 @@ public class AppSetup {
         setupPushNotifications();
         setupActionBar();
         
+		//start login activity (sign up inside)
+		LoginActivity.OpenLoginScreen(_ctx, true);
+        
     }
     
     private void setupPushNotifications(){
@@ -111,9 +114,6 @@ public class AppSetup {
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-		
-		//start login activity (sign up inside)
-		LoginActivity.OpenLoginScreen(_ctx, true);
 		
     }
 }
