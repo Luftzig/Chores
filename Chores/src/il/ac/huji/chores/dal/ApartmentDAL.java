@@ -1,11 +1,13 @@
 package il.ac.huji.chores.dal;
 
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 import java.util.List;
 
 import org.json.JSONArray;
 
+import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.RoommatesApartment;
 
 import android.content.Context;
@@ -40,6 +42,10 @@ public class ApartmentDAL {
 			e.printStackTrace();
 			return null;
 		} 
+		
+		if(!addRoommateToApartment(ApartmentDAL.getApartmentID(apt.getName()))){
+			//TODO Do something ?
+		}
 
 		return apartment.getObjectId();
 	}
@@ -97,6 +103,15 @@ public class ApartmentDAL {
 			return false;
 		}
 		return true;
+	}
+	
+	public static List<String> getApartmentRoommatesNames(){
+		//TODO! tmp content
+		
+		List<String> roommates = new ArrayList<String>();
+		roommates.add("ssss");
+		roommates.add("bob");
+		return roommates;
 	}
 
 }

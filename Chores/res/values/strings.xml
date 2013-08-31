@@ -94,7 +94,7 @@
     <string name="new_chore_dialog_create_button_text">Create Chore</string>
     <string name="new_chore_dialog_cancel_button_text">Discard</string>
     <string name="card_activity_extra1_name">choreData</string>
-    <string name="card_activity_extra2_name">ownerOpen</string>
+    <string name="card_activity_extra2_name">curUser</string>
     <string name="title_activity_daltest">DALTestActivity</string>
     <string name="add_edit_chores_title">Add or edit chores</string>
     <string name="add_edit_chores_add_chore_button_title">Add chore</string>
@@ -113,8 +113,7 @@
     <string name="settings_reminder_hours_before_hint">2</string>
     <string name="settings_save_settings_button">Save</string>
     <string name="settings_cancel_button">Cancel</string>
-    <string name="chore_suggestion_dialog_title">Suggest chore</string>
-    <string name="chore_suggestion_dialog_text">Suggest chore to:</string>
+    <string name="chore_suggestion_dialog_title">Suggest chore to:</string>
     <string name="chore_suggestion_dialog_ok_button">Suggest</string>
     <string name="chore_suggestion_dialog_cancel_button">Cancel</string>
     <string name="login_app_title">Chores</string>
@@ -132,5 +131,5 @@
 	<string name="chores_connection_failed">Connection failed</string>
 	
 	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
-	<string name="chore_card_suggest_chore_suggest_button">Seggest</string>
+	<string name="chore_card_suggest_chore_suggest_button">Suggest</string>
 </resources>

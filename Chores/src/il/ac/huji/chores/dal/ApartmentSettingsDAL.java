@@ -26,7 +26,7 @@ public class ApartmentSettingsDAL{
 			}
 			result = query.find().get(0);
 		} catch (ParseException e) {
-			throw new FailedToGetApartmentSettings(e.toString());
+			throw new FailedToGetApartmentSettings(e.getMessage());
 		}
 		return convertObjectToSettings(result);
 	}

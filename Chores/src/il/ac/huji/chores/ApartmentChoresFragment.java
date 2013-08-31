@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.dummy.DummyChoreDAL;
 
 
 import java.util.Collections;
@@ -43,9 +44,25 @@ public class ApartmentChoresFragment extends Fragment {
 
      }
      
+     public String getCurUsername(){
+    	 if(_userName != null){
+    		 return _userName;
+    	 }
+    	 ParseUser user = ParseUser.getCurrentUser();
+		 if(user == null){
+    		//user isn't logged in
+			LoginActivity.OpenLoginScreen(getActivity(), false);
+			user = ParseUser.getCurrentUser();
+    	}
+
+		 return user.getUsername();
+    	
+     }
+     
      public void onCreate(Bundle savedInstanceState)
      {
          super.onActivityCreated(savedInstanceState);
+         
      }
 
      public void onActivityCreated (Bundle savedInstanceState)
@@ -78,18 +95,8 @@ public class ApartmentChoresFragment extends Fragment {
             	final Chore chore = (Chore) parent.getItemAtPosition(position);
             	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
             	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
-            	if(_userName == null){
-            		if(ParseUser.getCurrentUser() == null){
-            			try {
-							throw new UserNotLoggedInException("User is not logged in");
-						} catch (UserNotLoggedInException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-            		}
-            	_userName = ParseUser.getCurrentUser().getUsername();
-            	}
-            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , IsThisTheUser(chore.getAssignedTo(), _userName));
+            	_userName = getCurUsername();
+            	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , _userName);
             	startActivity(intent);
             }
         });
@@ -166,11 +173,6 @@ public class ApartmentChoresFragment extends Fragment {
 		Collections.sort(histChores, new DeadlineComparator());
 		return histChores.get(0).getId();
 	}
-
-	static private boolean IsThisTheUser(String choreOwner, String userName)
-     {
-    	 return choreOwner.equals(userName);
-     }
 	
 	
      
