@@ -3,6 +3,7 @@ package il.ac.huji.chores;
 import java.io.Serializable;
 
 import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -80,6 +81,9 @@ public class LoginFragment extends Fragment {
 						else{
 							msg.setText(getResources().getString(R.string.login_bad_signup_msg));
 						}
+					} catch (UserNotLoggedInException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}	
 				}
 				else{

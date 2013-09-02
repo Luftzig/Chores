@@ -18,6 +18,7 @@ import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.R;
 import il.ac.huji.chores.R.layout;
 import il.ac.huji.chores.R.menu;
+import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
 import android.os.Bundle;
 import android.app.Activity;
@@ -27,8 +28,11 @@ import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
+import il.ac.huji.chores.exceptions.FailedToGetChoreException;
+import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
 import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
+import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class DALTestActivity extends Activity {
@@ -45,6 +49,37 @@ public class DALTestActivity extends Activity {
 		defaultACL.setPublicWriteAccess(true);
 		
 		ParseACL.setDefaultACL(defaultACL, true);
+		
+		try {
+			Chore chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_DONE, null, null, null, 3);
+			chore.setChoreInfoId("8O1y3GOmK6");
+			ChoreDAL.addChore(chore);
+			chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_FUTURE, null, null, null, 5);
+			chore.setChoreInfoId("8O1y3GOmK6");
+			ChoreDAL.addChore(chore);
+			RoommateDAL.initRoommateCollectedCoins();
+			Roommate roommate = RoommateDAL.getRoommate("anna");
+			int dept=RoommateDAL.getRoommateDept("anna");
+			int coins =RoommateDAL.getRoommateCollectedCoins("anna");
+			RoommateDAL.increaseCoinsCollected(5);
+			roommate = RoommateDAL.getRoommate("anna");
+		} catch (UserNotLoggedInException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (FailedToGetRoommateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FailedToGetChoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FailedToSaveOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//RoommateDAL.Login("anna", "anna123");
 		/*RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("new apartment");

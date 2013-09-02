@@ -93,9 +93,9 @@ public class ApartmentDAL {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;
 		try {
-			String roommate = currentUser.getObjectId();
+			String roommate = currentUser.getUsername();
 			apartment = query.get(apartmentID);
-			apartment.add("Roommates", currentUser.getObjectId());
+			apartment.add("Roommates", currentUser.getUsername());
 			apartment.save();
 			RoommateDAL.addApartmentToRoommate(apartmentID);
 		} catch (ParseException e) {
