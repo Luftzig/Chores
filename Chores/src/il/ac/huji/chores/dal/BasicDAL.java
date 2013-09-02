@@ -29,21 +29,21 @@ public  class BasicDAL {
 		ParseACL defaultACL = new ParseACL();
 		ParseACL.setDefaultACL(defaultACL, true);
 		
-		//push notifications 
-		PushService.setDefaultPushCallback(context, PushNotificationsHandlerActivity.class);
-		ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-			
-			@Override
-			public void done(ParseException arg0) {
-				if(arg0 != null){
-					Log.e("exception", arg0.getStackTrace().toString());
-				}
-				else{
-					Log.e(" null", "nooooot");
-				}
-				
-			}
-		});
+//		//push notifications 
+//		PushService.setDefaultPushCallback(context, PushNotificationsHandlerActivity.class);
+//		ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+//			
+//			@Override
+//			public void done(ParseException arg0) {
+//				if(arg0 != null){
+//					Log.e("exception", arg0.getStackTrace().toString());
+//				}
+//				else{
+//					Log.e(" null", "nooooot");
+//				}
+//				
+//			}
+//		});
 		
 		roommateID = ParseUser.getCurrentUser().getObjectId();
 		 

@@ -19,6 +19,7 @@ public class ApartmentChore implements Chore {
 	private String statistics;
 	private int coinsNum;
 	private String id;
+	private String choreInfoId;
 
 	public ApartmentChore() {}
 	public ApartmentChore(String id, String name, String assignedTo,
@@ -144,6 +145,15 @@ public class ApartmentChore implements Chore {
 	@Override
 	public void setCoinsNum(int coinsNum) {
 		this.coinsNum = coinsNum;
+	}
+	@Override
+	public void setChoreInfoId(String id) {
+		this.choreInfoId = id;
+		
+	}
+	@Override
+	public String getChoreInfoId() {
+		return choreInfoId;
 	}
 
 }

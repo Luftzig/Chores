@@ -1,11 +1,13 @@
 package il.ac.huji.chores.dal;
 
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 import java.util.List;
 
 import org.json.JSONArray;
 
+import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.RoommatesApartment;
 
 import android.content.Context;
@@ -27,6 +29,10 @@ public class ApartmentDAL {
 					+ apt.getName() + "already exists");
 		}
 		ParseObject apartment = new ParseObject("Apartment");
+		ParseACL permissions = new ParseACL();
+		permissions.setPublicWriteAccess(true);
+		permissions.setPublicReadAccess(true);
+		apartment.setACL(permissions);
 		apartment.put("apartmentName", apt.getName());
 		apartment.add("Roommates", curreentUser.getObjectId());
 		
@@ -36,6 +42,10 @@ public class ApartmentDAL {
 			e.printStackTrace();
 			return null;
 		} 
+		
+		if(!addRoommateToApartment(ApartmentDAL.getApartmentID(apt.getName()))){
+			//TODO Do something ?
+		}
 
 		return apartment.getObjectId();
 	}
@@ -83,8 +93,9 @@ public class ApartmentDAL {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;
 		try {
+			String roommate = currentUser.getUsername();
 			apartment = query.get(apartmentID);
-			apartment.add("Roommates", currentUser.getObjectId());
+			apartment.add("Roommates", currentUser.getUsername());
 			apartment.save();
 			RoommateDAL.addApartmentToRoommate(apartmentID);
 		} catch (ParseException e) {
@@ -92,6 +103,15 @@ public class ApartmentDAL {
 			return false;
 		}
 		return true;
+	}
+	
+	public static List<String> getApartmentRoommatesNames(){
+		//TODO! tmp content
+		
+		List<String> roommates = new ArrayList<String>();
+		roommates.add("ssss");
+		roommates.add("bob");
+		return roommates;
 	}
 
 }

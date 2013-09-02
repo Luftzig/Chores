@@ -1,7 +1,10 @@
 package il.ac.huji.chores;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,4 +79,8 @@ public class MyChoresFragment extends Fragment {
 		super.onDetach();
 	}
 
+	//this will be called if there's a new ASSIGNED actions - new chores were assigned
+	protected void onNewIntent(Intent intent) {
+	
+	}
 }

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import com.parse.ParseUser;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -43,9 +45,11 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
         editButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ChoreCardActivity.class);
-                intent.putExtra(Constants.CHORE_CARD_OPEN, chore);
-                v.getContext().startActivity(intent);
+            	Context context = v.getContext();
+                Intent intent = new Intent(context, ChoreCardActivity.class);
+             	intent.putExtra(context.getResources().getString(R.string.card_activity_extra1_name) ,chore);
+            	intent.putExtra(context.getResources().getString(R.string.card_activity_extra2_name) , getCurUsername(context));
+                context.startActivity(intent);
             }
         });
         return view;
@@ -54,5 +58,16 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
     @Override
     public Chore getItem(int position) {
         return chores.get(position);
+    }
+    
+    public String getCurUsername(Context context){
+    	   
+      	 ParseUser user = ParseUser.getCurrentUser();
+   		 if(user == null){
+      		//user isn't logged in
+   			LoginActivity.OpenLoginScreen(context, false);
+   			user = ParseUser.getCurrentUser();
+      	}
+   		return user.getUsername();
     }
 }

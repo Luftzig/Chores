@@ -109,23 +109,21 @@ public class AddEditChoresFragment extends Fragment {
 						R.string.new_chore_extra1_name));
 
 		if (requestCode == 1111 && resultCode == Activity.RESULT_OK) {
-			/*try {
+			try {
 
 				ChoreDAL.addChoreInfo(newChore);
 			} catch (FailedToAddChoreInfoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UserNotLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+				LoginActivity.OpenLoginScreen(getActivity(), false);
+			}
 			//TODO:UPDATE SPECIFIC FIELDS
 		} else if (requestCode == 2222 && resultCode == Activity.RESULT_OK) {
 			try {
 				ChoreDAL.addChoreInfo(newChore);
 			} catch (UserNotLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LoginActivity.OpenLoginScreen(getActivity(), false);
 			} catch (FailedToAddChoreInfoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -141,4 +139,5 @@ public class AddEditChoresFragment extends Fragment {
 		}
 
 	}
+	
 }

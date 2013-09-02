@@ -6,6 +6,7 @@ import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.parse.Parse;
@@ -25,14 +26,37 @@ public class AppSetup {
 
     private AppSetup(Context ctx) {
         _ctx = ctx;
-        Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
+        //Parse.initialize(_ctx, _ctx.getResources().getString(R.string.parse_app_id), _ctx.getResources().getString(R.string.parse_client_key));
         Log.d("AppSetup", "Parse initialized");
         setupDAL();
         // loginParse();
-        //PushService.subscribe(_ctx, "", AppSetup.class);
-        //PushService.setDefaultPushCallback(_ctx, AppSetup.class);
+//        PushService.subscribe(_ctx, "", AppSetup.class);
+//        PushService.setDefaultPushCallback(_ctx, AppSetup.class);
+        setupPushNotifications();
         setupActionBar();
         
+		//start login activity (sign up inside)
+		LoginActivity.OpenLoginScreen(_ctx, true);
+        
+    }
+    
+    private void setupPushNotifications(){
+    	
+//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
+//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+//
+//    		@Override
+//    		public void done(ParseException arg0) {
+//    			if(arg0 != null){
+//    				Log.e("Exception", arg0.getStackTrace().toString());
+//    			}
+//    			else{
+//    				Log.e(" Null", "saveInBackground succeeded");
+//    			}
+//
+//    		}
+//    	});
     }
 
     private void setupActionBar() {
@@ -71,14 +95,14 @@ public class AppSetup {
 		
 	}
 
-	public static AppSetup getInstance(Context ctx) {
+    public static AppSetup getInstance(Context ctx) {
         if (instance == null) {
             instance = new AppSetup(ctx);
         }
         return instance;
     }
 
-    private String loginParse(){
+    private String loginParse() throws ParseException{
     	return RoommateDAL.Login(_username, _password);
     }
 
@@ -90,22 +114,6 @@ public class AppSetup {
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-		RoommateDAL.Login("anna", "anna123");
 		
-//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-//
-//			@Override
-//			public void done(ParseException arg0) {
-//				if(arg0 != null){
-//					Log.e("Exception", arg0.getStackTrace().toString());
-//				}
-//				else{
-//					Log.e(" Null", "saveInBackground succeeded");
-//				}
-//	
-//			}
-//		});
-    	
     }
 }

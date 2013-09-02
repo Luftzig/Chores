@@ -1,11 +1,25 @@
 package il.ac.huji.chores;
 
-import java.util.Calendar;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.dummy.DummyChoreDAL;
+import il.ac.huji.chores.exceptions.DataNotFoundException;
+import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,7 +45,9 @@ public class ChoreCardFragment extends Fragment {
 	  * and organiz UI accordingly (set right text in text view and buttons, removes buttons if needed).
 	  * ownerOpen - true if the the owner of this card is the one who opened the card. false otherwise.
 	  */
-	 public void OrganizeUIParts(Chore chore, boolean ownerOpen){
+	 public void OrganizeUIParts(Chore chore, String curUser){
+		
+		boolean ownerOpen = ((curUser.equals(chore.getAssignedTo())) ? (true) : (false));
 		 
 		 //set chore name
 		 TextView name = (TextView)getActivity().findViewById(R.id.card_chore_name);
@@ -73,17 +89,33 @@ public class ChoreCardFragment extends Fragment {
 		 
 		 Button leftButton = (Button)getActivity().findViewById(R.id.card_button_left);
 		 Button rightButton = (Button)getActivity().findViewById(R.id.card_button_right);
-
 		 
+		 //get roommates list
+		 List<String> roommatesList;
+		 //try {//TODO: return try-catch when dal function is written
+			 roommatesList = ApartmentDAL.getApartmentRoommatesNames();
+			 roommatesList.remove(chore.getAssignedTo());
+
+//		 } catch (UserNotLoggedInException e) {
+//			 LoginActivity.OpenLoginScreen(getActivity(), false);
+//			 return;
+//		 }
+
+		 //handle buttons
 		 if(beforeStartDate){ // can't do chore yet
 			 rightButton.setEnabled(false);
 			 rightButton.setVisibility(Button.GONE);
 			 
 			 if(ownerOpen) { //only suggest chore button
 				 
+				 if(roommatesList.size() == 0){
+					 return;
+				 }
+				 
 				 leftButton.setEnabled(true);
 				 leftButton.setVisibility(Button.VISIBLE);
 				 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));
+				 setListenersToCardButtons(null, leftButton, null, chore, curUser, roommatesList);
 			 }
 			 else{ // no buttons
 				 leftButton.setEnabled(false);
@@ -102,16 +134,28 @@ public class ChoreCardFragment extends Fragment {
 		 else{ // chore time
 			 
 			 if(ownerOpen) { // I'm done button, and suggest chore button
-				 
+				
 				 rightButton.setEnabled(true);
 				 rightButton.setVisibility(Button.VISIBLE);
 				 rightButton.setText(getResources().getString(R.string.button_done_text));
+
+				 if(roommatesList.size() != 0){
+					 leftButton.setEnabled(true);
+					 leftButton.setVisibility(Button.VISIBLE);
+					 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));
+					 
+				 }
+				 else{
+					 leftButton.setEnabled(false);
+					 leftButton.setVisibility(Button.GONE);
+					 leftButton = null;
+				 }
+				 setListenersToCardButtons(rightButton, leftButton, null, chore, curUser, roommatesList);
 				 
-				 leftButton.setEnabled(true);
-				 leftButton.setVisibility(Button.VISIBLE);
-				 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));
 			 }
 			 else{ // steal chore button
+				 
+
 				 
 				 rightButton.setEnabled(false);
 				 rightButton.setVisibility(Button.GONE);
@@ -119,9 +163,121 @@ public class ChoreCardFragment extends Fragment {
 				 leftButton.setEnabled(true);
 				 leftButton.setVisibility(Button.VISIBLE);
 				 leftButton.setText(getResources().getString(R.string.button_stealchore_text));
+				 
+				 setListenersToCardButtons(null, null, leftButton, chore, curUser, roommatesList);
+				 
 			 }
 		 }
 	 }
+	 
+	 // Sets button listeners to the steal chore, done chore, and suggest chore buttons.
+	 //The function's arguments are the buttons, or null if the button shouldn't have any functionality.
+	 //roommates - a list of the user roommates. needed only for chore suggestion.
+	 private void setListenersToCardButtons(Button doneButton, Button suggestButton, Button StealButton, final Chore chore, final String curUser, final List<String> roommates){
+		
+
+		 if(doneButton != null){
+			 doneButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// update chore status to done
+					try {
+						ChoreDAL.updateChoreStatus(chore.getId(), CHORE_STATUS.STATUS_DONE);
+	
+						MessagesToServer.notifyRoomates(roommates, "DONE", chore.getId());
+					} catch (FailedToUpdateStatusException e) {
+						// TODO (shani) decide what to do
+					}
+					getActivity().finish();
+				}
+			});
+		 }
+		 if(suggestButton != null){
+			 suggestButton.setOnClickListener(new OnClickListener() {
+
+				 @Override
+				 public void onClick(View v) {
+					 //start alert dialog to choose the roommate.
+					 
+					 openChoreSuggestionDialog(chore, roommates);
+				 }
+			 });
+
+		 }
+		 if(StealButton != null){
+			 StealButton.setOnClickListener(new OnClickListener() {
+
+				 @Override
+				 public void onClick(View v) {
+					 
+					 try {
+						String oldOwner = chore.getAssignedTo();// This line should be before the stealing.
+						ChoreDAL.stealChore(chore.getId(), curUser);
+						List<String> list = new ArrayList<String>();
+						list.add(oldOwner);
+						MessagesToServer.notifyRoomates(list , "STEAL", chore.getId());
+					} catch (UserNotLoggedInException e) {
+						LoginActivity.OpenLoginScreen(getActivity(), false);
+						e.printStackTrace();
+					} catch (DataNotFoundException e) {
+						// TODO decide what to do
+					}
+					 getActivity().finish();
+				 }
+			 });
+		 }
+	 }
+	 
+	 
+	 /*
+	  * chore id - the id of the chore object to suggest.
+	  */
+	 private void openChoreSuggestionDialog(final Chore chore, final List<String> roommatesList) {
+		 				
+		 final String[] roommates = roommatesList.toArray(new String[0]);
+		 
+		final List<String> selectedItems = new ArrayList<String>();
+
+		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); 
+
+		 builder.setTitle(getResources().getString(R.string.chore_suggestion_dialog_title))
+
+		           .setMultiChoiceItems((String[])roommates, null, new DialogInterface.OnMultiChoiceClickListener() {
+		               @Override
+		               public void onClick(DialogInterface dialog, int position,
+		                       boolean isChecked) {
+		                   if (isChecked) {
+		                       // add if item is not in the list
+		                       selectedItems.add(roommates[position]);
+		                   } else if (selectedItems.contains(roommates[position])) {
+		                       // remove if item is in the list and isn't checked
+		                       selectedItems.remove(roommates[position]);
+		                   }
+		               }
+		           })
+		
+		           .setPositiveButton(R.string.chore_card_suggest_chore_suggest_button, new DialogInterface.OnClickListener() {
+		               @Override
+		               public void onClick(DialogInterface dialog, int id) {
+		            	   
+		            	   
+		            	   MessagesToServer.notifyRoomates(selectedItems, "SUGGEST", chore.getId());
+							 getActivity().finish();
+		               }
+		           })
+		           .setNegativeButton(R.string.chore_card_suggest_chore_cancel_button, new DialogInterface.OnClickListener() {
+		               @Override
+		               public void onClick(DialogInterface dialog, int id) {
+		                   getActivity().finish();
+		                   return;
+		               }
+		           });
+		 builder.show();
+		
+	}
+
+
 
 }
 
