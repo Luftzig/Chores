@@ -64,11 +64,12 @@ public class MyChoresFragment extends Fragment {
         super.onResume();
         if (adapter != null) {
             try {
-                chores = ChoreDAL.getRoommatesChores();
-                Log.d("MyChoresFragment", "chores list size == " + chores.size());
+                adapter.clear();
+                adapter.addAll(ChoreDAL.getRoommatesChores());
+                Log.d("MyChoresFragment", "chores list size == " + adapter.getCount());
                 adapter.notifyDataSetChanged();
             } catch (UserNotLoggedInException e) {
-                // Ignore
+                LoginActivity.OpenLoginScreen(getActivity(), false);
             }
         }
     }

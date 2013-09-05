@@ -25,7 +25,14 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
 
     public MyChoresListAdapter(Context context, List<Chore> chores) {
         super(context, R.layout.my_chores_list_row);
-        Collection<Chore> filtered = Collections2.filter(chores, new Predicate<Chore>() {
+        Log.d("MyChoresListAdapter", "Created with " + chores.size() + " chores");
+    }
+
+    @Override
+    public void addAll(Collection<? extends Chore> collection) {
+        if (collection == null)
+            return;
+        Collection<? extends Chore> filtered = Collections2.filter(collection, new Predicate<Chore>() {
             @Override
             public boolean apply(@Nullable Chore chore) {
                 if (chore.getStatus() == Chore.CHORE_STATUS.STATUS_DONE)
@@ -33,8 +40,7 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
                 return true;
             }
         });
-        addAll(filtered);
-        Log.d("MyChoresListAdapter", "Created with " + chores.size() + " chores");
+        super.addAll(filtered);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Override
@@ -43,7 +49,18 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
         final Chore chore = getItem(position);
         Log.d("MyChoresListAdapter", "chore " + chore);
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.my_chores_list_row, null);
+        View view;
+        switch (chore.getStatus()) {
+            case STATUS_FUTURE:
+                view = inflater.inflate(R.layout.my_chores_list_row_future, null);
+                break;
+            case STATUS_MISS:
+                view = inflater.inflate(R.layout.my_chores_list_row_miss, null);
+                break;
+            default:
+                view = inflater.inflate(R.layout.my_chores_list_row_future, null);
+                Log.w("MyChoresListAdapter", "Chore status was not FUTURE or MISS but " + chore.getStatus());
+        }
         TextView choreTitle = (TextView) view.findViewById(R.id.myChoresRowTitle);
         TextView choreDueDate = (TextView) view.findViewById(R.id.myChoresRowDueDate);
 

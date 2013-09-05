@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myChoresRowLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/apartment_table_row__height"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/myChoresRowTitle"
+        style="@style/ChoreFuture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/myChoresRowDueDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/font_14px" />
+	
+	<!-- Pencil from: http://www.visualpharm.com -->
+
+    <ImageButton
+        android:id="@+id/myChoresRowEditButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:contentDescription="http://www.visualpharm.com"
+        android:maxHeight="@dimen/aartment_buttons_height"
+        android:maxWidth="@dimen/aartment_buttons_height"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pencil_32px" />
+
+</LinearLayout>
