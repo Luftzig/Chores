@@ -61,6 +61,14 @@
             android:name="il.ac.huji.chores.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name="il.ac.huji.chores.AddEditChoresActivity"
+            android:label="@string/title_add_edit_chores" >
+        </activity>
+        <activity
+            android:name="il.ac.huji.chores.NewChoreDialogActivity"
+            android:label="@string/title_add_edit_chores" >
+        </activity>
         <service android:name="com.parse.PushService" />
 		<receiver android:name="com.parse.ParseBroadcastReceiver">
   			<intent-filter>

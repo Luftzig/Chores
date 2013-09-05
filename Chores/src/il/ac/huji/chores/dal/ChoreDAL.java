@@ -1,27 +1,16 @@
 package il.ac.huji.chores.dal;
 
-import android.util.Log;
-
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
+import il.ac.huji.chores.ApartmentChore;
+import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
+import il.ac.huji.chores.ChoreInfoInstance;
+import il.ac.huji.chores.exceptions.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import il.ac.huji.chores.*;
-import il.ac.huji.chores.Chore.CHORE_STATUS;
-import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
-import il.ac.huji.chores.exceptions.DataNotFoundException;
-import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
-import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
-import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
-import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
-import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class ChoreDAL {
 
@@ -203,15 +192,16 @@ public class ChoreDAL {
 
 	public static List<Chore> getRoommatesChores()
 			throws UserNotLoggedInException {
-		String roomateID = RoommateDAL.getUserID();
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
-		query.whereEqualTo("assignedTo", roomateID);
-		List<ParseObject> parseChores;
-		List<Chore> chores = new ArrayList<Chore>();
+        List<Chore> chores;
+        List<ParseObject> parseChores;
 		try {
+            String username = ParseUser.getCurrentUser().getUsername();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+            query.whereEqualTo("assignedTo", username);
+            chores = new ArrayList<Chore>();
 			parseChores = query.find();
 		} catch (ParseException e) {
-			return chores;
+            throw new UserNotLoggedInException("User not logged in");
 		}
 		for (ParseObject chore : parseChores) {
 			chores.add(convertParseObjectToChore(chore));

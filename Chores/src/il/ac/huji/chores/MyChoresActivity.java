@@ -1,14 +1,7 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.dal.ApartmentDAL;
-import il.ac.huji.chores.dal.RoommateDAL;
-import il.ac.huji.chores.exceptions.UserNotLoggedInException;
-
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class MyChoresActivity extends Activity {
@@ -18,8 +11,6 @@ public class MyChoresActivity extends Activity {
         super.onCreate(savedInstanceState);
         //AppSetup setup = AppSetup.getInstance((Context) this);
         setContentView(R.layout.activity_my_chores);
-
-       
     }
 
     @Override

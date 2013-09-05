@@ -1,20 +1,8 @@
 package il.ac.huji.chores;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import il.ac.huji.chores.dal.ChoreDAL;
-import il.ac.huji.chores.dal.RoommateDAL;
-import il.ac.huji.chores.dummy.DummyChoreDAL;
-
-
-import java.util.Collections;
-import java.util.List;
-
-import com.parse.ParseUser;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import il.ac.huji.chores.exceptions.*;
+import com.parse.ParseUser;
+import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
+import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
+import java.util.Collections;
+import java.util.List;
 public class ApartmentChoresFragment extends Fragment {
     
     private ArrayAdapter<Chore> _adapter;
@@ -160,12 +155,10 @@ public class ApartmentChoresFragment extends Fragment {
 				//check what is the current oldest chore
 			}
 		 });
-         
      }
      
      //check what chore is the oldest (deadline-wise) from a given list.
     private String checkOldestChoreInList(List<Chore> histChores) {
-    	
     	if(histChores.size() == 0){
     		return null;
     	}
@@ -173,8 +166,5 @@ public class ApartmentChoresFragment extends Fragment {
 		Collections.sort(histChores, new DeadlineComparator());
 		return histChores.get(0).getId();
 	}
-	
-	
-     
 }
 
