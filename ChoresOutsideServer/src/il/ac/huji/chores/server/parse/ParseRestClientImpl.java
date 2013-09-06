@@ -5,6 +5,7 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
 public class ParseRestClientImpl implements ParseRestClient {
     @Override
     public List<Roommate> getApartmentRoommates(String apartmentId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new ArrayList<Roommate>();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
