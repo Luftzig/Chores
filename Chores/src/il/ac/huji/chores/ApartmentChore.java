@@ -28,7 +28,6 @@ public class ApartmentChore implements Chore {
 
 		this.id = id;
 		this.name = name;
-		;
 		this.assignedTo = assignedTo;
 		this.startsFrom = startsFrom;
 		this.deadline = deadline;
@@ -39,7 +38,14 @@ public class ApartmentChore implements Chore {
 		this.coinsNum = coinsNum;
 	}
 
-	public String getName() {
+    public ApartmentChore(String name, Date startsFrom, Date deadline, int coinsNum) {
+        this.name = name;
+        this.startsFrom = startsFrom;
+        this.deadline = deadline;
+        this.coinsNum = coinsNum;
+    }
+
+    public String getName() {
 		return name;
 	}
 

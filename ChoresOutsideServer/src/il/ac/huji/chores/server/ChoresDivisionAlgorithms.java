@@ -1,5 +1,7 @@
 package il.ac.huji.chores.server;
 
+import il.ac.huji.chores.Chore;
+
 import java.util.List;
 
 
@@ -10,7 +12,7 @@ public class ChoresDivisionAlgorithms {
 	 * according to the random algorithm.
 	 */
 	public static void assignChores(List<Chore> chores){
-		
+
 	}
 
 }
