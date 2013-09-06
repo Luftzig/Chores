@@ -149,4 +149,9 @@ public class ChoresDivisionAlgorithms {
 		return chores;
 	}
 
+	public static List<Chore> scheduleChores(String aptId) {
+		// TODO Auto-generated method stub
+		return new ArrayList<Chore>();
+	}
+
 }
