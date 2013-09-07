@@ -3,6 +3,7 @@
 	<name>ChoresOutsideServer</name>
 	<comment></comment>
 	<projects>
+		<project>Chores</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
