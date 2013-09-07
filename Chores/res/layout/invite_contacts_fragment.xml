@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dialog_questions_margin"
+            android:layout_marginTop="@dimen/dialog_questions_margin"
+            android:orientation="vertical" >
+
+        <TextView
+                android:id="@+id/newApartmentInviteRoommatesPrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_apartment_invite_roommates_prompt"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/inviteContactsInvitedLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+    </LinearLayout>
+
+    <AutoCompleteTextView
+            android:id="@+id/inviteContactsEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/new_apartment_dialog_invite_autocomplete_prompt"
+            android:imeActionLabel="@string/new_apartment_dialog_invite_button_text"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:textAllCaps="true" />
+
+    <Button
+            android:id="@+id/inviteContactsInviteButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/new_apartment_dialog_invite_button_text" />
+
+</LinearLayout>

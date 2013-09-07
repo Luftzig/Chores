@@ -12,7 +12,7 @@
          android:id="@+id/ApartmentSettingsFragment"
          android:name="il.ac.huji.chores.ApartmentSettingsFragment"
          android:layout_width="fill_parent"
-         android:layout_height="120dp"
+         android:layout_height="fill_parent"
          android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

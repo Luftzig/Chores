@@ -7,6 +7,8 @@ public class Constants {
     public static final String PARSE_DONE_CHANNEL_KEY="DONE";
 	public static final String PARSE_NEW_CHORES_CHANNEL_KEY="ASSIGNED";
 
+    public static final String PARSE_FUNCTIONS_URL = "https://api.parse.com/1/functions/";
+
     public enum ChoreDivideDay { 
         SUNDAY, MONDAY, TUESDAY, WEDENSDAY,
         THURSDAY, FRIDAY, SATURDAY; 
