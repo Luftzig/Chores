@@ -5,7 +5,6 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,9 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -46,7 +42,6 @@ public class ParseRestClientImpl implements ParseRestClient {
     	JSONArray jsonArr = resultJson.getJSONArray("results");
     	List<Roommate> roommates = JsonConverter.convertArrToRoommatesList(jsonArr);
     	return roommates;
-    	
     }
 
     @Override
