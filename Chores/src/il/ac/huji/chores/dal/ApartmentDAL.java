@@ -35,6 +35,8 @@ public class ApartmentDAL {
 		apartment.setACL(permissions);
 		apartment.put("apartmentName", apt.getName());
 		apartment.add("Roommates", curreentUser.getObjectId());
+		apartment.put("divisionDay", apt.getDivisionDay());
+		apartment.put("frequency", apt.getDivisionFrequency());
 		
 		try {
 			apartment.save();

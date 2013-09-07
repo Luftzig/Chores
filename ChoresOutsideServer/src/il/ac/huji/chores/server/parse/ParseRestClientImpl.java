@@ -72,7 +72,7 @@ public class ParseRestClientImpl implements ParseRestClient {
     public List<ChoreInfo> getApartmentChoreInfos(String apartmentId) throws ClientProtocolException, IOException {
         Map<String,String> whereConditionsMap = new HashMap<String, String>();
         whereConditionsMap.put("apartment", apartmentId);
-        String result = QueryWhere("ChoreInfo",whereConditionsMap);
+        String result = QueryWhere("ChoresInfo",whereConditionsMap);
         System.out.println("result = "+result);
         JSONObject resultJson = new JSONObject(result);
     	JSONArray jsonArr = resultJson.getJSONArray("results");

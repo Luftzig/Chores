@@ -1,12 +1,14 @@
 package il.ac.huji.chores.server.parse;
-
+import java.util.regex.*;
 import il.ac.huji.chores.Apartment;
+import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +27,22 @@ public class JsonConverter {
 		StringBuilder json = new StringBuilder();
 		json.append("where=");
 		json.append(URLEncoder.encode(whereCond.toString()));
-	/*	Set<Entry<String,String>> whereSet=whereParams.entrySet();
-		for(Entry<String,String> entry: whereSet){
-			json.append(entry.getKey(), entry.getValue());
-		}*/
 		return json.toString();
 	}
 
+	public static String convertChoreToJson(Chore chore){
+		JSONObject json = new JSONObject();
+		json.put("name", chore.getName());
+		json.put("status", chore.getStatus().toString());
+		SimpleDateFormat format = new SimpleDateFormat("Z");
+		json.put("startsFrom",chore.getStartsFrom().getTime());
+		json.put("deadline",chore.getDeadline().getTime());
+		json.put("coins", chore.getCoinsNum());
+		json.put("choreInfoId", chore.getChoreInfoId());
+		json.put("apartment",chore.getApartment());
+		json.put("assignedTo",chore.getAssignedTo());
+		return json.toString();
+	}
 	public static RoommatesApartment convertJsonToApartment(JSONObject obj) {
 		RoommatesApartment apt = new RoommatesApartment();
 		List<String> roommates = obj.getJSONArray("Roommates").getStringList();

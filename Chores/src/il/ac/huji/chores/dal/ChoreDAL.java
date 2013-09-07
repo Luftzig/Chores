@@ -10,6 +10,7 @@ import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChoreDAL {
@@ -167,9 +168,9 @@ public class ChoreDAL {
 		chore.setId(obj.getObjectId());
 		chore.setAssignedTo(obj.getString("assignedTo"));
 		chore.setCoinsNum(obj.getInt("coins"));
-		chore.setDeadline(obj.getDate("deadline"));
+		chore.setDeadline(new Date(obj.getLong("deadline")));
 		chore.setName(obj.getString("name"));
-		chore.setStartsFrom(obj.getDate("startsFrom"));
+		chore.setStartsFrom(new Date(obj.getLong("startsFrom")));
 		String choreStatus = obj.getString("status");
 		chore.setStatus(CHORE_STATUS.valueOf(choreStatus));
 		return chore;
@@ -182,8 +183,8 @@ public class ChoreDAL {
 		choreObj.put("apartment", apartment);
 		choreObj.put("coins", chore.getCoinsNum());
 		choreObj.put("name", chore.getName());
-		choreObj.put("startsFrom", chore.getStartsFrom());
-		choreObj.put("deadline", chore.getDeadline());
+		choreObj.put("startsFrom", chore.getStartsFrom().getTime());
+		choreObj.put("deadline", chore.getDeadline().getTime());
 		choreObj.put("status", chore.getStatus().toString());
 		choreObj.put("choreInfoId", chore.getChoreInfoId());
 		choreObj.save();
