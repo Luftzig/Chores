@@ -9,10 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
+import com.parse.FunctionCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 
@@ -48,17 +47,29 @@ public class InviteContactsFragment extends Fragment {
                 ContactsCursorAdapter adapter = (ContactsCursorAdapter) inviteEdit.getAdapter();
 
                 Log.d("InviteContactsFragment", "Selection: " + adapter.getPhones(adapter.getCursor()));
-                final TextView nameView = new TextView(getActivity());
+                LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
+                final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
+                TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
                 String phone = adapter.getPhones(adapter.getCursor());
-                MessagesToServer.callFunction("invite", new ASyncListener() {
+                MessagesToServer.invite(new FunctionCallback() {
                     @Override
-                    public void onASyncComplete(String result) {
-                        Log.d("InviteContactsFragment", "Called from listener!");
+                    public void done(Object o, ParseException e) {
+                        ImageButton image = (ImageButton) rowView.findViewById(R.id.contactRowImageButton);
+                        Log.d("InviteContactsFragment", "Got response from Parse " + e);
+                        (rowView.findViewById(R.id.contactRowProgress)).setVisibility(View.INVISIBLE);
+                        if (e == null) {
+                            image.setImageResource(R.drawable.navigation_accept);
+                        } else {
+                            image.setImageResource(R.drawable.navigation_cancel);
+                        }
+                        image.setVisibility(View.VISIBLE);
+                        image.refreshDrawableState();
                     }
-                }, getActivity(), "\"phone\" = \"" + phone + "\"", "\"name\" = \"" + contactName + "\"");
+                }, contactName, phone);
                 nameView.setText(contactName);
                 nameView.setId(invitedIds++);
-                invitedLayout.addView(nameView);
+                rowView.refreshDrawableState();
+                // invitedLayout.addView(rowView);
                 inviteEdit.setText("");
             }
         });
