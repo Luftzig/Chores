@@ -132,5 +132,5 @@
 	<string name="chores_connection_failed">Connection failed</string>
 	
 	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
-	<string name="chore_card_suggest_chore_suggest_button">Suggest</string>
+	<string name="chore_card_suggest_chore_suggest_button">Suggest</string><string name="login_ask_for_phone_msg">Enter your phone number</string>
 </resources>

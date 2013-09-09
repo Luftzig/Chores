@@ -1,8 +1,10 @@
 package il.ac.huji.chores;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -120,6 +122,8 @@ public class LoginFragment extends Fragment {
                 Button button = (Button) (getActivity().findViewById(R.id.loginFragment_loginButton));
                 TextView changePurposeTxt = (TextView) (getActivity().findViewById(R.id.LoginFragment_changeScreenPurposeText));
                 Button changePurposeButton = (Button) (getActivity().findViewById(R.id.LoginFragment_changeScreenPurposeButton));
+                TextView enterPhoneMsg = (TextView) getActivity().findViewById(R.id.loginFragmentPhoneMsg);
+                EditText phoneEdit = (EditText) getActivity().findViewById(R.id.loginFragmentPhoneEdit);
 
                 if (isLogin[0] == true) {
                     //turn to sign-up
@@ -130,6 +134,11 @@ public class LoginFragment extends Fragment {
                     verifyPwButton.setVisibility(View.VISIBLE);
                     verifyPwButton.setEnabled(true);
 
+                    enterPhoneMsg.setVisibility(View.VISIBLE);
+                    phoneEdit.setVisibility(View.VISIBLE);
+                    String userPhoneNumber = findUserPhoneNumber();
+                    // TODO add permissions!
+                    phoneEdit.setText(userPhoneNumber != null ? userPhoneNumber : "");
 
                     button.setText(getResources().getString(R.string.login_signup_button));
 
@@ -166,6 +175,8 @@ public class LoginFragment extends Fragment {
                 ContactsContract.Profile.LOOKUP_KEY,
                 ContactsContract.Profile.HAS_PHONE_NUMBER
         };
-        return "";
+        TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        String number = telephonyManager.getLine1Number();
+        return number;
     }
 }

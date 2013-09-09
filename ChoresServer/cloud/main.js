@@ -17,7 +17,7 @@ Parse.Cloud.define("test", function(request, response) {
 
 Parse.Cloud.define("invite", function(request, response) {
     var user = request.user, name = request.params.name, 
-        phone = request.params.phone, email = request.params.email;
+        phone = request.params.phone;
     var queryPhone = new Parse.Query(Parse.User);
     if (phone != null && phone !== undefined && phone != "") {
         queryPhone.equalTo("phone", phone);

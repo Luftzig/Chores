@@ -17,7 +17,6 @@ public class LoginActivity extends Activity {
 	
 
 	public static void OpenLoginScreen(Context context, boolean appSetup){
-
 		Intent intent = new Intent(context, LoginActivity.class);
 		if(appSetup)
 		{

@@ -90,6 +90,23 @@
         android:visibility="invisible"
         android:enabled="false"  />
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_ask_for_phone_msg"
+            android:id="@+id/loginFragmentPhoneMsg"
+            android:visibility="invisible"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginFragmentPhoneEdit"
+            android:singleLine="false"
+            android:visibility="invisible"
+            android:editable="true"
+            android:enabled="true"
+            android:inputType="phone"/>
+
     <Button
         android:id="@+id/loginFragment_loginButton"
         android:layout_width="246dp"
