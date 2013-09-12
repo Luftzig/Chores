@@ -34,6 +34,11 @@ public interface ParseRestClient {
      * @throws ClientProtocolException 
      */
     public List<RoommatesApartment> getApartmentList() throws ClientProtocolException, IOException;
+    
+    /**
+     * @return all apartments on Parse, whose division day is day.
+     */
+    public List<RoommatesApartment> getTodaysApartmentList(String day);
 
     /**
      *

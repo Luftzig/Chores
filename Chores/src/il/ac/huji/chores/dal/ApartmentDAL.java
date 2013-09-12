@@ -37,7 +37,7 @@ public class ApartmentDAL {
 		apartment.add("Roommates", curreentUser.getObjectId());
 		apartment.put("divisionDay", apt.getDivisionDay());
 		apartment.put("frequency", apt.getDivisionFrequency());
-		
+		apartment.put("lastDivision", 0);		
 		try {
 			apartment.save();
 		} catch (ParseException e) {

@@ -176,4 +176,10 @@ public class ParseRestClientImpl implements ParseRestClient {
 		return JsonConverter.whereConditionToJson(keyValue);
 
 	}
+
+	@Override
+	public List<RoommatesApartment> getTodaysApartmentList(String day) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
