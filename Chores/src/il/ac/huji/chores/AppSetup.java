@@ -42,23 +42,21 @@ public class AppSetup {
     
     private void setupPushNotifications(){
     	
-    	//PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-    	ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-    	installation.put("username", ParseUser.getCurrentUser().getUsername());
-    	installation.saveInBackground(new SaveCallback() {
-
-    		@Override
-    		public void done(ParseException arg0) {
-    			if(arg0 != null){
-    				Log.e("Exception", arg0.getStackTrace().toString());
-    			}
-    			else{
-    				Log.e(" Null", "saveInBackground succeeded");
-    			}
-
-    		}
-    	});
+//    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
+//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+//
+//    		@Override
+//    		public void done(ParseException arg0) {
+//    			if(arg0 != null){
+//    				Log.e("Exception", arg0.getStackTrace().toString());
+//    			}
+//    			else{
+//    				Log.e(" Null", "saveInBackground succeeded");
+//    			}
+//
+//    		}
+//    	});
     }
 
     private void setupActionBar() {

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,5 +188,23 @@ public class ParseRestClientImpl implements ParseRestClient {
 	    	JSONArray jsonArr = resultJson.getJSONArray("results");
 	        List<RoommatesApartment> apartments = JsonConverter.convertJsonArrayToApartmentList(jsonArr);
 	        return apartments;
+	}
+
+
+	@Override
+	public void addChores(List<Chore> chores) throws ClientProtocolException, IOException {
+		
+		for(int i=0; i< chores.size(); i++){
+			
+			String jsonChore = JsonConverter.convertChoreToJson(chores.get(i)).toString();
+			addChore(jsonChore);
+		}
+		
+	}
+
+	@Override
+	public void updateApartmentLastDivision(String apartmentId, Date today) {
+		// TODO Auto-generated method stub
+		
 	}
 }
