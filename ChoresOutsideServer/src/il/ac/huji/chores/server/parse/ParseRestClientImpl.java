@@ -178,8 +178,14 @@ public class ParseRestClientImpl implements ParseRestClient {
 	}
 
 	@Override
-	public List<RoommatesApartment> getTodaysApartmentList(String day) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RoommatesApartment> getTodaysApartmentList(String day) throws ClientProtocolException, IOException {
+		 Map<String,String> whereConditionsMap = new HashMap<String, String>();
+	        whereConditionsMap.put("divisionDay", day);
+	        String result = QueryWhere("Apartment",whereConditionsMap);
+	        System.out.println("result = "+result);
+	        JSONObject resultJson = new JSONObject(result);
+	    	JSONArray jsonArr = resultJson.getJSONArray("results");
+	        List<RoommatesApartment> apartments = JsonConverter.convertJsonArrayToApartmentList(jsonArr);
+	        return apartments;
 	}
 }

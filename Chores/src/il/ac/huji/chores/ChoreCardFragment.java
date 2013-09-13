@@ -91,9 +91,15 @@ public class ChoreCardFragment extends Fragment {
 		 Button rightButton = (Button)getActivity().findViewById(R.id.card_button_right);
 		 
 		 //get roommates list
-		 List<String> roommatesList;
+		 List<String> roommatesList=new ArrayList<String>();
 		 //try {//TODO: return try-catch when dal function is written
-			 roommatesList = ApartmentDAL.getApartmentRoommatesNames();
+		 	
+			 try {
+				roommatesList = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+			} catch (UserNotLoggedInException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 roommatesList.remove(chore.getAssignedTo());
 
 //		 } catch (UserNotLoggedInException e) {

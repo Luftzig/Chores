@@ -9,7 +9,7 @@ public class ApartmentChore implements Chore {
 
 	private static final long serialVersionUID = 1L; // implements Serializable
 	private String name;
-
+	private String apartment;
 	private String assignedTo;
 	private Date startsFrom;
 	private Date deadline;
@@ -160,6 +160,10 @@ public class ApartmentChore implements Chore {
 	@Override
 	public String getChoreInfoId() {
 		return choreInfoId;
+	}
+	@Override
+	public String getApartment() {
+		return apartment;
 	}
 
 }

@@ -106,14 +106,5 @@ public class ApartmentDAL {
 		}
 		return true;
 	}
-	
-	public static List<String> getApartmentRoommatesNames(){
-		//TODO! tmp content
-		
-		List<String> roommates = new ArrayList<String>();
-		roommates.add("ssss");
-		roommates.add("bob");
-		return roommates;
-	}
 
 }
