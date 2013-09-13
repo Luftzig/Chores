@@ -12,6 +12,7 @@ public interface Chore extends Serializable{
 	}
 	public void setChoreInfoId(String id);
 	
+	public void setApartment(String apartmentId);
 	public String getChoreInfoId();
 	
 	/*

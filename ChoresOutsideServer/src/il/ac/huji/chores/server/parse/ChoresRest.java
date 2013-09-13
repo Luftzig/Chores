@@ -40,7 +40,7 @@ public class ChoresRest {
 		for(ChoreInfo choreInfo :choreInfoList){
 			System.out.println("Scheduling chore :"+choreInfo.getName());
 			try {
-				scheduleChore(choreInfo,currentDate);
+				scheduleChore(choreInfo,currentDate,apartment);
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
@@ -52,7 +52,7 @@ public class ChoresRest {
 		}
 	}
 	
-	private static void scheduleChore(ChoreInfo choreInfo, Date currentDate) throws ClientProtocolException, IOException{
+	private static void scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
 		Chore chore = new ApartmentChore();
 		chore.setChoreInfoId(choreInfo.getChoreInfoID());
 		chore.setCoinsNum(choreInfo.getCoinsNum());
@@ -60,6 +60,7 @@ public class ChoresRest {
 		chore.setStartsFrom(currentDate);
 		Date deadline = calculateDeadline(choreInfo,currentDate);
 		chore.setDeadline(deadline);
+		chore.setApartment(apartment);
 		chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
 		
 		ParseRestClientImpl parse = new ParseRestClientImpl();

@@ -165,5 +165,10 @@ public class ApartmentChore implements Chore {
 	public String getApartment() {
 		return apartment;
 	}
+	@Override
+	public void setApartment(String apartmentId) {
+		this.apartment = apartmentId;
+		
+	}
 
 }
