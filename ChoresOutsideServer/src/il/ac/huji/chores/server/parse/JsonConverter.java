@@ -10,6 +10,7 @@ import il.ac.huji.chores.RoommatesApartment;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -55,6 +56,12 @@ public class JsonConverter {
 		}
 		try{
 		apt.setDivisionFrequency(obj.getString("frequency"));
+		}
+		catch(JSONException e){
+			apt.setDivisionFrequency(null);
+		}
+		try{
+			apt.setLastDivision(new Date(obj.getLong("lastDivision")));
 		}
 		catch(JSONException e){
 			apt.setDivisionFrequency(null);
