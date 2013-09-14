@@ -1,10 +1,7 @@
 package il.ac.huji.chores.dal;
 
 import android.util.Log;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.parse.*;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.exceptions.FailedToGetChoreException;
 import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
@@ -124,10 +121,21 @@ public class RoommateDAL {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-
         try {
             user.signUp();
             initRoommateProperties(phoneNumber);
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("owner", ParseUser.getCurrentUser());
+            installation.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Log.d("createRoommateUser", "Installation created");
+                    } else {
+                        Log.w("createRoommateUser", "Installation failed with " + e.getMessage());
+                    }
+                }
+            });
             return user.getObjectId();
         } catch (ParseException e) {
             Log.e("createRoommateUser", e.toString());

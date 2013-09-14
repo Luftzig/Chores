@@ -1,21 +1,12 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.dal.RoommateDAL;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.ParseUser;
-import com.parse.PushService;
-import com.parse.SaveCallback;
+import com.parse.*;
+import il.ac.huji.chores.dal.RoommateDAL;
 
 public class AppSetup {
 
@@ -41,22 +32,21 @@ public class AppSetup {
     }
     
     private void setupPushNotifications(){
-    	
 //    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
-//    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-//    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-//
-//    		@Override
-//    		public void done(ParseException arg0) {
-//    			if(arg0 != null){
-//    				Log.e("Exception", arg0.getStackTrace().toString());
-//    			}
-//    			else{
-//    				Log.e(" Null", "saveInBackground succeeded");
-//    			}
-//
-//    		}
-//    	});
+    	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
+    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+
+    		@Override
+    		public void done(ParseException arg0) {
+    			if(arg0 != null){
+    				Log.e("Exception", arg0.getStackTrace().toString());
+    			}
+    			else{
+    				Log.e(" Null", "saveInBackground succeeded");
+    			}
+
+    		}
+    	});
     }
 
     private void setupActionBar() {
