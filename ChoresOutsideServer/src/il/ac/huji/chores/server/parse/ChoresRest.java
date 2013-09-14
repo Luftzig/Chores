@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,9 @@ import org.json.JSONObject;
 
 public class ChoresRest {
 	
-	public static void scheduleChores(String apartment){
+	public static List<Chore> scheduleChores(String apartment){
+		
+		List<Chore> chores = new ArrayList<Chore>();
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<ChoreInfo> choreInfoList=null;
 		try {
@@ -40,7 +43,7 @@ public class ChoresRest {
 		for(ChoreInfo choreInfo :choreInfoList){
 			System.out.println("Scheduling chore :"+choreInfo.getName());
 			try {
-				scheduleChore(choreInfo,currentDate,apartment);
+				chores.add(scheduleChore(choreInfo,currentDate, apartment));
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
@@ -50,9 +53,12 @@ public class ChoresRest {
 			}
 			
 		}
+		
+		return chores;
+		
 	}
 	
-	private static void scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
+	private static Chore scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
 		Chore chore = new ApartmentChore();
 		chore.setChoreInfoId(choreInfo.getChoreInfoID());
 		chore.setCoinsNum(choreInfo.getCoinsNum());
@@ -63,10 +69,7 @@ public class ChoresRest {
 		chore.setApartment(apartment);
 		chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
 		
-		ParseRestClientImpl parse = new ParseRestClientImpl();
-		String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
-		System.out.println("Scheduled task : "+jsonChore);
-		parse.addChore(jsonChore);
+		return chore;
 		
 	}
 	private static Date calculateDeadline(ChoreInfo choreInfo, Date currentDate){
