@@ -4,17 +4,10 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.server.parse.ParseRestClient;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
+import org.apache.http.client.ClientProtocolException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
-import org.apache.http.client.ClientProtocolException;
+import java.util.*;
 
 
 public class ChoresDivisionAlgorithms {

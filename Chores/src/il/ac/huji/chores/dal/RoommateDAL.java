@@ -1,21 +1,17 @@
 package il.ac.huji.chores.dal;
 
-import java.util.List;
-
+import android.util.Log;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.exceptions.FailedToGetChoreException;
 import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
-import android.util.Log;
-
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import com.parse.*;
+import java.util.List;
 
 public class RoommateDAL {
 
@@ -71,18 +67,23 @@ public class RoommateDAL {
 		}
 	}
 	
-	public static void initRoommateCollectedCoins() throws UserNotLoggedInException{
+	public static void initRoommateProperties(String phoneNumber) throws UserNotLoggedInException{
 		ParseUser roommate = ParseUser.getCurrentUser();
 		roommate.put("coinsCollected", 0);
-		try {
+        roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
+        try {
 			roommate.save();
 		} catch (ParseException e) {
 			throw new UserNotLoggedInException(e.getMessage());
 		}
 		
 	}
-	
-	public static int getRoommateDept(String roommate) throws FailedToGetChoreException{
+
+    private static String sanitizePhoneNumber(String phoneNumber) {
+        return phoneNumber.replaceAll("[^0-9]", "");
+    }
+
+    public static int getRoommateDept(String roommate) throws FailedToGetChoreException{
 		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_FUTURE");
 		try {
 			List<ParseObject> results = query.find();
@@ -117,23 +118,22 @@ public class RoommateDAL {
 		return (String) currentUser.getObjectId();
 		
 	}
-	
-	public static String createRoommateUser(String username, String password) throws ParseException, UserNotLoggedInException {
 
-		ParseUser user = new ParseUser();
-		user.setUsername(username);
-		user.setPassword(password);
-		
+    public static String createRoommateUser(String username, String password, String phoneNumber)
+            throws ParseException, UserNotLoggedInException {
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
 
-		try {
-			user.signUp();
-			initRoommateCollectedCoins();
-			return user.getObjectId();
-		} catch (ParseException e) {
-			Log.e("createRoommateUser", e.toString());
-			throw e;
-		}
-	}
+        try {
+            user.signUp();
+            initRoommateProperties(phoneNumber);
+            return user.getObjectId();
+        } catch (ParseException e) {
+            Log.e("createRoommateUser", e.toString());
+            throw e;
+        }
+    }
 
 	public static boolean addApartmentToRoommate(String apartmentID)
 			throws UserNotLoggedInException {

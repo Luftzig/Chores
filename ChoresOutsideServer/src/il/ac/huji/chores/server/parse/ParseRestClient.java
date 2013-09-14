@@ -1,16 +1,14 @@
 package il.ac.huji.chores.server.parse;
 
-import il.ac.huji.chores.Apartment;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
+import org.apache.http.client.ClientProtocolException;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.http.client.ClientProtocolException;
 
 /**
  * User: Yoav
