@@ -39,7 +39,7 @@ public class DALTestActivity extends Activity {
 			chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_FUTURE, null, null, null, 5);
 			chore.setChoreInfoId("8O1y3GOmK6");
 			ChoreDAL.addChore(chore);
-			RoommateDAL.initRoommateProperties();
+			RoommateDAL.initRoommateProperties("037777777");
 			Roommate roommate = RoommateDAL.getRoommate("anna");
 			int dept=RoommateDAL.getRoommateDept("anna");
 			int coins =RoommateDAL.getRoommateCollectedCoins("anna");

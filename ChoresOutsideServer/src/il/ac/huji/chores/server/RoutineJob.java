@@ -1,22 +1,26 @@
 package il.ac.huji.chores.server;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import il.ac.huji.chores.Apartment;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.server.parse.ChoresRest;
 import il.ac.huji.chores.server.parse.ParseRestClient;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
+
 import org.apache.http.client.ClientProtocolException;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 public class RoutineJob implements Job {
 	
@@ -28,7 +32,7 @@ public class RoutineJob implements Job {
 		//Get all apartment infos which division day can be today
 		ParseRestClient parse = new ParseRestClientImpl();
 		Calendar todayCal = Calendar.getInstance();
-		String day = days[todayCal.get(Calendar.DAY_OF_WEEK)];
+		String day = days[todayCal.get(Calendar.DAY_OF_WEEK)-1];
 		List<RoommatesApartment> apartments;
 		try {
 			apartments = parse.getTodaysApartmentList(day);
@@ -45,10 +49,10 @@ public class RoutineJob implements Job {
 				 return IsDivisionTime(apartment);
 			 }
 		};
-		List<RoommatesApartment> filtApartments = new ArrayList<RoommatesApartment>(Collections2.filter(apartments, predicate));
+		List<RoommatesApartment> filtApartments = new ArrayList<>(Collections2.filter(apartments, predicate));
 		
 		//Divide chores
-		for(int i=0; i< apartments.size(); i++){
+		for(int i=0; i< filtApartments.size(); i++){
 			try {
 				DivideChoresForApartment(filtApartments.get(i).getId(), todayCal.getTime());
 			} catch (ClientProtocolException e) {
@@ -79,24 +83,24 @@ public class RoutineJob implements Job {
 		}
 		
 		if(frequency.equals("Once a Week")){
-			cal.add(Calendar.DAY_OF_WEEK, 1);
+			cal.add(Calendar.WEEK_OF_YEAR, 1);
 		}
 		else if(frequency.equals("Every Two Weeks")){
-			cal.add(Calendar.DAY_OF_WEEK, 2);
+			cal.add(Calendar.WEEK_OF_YEAR, 2);
 		}
 		else if(frequency.equals("Every Three Weeks")){
-			cal.add(Calendar.DAY_OF_WEEK, 3);
+			cal.add(Calendar.WEEK_OF_YEAR, 3);
 		}
 	
 		else if(frequency.equals("Every Four Weeks")){
-			cal.add(Calendar.DAY_OF_WEEK, 4);
+			cal.add(Calendar.WEEK_OF_YEAR, 4);
 		}
 		else if(frequency.equals("Every Five Weeks")){
-			cal.add(Calendar.DAY_OF_WEEK, 5);
+			cal.add(Calendar.WEEK_OF_YEAR, 5);
 		}
 		//TODO more periods
-		
-		if(cal.after(todayCal)){
+
+		if(cal.before(todayCal)){
 			return true;
 		}
 		 
