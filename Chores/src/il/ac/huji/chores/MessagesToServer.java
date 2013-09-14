@@ -5,24 +5,21 @@ import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 
 import java.util.HashMap;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MessagesToServer {
-
-	/*
-	 * Notify a a list of roommates.
-	 * Kind - the kind of the message (roommate done/ roommate steal, ChoreInfos were added, etc)
-	 * objectId - the message refers to the object with the parse object id objectId.
-	 */
-	public static void notifyRoomates(List<String> roommatesNames, String kind, String objectId){
-		
-		//TODO
-		/////dummy... erase/////
-		for(int i=0; i< roommatesNames.size(); i++){
-			Log.e("notify roommate " + roommatesNames.get(i), "kind: "+ kind );
-		}
-		/////////////////////
-	}
+	
+	
 
     /**
      * Send invitation to requested phone numbers

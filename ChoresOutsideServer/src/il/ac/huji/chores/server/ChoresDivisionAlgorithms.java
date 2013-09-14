@@ -62,7 +62,7 @@ public class ChoresDivisionAlgorithms {
 			while(itr.hasNext()){
 				roommate = (Roommate)itr.next();
 				
-				if((roommate.get_coinsCollected() - roommate.get_dept()) == prevVal){
+				if((roommate.get_coinsCollected()) == prevVal){
 					equalCollected.add(roommate);
 				}
 				else{//add chores to roommates in list randomly and save start a new equal list
@@ -73,7 +73,7 @@ public class ChoresDivisionAlgorithms {
 						break;
 					}
 					else{
-						prevVal = roommate.get_coinsCollected() - roommate.get_dept();
+						prevVal = roommate.get_coinsCollected();
 						equalCollected.add(roommate); // Start a new list.
 
 					}
@@ -159,11 +159,6 @@ public class ChoresDivisionAlgorithms {
 		}
 		
 		return chores;
-	}
-
-	public static List<Chore> scheduleChores(String aptId) {
-		// TODO Auto-generated method stub
-		return new ArrayList<Chore>();
 	}
 
 }

@@ -37,7 +37,7 @@ public class ApartmentDAL {
 		apartment.add("Roommates", curreentUser.getObjectId());
 		apartment.put("divisionDay", apt.getDivisionDay());
 		apartment.put("frequency", apt.getDivisionFrequency());
-		
+		apartment.put("lastDivision", 0);		
 		try {
 			apartment.save();
 		} catch (ParseException e) {
@@ -105,15 +105,6 @@ public class ApartmentDAL {
 			return false;
 		}
 		return true;
-	}
-	
-	public static List<String> getApartmentRoommatesNames(){
-		//TODO! tmp content
-		
-		List<String> roommates = new ArrayList<String>();
-		roommates.add("ssss");
-		roommates.add("bob");
-		return roommates;
 	}
 
 }

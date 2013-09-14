@@ -3,6 +3,7 @@ package il.ac.huji.chores;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.dummy.DummyChoreDAL;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
@@ -91,9 +92,15 @@ public class ChoreCardFragment extends Fragment {
 		 Button rightButton = (Button)getActivity().findViewById(R.id.card_button_right);
 		 
 		 //get roommates list
-		 List<String> roommatesList;
+		 List<String> roommatesList=new ArrayList<String>();
 		 //try {//TODO: return try-catch when dal function is written
-			 roommatesList = ApartmentDAL.getApartmentRoommatesNames();
+		 	
+			 try {
+				roommatesList = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+			} catch (UserNotLoggedInException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 roommatesList.remove(chore.getAssignedTo());
 
 //		 } catch (UserNotLoggedInException e) {
@@ -184,8 +191,10 @@ public class ChoreCardFragment extends Fragment {
 					// update chore status to done
 					try {
 						ChoreDAL.updateChoreStatus(chore.getId(), CHORE_STATUS.STATUS_DONE);
-	
-						MessagesToServer.notifyRoomates(roommates, "DONE", chore.getId());
+						String sender = RoommateDAL.getRoomateUsername();
+						//MessagesToServer.notifyRoomates(roommates, "DONE", chore.getId());
+						NotificationsDAL.notifyChoreDone(chore, sender, roommates);
+						
 					} catch (FailedToUpdateStatusException e) {
 						// TODO (shani) decide what to do
 					}
@@ -216,7 +225,9 @@ public class ChoreCardFragment extends Fragment {
 						ChoreDAL.stealChore(chore.getId(), curUser);
 						List<String> list = new ArrayList<String>();
 						list.add(oldOwner);
-						MessagesToServer.notifyRoomates(list , "STEAL", chore.getId());
+						//MessagesToServer.notifyRoomates(list , "STEAL", chore.getId());
+						String sender = RoommateDAL.getRoomateUsername();
+						NotificationsDAL.notifySuggestStealChore(chore, sender, roommates);
 					} catch (UserNotLoggedInException e) {
 						LoginActivity.OpenLoginScreen(getActivity(), false);
 						e.printStackTrace();
@@ -261,8 +272,8 @@ public class ChoreCardFragment extends Fragment {
 		               @Override
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
-		            	   
-		            	   MessagesToServer.notifyRoomates(selectedItems, "SUGGEST", chore.getId());
+		            	   String sender = RoommateDAL.getRoomateUsername();
+							NotificationsDAL.notifySuggestChore(chore, sender, selectedItems);
 							 getActivity().finish();
 		               }
 		           })

@@ -1,6 +1,7 @@
 package il.ac.huji.chores;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 public interface Chore extends Serializable{
@@ -11,6 +12,7 @@ public interface Chore extends Serializable{
 	}
 	public void setChoreInfoId(String id);
 	
+	public void setApartment(String apartmentId);
 	public String getChoreInfoId();
 	
 	/*
@@ -92,5 +94,7 @@ public interface Chore extends Serializable{
 	public void setStatistics(String statistics);
 
 	public void setCoinsNum(int coinsNum);
+
+	public String getApartment();
 }
 

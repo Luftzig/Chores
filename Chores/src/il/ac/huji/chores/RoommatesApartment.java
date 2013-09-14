@@ -1,5 +1,6 @@
 package il.ac.huji.chores;
 
+import java.util.Date;
 import java.util.List;
 
 import android.util.Log;
@@ -15,6 +16,8 @@ public class RoommatesApartment implements Apartment {
     private String              _name;
     private String              divisionDay;
     private String              divisionFrequency;
+	private Date _lastDivision; //date of the last time the chores were divided
+
 
     @Override
     public String createApartment() {
@@ -102,4 +105,12 @@ public class RoommatesApartment implements Apartment {
         return "RoommatesApartment: " + _id + ", name " + _name + ", " 
             + divisionDay + ", " + divisionFrequency;
     }
+    
+	public Date getLastDivision(){
+		return _lastDivision;
+	}
+	
+	public void setLastDivision(Date lastDivision){
+		_lastDivision = lastDivision;
+	}
 }
