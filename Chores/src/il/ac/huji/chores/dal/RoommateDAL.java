@@ -28,7 +28,9 @@ public class RoommateDAL {
 			throw e;
 		}
 	}
-	
+	public static String getRoomateUsername(){
+		return ParseUser.getCurrentUser().getUsername();
+	}
 	public static Roommate getRoommate(String roommateName) throws FailedToGetRoommateException{
 		
 		ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("username", roommateName);

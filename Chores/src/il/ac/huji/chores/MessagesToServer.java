@@ -9,6 +9,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,21 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MessagesToServer {
-
-	/*
-	 * Notify a a list of roommates.
-	 * Kind - the kind of the message (roommate done/ roommate steal, ChoreInfos were added, etc)
-	 * objectId - the message refers to the object with the parse object id objectId.
-	 */
-	public static void notifyRoomates(List<String> roommatesNames, String kind, String objectId){
-		
-		//TODO
-		/////dummy... erase/////
-		for(int i=0; i< roommatesNames.size(); i++){
-			Log.e("notify roommate " + roommatesNames.get(i), "kind: "+ kind );
-		}
-		/////////////////////
-	}
+	
+	
 
     public static void callFunction(String target, ASyncListener listener, Context context, String... values) {
         List<String> params = new ArrayList<String>(Arrays.asList(values));
