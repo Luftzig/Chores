@@ -6,12 +6,9 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
-import static org.quartz.JobBuilder.*;
-import static org.quartz.SimpleScheduleBuilder.*;
-import static org.quartz.CronScheduleBuilder.*;
-import static org.quartz.CalendarIntervalScheduleBuilder.*;
-import static org.quartz.TriggerBuilder.*;
-import static org.quartz.DateBuilder.*;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 
 public class ChoresServerMain {

@@ -1,13 +1,12 @@
 package il.ac.huji.chores.dal;
 
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Constants;
 
 import java.util.List;
-
-import com.parse.ParseInstallation;
-import com.parse.ParsePush;
-import com.parse.ParseQuery;
 
 public class NotificationsDAL {
 	

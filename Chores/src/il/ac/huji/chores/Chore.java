@@ -1,7 +1,6 @@
 package il.ac.huji.chores;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 public interface Chore extends Serializable{

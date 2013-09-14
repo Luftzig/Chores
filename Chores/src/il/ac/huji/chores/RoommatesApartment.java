@@ -1,13 +1,12 @@
 package il.ac.huji.chores;
 
-import java.util.Date;
-import java.util.List;
-
 import android.util.Log;
-
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
+
+import java.util.Date;
+import java.util.List;
 
 public class RoommatesApartment implements Apartment {
 
@@ -45,7 +44,7 @@ public class RoommatesApartment implements Apartment {
     }
 
     /**
-     * @param _roommates the _roommates to set
+     * @param roommates the _roommates to set
      */
     public void setRoommates(List<String> roommates) {
         this._roommates = roommates;
@@ -66,7 +65,7 @@ public class RoommatesApartment implements Apartment {
     }
 
     /**
-     * @param _name the _name to set
+     * @param name the _name to set
      */
     public void setName(String name) {
         this._name = name;

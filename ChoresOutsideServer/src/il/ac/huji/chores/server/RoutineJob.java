@@ -1,26 +1,22 @@
 package il.ac.huji.chores.server;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import il.ac.huji.chores.Apartment;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.server.parse.ChoresRest;
 import il.ac.huji.chores.server.parse.ParseRestClient;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
-
 import org.apache.http.client.ClientProtocolException;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class RoutineJob implements Job {
 	
@@ -49,7 +45,7 @@ public class RoutineJob implements Job {
 				 return IsDivisionTime(apartment);
 			 }
 		};
-		List<RoommatesApartment> filtApartments = new ArrayList<>(Collections2.filter(apartments, predicate));
+		List<RoommatesApartment> filtApartments = new ArrayList<RoommatesApartment>(Collections2.filter(apartments, predicate));
 		
 		//Divide chores
 		for(int i=0; i< apartments.size(); i++){

@@ -1,39 +1,21 @@
 package il.ac.huji.chores.dal;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
-import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
-import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.R;
-import il.ac.huji.chores.R.layout;
-import il.ac.huji.chores.R.menu;
 import il.ac.huji.chores.Roommate;
-import il.ac.huji.chores.RoommatesApartment;
-import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
-import il.ac.huji.chores.RoommatesApartment;
-import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
-import il.ac.huji.chores.exceptions.DataNotFoundException;
-import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
-import il.ac.huji.chores.exceptions.FailedToGetChoreException;
-import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
-import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
-import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
-import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
-import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+import il.ac.huji.chores.exceptions.*;
+
+import java.util.Date;
+import java.util.List;
 
 public class DALTestActivity extends Activity {
 
@@ -57,7 +39,7 @@ public class DALTestActivity extends Activity {
 			chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_FUTURE, null, null, null, 5);
 			chore.setChoreInfoId("8O1y3GOmK6");
 			ChoreDAL.addChore(chore);
-			RoommateDAL.initRoommateCollectedCoins();
+			RoommateDAL.initRoommateProperties();
 			Roommate roommate = RoommateDAL.getRoommate("anna");
 			int dept=RoommateDAL.getRoommateDept("anna");
 			int coins =RoommateDAL.getRoommateCollectedCoins("anna");

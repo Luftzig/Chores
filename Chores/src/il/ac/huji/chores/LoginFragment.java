@@ -51,18 +51,20 @@ public class LoginFragment extends Fragment {
                 EditText passwordTxt = (EditText) (getActivity().findViewById(R.id.LoginFragment_password));
                 String password = passwordTxt.getText().toString();
 
-                String Verifypassword;
+                String verifyPassword;
                 if (!isLogin[0]) {
                     EditText passwordVerifyTxt = (EditText) (getActivity().findViewById(R.id.LoginFragment_password_verify));
-                    Verifypassword = passwordVerifyTxt.getText().toString();
-                    if (!password.equals(Verifypassword)) {
+                    verifyPassword = passwordVerifyTxt.getText().toString();
+                    if (!password.equals(verifyPassword)) {
                         msg.setVisibility(View.VISIBLE);
                         msg.setEnabled(true);
                         return;
                     }
+                    String phoneNumber = ((EditText) getActivity().findViewById(R.id.loginFragmentPhoneEdit))
+                            .getText().toString();
 
                     try {
-                        RoommateDAL.createRoommateUser(username, password);
+                        RoommateDAL.createRoommateUser(username, password, phoneNumber);
                     } catch (ParseException e) {
                         //unsuccessful sign-up
                         err = true;

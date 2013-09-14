@@ -1,20 +1,13 @@
 package il.ac.huji.chores.dal;
 
-import java.util.ArrayList;
-import java.util.TooManyListenersException;
-
-import java.util.List;
-
-import org.json.JSONArray;
-
-import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.RoommatesApartment;
-
-import android.content.Context;
 import android.util.Log;
-import il.ac.huji.chores.exceptions.*;
-
 import com.parse.*;
+import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApartmentDAL {
 

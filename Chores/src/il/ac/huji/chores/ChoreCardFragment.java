@@ -1,19 +1,5 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.Chore.CHORE_STATUS;
-import il.ac.huji.chores.dal.ApartmentDAL;
-import il.ac.huji.chores.dal.ChoreDAL;
-import il.ac.huji.chores.dal.NotificationsDAL;
-import il.ac.huji.chores.dal.RoommateDAL;
-import il.ac.huji.chores.dummy.DummyChoreDAL;
-import il.ac.huji.chores.exceptions.DataNotFoundException;
-import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
-import il.ac.huji.chores.exceptions.UserNotLoggedInException;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -24,6 +10,18 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.NotificationsDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.DataNotFoundException;
+import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class ChoreCardFragment extends Fragment {
