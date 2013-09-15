@@ -15,36 +15,64 @@ Parse.Cloud.define("test", function(request, response) {
     response.success("Push sent");
 });
 
+function findPhones(phones) {
+    var splitted = phones.split("; ");
+    var queries = new Array();
+    for (i in splitted) {
+        if (splitted[i] == null || splitted[i] === undefined) {
+            continue;
+        }
+        var number = splitted[i].replace("[^0-9]", "");
+        console.log("Looking for phone number: " + number);
+        var query = findPhoneNumber(number);
+        if (query !== undefined && query != null) {
+            queries.push(query);
+        }
+    }
+    return Parse.Query.or.apply(null, queries);
+}
+
+function findPhoneNumber(number) {
+    var suffix = number.slice(-6);
+    var prefix = number.slice(0, -6);
+    var query = new Parse.Query(Parse.User);
+    query.endsWith("phoneNumber", suffix).startsWith("phoneNumber", prefix);
+    return query;
+}
+
 Parse.Cloud.define("invite", function(request, response) {
     var user = request.user, name = request.params.name, 
         phone = request.params.phone;
-    var queryPhone = new Parse.Query(Parse.User);
-    if (phone != null && phone !== undefined && phone != "") {
-        queryPhone.equalTo("phone", phone);
-        var query = queryPhone;
+    if (phone == null || phone === undefined || phone == "" ) {
+        console.log("No phone number was provided");
+        response.error("No phone number was provided");
     }
-    var queryEmail = new Parse.Query(Parse.User);
-    if (email != null && email !== undefined && email != "") {
-        queryEmail.equalTo("email", email);
-        if (query) {
-            query = Parse.Query.or(queryPhone, queryEmail);
-        } else {
-            query = queryEmail;
-        }
-    }
-    console.log("invite: querying for user " + name + ", " + phone + ", " + email);
-    query.find({
-            success: function(results) {
-                if (results.length > 0) {
-                    // TODO: find Installation object and send notification
-                    console.log("Alert user " + results[0]);
+    var query = findPhones(phone);
+    console.log("invite: querying for user " + name + ", " + phone);
+    query.find().then(function (results) {
+        if (results.length > 0) {
+            for (i in results) {
+                if (results[i] == null || results[i] === undefined) {
+                    continue;
                 }
-            },
-
-            error: function(error) {
-                // TODO: send user an invite using email or SMS
-                console.log("No such user");
+                console.log("Inviting user " + results[i].getUsername());
+                var query = new Parse.Query(Parse.Installation);
+                query.equalsTo("userId", results[i].get("objectId"));
+                Parse.Push.send({
+                    where: query,
+                    data: {
+                        by: user.getUsername(),
+                        alert: "You were invited to join apartment",
+                        apartmentId: user.get("apartmentID")
+                    }
+                });
             }
+        } else {
+            console.log("User with request phone number " + phone + "was not found");
+            console.log("Inviting by SMS");
+        }
+        return;
+    }).then(function() {
+            response.success("Invitations sent");
     });
-    response.success(name + " was invited.");
 });

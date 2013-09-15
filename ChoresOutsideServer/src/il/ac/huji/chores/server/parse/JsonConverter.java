@@ -1,19 +1,13 @@
 package il.ac.huji.chores.server.parse;
-import java.util.regex.*;
-import il.ac.huji.chores.Apartment;
-import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.ChoreInfo;
-import il.ac.huji.chores.ChoreInfoInstance;
-import il.ac.huji.chores.Roommate;
-import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.*;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +40,21 @@ public class JsonConverter {
 		json.put("assignedTo",chore.getAssignedTo());
 		return json.toString();
 	}
+	
+	public static Chore convertJsonToChore(JSONObject obj) {
+		Chore chore = new ApartmentChore();
+		chore.setName(obj.getString("name"));
+		chore.setStatus(CHORE_STATUS.valueOf(obj.getString("status")));
+		chore.setAssignedTo(obj.getString("assignedTo"));
+		chore.setDeadline(new Date(obj.getLong("deadline")));
+		chore.setStartsFrom(new Date(obj.getLong("startsFrom")));
+		chore.setCoinsNum(obj.getInt("coins"));
+		chore.setChoreInfoId(obj.getString("choreInfoId"));
+		chore.setApartment(obj.getString("apartment"));
+		
+		return chore;
+
+	}
 	public static RoommatesApartment convertJsonToApartment(JSONObject obj) {
 		RoommatesApartment apt = new RoommatesApartment();
 		List<String> roommates = obj.getJSONArray("Roommates").getStringList();
@@ -58,6 +67,12 @@ public class JsonConverter {
 		}
 		try{
 		apt.setDivisionFrequency(obj.getString("frequency"));
+		}
+		catch(JSONException e){
+			apt.setDivisionFrequency(null);
+		}
+		try{
+			apt.setLastDivision(new Date(obj.getLong("lastDivision")));
 		}
 		catch(JSONException e){
 			apt.setDivisionFrequency(null);
