@@ -34,8 +34,8 @@ public class GeneralDal {
 		////////////////////////////////////////////////
 		
 		RoommatesApartment apt = new RoommatesApartment();
-		apt.setName("apt1");
-		apt.setDivisionDay("Saturday");
+		apt.setName("apt4");
+		apt.setDivisionDay("Sunday");
 		apt.setDivisionFrequency("Once a Week");
 		List<String> roommates = new ArrayList<String>();
 		roommates.add("AAA");
@@ -63,8 +63,8 @@ public class GeneralDal {
 
 		///////////////////////////////////////////////
 		RoommatesApartment apt2 = new RoommatesApartment();
-		apt2.setName("apt2");
-		apt2.setDivisionDay("Saturday");
+		apt2.setName("apt5");
+		apt2.setDivisionDay("Sunday");
 		apt2.setDivisionFrequency("Every Two Weeks");
 		List<String> roommates2 = new ArrayList<String>();
 		roommates.add("AAA2");
@@ -92,7 +92,7 @@ public class GeneralDal {
 		//ApartmentDAL.addRoommateToApartment(aptId);
 		////////////////////////////////////////////////
 		RoommatesApartment apt3 = new RoommatesApartment();
-		apt3.setName("apt3");
+		apt3.setName("apt6");
 		apt3.setDivisionDay("Monday");
 		apt3.setDivisionFrequency("Once a week");
 		List<String> roommates3 = new ArrayList<String>();

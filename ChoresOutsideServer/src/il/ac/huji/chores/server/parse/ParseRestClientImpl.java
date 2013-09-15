@@ -4,6 +4,8 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.server.ChoresServerMain;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -90,6 +92,13 @@ public class ParseRestClientImpl implements ParseRestClient {
 	
 	public String getChore(String choreId) throws IOException{
 		return getObject("Chores",choreId);
+	}
+	
+	public Chore getChoreObj(String choreId) throws IOException{
+	
+		String jsonStr = getObject("Chores",choreId);
+		return JsonConverter.convertJsonToChore(new JSONObject(jsonStr));
+
 	}
 	
 	public StringBuilder updateObject(String className,String id,String jsonObject) throws ClientProtocolException, IOException{
@@ -188,12 +197,25 @@ public class ParseRestClientImpl implements ParseRestClient {
 	@Override
 	public void addChores(List<Chore> chores) throws ClientProtocolException, IOException {
 		
+		Chore chore;
+		String idStr;
+		JSONObject json;
 		for(int i=0; i< chores.size(); i++){
 			
-			String jsonChore = JsonConverter.convertChoreToJson(chores.get(i)).toString();
-			addChore(jsonChore);
+			chore = chores.get(i);
+			String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
+			idStr = addChore(jsonChore);
+			
+			json = new JSONObject(idStr);
+			chore.setId(json.getString("objectId"));
+			ChoresServerMain.triggerDeadlinePassed(chore);
 		}
-		
+	}
+	
+	public void addChoreObj(Chore chore) throws ClientProtocolException, IOException {
+
+			String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
+			addChore(jsonChore);
 	}
 
 	@Override
