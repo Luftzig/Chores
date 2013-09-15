@@ -21,7 +21,6 @@ public class JsonConverter {
 		String whereString = whereCond.toString();
 		StringBuilder json = new StringBuilder();
 		json.append("where=");
-		
 		json.append(URLEncoder.encode(whereString));
 		
 		return json.toString();
@@ -111,10 +110,16 @@ public class JsonConverter {
 
 	public static Roommate convertJsonToRoommate(JSONObject obj) {
 		Roommate roommate = new Roommate();
+		try{
 		roommate.set_coinsCollected(obj.getInt("coinsCollected"));
 		roommate.set_dept(obj.getInt("coins"));
 		roommate.set_id(obj.getString("objectId"));
 		roommate.set_username(obj.getString("username"));
+		} 
+		catch(org.json.JSONException e)
+		{
+			System.out.println("JSONException : "+e.getMessage());
+		}
 		return roommate;
 	}
 

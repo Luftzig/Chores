@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -221,9 +222,10 @@ public class ParseRestClientImpl implements ParseRestClient {
 	@Override
 	public void updateApartmentLastDivision(String apartmentId, Date today) throws ClientProtocolException, IOException {
 		Map<String,Object> keyValue=new HashMap<String, Object>();
-		keyValue.put("divisionDay",today.getTime());
-		String updatedDayJson = buildWhereStatement(keyValue);
-		updateObject("Apartment",apartmentId,updatedDayJson);
+		keyValue.put("lastDivision",today.getTime());
+		JSONObject json = new JSONObject(keyValue);
+		String update =json.toString();
+		updateObject("Apartment",apartmentId,update);
 		
 	}
 }
