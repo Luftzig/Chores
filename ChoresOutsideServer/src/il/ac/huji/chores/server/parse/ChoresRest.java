@@ -31,7 +31,7 @@ public class ChoresRest {
 		for(ChoreInfo choreInfo :choreInfoList){
 			System.out.println("Scheduling chore :"+choreInfo.getName());
 			try {
-				chores.add(scheduleChore(choreInfo,currentDate, apartment));
+				chores.addAll(scheduleChore(choreInfo,currentDate, apartment));
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
