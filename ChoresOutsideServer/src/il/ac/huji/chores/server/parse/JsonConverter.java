@@ -21,12 +21,15 @@ import org.json.JSONObject;
 
 public class JsonConverter {
 
-	public static String whereConditionToJson(Map<String, String> whereParams) {
+	public static  String whereConditionToJson(Map<String,Object> whereParams) {
 
 		JSONObject whereCond = new JSONObject(whereParams);
+		String whereString = whereCond.toString();
 		StringBuilder json = new StringBuilder();
 		json.append("where=");
-		json.append(URLEncoder.encode(whereCond.toString()));
+		
+		json.append(URLEncoder.encode(whereString));
+		
 		return json.toString();
 	}
 
