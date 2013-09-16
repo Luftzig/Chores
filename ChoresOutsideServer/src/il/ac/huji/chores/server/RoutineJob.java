@@ -135,7 +135,7 @@ public class RoutineJob implements Job {
 		parse.addChores(chores);
 		
 		//Notify roommates about the new chores
-		NotificationsHandling.notifyNewChores();
+		NotificationsHandling.notifyNewChores(apartmentId);
 		
 	}
 }

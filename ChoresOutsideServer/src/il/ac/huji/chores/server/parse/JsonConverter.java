@@ -110,16 +110,20 @@ public class JsonConverter {
 
 	public static Roommate convertJsonToRoommate(JSONObject obj) {
 		Roommate roommate = new Roommate();
-		try{
+		
 		roommate.set_coinsCollected(obj.getInt("coinsCollected"));
+		try{
 		roommate.set_dept(obj.getInt("coins"));
-		roommate.set_id(obj.getString("objectId"));
-		roommate.set_username(obj.getString("username"));
-		} 
+		}
 		catch(org.json.JSONException e)
 		{
 			System.out.println("JSONException : "+e.getMessage());
+			roommate.set_dept(0);
 		}
+		roommate.set_id(obj.getString("objectId"));
+		roommate.set_username(obj.getString("username"));
+		
+		
 		return roommate;
 	}
 
