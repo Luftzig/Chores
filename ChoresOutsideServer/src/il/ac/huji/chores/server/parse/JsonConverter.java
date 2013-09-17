@@ -1,11 +1,9 @@
 package il.ac.huji.chores.server.parse;
-import java.util.regex.*;
-import il.ac.huji.chores.Apartment;
-import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.ChoreInfo;
-import il.ac.huji.chores.ChoreInfoInstance;
-import il.ac.huji.chores.Roommate;
-import il.ac.huji.chores.RoommatesApartment;
+
+import il.ac.huji.chores.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -13,12 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class JsonConverter {
 
@@ -100,10 +92,10 @@ public class JsonConverter {
 
 	public static Roommate convertJsonToRoommate(JSONObject obj) {
 		Roommate roommate = new Roommate();
-		roommate.set_coinsCollected(obj.getInt("coinsCollected"));
-		roommate.set_dept(obj.getInt("coins"));
-		roommate.set_id(obj.getString("objectId"));
-		roommate.set_username(obj.getString("username"));
+		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
+		roommate.setDebt(obj.getInt("coins"));
+		roommate.setId(obj.getString("objectId"));
+		roommate.setUsername(obj.getString("username"));
 		return roommate;
 	}
 

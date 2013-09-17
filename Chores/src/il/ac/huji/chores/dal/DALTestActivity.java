@@ -40,11 +40,11 @@ public class DALTestActivity extends Activity {
 			chore.setChoreInfoId("8O1y3GOmK6");
 			ChoreDAL.addChore(chore);
 			RoommateDAL.initRoommateProperties("037777777");
-			Roommate roommate = RoommateDAL.getRoommate("anna");
+			Roommate roommate = RoommateDAL.getRoommateByName("anna");
 			int dept=RoommateDAL.getRoommateDept("anna");
 			int coins =RoommateDAL.getRoommateCollectedCoins("anna");
 			RoommateDAL.increaseCoinsCollected(5);
-			roommate = RoommateDAL.getRoommate("anna");
+			roommate = RoommateDAL.getRoommateByName("anna");
 		} catch (UserNotLoggedInException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

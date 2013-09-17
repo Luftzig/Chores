@@ -1,6 +1,7 @@
 package il.ac.huji.chores.dummy;
 
 import il.ac.huji.chores.Roommate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +13,15 @@ public class DummyDal {
 		ArrayList<Roommate> roommates = new ArrayList<Roommate>();
 		
 		Roommate a = new Roommate();
-		a.set_username("Alf"); a.set_dept(2); a.set_coinsCollected(14);
+		a.setUsername("Alf"); a.setDebt(2); a.setCoinsCollected(14);
 		Roommate b = new Roommate();
-		b.set_username("Bob"); b.set_dept(1); b.set_coinsCollected(6);
+		b.setUsername("Bob"); b.setDebt(1); b.setCoinsCollected(6);
 		Roommate c = new Roommate();
-		c.set_username("Guy"); c.set_dept(0); c.set_coinsCollected(6);
+		c.setUsername("Guy"); c.setDebt(0); c.setCoinsCollected(6);
 		Roommate d = new Roommate();
-		d.set_username("Dan"); d.set_dept(0); d.set_coinsCollected(6);
+		d.setUsername("Dan"); d.setDebt(0); d.setCoinsCollected(6);
 		Roommate e = new Roommate();
-		e.set_username("Ester"); e.set_dept(0); e.set_coinsCollected(6);
+		e.setUsername("Ester"); e.setDebt(0); e.setCoinsCollected(6);
 		
 		roommates.add(a); 
 		roommates.add(b); 
@@ -35,7 +36,7 @@ public class DummyDal {
 	public static void printRoommates(List<Roommate> roommates){
 		
 		for(int i=0; i < roommates.size(); i++){
-			System.out.println("roommate name: " + roommates.get(i).get_username() + ", coinsCollected+debt: " + (roommates.get(i).get_coinsCollected() - roommates.get(i).get_dept()));
+			System.out.println("roommate name: " + roommates.get(i).getUsername() + ", coinsCollected+debt: " + (roommates.get(i).getCoinsCollected() - roommates.get(i).getDebt()));
 		}
 	}
 }
