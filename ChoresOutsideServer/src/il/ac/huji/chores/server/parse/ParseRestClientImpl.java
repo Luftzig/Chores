@@ -4,6 +4,8 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.server.ChoresServerMain;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -18,6 +20,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -29,7 +32,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 	private static String BASE_URL = "https://api.parse.com/1/classes/";
     @Override
     public List<Roommate> getApartmentRoommates(String apartmentId) throws ClientProtocolException, IOException {
-    	Map<String,String> whereCond = new HashMap<String,String>();
+    	Map<String,Object> whereCond = new HashMap<String,Object>();
     	whereCond.put("apartmentID", apartmentId);
     	String result =  QueryWhere("_User",whereCond);
     	System.out.println("result = "+result);
@@ -65,7 +68,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 
     @Override
     public List<ChoreInfo> getApartmentChoreInfos(String apartmentId) throws ClientProtocolException, IOException {
-        Map<String,String> whereConditionsMap = new HashMap<String, String>();
+        Map<String,Object> whereConditionsMap = new HashMap<String, Object>();
         whereConditionsMap.put("apartment", apartmentId);
         String result = QueryWhere("ChoresInfo",whereConditionsMap);
         System.out.println("result = "+result);
@@ -92,15 +95,22 @@ public class ParseRestClientImpl implements ParseRestClient {
 		return getObject("Chores",choreId);
 	}
 	
+	public Chore getChoreObj(String choreId) throws IOException{
+	
+		String jsonStr = getObject("Chores",choreId);
+		return JsonConverter.convertJsonToChore(new JSONObject(jsonStr));
+
+	}
+	
 	public StringBuilder updateObject(String className,String id,String jsonObject) throws ClientProtocolException, IOException{
 		HttpClient client = new DefaultHttpClient();
-		HttpPut post = new HttpPut("https://api.parse.com/1/classes/"+className);
-		post.setHeader("X-Parse-Application-Id", "oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG");
-		post.setHeader("X-Parse-REST-API-Key", "Tu5aHmbnn2Bz7AXVfSb2CPOng7LaoGkJHH0YbVXr");
-		post.setHeader("Content-Type", "application/json");
+		HttpPut put = new HttpPut(BASE_URL+className+"/"+id);
+		put.setHeader("X-Parse-Application-Id", "oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG");
+		put.setHeader("X-Parse-REST-API-Key", "Tu5aHmbnn2Bz7AXVfSb2CPOng7LaoGkJHH0YbVXr");
+		put.setHeader("Content-Type", "application/json");
 		 StringEntity input = new StringEntity(jsonObject);
-	        post.setEntity(input);
-	        HttpResponse response = client.execute(post);
+	        put.setEntity(input);
+	        HttpResponse response = client.execute(put);
 	        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 	        String line = "";
 	        StringBuilder result = new StringBuilder();
@@ -162,11 +172,11 @@ public class ParseRestClientImpl implements ParseRestClient {
         }
 		return result.toString();
 	}
-	public String QueryWhere(String className, Map<String,String> keyValue) throws ClientProtocolException, IOException{
+	public String QueryWhere(String className, Map<String,Object> keyValue) throws ClientProtocolException, IOException{
 		String where = buildWhereStatement(keyValue);
 		return getRequest(BASE_URL+className+"?"+where);
 	}
-	public String buildWhereStatement( Map<String,String> keyValue){
+	public String buildWhereStatement(Map<String,Object> keyValue){
 
 		return JsonConverter.whereConditionToJson(keyValue);
 
@@ -174,7 +184,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 
 	@Override
 	public List<RoommatesApartment> getTodaysApartmentList(String day) throws ClientProtocolException, IOException {
-		 Map<String,String> whereConditionsMap = new HashMap<String, String>();
+		 Map<String,Object> whereConditionsMap = new HashMap<String, Object>();
 	        whereConditionsMap.put("divisionDay", day);
 	        String result = QueryWhere("Apartment",whereConditionsMap);
 	        System.out.println("result = "+result);
@@ -188,17 +198,34 @@ public class ParseRestClientImpl implements ParseRestClient {
 	@Override
 	public void addChores(List<Chore> chores) throws ClientProtocolException, IOException {
 		
+		Chore chore;
+		String idStr;
+		JSONObject json;
 		for(int i=0; i< chores.size(); i++){
 			
-			String jsonChore = JsonConverter.convertChoreToJson(chores.get(i)).toString();
-			addChore(jsonChore);
+			chore = chores.get(i);
+			String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
+			idStr = addChore(jsonChore);
+			
+			json = new JSONObject(idStr);
+			chore.setId(json.getString("objectId"));
+			ChoresServerMain.triggerDeadlinePassed(chore);
 		}
-		
+	}
+	
+	public void addChoreObj(Chore chore) throws ClientProtocolException, IOException {
+
+			String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
+			addChore(jsonChore);
 	}
 
 	@Override
-	public void updateApartmentLastDivision(String apartmentId, Date today) {
-		// TODO Auto-generated method stub
+	public void updateApartmentLastDivision(String apartmentId, Date today) throws ClientProtocolException, IOException {
+		Map<String,Object> keyValue=new HashMap<String, Object>();
+		keyValue.put("lastDivision",today.getTime());
+		JSONObject json = new JSONObject(keyValue);
+		String update =json.toString();
+		updateObject("Apartment",apartmentId,update);
 		
 	}
 }

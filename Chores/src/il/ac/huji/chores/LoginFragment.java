@@ -137,7 +137,11 @@ public class LoginFragment extends Fragment {
                     verifyPwButton.setEnabled(true);
 
                     enterPhoneMsg.setVisibility(View.VISIBLE);
+                    phoneEdit.setEnabled(true);
+                    
                     phoneEdit.setVisibility(View.VISIBLE);
+                    phoneEdit.setEnabled(true);
+                    
                     String userPhoneNumber = findUserPhoneNumber();
                     // TODO add permissions!
                     phoneEdit.setText(userPhoneNumber != null ? userPhoneNumber : "");
@@ -155,6 +159,12 @@ public class LoginFragment extends Fragment {
 
                     verifyPwButton.setVisibility(View.INVISIBLE);
                     verifyPwButton.setEnabled(false);
+                    
+                    phoneEdit.setVisibility(View.INVISIBLE);
+                    phoneEdit.setEnabled(false);
+                    
+                    enterPhoneMsg.setVisibility(View.INVISIBLE);
+                    enterPhoneMsg.setEnabled(false);
 
                     button.setText(getResources().getString(R.string.login_login_button));
 

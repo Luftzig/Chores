@@ -31,7 +31,7 @@ public class ChoresRest {
 		for(ChoreInfo choreInfo :choreInfoList){
 			System.out.println("Scheduling chore :"+choreInfo.getName());
 			try {
-				chores.add(scheduleChore(choreInfo,currentDate, apartment));
+				chores.addAll(scheduleChore(choreInfo,currentDate, apartment));
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
@@ -46,21 +46,25 @@ public class ChoresRest {
 		
 	}
 	
-	private static Chore scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
+	private static List<Chore> scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
+		
+		List<Chore> chores=new ArrayList<Chore>();
 		Chore chore = new ApartmentChore();
 		chore.setChoreInfoId(choreInfo.getChoreInfoID());
 		chore.setCoinsNum(choreInfo.getCoinsNum());
 		chore.setName(choreInfo.getName());
 		chore.setStartsFrom(currentDate);
-		Date deadline = calculateDeadline(choreInfo,currentDate);
-		chore.setDeadline(deadline);
 		chore.setApartment(apartment);
 		chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
-		
-		return chore;
+		for(int i=0 ; i<choreInfo.getHowManyInPeriod();i++){
+			Date deadline = calculateDeadline(choreInfo,currentDate,i);
+			chore.setDeadline(deadline);
+			chores.add(chore);
+		}
+		return chores;
 		
 	}
-	private static Date calculateDeadline(ChoreInfo choreInfo, Date currentDate){
+	private static Date calculateDeadline(ChoreInfo choreInfo, Date currentDate,int offset){
 		Calendar c = Calendar.getInstance();
 		System.out.println("Current date : "+currentDate.toGMTString());
 		c.setTime(currentDate); // Now use today date.
@@ -68,6 +72,7 @@ public class ChoresRest {
 		switch(choreInfo.getPriod()){
 		
 		case CHORE_INFO_DAY:
+			days=1;
 			break;	
 		case CHORE_INFO_WEEK:
 			days=7;
@@ -79,6 +84,7 @@ public class ChoresRest {
 			days=365;
 			break;		
 		}
+		days=(offset+1)*days/choreInfo.getHowManyInPeriod();
 		c.add(Calendar.DATE, days);
 		Date deadline = c.getTime();
 		deadline.setHours(23);

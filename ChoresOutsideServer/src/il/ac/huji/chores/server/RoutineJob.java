@@ -15,6 +15,7 @@ import il.ac.huji.chores.server.parse.ParseRestClient;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 
 import org.apache.http.client.ClientProtocolException;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -22,6 +23,7 @@ import org.quartz.JobExecutionException;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
+@DisallowConcurrentExecution
 public class RoutineJob implements Job {
 	
 	final static String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -133,7 +135,7 @@ public class RoutineJob implements Job {
 		parse.addChores(chores);
 		
 		//Notify roommates about the new chores
-		NotificationsHandling.notifyNewChores();
+		NotificationsHandling.notifyNewChores(apartmentId);
 		
 	}
 }

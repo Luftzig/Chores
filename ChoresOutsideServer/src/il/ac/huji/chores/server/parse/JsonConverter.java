@@ -1,9 +1,6 @@
 package il.ac.huji.chores.server.parse;
-
 import il.ac.huji.chores.*;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -12,14 +9,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class JsonConverter {
 
-	public static String whereConditionToJson(Map<String, String> whereParams) {
+	public static  String whereConditionToJson(Map<String,Object> whereParams) {
 
 		JSONObject whereCond = new JSONObject(whereParams);
+		String whereString = whereCond.toString();
 		StringBuilder json = new StringBuilder();
 		json.append("where=");
-		json.append(URLEncoder.encode(whereCond.toString()));
+		json.append(URLEncoder.encode(whereString));
+		
 		return json.toString();
 	}
 
@@ -35,6 +38,21 @@ public class JsonConverter {
 		json.put("apartment",chore.getApartment());
 		json.put("assignedTo",chore.getAssignedTo());
 		return json.toString();
+	}
+	
+	public static Chore convertJsonToChore(JSONObject obj) {
+		Chore chore = new ApartmentChore();
+		chore.setName(obj.getString("name"));
+		chore.setStatus(CHORE_STATUS.valueOf(obj.getString("status")));
+		chore.setAssignedTo(obj.getString("assignedTo"));
+		chore.setDeadline(new Date(obj.getLong("deadline")));
+		chore.setStartsFrom(new Date(obj.getLong("startsFrom")));
+		chore.setCoinsNum(obj.getInt("coins"));
+		chore.setChoreInfoId(obj.getString("choreInfoId"));
+		chore.setApartment(obj.getString("apartment"));
+		
+		return chore;
+
 	}
 	public static RoommatesApartment convertJsonToApartment(JSONObject obj) {
 		RoommatesApartment apt = new RoommatesApartment();
@@ -93,7 +111,13 @@ public class JsonConverter {
 	public static Roommate convertJsonToRoommate(JSONObject obj) {
 		Roommate roommate = new Roommate();
 		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
+        try {
 		roommate.setDebt(obj.getInt("coins"));
+        } catch (JSONException e) {
+            // TODO [yl] Log it!
+            System.err.println(String.format("JSONException: %s", e.getMessage()));
+            roommate.setDebt(0);
+        }
 		roommate.setId(obj.getString("objectId"));
 		roommate.setUsername(obj.getString("username"));
 		return roommate;

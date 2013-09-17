@@ -54,7 +54,7 @@ public interface ParseRestClient {
     public void sendChores(String apartmentId, List<Chore> assignedChores);
     
     /**
-     * adds a list of apartment chores to the db
+     * adds a list of apartment chores to the db. and also triggers a deadline passed check.
      * @param newChores
      * @throws ClientProtocolException
      * @throws IOException
@@ -66,6 +66,8 @@ public interface ParseRestClient {
      * updates the lastDivision field of the apartment in the db to date.
      * @param apartmentId - the id of the apartment
      * @param date - the date to update to.
+     * @throws IOException 
+     * @throws ClientProtocolException 
      */
-	public void updateApartmentLastDivision(String apartmentId, Date date);
+	public void updateApartmentLastDivision(String apartmentId, Date date) throws ClientProtocolException, IOException;
 }
