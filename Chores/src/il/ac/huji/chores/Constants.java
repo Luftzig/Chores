@@ -9,7 +9,8 @@ public class Constants {
     public static final String PARSE_STEAL_CHANNEL_KEY="STEAL_CHORE";
     public static final String PARSE_SUGGEST_CHANNEL_KEY="SUGGEST_CHORE";
 	public static final String PARSE_NEW_CHORES_CHANNEL_KEY="ASSIGNED";
-
+	public static final String PARSE_NOTIFICATION_TITLE="notificationTitle";
+	public static final String PARSE_NOTIFICATION_MESSAGE="msg";
     public static final String PARSE_FUNCTIONS_URL = "https://api.parse.com/1/functions/";
 
     public enum ChoreDivideDay { 
