@@ -16,5 +16,7 @@
      <dimen name="dialog_questions_margin">16dp</dimen>
      <dimen name="font_20px">20dp</dimen>
      <dimen name="font_14px">14dp</dimen>
+    <dimen name="graph_width">260dp</dimen>
+    <dimen name="graph_height">140dp</dimen>
 
 </resources>

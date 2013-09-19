@@ -55,7 +55,7 @@ public class ChoresDivisionAlgorithms {
 			while(itr.hasNext()){
 				roommate = (Roommate)itr.next();
 				
-				if((roommate.get_coinsCollected()) == prevVal){
+				if((roommate.getCoinsCollected()) == prevVal){
 					equalCollected.add(roommate);
 				}
 				else{//add chores to roommates in list randomly and save start a new equal list
@@ -66,7 +66,7 @@ public class ChoresDivisionAlgorithms {
 						break;
 					}
 					else{
-						prevVal = roommate.get_coinsCollected();
+						prevVal = roommate.getCoinsCollected();
 						equalCollected.add(roommate); // Start a new list.
 
 					}
@@ -93,8 +93,8 @@ public class ChoresDivisionAlgorithms {
 		if(equalCollected.size() !=0 ){
 			Collections.shuffle(equalCollected);
 			for(int k=0; (k<equalCollected.size() && cur< sortedChores.size()); k++, cur++){//divide chores to all roommates in equal coins collected list
-				sortedChores.get(cur).setAssignedTo(equalCollected.get(k).get_username()); // assign chore to roommate.
-				equalCollected.get(k).set_coinsCollected(equalCollected.get(k).get_coinsCollected() + sortedChores.get(cur).getCoinsNum()); //update coinsCollected (for the algorithm)
+				sortedChores.get(cur).setAssignedTo(equalCollected.get(k).getUsername()); // assign chore to roommate.
+				equalCollected.get(k).setCoinsCollected(equalCollected.get(k).getCoinsCollected() + sortedChores.get(cur).getCoinsNum()); //update coinsCollected (for the algorithm)
 				Collections.sort(roommates, new ValueComparator());//coinsCollected was changed. sortList.
 			}
 			equalCollected.clear(); // Clear to start a new list.

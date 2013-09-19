@@ -2,34 +2,34 @@ package il.ac.huji.chores;
 
 public class Roommate {
 	
-	private String _username;
-	private int _dept;
-	private int _coinsCollected;
-	private String _id;
+	private String username;
+	private int debt;
+	private int coinsCollected;
+	private String id;
 	
-	public String get_username() {
-		return _username;
+	public String getUsername() {
+		return username;
 	}
-	public void set_username(String username) {
-		this._username = username;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public int get_dept() {
-		return _dept;
+	public int getDebt() {
+		return debt;
 	}
-	public void set_dept(int dept) {
-		this._dept = dept;
+	public void setDebt(int dept) {
+		this.debt = dept;
 	}
-	public int get_coinsCollected() {
-		return _coinsCollected;
+	public int getCoinsCollected() {
+		return coinsCollected;
 	}
-	public void set_coinsCollected(int coinsCollected) {
-		this._coinsCollected = coinsCollected;
+	public void setCoinsCollected(int coinsCollected) {
+		this.coinsCollected = coinsCollected;
 	}
-	public String get_id() {
-		return _id;
+	public String getId() {
+		return id;
 	}
-	public void set_id(String id) {
-		this._id = id;
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

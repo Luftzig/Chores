@@ -8,6 +8,7 @@ import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class RoommateDAL {
@@ -24,21 +25,43 @@ public class RoommateDAL {
 	public static String getRoomateUsername(){
 		return ParseUser.getCurrentUser().getUsername();
 	}
-	public static Roommate getRoommate(String roommateName) throws FailedToGetRoommateException{
-		
+
+    @Nullable
+    public static Roommate getRoommateByName(String roommateName) throws FailedToGetRoommateException{
 		ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("username", roommateName);
 		try {
-			ParseObject obj =(ParseObject) query.find().get(0);
-			Roommate roommate = convertObjToRoommate(obj);
-			return roommate;
-		} catch (ParseException e) {
+            List<ParseUser> parseUsers = query.find();
+            if (parseUsers.size() == 0) {
+                return null;
+            }
+            ParseObject obj = (ParseObject) parseUsers.get(0);
+            Roommate roommate = convertObjToRoommate(obj);
+            return roommate;
+        } catch (ParseException e) {
 			throw new FailedToGetRoommateException(e.getMessage());
 		}
 		
 	}
-	
-	
-	public static void increaseCoinsCollected(int coins) throws FailedToSaveOperationException{
+
+    @Nullable
+    public static Roommate getRoommateById(String id) throws FailedToGetRoommateException{
+        ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("objectId", id);
+        try {
+            List<ParseUser> parseUsers = query.find();
+            if (parseUsers.size() == 0) {
+                return null;
+            }
+            ParseObject obj = (ParseObject) parseUsers.get(0);
+            Roommate roommate = convertObjToRoommate(obj);
+            return roommate;
+        } catch (ParseException e) {
+            throw new FailedToGetRoommateException(e.getMessage());
+        }
+
+    }
+
+
+    public static void increaseCoinsCollected(int coins) throws FailedToSaveOperationException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		int currentCoins = currentUser.getInt("coins");
 		currentCoins+=coins;
@@ -96,9 +119,9 @@ public class RoommateDAL {
 	}
 	private static Roommate convertObjToRoommate(ParseObject obj){
 		Roommate roommate = new Roommate();
-		roommate.set_id(obj.getObjectId());
-		roommate.set_username(obj.getString("username"));
-		roommate.set_coinsCollected(obj.getInt("coinsCollected"));
+		roommate.setId(obj.getObjectId());
+		roommate.setUsername(obj.getString("username"));
+		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
 		return roommate;
 	
 	}
