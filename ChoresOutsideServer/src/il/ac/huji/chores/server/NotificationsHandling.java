@@ -97,7 +97,7 @@ public class NotificationsHandling {
 	public static JSONArray convertRoommatesToJSonArray(List<Roommate> roommates){
 		List<String> usersList = new ArrayList<String>();
 		for(Roommate roommate : roommates){
-			usersList.add(roommate.get_username());
+			usersList.add(roommate.getUsername());
 		}
 		JSONArray jsonArr = new JSONArray(usersList);
 		System.out.println(jsonArr.toString());
@@ -108,6 +108,7 @@ public class NotificationsHandling {
 		JSONObject json = new JSONObject();
 		json.put("alert",message);
 		json.put("title",title);
+		json.put("action","il.ac.huji.chores.choresNotification");
 		json.put("notificationType", notificationType);
 		return json;
 		
