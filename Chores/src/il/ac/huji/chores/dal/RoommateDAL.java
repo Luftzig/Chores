@@ -104,15 +104,15 @@ public class RoommateDAL {
         return phoneNumber.replaceAll("[^0-9]", "");
     }
 
-    public static int getRoommateDept(String roommate) throws FailedToGetChoreException{
+    public static int getRoommateDebt(String roommate) throws FailedToGetChoreException{
 		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_FUTURE");
 		try {
 			List<ParseObject> results = query.find();
-			int dept = 0;
+			int debt = 0;
 			for(ParseObject obj : results){
-				dept+=obj.getInt("coins");
+				debt+=obj.getInt("coins");
 			}
-			return dept;
+			return debt;
 		} catch (ParseException e) {
 			throw new FailedToGetChoreException(e.getMessage());
 		}
@@ -149,7 +149,8 @@ public class RoommateDAL {
             user.signUp();
             initRoommateProperties(phoneNumber);
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put("owner", ParseUser.getCurrentUser());
+            installation.put("userId", user.getObjectId());
+            installation.put("username", username);
             installation.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

@@ -28,25 +28,26 @@ public class AppSetup {
         
 		//start login activity (sign up inside)
 		LoginActivity.OpenLoginScreen(_ctx, true);
-        
     }
     
     private void setupPushNotifications(){
 //    	PushService.setDefaultPushCallback(_ctx, PushNotificationsHandlerActivity.class);
     	PushService.subscribe(_ctx, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-    	ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        Log.d("AppSetup", "Installation objectId: " + installation.getObjectId() + "InstallationId: "
+                + installation.getInstallationId());
+        installation.saveInBackground(new SaveCallback() {
 
-    		@Override
-    		public void done(ParseException arg0) {
-    			if(arg0 != null){
-    				Log.e("Exception", arg0.getStackTrace().toString());
-    			}
-    			else{
-    				Log.e(" Null", "saveInBackground succeeded");
-    			}
+            @Override
+            public void done(ParseException arg0) {
+                if (arg0 != null) {
+                    Log.e("Exception", arg0.getStackTrace().toString());
+                } else {
+                    Log.e(" Null", "saveInBackground succeeded");
+                }
 
-    		}
-    	});
+            }
+        });
     }
 
     private void setupActionBar() {

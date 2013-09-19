@@ -41,7 +41,7 @@ public class DALTestActivity extends Activity {
 			ChoreDAL.addChore(chore);
 			RoommateDAL.initRoommateProperties("037777777");
 			Roommate roommate = RoommateDAL.getRoommateByName("anna");
-			int dept=RoommateDAL.getRoommateDept("anna");
+			int dept=RoommateDAL.getRoommateDebt("anna");
 			int coins =RoommateDAL.getRoommateCollectedCoins("anna");
 			RoommateDAL.increaseCoinsCollected(5);
 			roommate = RoommateDAL.getRoommateByName("anna");

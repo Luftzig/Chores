@@ -50,7 +50,12 @@ public class InviteContactsFragment extends Fragment {
                 LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
                 final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
                 TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
-                String phone = adapter.getPhones(adapter.getCursor());
+                String phone;
+                if (adapter.getCursor().getPosition() > 0) {
+                    phone = adapter.getPhones(adapter.getCursor());
+                } else {
+                    phone = inviteEdit.getEditableText().toString();
+                }
                 MessagesToServer.invite(new FunctionCallback() {
                     @Override
                     public void done(Object o, ParseException e) {
