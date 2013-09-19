@@ -67,6 +67,7 @@ public class RoommateDAL {
 	public static void initRoommateProperties(String phoneNumber) throws UserNotLoggedInException{
 		ParseUser roommate = ParseUser.getCurrentUser();
 		roommate.put("coinsCollected", 0);
+		roommate.put("coins", 0);
         roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
         try {
 			roommate.save();
