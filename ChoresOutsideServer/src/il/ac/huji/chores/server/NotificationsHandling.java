@@ -31,14 +31,14 @@ public class NotificationsHandling {
 	public static void notifyNewChores(String apartmentId) throws ClientProtocolException, IOException {
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(apartmentId);
-		String title = "New chores division";
 		String message = "New chores has been divided";
-		JSONObject data = buildDataJson(title,message,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
-		JSONObject usersStatement = buildWhereRoommateStatement(roommates);
+		JSONObject data = buildDataJson(message,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		List<String> channelsList= new ArrayList<String>();
 		channelsList.add(Constants.PARSE_STEAL_CHANNEL_KEY);
-		JSONArray channels = new JSONArray(channelsList);
-		sendNotification(usersStatement,data,channels);
+		JSONObject usersStatement = buildWhereRoommateStatement(roommates,channelsList);
+		
+		//JSONArray channels = new JSONArray(channelsList);
+		sendNotification(usersStatement,data);
 		
 	}
 	
@@ -48,17 +48,17 @@ public class NotificationsHandling {
 		//get users list
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(chore.getApartment());
-		String title = "Chore missed";
 		String message = chore.getAssignedTo() + " has missed the chore '"+chore.getName()+"'";
-		JSONObject data = buildDataJson(title,message,Constants.PARSE_MISSED_CHANNEL_KEY);
-		JSONObject usersStatement = buildWhereRoommateStatement(roommates);
+		JSONObject data = buildDataJson(message,Constants.PARSE_MISSED_CHANNEL_KEY);
 		List<String> channelsList= new ArrayList<String>();
-		channelsList.add(Constants.PARSE_STEAL_CHANNEL_KEY);
-		JSONArray channels = new JSONArray(channelsList);
-		sendNotification(usersStatement,data,channels);
+		channelsList.add(Constants.PARSE_MISSED_CHANNEL_KEY);
+		JSONObject usersStatement = buildWhereRoommateStatement(roommates,channelsList);
+
+		//JSONArray channels = new JSONArray(channelsList);
+		sendNotification(usersStatement,data);
 	}
 	
-	private static void sendNotification(JSONObject users,JSONObject data,JSONArray channels) throws ClientProtocolException, IOException{
+	private static void sendNotification(JSONObject where,JSONObject data) throws ClientProtocolException, IOException{
 		HttpClient client = new DefaultHttpClient();
 		HttpPost put = new HttpPost(PUSH_URL);
 		put.setHeader("X-Parse-Application-Id", "oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG");
@@ -66,10 +66,9 @@ public class NotificationsHandling {
 		put.setHeader("Content-Type", "application/json");
 		JSONObject json = new JSONObject();
 		
-		json.put("channels",channels);
+		json.put("where",where);
 		json.put("data",data);
-		//json.put("where",users);
-				json.put("username", users);
+		//json.put("username", users);
 		//json.put("owner", "aTvZBFcxmh");
 		System.out.println("FINAL JSON:"+json);
 		StringEntity input = new StringEntity(json.toString());
@@ -85,14 +84,20 @@ public class NotificationsHandling {
 	        
 	}
 	
-	public static JSONObject buildWhereRoommateStatement(List<Roommate> roommates){
+	public static JSONObject buildWhereRoommateStatement(List<Roommate> roommates,List<String> channels){
 		JSONArray jsonRoommates = convertRoommatesToJSonArray(roommates);
-		JSONObject in = new JSONObject();
-		in.put("$in", jsonRoommates);
+		//JSONObject inUsers = new JSONObject();
+	//	inUsers.put("$in", jsonRoommates);
+		JSONObject where = new JSONObject();
+		//where.put("username",inUsers);
+		JSONObject inChannels = new JSONObject();
+		inChannels.put("$in", channels);
+		where.put("channels", inChannels);
+		return where;
 		//JSONObject owner = new JSONObject();
 		//owner.put("username", in);
 		//return owner;
-		return in;
+		//eturn in;
 	}
 	public static JSONArray convertRoommatesToJSonArray(List<Roommate> roommates){
 		List<String> usersList = new ArrayList<String>();
@@ -104,11 +109,12 @@ public class NotificationsHandling {
 		return jsonArr;
 		
 	}
-	public static JSONObject buildDataJson(String title, String message, String notificationType){
+	public static JSONObject buildDataJson(String message, String notificationType){
 		JSONObject json = new JSONObject();
-		json.put("alert",message);
-		json.put("title",title);
-		json.put("action","il.ac.huji.chores.choresNotification");
+		json.put("msg",message);
+		//json.put("alert",message);
+		//json.put("title",title);
+		json.put("action","il.ac.huji.chores.ChoresNotification");
 		json.put("notificationType", notificationType);
 		return json;
 		
