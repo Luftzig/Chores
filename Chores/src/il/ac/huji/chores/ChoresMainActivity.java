@@ -99,7 +99,7 @@ public class ChoresMainActivity extends Activity {
 	}
 
 
-	private void showNotificationDialog(final boolean onRightTab, int chosenTabLocation, final String type, JSONObject jsonData){
+	private void showNotificationDialog(final boolean onRightTab, int chosenTabLocation, final String type, final JSONObject jsonData){
 
 		final int chosen = chosenTabLocation;
 		String dialogMsg;
@@ -120,6 +120,16 @@ public class ChoresMainActivity extends Activity {
 			positiveButtonTxt = "Yes";
 			isNegButton = true;
 		}
+		
+		if(isNegButton){
+			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+
+			});
+		}
 
 		builder.setPositiveButton(positiveButtonTxt, new DialogInterface.OnClickListener() {
 
@@ -131,23 +141,18 @@ public class ChoresMainActivity extends Activity {
 					bar.getTabAt(chosen).select();
 				}
 
-				//If another things needs to be done, call function here 
+				//If other things needs to be done, call function here 
 				if(type.equals(Constants.PARSE_SUGGEST_CHANNEL_KEY)){
-					//TODO(shani) add func call
+					try {
+						ApartmentChoresFragment.doSuggestionAccepted(jsonData.get("choreId").toString(), getApplicationContext());
+					} catch (JSONException e) {
+						return;
+					}
 				}
 				//TODO: Yoav, add condition add check and function call here.
 			}
 		});
 
-		if(isNegButton){
-			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-
-			});
-		}
 
 		AlertDialog alert = builder.create();
 		alert.show();

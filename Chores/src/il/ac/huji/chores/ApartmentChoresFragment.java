@@ -1,8 +1,10 @@
 package il.ac.huji.chores;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.parse.ParseUser;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
 import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
@@ -165,6 +168,21 @@ public class ApartmentChoresFragment extends Fragment {
     	 
 		Collections.sort(histChores, new DeadlineComparator());
 		return histChores.get(0).getId();
+	}
+
+    //move suggested chore to current user, and send suggestion accepted notification
+	public static void doSuggestionAccepted(String suggestedChoreId, Context context) {
+		
+		try {
+			ChoreDAL.updateAssignedTo(suggestedChoreId, ParseUser.getCurrentUser().getUsername());
+			//TODO(shani): add call to suggestion accepted.
+		} catch (UserNotLoggedInException e) {
+			LoginActivity.OpenLoginScreen(context, false);
+			return;
+		} catch (DataNotFoundException e) {
+			Log.e("Exception", e.getMessage());
+			return;
+		}
 	}
 }
 
