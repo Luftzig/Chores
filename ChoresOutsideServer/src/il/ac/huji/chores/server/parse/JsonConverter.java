@@ -1,6 +1,10 @@
 package il.ac.huji.chores.server.parse;
+
 import il.ac.huji.chores.*;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -9,14 +13,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class JsonConverter {
 
+    @SuppressWarnings("deprecation")
 	public static  String whereConditionToJson(Map<String,Object> whereParams) {
-
 		JSONObject whereCond = new JSONObject(whereParams);
 		String whereString = whereCond.toString();
 		StringBuilder json = new StringBuilder();

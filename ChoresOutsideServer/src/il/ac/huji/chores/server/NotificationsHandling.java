@@ -1,33 +1,27 @@
 package il.ac.huji.chores.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.Constants;
+import il.ac.huji.chores.Roommate;
+import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.Constants;
-import il.ac.huji.chores.Roommate;
-import il.ac.huji.chores.server.parse.ParseRestClientImpl;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsHandling {
-	
-	private static String PUSH_URL = "https://api.parse.com/1/push";
 
+	 private static String PUSH_URL = "https://api.parse.com/1/push";
 	public static void notifyNewChores(String apartmentId) throws ClientProtocolException, IOException {
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(apartmentId);
@@ -119,5 +113,6 @@ public class NotificationsHandling {
 		return json;
 		
 	}
+
 
 }
