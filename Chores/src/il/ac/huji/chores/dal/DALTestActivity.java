@@ -19,6 +19,7 @@ import java.util.List;
 
 public class DALTestActivity extends Activity {
 
+    @SuppressWarnings("deprecation")
 	@Override
 	protected void onStart() {
 		super.onStart();

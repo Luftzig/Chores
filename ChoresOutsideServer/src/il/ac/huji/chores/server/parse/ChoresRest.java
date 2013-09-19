@@ -64,6 +64,8 @@ public class ChoresRest {
 		return chores;
 		
 	}
+
+    @SuppressWarnings("deprecation")
 	private static Date calculateDeadline(ChoreInfo choreInfo, Date currentDate,int offset){
 		Calendar c = Calendar.getInstance();
 		System.out.println("Current date : "+currentDate.toGMTString());
@@ -94,6 +96,4 @@ public class ChoresRest {
 		return deadline;
 		
 	}
-
-
 }

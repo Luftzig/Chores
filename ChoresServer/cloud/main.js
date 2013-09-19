@@ -15,9 +15,10 @@ Parse.Cloud.define("test", function(request, response) {
     response.success("Push sent");
 });
 
+//noinspection JSUnfilteredForInLoop
 function findPhones(phones) {
     var splitted = phones.split("; ");
-    var queries = new Array();
+    var queries = [];
     for (i in splitted) {
         if (splitted[i] == null || splitted[i] === undefined) {
             continue;

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DummyLoop {
 
+    @SuppressWarnings("deprecation")
 	public static void main(String[] args){
 		
 		List<Chore> chores = new ArrayList<Chore>();
