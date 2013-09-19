@@ -51,8 +51,8 @@ public class choresDevisionDummy {
 		//System.out.println(result);
 		Chore chore = new ApartmentChore();
 		chore.setName("wash dishes");
-		chore.setAssignedTo("Shani");
-		chore.setApartment("hsHTfdhmP6");
+		chore.setAssignedTo("anna!!!!");
+		chore.setApartment("Tl0A2RZUh8");
 		//NotificationsHandling.notifyNewChores("hsHTfdhmP6");
 		NotificationsHandling.notifyMissedChore(chore);
 	}
