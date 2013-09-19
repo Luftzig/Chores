@@ -19,20 +19,27 @@ public class AppSetup {
         context = ctx;
         Log.d("AppSetup", "Parse initialized");
         setupDAL();
-        setupPushNotifications();
-        setupActionBar();
         
-		//start login activity (sign up inside)
-		LoginActivity.OpenLoginScreen(context, true);
+      //start login activity (sign up inside)
+      	LoginActivity.OpenLoginScreen(context, true);
+              
+        setupPushNotifications();
+        
+		
     }
     
     private void setupPushNotifications(){
-//    	PushService.setDefaultPushCallback(context, PushNotificationsHandlerActivity.class);
+    	//PushService.setDefaultPushCallback(_ctx, ChoresMainActivity.class);
     	PushService.subscribe(context, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        Log.d("AppSetup", "Installation objectId: " + installation.getObjectId() + "InstallationId: "
-                + installation.getInstallationId());
-        installation.saveInBackground(new SaveCallback() {
+    	PushService.subscribe(context, Constants.PARSE_STEAL_CHANNEL_KEY, ApartmentActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_MISSED_CHANNEL_KEY, ApartmentActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_DONE_CHANNEL_KEY, ApartmentActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_SUGGEST_CHANNEL_KEY, ApartmentActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY, ApartmentActivity.class);
+
+    	
+    	ParseInstallation install = ParseInstallation.getCurrentInstallation();
+    	install.saveInBackground(new SaveCallback() {
 
             @Override
             public void done(ParseException e) {
@@ -46,9 +53,9 @@ public class AppSetup {
         });
     }
 
-    private void setupActionBar() {
+    public static void setupActionBar(Context context) {
     	
-    	ActionBar bar = ((Activity) context).getActionBar();
+    	ActionBar bar = ((Activity)context).getActionBar();
     	bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     	String fragLabel;
     	

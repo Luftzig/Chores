@@ -28,7 +28,7 @@ public class NotificationsHandling {
 		String message = "New chores has been divided";
 		JSONObject data = buildDataJson(message,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		List<String> channelsList= new ArrayList<String>();
-		channelsList.add(Constants.PARSE_STEAL_CHANNEL_KEY);
+		channelsList.add(Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		JSONObject usersStatement = buildWhereRoommateStatement(roommates,channelsList);
 		
 		//JSONArray channels = new JSONArray(channelsList);

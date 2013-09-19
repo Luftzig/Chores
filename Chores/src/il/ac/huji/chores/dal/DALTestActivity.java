@@ -72,16 +72,8 @@ public class DALTestActivity extends Activity {
 		chore.setName("WASH DISHES");
 		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
 		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
-		//NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
-		try {
-			//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
-			NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//NotificationsDAL.notifySuggestChore(chore, "anna4", roommates);
-		//NotificationsDAL.notifySuggestStealChore(chore, "anna5", roommates);
+		//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
+		NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
 		
 		
 	/*	try {
