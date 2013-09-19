@@ -8,7 +8,7 @@ import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
-import javax.annotation.Nullable;
+//import javax.annotation.Nullable;
 import java.util.List;
 
 public class RoommateDAL {
@@ -26,7 +26,7 @@ public class RoommateDAL {
 		return ParseUser.getCurrentUser().getUsername();
 	}
 
-    @Nullable
+   // @Nullable
     public static Roommate getRoommateByName(String roommateName) throws FailedToGetRoommateException{
 		ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("username", roommateName);
 		try {
@@ -43,7 +43,7 @@ public class RoommateDAL {
 		
 	}
 
-    @Nullable
+   // @Nullable
     public static Roommate getRoommateById(String id) throws FailedToGetRoommateException{
         ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("objectId", id);
         try {

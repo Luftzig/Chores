@@ -6,16 +6,22 @@ import android.view.Menu;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.R;
 import il.ac.huji.chores.Roommate;
+import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.exceptions.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.json.JSONException;
 
 public class DALTestActivity extends Activity {
 
@@ -33,6 +39,51 @@ public class DALTestActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 		
 		try {
+			/*RoommateDAL.createRoommateUser("anna","123123","0505050505");
+			RoommatesApartment apt = new RoommatesApartment();
+			apt.setDivisionDay(Constants.ChoreDivideDay.SUNDAY.toString());
+			apt.setName("Anna's apt");
+			apt.setDivisionFrequency(Constants.ChoreDividePeriod.ONCE_A_WEEK.toString());
+			String aptId= ApartmentDAL.createApartment(apt);*/
+			RoommateDAL.Login("anna", "123123");
+		//	RoommateDAL.addApartmentToRoommate("Tl0A2RZUh8");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} /*catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/ /*catch (ApartmentAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		/*ParseInstallation installation =ParseInstallation.getCurrentInstallation();
+		installation.put("username","anna");
+		installation.saveInBackground();
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_DONE_CHANNEL_KEY);
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_MISSED_CHANNEL_KEY);
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_STEAL_CHANNEL_KEY);
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);*/
+		List<String> roommates = new ArrayList<String>();
+		roommates.add("anna");
+		Chore chore =new ApartmentChore();
+		chore.setName("WASH DISHES");
+		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
+		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
+		//NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
+		try {
+			//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
+			NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//NotificationsDAL.notifySuggestChore(chore, "anna4", roommates);
+		//NotificationsDAL.notifySuggestStealChore(chore, "anna5", roommates);
+		
+		
+	/*	try {
 			Chore chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_DONE, null, null, null, 3);
 			chore.setChoreInfoId("8O1y3GOmK6");
 			ChoreDAL.addChore(chore);
@@ -61,7 +112,7 @@ public class DALTestActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		//RoommateDAL.Login("anna", "anna123");
 		/*RoommatesApartment apt = new RoommatesApartment();
 		apt.setName("new apartment");
@@ -110,12 +161,12 @@ public class DALTestActivity extends Activity {
 	//ParseUser.logOut();
 		//String roommateID =RoommateDAL.createRoommateUser("newRoommate",
 		// "123123","roommate@gmail.com");
-		try {
+	/*	try {
 			RoommateDAL.Login("newRoommate", "123123");
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 	/*	try {
 			ApartmentDAL.addRoommateToApartment(aptId);
 		} catch (UserNotLoggedInException e2) {
@@ -141,7 +192,7 @@ public class DALTestActivity extends Activity {
 		chore3.setChoreInfoId("8O1y3GOmK6");
 		chore4.setChoreInfoId("8O1y3GOmK6");*/
 		//chore5.setChoreInfoId(choreInfoId2);
-		try {
+		//try {
 			/*ChoreDAL.addChore(chore);
 		ChoreDAL.addChore(chore2);
 		ChoreDAL.addChore(chore3);
@@ -149,7 +200,7 @@ public class DALTestActivity extends Activity {
 		*/
 		//List<Chore> allChores = ChoreDAL.getAllChores();
 		//List<Chore> roommateChores = ChoreDAL.getRoommatesChores();
-		List<Chore> roommateOldChores = ChoreDAL.getUserAllOldChores();
+		/*List<Chore> roommateOldChores = ChoreDAL.getUserAllOldChores();
 		List<Chore> allOldUserChores = ChoreDAL.getUserOldChores("chore", 1);
 		allOldUserChores = ChoreDAL.getUserOldChores("chore2", 5);
 		ChoreDAL.updateCoins("8O1y3GOmK6", 4);
@@ -157,11 +208,11 @@ public class DALTestActivity extends Activity {
 		roommateOldChores = ChoreDAL.getUserAllOldChores();
 		allOldUserChores = ChoreDAL.getUserOldChores("chore", 1);
 		allOldUserChores = ChoreDAL.getUserOldChores("chore2", 5);
-		
+		*/
 		/*} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();*/
-		} catch (UserNotLoggedInException e) {
+		/*} catch (UserNotLoggedInException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		//}/* catch (FailedToRetriveAllChoresException e) {
