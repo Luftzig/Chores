@@ -13,8 +13,6 @@ public class Constants {
 
     public static final String PARSE_FUNCTIONS_URL = "https://api.parse.com/1/functions/";
     
-    public static final String newIntentAction = "il.ac.huji.chores.newIntentAction";
-
 
     public enum ChoreDivideDay { 
         SUNDAY, MONDAY, TUESDAY, WEDENSDAY,

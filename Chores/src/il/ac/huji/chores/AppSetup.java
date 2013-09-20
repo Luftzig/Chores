@@ -28,14 +28,14 @@ public class AppSetup {
 		
     }
     
+    //VERY IMPORTANT COMMENT: If you change the channel subscribing, you must update the un-subscribing to this channel!!!
+    //(the un-subscribing is done on the app setting)
     private void setupPushNotifications(){
-    	//PushService.setDefaultPushCallback(_ctx, ChoresMainActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_NEW_CHORES_CHANNEL_KEY, ChoresMainActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_STEAL_CHANNEL_KEY, ApartmentActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_MISSED_CHANNEL_KEY, ApartmentActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_DONE_CHANNEL_KEY, ApartmentActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_SUGGEST_CHANNEL_KEY, ApartmentActivity.class);
-    	PushService.subscribe(context, Constants.PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY, ApartmentActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_STEAL_CHANNEL_KEY, ChoresMainActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_MISSED_CHANNEL_KEY, ChoresMainActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_DONE_CHANNEL_KEY, ChoresMainActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_SUGGEST_CHANNEL_KEY, ChoresMainActivity.class);
+    	PushService.subscribe(context, Constants.PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY, ChoresMainActivity.class);
 
     	
     	ParseInstallation install = ParseInstallation.getCurrentInstallation();
