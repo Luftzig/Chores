@@ -12,10 +12,17 @@ import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.NotificationsDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ChoresMainActivity extends Activity {
 
     static public boolean mainActivityRunning = false;
+    ActivityBroadcastReceiver receiver;
     ActivityBroadcastReceiver receiver;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +44,7 @@ public class ChoresMainActivity extends Activity {
                 apartmentId = RoommateDAL.getApartmentID();
             } catch (UserNotLoggedInException e) {
                 LoginActivity.OpenLoginScreen(this, false);
-
             }
-
             if (apartmentId == null) {
                 Intent intent = new Intent(this, NewApartmentDialogActivity.class);
                 startActivity(intent);
@@ -65,13 +70,6 @@ public class ChoresMainActivity extends Activity {
             Log.w("showNotificationDialog", "Failed to find message");
             return;
         }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(dialogMsg);
-        String positiveButtonTxt = "OK";
-        String negativeButtonTxt = null;
-        boolean isNegButton = false;
-
         switch (Constants.ParseChannelKeys.valueOf(type)) {
             case PARSE_SUGGEST_CHANNEL_KEY:
                 positiveButtonTxt = getResources().getString(R.string.suggest_positive_response);
@@ -88,66 +86,6 @@ public class ChoresMainActivity extends Activity {
         }
         builder.setPositiveButton(positiveButtonTxt, new DialogInterface.OnClickListener() {
 
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                if (!onRightTab) {
-                    ActionBar bar = getActionBar();
-                    bar.getTabAt(chosen).select();
-                }
-
-                //If another things needs to be done, call function here
-                switch (Constants.ParseChannelKeys.valueOf(type)) {
-                    case PARSE_SUGGEST_CHANNEL_KEY:
-                        //TODO(shani) add func call
-                        break;
-                    case PARSE_INVITATION_CHANNEL_KEY:
-                        acceptApartmentInvitation(jsonData);
-                        break;
-                    default:
-                        Log.d("showNotificationDialog", "push of type " + type + " was not handled");
-                }
-            }
-        });
-
-        if (isNegButton) {
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-
-            });
-        }
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    private void acceptApartmentInvitation(JSONObject jsonData) {
-        try {
-            String apartmentId = jsonData.getString("apartmentId");
-            ApartmentDAL.addRoommateToApartment(apartmentId);
-            NotificationsDAL.notifyInvitationAccepted(RoommateDAL.getRoomateUsername(), apartmentId);
-        } catch (UserNotLoggedInException e) {
-            LoginActivity.OpenLoginScreen(this, false);
-        } catch (JSONException e) {
-            Log.w("acceptApartmentInvitation", "Error occured when trying to accept invitation", e);
-            Log.d("acceptApartmentInvitation", "Offending JSON: " + jsonData.toString());
-            showErrorDialog(getResources().getString(R.string.failed_to_join_apartment), e);
-        }
-    }
-
-    /**
-     * This should called to inform the user on errors, and allow reporting. Not implemented yet.
-     * @param message error message to display.
-     * @param cause error cause, if any
-     */
-    private void showErrorDialog(String message, Throwable cause) {
-        // TODO [yl] create an error dialog
-    }
-
-
     enum ACTION_BAR_TABS_ORDER {
         MY_CHORES,
         APARTMENT,
@@ -158,17 +96,13 @@ public class ChoresMainActivity extends Activity {
     private class ActivityBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             ActionBar bar = ChoresMainActivity.this.getActionBar();
             ActionBar.Tab curSelected = bar.getSelectedTab();
-
             JSONObject jsonData;
             try {
                 jsonData = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
                 String type = jsonData.getString("notificationType");
-
-
                 boolean onRightTab = (curSelected.getText().equals(getResources().getString(R.string.action_bar_apartment)) == false);
                 int nextTab = 0;
 

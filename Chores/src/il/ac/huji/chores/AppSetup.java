@@ -26,6 +26,8 @@ public class AppSetup {
         setupPushNotifications();
     }
     
+    //VERY IMPORTANT COMMENT: If you change the channel subscribing, you must update the un-subscribing to this channel!!!
+    //(the un-subscribing is done on the app setting)
     private void setupPushNotifications(){
     	//PushService.setDefaultPushCallback(_ctx, ChoresMainActivity.class);
     	PushService.subscribe(context,
