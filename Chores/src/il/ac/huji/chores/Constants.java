@@ -4,17 +4,19 @@ public class Constants {
 
     // Constant strings
     public final static String CHORE_CARD_OPEN = "il.ac.huji.chores.CHORE_CARD_OPEN";
-    public static final String PARSE_DONE_CHANNEL_KEY="CHORE_DONE1";
-    public static final String PARSE_MISSED_CHANNEL_KEY="CHORE_MISSED1";
-    public static final String PARSE_STEAL_CHANNEL_KEY="STEAL_CHORE1";
-    public static final String PARSE_SUGGEST_CHANNEL_KEY="SUGGEST_CHORE1";
-	public static final String PARSE_NEW_CHORES_CHANNEL_KEY="ASSIGNED";
-	public static final String PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY = "SUGGEST_ACCEPTED";
-
     public static final String PARSE_FUNCTIONS_URL = "https://api.parse.com/1/functions/";
-    
     public static final String newIntentAction = "il.ac.huji.chores.newIntentAction";
 
+    public enum ParseChannelKeys {
+        PARSE_DONE_CHANNEL_KEY,
+        PARSE_MISSED_CHANNEL_KEY,
+        PARSE_STEAL_CHANNEL_KEY,
+        PARSE_SUGGEST_CHANNEL_KEY,
+        PARSE_NEW_CHORES_CHANNEL_KEY,
+        PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY,
+        PARSE_INVITATION_CHANNEL_KEY,
+        PARSE_JOINED_CHANNEL_KEY;
+    }
 
     public enum ChoreDivideDay { 
         SUNDAY, MONDAY, TUESDAY, WEDENSDAY,

@@ -89,9 +89,12 @@ Parse.Cloud.define("invite", function(request, response) {
                 Parse.Push.send({
                     where: installationsQuery,
                     data: {
-                        by: inviter,
-                        alert: "You were invited to join apartment " + inviter.get("apartmentID"),
-                        apartmentId: inviter.get("apartmentID")
+                        alert: "You were invited to join an apartment",
+                        apartmentId: inviter.get("apartmentID"),
+                        msg: "You were invited to join " + inviter.get("username") + "'s apartment.",
+                        action: "il.ac.huji.chores.choresNotification",
+                        notificationType: "PARSE_INVITATION_CHANNEL_KEY",
+                        inviter: inviter
                     }
                 });
             }

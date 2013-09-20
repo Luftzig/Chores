@@ -132,4 +132,9 @@
 	
 	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
 	<string name="chore_card_suggest_chore_suggest_button">Suggest</string><string name="login_ask_for_phone_msg">Enter your phone number</string>
+    <string name="suggest_positive_response">Take chore</string>
+    <string name="invitation_positive_response">Join Apartment</string>
+    <string name="suggest_negative_response">Refuse offer</string>
+    <string name="invitation_negative_response">Decline</string>
+    <string name="failed_to_join_apartment">Failed to join apartment.</string>
 </resources>
