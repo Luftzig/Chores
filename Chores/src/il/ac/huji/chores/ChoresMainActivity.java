@@ -169,7 +169,15 @@ public class ChoresMainActivity extends Activity {
                 jsonData = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
                 String type = jsonData.getString("notificationType");
-                boolean onRightTab = (curSelected.getText().equals(getResources().getString(R.string.action_bar_apartment)) == false);
+                boolean onRightTab;
+                if (curSelected != null) {
+                    CharSequence text = curSelected.getText();
+                    onRightTab = (!getResources().getString(R.string.action_bar_apartment)
+                            .equals(text));
+                } else {
+                    onRightTab = false;
+                }
+
                 int nextTab = 0;
 
                 switch (Constants.ParseChannelKeys.valueOf(type)) {

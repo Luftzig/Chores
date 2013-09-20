@@ -9,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -19,7 +22,10 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * MyChoresFragment contains a list of all chores assigned to the current user.
@@ -82,18 +88,45 @@ public class MyChoresFragment extends Fragment {
         }
 
         // Coins Chart stuff
-        if (chart == null) {
-            initChart();
-            createDataSet();
-            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
-            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
+        try {
+            if (chart == null) {
+                initChart();
+                    createDataSeries(getCoinsMap());
+                chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+                ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
+            }
+        } catch (UserNotLoggedInException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (FailedToGetRoommateException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
-    private void createDataSet() {
-        currentSeries.add(1, 100);
-        currentSeries.add(1, 200);
-        currentSeries.add(1, 250);
+    private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException, FailedToGetRoommateException {
+        List<String> roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+        if (roommates == null || roommates.size() == 0) {
+            throw new FailedToGetRoommateException("No roommates found for apartment " + RoommateDAL.getApartmentID());
+        }
+        Map<String, Integer> coinsMap = new HashMap<String, Integer>(roommates.size());
+        for (String username : roommates) {
+            Roommate roommate = RoommateDAL.getRoommateByName(username);
+            coinsMap.put(roommate.getUsername(), roommate.getCoinsCollected());
+        }
+        return coinsMap;
+    }
+
+    private void createDataSeries(Map<String, Integer> coins) {
+        int i = 1;
+        List<String> orderedKeys = new ArrayList<String>(coins.size());
+        String currentRoommate = RoommateDAL.getRoomateUsername();
+        for (String key : coins.keySet()) {
+            if (key.equals(currentRoommate)) {
+                currentSeries.add(1, coins.get(key));
+                orderedKeys.add(0, key);
+            } else {
+                currentSeries.add(i, coins.get(key));
+            }
+        }
     }
 
     private void initChart() {
@@ -101,7 +134,9 @@ public class MyChoresFragment extends Fragment {
         dataSet.addSeries(currentSeries);
         chartRenderer = new XYSeriesRenderer();
         renderer.addSeriesRenderer(chartRenderer);
-        renderer.setBarSpacing(1);
+        renderer.setBarSpacing(0.5);
+        renderer.setDisplayValues(true);
+        renderer.setXAxisMin(0.0);
     }
 
     @Override
