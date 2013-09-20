@@ -15,16 +15,16 @@ public class Constants {
         PARSE_NEW_CHORES_CHANNEL_KEY,
         PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY,
         PARSE_INVITATION_CHANNEL_KEY,
-        PARSE_JOINED_CHANNEL_KEY;
+        PARSE_JOINED_CHANNEL_KEY
     }
 
     public enum ChoreDivideDay { 
-        SUNDAY, MONDAY, TUESDAY, WEDENSDAY,
-        THURSDAY, FRIDAY, SATURDAY; 
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+        THURSDAY, FRIDAY, SATURDAY
     }
 
     public enum TimeScale {
-        DAY, WEEK, MONTH, YEAR;
+        DAY, WEEK, MONTH, YEAR
     }
 
     public enum ChoreDividePeriod {
