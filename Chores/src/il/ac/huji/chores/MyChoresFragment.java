@@ -19,13 +19,11 @@ import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * MyChoresFragment contains a list of all chores assigned to the current user.
@@ -89,12 +87,9 @@ public class MyChoresFragment extends Fragment {
 
         // Coins Chart stuff
         try {
-            if (chart == null) {
-                initChart();
-                    createDataSeries(getCoinsMap());
-                chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
-                ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
-            }
+            initChart();
+            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
         } catch (UserNotLoggedInException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (FailedToGetRoommateException e) {
@@ -115,8 +110,8 @@ public class MyChoresFragment extends Fragment {
         return coinsMap;
     }
 
-    private void createDataSeries(Map<String, Integer> coins) {
-        int i = 1;
+    private List<String> createDataSeries(Map<String, Integer> coins) {
+        int i = 2;
         List<String> orderedKeys = new ArrayList<String>(coins.size());
         String currentRoommate = RoommateDAL.getRoomateUsername();
         for (String key : coins.keySet()) {
@@ -125,18 +120,49 @@ public class MyChoresFragment extends Fragment {
                 orderedKeys.add(0, key);
             } else {
                 currentSeries.add(i, coins.get(key));
+                i++;
+                orderedKeys.add(key);
             }
         }
+        return orderedKeys;
     }
 
-    private void initChart() {
-        currentSeries = new XYSeries("Sample Data");
+    private void initChart() throws UserNotLoggedInException, FailedToGetRoommateException {
+        currentSeries = new XYSeries("Coins");
+        Map<String, Integer> coinsMap = getCoinsMap();
+        List<String> orderedNames = createDataSeries(coinsMap);
         dataSet.addSeries(currentSeries);
         chartRenderer = new XYSeriesRenderer();
         renderer.addSeriesRenderer(chartRenderer);
-        renderer.setBarSpacing(0.5);
-        renderer.setDisplayValues(true);
+        renderer.setBarSpacing(0.2);
         renderer.setXAxisMin(0.0);
+        renderer.setXAxisMax(orderedNames.size() + 1);
+        int minCoins = findCoinsMin(coinsMap);
+        int maxCoins = findCoinsMax(coinsMap);
+        int padding = (maxCoins - minCoins) / 10;
+        renderer.setYAxisMax(maxCoins + padding);
+        renderer.setYAxisMin(minCoins - 2 * padding);
+        renderer.clearXTextLabels();
+        renderer.clearYTextLabels();
+        renderer.setShowAxes(false);
+        renderer.setShowGrid(false);
+        renderer.setMarginsColor(DefaultRenderer.NO_COLOR);
+        renderer.setBackgroundColor(DefaultRenderer.NO_COLOR); // TODO [yl] use color from theme
+        renderer.setClickEnabled(false);
+        renderer.setYTitle(getResources().getString(R.string.coins_graph_y_label));
+        int k = 1;
+        for (String name : orderedNames) {
+            renderer.addXTextLabel(k, name);
+            k++;
+        }
+    }
+
+    private int findCoinsMax(Map<String, Integer> coinsMap) {
+        return Collections.max(coinsMap.values());
+    }
+
+    private int findCoinsMin(Map<String, Integer> coinsMap) {
+        return Collections.min(coinsMap.values());
     }
 
     @Override

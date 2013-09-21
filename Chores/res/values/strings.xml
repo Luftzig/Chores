@@ -139,5 +139,6 @@
     <string name="invitation_negative_response">Decline</string>
     <string name="failed_to_join_apartment">Failed to join apartment.</string>
     <string name="alarm_dialog_positive">OK</string>
+    <string name="coins_graph_y_label">Coins</string>
 </resources>
 
