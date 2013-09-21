@@ -7,21 +7,12 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
-import com.parse.ParseUser;
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.Chore.CHORE_STATUS;
-import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.R;
-import il.ac.huji.chores.Roommate;
-import il.ac.huji.chores.RoommatesApartment;
-import il.ac.huji.chores.exceptions.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import org.json.JSONException;
 
 public class DALTestActivity extends Activity {
 
@@ -46,7 +37,7 @@ public class DALTestActivity extends Activity {
 			apt.setName("Anna's apt");
 			apt.setDivisionFrequency(Constants.ChoreDividePeriod.ONCE_A_WEEK.toString());
 			String aptId= ApartmentDAL.createApartment(apt);*/
-			RoommateDAL.Login("anna2", "123123");
+			RoommateDAL.Login("Yoav", "1234");
 		//	RoommateDAL.addApartmentToRoommate("Tl0A2RZUh8");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

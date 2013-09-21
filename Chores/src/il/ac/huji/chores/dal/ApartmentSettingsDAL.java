@@ -16,6 +16,8 @@ import il.ac.huji.chores.exceptions.FailedToGetApartmentSettings;
 import il.ac.huji.chores.exceptions.FailedToUpdateSettingsException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
+import java.util.List;
+
 public class ApartmentSettingsDAL {
 
 	public static Settings getSettings() throws UserNotLoggedInException,

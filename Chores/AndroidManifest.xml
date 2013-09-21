@@ -89,9 +89,11 @@
   		android:label="alarmService" >
 	</service> 
         <activity
+
+<!--        <activity
             android:name="il.ac.huji.chores.NotificationDummyActivity"
             android:label="@string/title_activity_notification_dummy" >
-        </activity>
+        </activity>-->
     </application>
 
 </manifest>
