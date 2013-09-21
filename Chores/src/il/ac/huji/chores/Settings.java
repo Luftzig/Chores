@@ -21,9 +21,7 @@ public class Settings {
 	public class Reminders{
 		public int hours;
 	}
-	
-	public String username;
-	
+		
 	
 	
 

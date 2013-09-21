@@ -65,10 +65,6 @@ public class MyChoresFragment extends Fragment {
         super.onDetach();
     }
 
-    //this will be called if there's a new ASSIGNED actions - new chores were assigned
-    protected void onNewIntent(Intent intent) {
-    
-    }
 
     @Override
     public void onResume() {

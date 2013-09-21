@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/> 
 
     <application
         android:allowBackup="true"
@@ -43,7 +44,12 @@
         <activity
             android:name="il.ac.huji.chores.ApartmentSettingsActivity"
             android:label="@string/title_activity_apartment_settings"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@android:style/Theme.Dialog"  >
+        </activity>
+         <activity
+            android:name="il.ac.huji.chores.AlarmDialog"
+            android:label="AlarmDialog"
+            android:theme="@android:style/Theme.Dialog"  >
         </activity>
         <activity
             android:name="il.ac.huji.chores.SettingsActivity"
@@ -69,7 +75,6 @@
             android:name="il.ac.huji.chores.NewChoreDialogActivity"
             android:label="@string/title_add_edit_chores" >
         </activity>
-
         <service android:name="com.parse.PushService" />
 
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
@@ -78,7 +83,11 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
+	<receiver android:name=".AlarmReciever"/> 
+	<service
+  		android:name=".AlarmService"
+  		android:label="alarmService" >
+	</service> 
         <activity
             android:name="il.ac.huji.chores.NotificationDummyActivity"
             android:label="@string/title_activity_notification_dummy" >

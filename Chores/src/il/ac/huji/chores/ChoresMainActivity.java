@@ -7,8 +7,10 @@ import android.content.*;
 import android.os.Bundle;
 import android.util.Log;
 import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.ApartmentSettingsDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.FailedToGetApartmentSettings;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,7 +99,11 @@ public class ChoresMainActivity extends Activity {
                 //If another things needs to be done, call function here
                 switch (Constants.ParseChannelKeys.valueOf(type)) {
                     case PARSE_SUGGEST_CHANNEL_KEY:
-                        //TODO(shani) add func call
+                        	try {
+						ApartmentChoresFragment.doSuggestionAccepted(jsonData.get("choreId").toString(), getApplicationContext());
+					} catch (JSONException e) {
+						return;
+					}
                         break;
                     case PARSE_INVITATION_CHANNEL_KEY:
                         acceptApartmentInvitation(jsonData);
@@ -168,7 +174,14 @@ public class ChoresMainActivity extends Activity {
 
                 switch (Constants.ParseChannelKeys.valueOf(type)) {
                     case PARSE_NEW_CHORES_CHANNEL_KEY:
+                    	Settings settings = ApartmentSettingsDAL.getSettings();
+                    	boolean showDialog = settings.notifications.newChoresHasBeenDivided;
+                    	Log.e("new chore divided val:", ""+showDialog);
+                    	if(!showDialog){
+                    		return;
+                    	}
                         nextTab = ACTION_BAR_TABS_ORDER.MY_CHORES.ordinal();
+                        setChoreAlarms(Long.parseLong(jsonData.get("updateTime").toString()));
                         break;
                     case PARSE_INVITATION_CHANNEL_KEY:
                         nextTab = ACTION_BAR_TABS_ORDER.APARTMENT.ordinal();
@@ -180,9 +193,24 @@ public class ChoresMainActivity extends Activity {
 
             } catch (JSONException e) {
                 return;
-            }
+            } catch (UserNotLoggedInException e) {
+				return;// no need to log in 
+			} catch (FailedToGetApartmentSettings e) {
+				return;
+			}
         }
     }
+    
+    // Schedule reminders to new chores created at 'createTime' (in background)
+    private void setChoreAlarms(long createTime) {
+    
+    	// use this to start and trigger a service
+    	Intent i= new Intent(this, AlarmService.class);
+    	// potentially add data to the intent
+    	i.putExtra("createTime", createTime);
+    	Log.e("^^^^^^^^^^", "start service was called");
+    	this.startService(i); 
+	}
 }
 
 

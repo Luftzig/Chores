@@ -197,9 +197,6 @@ public class ChoreCardFragment extends Fragment {
 						
 					} catch (FailedToUpdateStatusException e) {
 						// TODO (shani) decide what to do
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 					getActivity().finish();
 				}
@@ -236,9 +233,6 @@ public class ChoreCardFragment extends Fragment {
 						e.printStackTrace();
 					} catch (DataNotFoundException e) {
 						// TODO decide what to do
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 					 getActivity().finish();
 				 }
@@ -279,12 +273,7 @@ public class ChoreCardFragment extends Fragment {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
 		            	   String sender = RoommateDAL.getRoomateUsername();
-							try {
-								NotificationsDAL.notifySuggestChore(chore, sender, selectedItems);
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							NotificationsDAL.notifySuggestChore(chore, sender, selectedItems);
 							 getActivity().finish();
 		               }
 		           })
