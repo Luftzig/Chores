@@ -19,9 +19,9 @@ public class ApartmentSettingsDAL {
 
 	public static Settings getSettings() throws UserNotLoggedInException,
 			FailedToGetApartmentSettings {
-		String apartmentID = RoommateDAL.getApartmentID();
+		String username = RoommateDAL.getRoomateUsername();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Settings");
-		query.whereEqualTo("apartment", apartmentID);
+		query.whereEqualTo("username", username);
 		ParseObject result;
 		try {
 			List<ParseObject> results = query.find();
@@ -54,6 +54,7 @@ public class ApartmentSettingsDAL {
 			throws UserNotLoggedInException, FailedToGetApartmentSettings {
 
 		Settings settings = new Settings();
+		settings.username = RoommateDAL.getRoomateUsername();
 		// Notifications
 		settings.notifications = settings.new Notifications();
 		settings.notifications.newChoresHasBeenDivided = true;
@@ -86,7 +87,8 @@ public class ApartmentSettingsDAL {
 			throws UserNotLoggedInException, FailedToUpdateSettingsException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseObject parseSettings = new ParseObject("Settings");
-		parseSettings.put("apartment", apartmentID);
+		//parseSettings.put("apartment", apartmentID);
+		parseSettings.put("username",settings.username);
 		parseSettings.put("newChoresHasBeenDivided",
 				settings.notifications.newChoresHasBeenDivided);
 		parseSettings.put("roommateFinishedChore",
@@ -119,7 +121,7 @@ public class ApartmentSettingsDAL {
 				.getBoolean("roommateMissedChore");
 		settings.notifications.roommateStoleMyChore = obj
 				.getBoolean("roommateStoleMyChore");
-
+		settings.username = obj.getString("username");
 		settings.chores = settings.new Chores();
 		settings.chores.disableRemindersAboutUpcomingChores = obj
 				.getBoolean("disableRemindersAboutUpcomingChores");

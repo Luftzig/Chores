@@ -1,7 +1,6 @@
 package il.ac.huji.chores.server;
 
 import il.ac.huji.chores.Chore;
-import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 import org.apache.http.HttpResponse;

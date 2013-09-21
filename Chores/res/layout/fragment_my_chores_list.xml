@@ -6,18 +6,21 @@
     tools:context=".MyChoresFragment" 
     android:tag="MyChoresFragment_tag">
 
+<!--
     <il.ac.huji.chores.CoinsGraphView
             android:id="@+id/myChoresGraph"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:gravity="center"
             android:layout_margin="20dp"/>
+-->
 
-<!--    <TextView
-        android:id="@+id/myChoresFragmentTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" />-->
+    <FrameLayout
+            android:id="@+id/myChoresChartContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal|top">
+    </FrameLayout>
 
     <ListView
         android:id="@+id/myChoresFragmentListView"

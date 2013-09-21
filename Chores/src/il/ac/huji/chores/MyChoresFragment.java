@@ -11,6 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.util.List;
 
@@ -21,6 +28,11 @@ public class MyChoresFragment extends Fragment {
 
     private MyChoresListAdapter adapter;
     private List<Chore> chores;
+    private XYSeries currentSeries;
+    private XYMultipleSeriesDataset dataSet = new XYMultipleSeriesDataset();
+    private XYSeriesRenderer chartRenderer;
+    private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+    private GraphicalView chart;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -72,6 +84,28 @@ public class MyChoresFragment extends Fragment {
                 LoginActivity.OpenLoginScreen(getActivity(), false);
             }
         }
+
+        // Coins Chart stuff
+        if (chart == null) {
+            initChart();
+            createDataSet();
+            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
+        }
+    }
+
+    private void createDataSet() {
+        currentSeries.add(1, 100);
+        currentSeries.add(1, 200);
+        currentSeries.add(1, 250);
+    }
+
+    private void initChart() {
+        currentSeries = new XYSeries("Sample Data");
+        dataSet.addSeries(currentSeries);
+        chartRenderer = new XYSeriesRenderer();
+        renderer.addSeriesRenderer(chartRenderer);
+        renderer.setBarSpacing(1);
     }
 
     @Override

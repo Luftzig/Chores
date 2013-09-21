@@ -347,4 +347,12 @@ public class ChoreDAL {
 
 	}
 
+	/**
+	 * Gets all chores created after createTime. createTime in milis.
+	 **/
+	public static List<Chore> getAllChoresCreatedAfter(long createTime) {
+		// TODO Auto-generated method stub
+		return new ArrayList<Chore>();
+	}
+
 }
