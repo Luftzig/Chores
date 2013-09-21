@@ -67,22 +67,22 @@ public class DALTestActivity extends Activity {
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);*/
 		List<String> roommates = new ArrayList<String>();
-		roommates.add("anna3");
+		roommates.add("anna4");
 		Chore chore =new ApartmentChore();
 		chore.setName("WASH DISHES");
-		//ParseInstallation intallation = ParseInstallation.getCurrentInstallation();
-		//intallation.put("username", "anna3");
-		//intallation.saveInBackground();
-		//intallation.add("channels",Constants.ParseChannelKeys.PARSE_DONE_CHANNEL_KEY.toString());
-		//intallation.saveInBackground();
+		/*ParseInstallation intallation = ParseInstallation.getCurrentInstallation();
+		intallation.put("username", "anna4");
+		intallation.saveInBackground();
+		intallation.add("channels",Constants.ParseChannelKeys.PARSE_DONE_CHANNEL_KEY.toString());
+		intallation.saveInBackground();*/
 		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
 		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
 		//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
-		NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
+		NotificationsDAL.notifyChoreDone(chore, "ANNA3", roommates);
 		
 		
 	/*	try {
-			Chore chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_DONE, null, null, null, 3);
+			Chore chore = new ApartmentChore(null, "5chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_DONE, null, null, null, 3);
 			chore.setChoreInfoId("8O1y3GOmK6");
 			ChoreDAL.addChore(chore);
 			chore = new ApartmentChore(null, "chore", ParseUser.getCurrentUser().getUsername(), new Date(2012,1,1), new Date(2012,2,2), CHORE_STATUS.STATUS_FUTURE, null, null, null, 5);
