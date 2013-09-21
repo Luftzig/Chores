@@ -15,11 +15,11 @@ import static il.ac.huji.chores.Constants.ParseChannelKeys.*;
 
 public class NotificationsDAL {
 
-    public static void notifyChoreDone(Chore chore, String sender, String roommates) {
+    public static void notifyChoreDone(Chore chore, String sender, List<String> roommates) {
         // Create our Installation query
         ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
       //  pushQuery.whereEqualTo("channels", PARSE_DONE_CHANNEL_KEY.toString()); // Set the channel
-        pushQuery.whereEqualTo("username", roommates);
+        pushQuery.whereEqualTo("username", roommates.get(0));
 
         // Send push notification to query
         ParsePush push = new ParsePush();
@@ -28,11 +28,11 @@ public class NotificationsDAL {
         push.sendInBackground();
     }
 
-    public static void notifyChoreMissed(Chore chore, String sender, String roommates) {
+    public static void notifyChoreMissed(Chore chore, String sender, List<String> roommates) {
         // Create our Installation query
         ParseQuery<ParseInstallation> pushQuery = ParseInstallation.getQuery();
       //  pushQuery.whereEqualTo("channels", PARSE_MISSED_CHANNEL_KEY.toString()); // Set the channel
-        pushQuery.whereEqualTo("username", roommates);
+        pushQuery.whereEqualTo("username", roommates.get(0));
 
         // Send push notification to query
         ParsePush push = new ParsePush();

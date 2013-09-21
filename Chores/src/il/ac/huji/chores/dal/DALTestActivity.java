@@ -46,7 +46,7 @@ public class DALTestActivity extends Activity {
 			apt.setName("Anna's apt");
 			apt.setDivisionFrequency(Constants.ChoreDividePeriod.ONCE_A_WEEK.toString());
 			String aptId= ApartmentDAL.createApartment(apt);*/
-			RoommateDAL.Login("anna", "123123");
+			RoommateDAL.Login("anna2", "123123");
 		//	RoommateDAL.addApartmentToRoommate("Tl0A2RZUh8");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -67,9 +67,14 @@ public class DALTestActivity extends Activity {
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);*/
 		List<String> roommates = new ArrayList<String>();
-		roommates.add("anna");
+		roommates.add("anna3");
 		Chore chore =new ApartmentChore();
 		chore.setName("WASH DISHES");
+		//ParseInstallation intallation = ParseInstallation.getCurrentInstallation();
+		//intallation.put("username", "anna3");
+		//intallation.saveInBackground();
+		//intallation.add("channels",Constants.ParseChannelKeys.PARSE_DONE_CHANNEL_KEY.toString());
+		//intallation.saveInBackground();
 		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
 		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
 		//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
