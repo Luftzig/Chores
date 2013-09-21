@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.json.JSONException;
+
 
 public class ChoreCardFragment extends Fragment {
 
@@ -195,6 +197,9 @@ public class ChoreCardFragment extends Fragment {
 						
 					} catch (FailedToUpdateStatusException e) {
 						// TODO (shani) decide what to do
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					getActivity().finish();
 				}
@@ -231,6 +236,9 @@ public class ChoreCardFragment extends Fragment {
 						e.printStackTrace();
 					} catch (DataNotFoundException e) {
 						// TODO decide what to do
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					 getActivity().finish();
 				 }
@@ -271,7 +279,12 @@ public class ChoreCardFragment extends Fragment {
 		               public void onClick(DialogInterface dialog, int id) {
 		            	   
 		            	   String sender = RoommateDAL.getRoomateUsername();
-							NotificationsDAL.notifySuggestChore(chore, sender, selectedItems);
+							try {
+								NotificationsDAL.notifySuggestChore(chore, sender, selectedItems);
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							 getActivity().finish();
 		               }
 		           })

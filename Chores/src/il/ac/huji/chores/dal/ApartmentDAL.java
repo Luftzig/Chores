@@ -27,7 +27,7 @@ public class ApartmentDAL {
 		permissions.setPublicReadAccess(true);
 		apartment.setACL(permissions);
 		apartment.put("apartmentName", apt.getName());
-		apartment.add("Roommates", curreentUser.getObjectId());
+		apartment.add("Roommates", curreentUser.getUsername());
 		apartment.put("divisionDay", apt.getDivisionDay());
 		apartment.put("frequency", apt.getDivisionFrequency());
 		apartment.put("lastDivision", 0);		

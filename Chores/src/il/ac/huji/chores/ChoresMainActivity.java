@@ -1,115 +1,188 @@
 package il.ac.huji.chores;
 
-import il.ac.huji.chores.dal.RoommateDAL;
-import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.os.Bundle;
-import android.test.ActivityTestCase;
 import android.util.Log;
+import il.ac.huji.chores.dal.ApartmentDAL;
+import il.ac.huji.chores.dal.NotificationsDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ChoresMainActivity extends Activity {
 
-	 protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-			setContentView(R.layout.activity_chores_main);
-			
-	        AppSetup setup = AppSetup.getInstance((Context) this);
-	 }
-	 
-	 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 
-		 if(requestCode == 3){
-			 
-			 //login/signup ok, create apartment 
-			 String apartmentId = null;
-			 try {
-				 apartmentId = RoommateDAL.getApartmentID();
-			 } catch (UserNotLoggedInException e) {
-				 LoginActivity.OpenLoginScreen(this, false);
+    static public boolean mainActivityRunning = false;
+    ActivityBroadcastReceiver receiver;
 
-			 }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chores_main);
+        mainActivityRunning = true;
 
-			 if (apartmentId == null) {
-				 Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-				 startActivity(intent);
-				 // TODO should get the apartmentID from the returned activity
-			 }
-		        
-		 }
-	 }
+        AppSetup.getInstance(this);
 
-	 
-	 //this will be called if there's a new ASSIGNED actions - new chores were assigned
-	 protected void onNewIntent(Intent intent) {//TODO(Shani) continue
+        receiver = new ActivityBroadcastReceiver();
+        registerReceiver(receiver, new IntentFilter("il.ac.huji.chores.choresNotification"));
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            //login/signup ok, create apartment
+            String apartmentId = null;
+            try {
+                apartmentId = RoommateDAL.getApartmentID();
+            } catch (UserNotLoggedInException e) {
+                LoginActivity.OpenLoginScreen(this, false);
+            }
+            if (apartmentId == null) {
+                Intent intent = new Intent(this, NewApartmentDialogActivity.class);
+                startActivity(intent);
+                // TODO should get the apartmentID from the returned activity
+            }
+
+            AppSetup.getInstance(this).setupActionBar();
+        }
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
+    private void showNotificationDialog(final boolean onRightTab, int chosenTabLocation,
+                                        final String type, final JSONObject jsonData) {
+        final int chosen = chosenTabLocation;
+        String dialogMsg;
+        try {
+            dialogMsg = jsonData.getString("msg");
+        } catch (JSONException e) {
+            Log.w("showNotificationDialog", "Failed to find message");
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(dialogMsg);
+        String positiveButtonTxt = "OK";
+        String negativeButtonTxt = null;
+        boolean isNegButton = false;
+
+        switch (Constants.ParseChannelKeys.valueOf(type)) {
+            case PARSE_SUGGEST_CHANNEL_KEY:
+                positiveButtonTxt = getResources().getString(R.string.suggest_positive_response);
+                negativeButtonTxt = getResources().getString(R.string.suggest_negative_response);
+                isNegButton = true;
+                break;
+            case PARSE_INVITATION_CHANNEL_KEY:
+                positiveButtonTxt = getResources().getString(R.string.invitation_positive_response);
+                negativeButtonTxt = getResources().getString(R.string.invitation_negative_response);
+                isNegButton = true;
+                break;
+            default:
+                Log.d("showNotificationDialog", "type " + type + " is not handled");
+        }
+        builder.setPositiveButton(positiveButtonTxt, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+                if (!onRightTab) {
+                    ActionBar bar = getActionBar();
+                    bar.getTabAt(chosen).select();
+                }
+
+                //If another things needs to be done, call function here
+                switch (Constants.ParseChannelKeys.valueOf(type)) {
+                    case PARSE_SUGGEST_CHANNEL_KEY:
+                        //TODO(shani) add func call
+                        break;
+                    case PARSE_INVITATION_CHANNEL_KEY:
+                        acceptApartmentInvitation(jsonData);
+                        break;
+                    default:
+                        Log.d("showNotificationDialog", "push of type " + type + " was not handled");
+                }
+            }
+        });
+
+        if (isNegButton) {
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+
+            });
+        }
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void acceptApartmentInvitation(JSONObject jsonData) {
+        try {
+            String apartmentId = jsonData.getString("apartmentId");
+            ApartmentDAL.addRoommateToApartment(apartmentId);
+            NotificationsDAL.notifyInvitationAccepted(RoommateDAL.getRoomateUsername(), apartmentId);
+        } catch (UserNotLoggedInException e) {
+            LoginActivity.OpenLoginScreen(this, false);
+        } catch (JSONException e) {
+            Log.w("acceptApartmentInvitation", "Error occured when trying to accept invitation", e);
+            Log.d("acceptApartmentInvitation", "Offending JSON: " + jsonData.toString());
+            showErrorDialog(getResources().getString(R.string.failed_to_join_apartment), e);
+        }
+    }
+
+    /**
+     * This should called to inform the user on errors, and allow reporting. Not implemented yet.
+     * @param message error message to display.
+     * @param cause error cause, if any
+     */
+    private void showErrorDialog(String message, Throwable cause) {
+        // TODO [yl] create an error dialog
+    }
 
 
-		 boolean onRightTab = false;//indication whether we're on the tab we need to see the update.
-		 String dialogMsg = getResources().getString(R.string.my_chores_new_assigned_chores_notification_dialog_txt);
-		 String action = intent.getAction();
-		 if(action.equals(Constants.PARSE_NEW_CHORES_CHANNEL_KEY))
-		 {
-			 //handle inside fragment
-			 MyChoresFragment fragment = (MyChoresFragment) getFragmentManager().findFragmentByTag("MyChoresFragment_tag");
-			 fragment.onNewIntent(intent); 
+    enum ACTION_BAR_TABS_ORDER {
+        MY_CHORES,
+        APARTMENT,
+        STATISTICS,
+        SETTINGS
+    }
 
-			 //get current tab
-			 ActionBar bar = getActionBar();
-			 ActionBar.Tab curSelected = bar.getSelectedTab();
-			 if(curSelected.getText().equals(getResources().getString(R.string.action_bar_my_chores)) == false){
-				 // if selected tab is not my chores, ask whether to open it.
-				 dialogMsg += "\n" + getResources().getString(R.string.my_chores_new_assigned_chores_notification_dialog_txt_question);
-				 onRightTab = true;
-			 }
-			 showNotificationDialog(dialogMsg, onRightTab, 0);//TODO change 0 to a constant of my chores tab
-		 }
-	 }
+    private class ActivityBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ActionBar bar = ChoresMainActivity.this.getActionBar();
+            ActionBar.Tab curSelected = bar.getSelectedTab();
+            JSONObject jsonData;
+            try {
+                jsonData = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
-	 private void showNotificationDialog(String dialogMsg, boolean onRightTab, int chosenTabLocation){
+                String type = jsonData.getString("notificationType");
+                boolean onRightTab = (curSelected.getText().equals(getResources().getString(R.string.action_bar_apartment)) == false);
+                int nextTab = 0;
 
-		 final int chosen = chosenTabLocation;
+                switch (Constants.ParseChannelKeys.valueOf(type)) {
+                    case PARSE_NEW_CHORES_CHANNEL_KEY:
+                        nextTab = ACTION_BAR_TABS_ORDER.MY_CHORES.ordinal();
+                        break;
+                    case PARSE_INVITATION_CHANNEL_KEY:
+                        nextTab = ACTION_BAR_TABS_ORDER.APARTMENT.ordinal();
+                        break;
+                    default:
+                        nextTab = ACTION_BAR_TABS_ORDER.APARTMENT.ordinal();
+                }
+                showNotificationDialog(onRightTab, nextTab, type, jsonData);
 
-		 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-		 builder.setMessage(dialogMsg);
-
-		 String positiveButtonTxt = null;
-		 if(onRightTab){
-			 positiveButtonTxt = "OK";
-		 }
-		 else{
-			 positiveButtonTxt = "YES";
-		 }
-
-		 builder.setPositiveButton(positiveButtonTxt, new DialogInterface.OnClickListener() {
-
-			 public void onClick(DialogInterface dialog, int which) {
-				 dialog.dismiss();
-				 ActionBar bar = getActionBar();
-				 bar.getTabAt(chosen).select();
-			 }
-
-		 });
-
-		 if(!onRightTab){
-
-			 builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-				 @Override
-				 public void onClick(DialogInterface dialog, int which) {
-					 dialog.dismiss();
-				 }
-			 });
-		 }
-
-		 AlertDialog alert = builder.create();
-		 alert.show();
-	 }
-	  	
+            } catch (JSONException e) {
+                return;
+            }
+        }
+    }
 }
+
+

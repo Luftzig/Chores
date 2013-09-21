@@ -19,6 +19,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_MISSED_CHANNEL_KEY;
+import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_NEW_CHORES_CHANNEL_KEY;
+
 public class NotificationsHandling {
 
 	 private static String PUSH_URL = "https://api.parse.com/1/push";
@@ -26,9 +29,9 @@ public class NotificationsHandling {
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(apartmentId);
 		String message = "New chores has been divided";
-		JSONObject data = buildDataJson(message,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
+		JSONObject data = buildDataJson(message,PARSE_NEW_CHORES_CHANNEL_KEY.toString());
 		List<String> channelsList= new ArrayList<String>();
-		channelsList.add(Constants.PARSE_STEAL_CHANNEL_KEY);
+		channelsList.add(PARSE_NEW_CHORES_CHANNEL_KEY.toString());
 		JSONObject usersStatement = buildWhereRoommateStatement(roommates,channelsList);
 		
 		//JSONArray channels = new JSONArray(channelsList);
@@ -43,9 +46,9 @@ public class NotificationsHandling {
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(chore.getApartment());
 		String message = chore.getAssignedTo() + " has missed the chore '"+chore.getName()+"'";
-		JSONObject data = buildDataJson(message,Constants.PARSE_MISSED_CHANNEL_KEY);
+		JSONObject data = buildDataJson(message,PARSE_MISSED_CHANNEL_KEY.toString());
 		List<String> channelsList= new ArrayList<String>();
-		channelsList.add(Constants.PARSE_MISSED_CHANNEL_KEY);
+		channelsList.add(PARSE_MISSED_CHANNEL_KEY.toString());
 		JSONObject usersStatement = buildWhereRoommateStatement(roommates,channelsList);
 
 		//JSONArray channels = new JSONArray(channelsList);

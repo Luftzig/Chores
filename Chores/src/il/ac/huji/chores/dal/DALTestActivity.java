@@ -58,40 +58,22 @@ public class DALTestActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		 ParseInstallation installation =ParseInstallation.getCurrentInstallation();
+		/*ParseInstallation installation =ParseInstallation.getCurrentInstallation();
 		installation.put("username","anna");
-		installation.put("owner", "1txI7OOJcn");
-		List<String> channels = new ArrayList<String>();
-		channels.add(Constants.PARSE_DONE_CHANNEL_KEY);
-		channels.add(Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
-		channels.add(Constants.PARSE_MISSED_CHANNEL_KEY);
-		channels.add(Constants.PARSE_STEAL_CHANNEL_KEY);
-		//channels.add(Constants.PARSE_SUGGEST_CHANNEL_KEY);
-		installation.put("channels", channels);
 		installation.saveInBackground();
-		/*ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_DONE_CHANNEL_KEY);
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_DONE_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_MISSED_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_STEAL_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
-		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);
-		*/
-		
+		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);*/
 		List<String> roommates = new ArrayList<String>();
 		roommates.add("anna");
 		Chore chore =new ApartmentChore();
 		chore.setName("WASH DISHES");
 		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
 		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
-		//NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
-		try {
-			//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
-			NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//NotificationsDAL.notifySuggestChore(chore, "anna4", roommates);
-		//NotificationsDAL.notifySuggestStealChore(chore, "anna5", roommates);
+		//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
+		NotificationsDAL.notifyChoreDone(chore, "ANNA2", roommates);
 		
 		
 	/*	try {
