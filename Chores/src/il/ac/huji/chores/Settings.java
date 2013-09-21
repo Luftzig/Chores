@@ -22,6 +22,9 @@ public class Settings {
 		public int hours;
 	}
 	
+	public String username;
+	
+	
 	
 
 }
