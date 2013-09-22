@@ -129,9 +129,9 @@ public final class R {
         public static final int loginFragmentPhoneEdit=0x7f0a002d;
         public static final int loginFragmentPhoneMsg=0x7f0a002c;
         public static final int loginFragment_loginButton=0x7f0a002e;
+        public static final int myChoresChartContainer=0x7f0a0031;
         public static final int myChoresFragment=0x7f0a0005;
         public static final int myChoresFragmentListView=0x7f0a0032;
-        public static final int myChoresGraph=0x7f0a0031;
         public static final int myChoresRowDueDate=0x7f0a005a;
         public static final int myChoresRowEditButton=0x7f0a005b;
         public static final int myChoresRowLayout=0x7f0a0059;
@@ -247,9 +247,12 @@ public final class R {
         public static final int chores_settings_disable_reminders=0x7f070016;
         public static final int chores_settings_forbid=0x7f070015;
         public static final int chores_title=0x7f070014;
+        public static final int failed_to_join_apartment=0x7f07006c;
         public static final int hello_blank_fragment=0x7f07002d;
         public static final int hello_world=0x7f07002c;
         public static final int help_icon_text=0x7f070030;
+        public static final int invitation_negative_response=0x7f07006b;
+        public static final int invitation_positive_response=0x7f070069;
         public static final int login_app_title=0x7f070058;
         public static final int login_ask_for_phone_msg=0x7f070067;
         public static final int login_bad_login_msg=0x7f070061;
@@ -293,14 +296,12 @@ public final class R {
         public static final int notifications_settings_roomate_missed_chore=0x7f070010;
         public static final int notifications_settings_roomate_stole_chore=0x7f070011;
         public static final int parse_app_id=0x7f070028;
-        /** 
-    Anna's keys 
+        /**  Anna's keys 
     <string name="parse_client_key">CBnyHLzYGwlBz1YAOFMFakzalqWVosN3JRmpLmx4</string>
     <string name="parse_windows_key">n3yY1qWyL1qJ4HMZqGUE3mhX0lrdvXJuYuCIvOUo</string>
     <string name="parse_rest_key">Key 7ATSYPzLCuIUgxsMFKuwOFaFhdiqC2WQrlo21Jtv</string>
     <string name="parse_master_key">dneNmljVEFIMdiRAmPGLGvXt8ZjpAJgITQvisWBq</string>
     <string name="parse_app_id">G3vUvpy8mCgucxXp2RnSnFBs490CqfpWItmfA9hc</string>
-
     
          */
         public static final int parse_client_key=0x7f070024;
@@ -313,6 +314,8 @@ public final class R {
         public static final int settings_notifications_title=0x7f07000f;
         public static final int settings_reminder_hours_before_hint=0x7f070052;
         public static final int settings_save_settings_button=0x7f070053;
+        public static final int suggest_negative_response=0x7f07006a;
+        public static final int suggest_positive_response=0x7f070068;
         public static final int title_activity_add_edit_chores=0x7f07000a;
         public static final int title_activity_apartment=0x7f070009;
         public static final int title_activity_apartment_settings=0x7f070008;
@@ -322,7 +325,6 @@ public final class R {
         public static final int title_activity_login=0x7f07002b;
         public static final int title_activity_my_chores=0x7f070029;
         public static final int title_activity_new_chore_dialog=0x7f070037;
-        public static final int title_activity_notification_dummy=0x7f070068;
         public static final int title_activity_push_notifications_handler=0x7f07002a;
         public static final int title_activity_settings=0x7f07000d;
         public static final int title_activity_settings_fragment=0x7f07000e;

@@ -81,7 +81,7 @@
 
         <activity
             android:name="il.ac.huji.chores.NotificationDummyActivity"
-            android:label="@string/title_activity_notification_dummy" >
+            android:label="NotificationDummyActivity" >
         </activity>
     </application>
 
