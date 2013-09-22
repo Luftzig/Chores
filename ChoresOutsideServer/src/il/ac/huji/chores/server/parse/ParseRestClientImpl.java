@@ -5,7 +5,6 @@ import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.server.ChoresServerMain;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -20,12 +19,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
- * User: Yoav
- * Email: yoav.luft@gmail.com
  * Date: 06/09/13
  */
 public class ParseRestClientImpl implements ParseRestClient {

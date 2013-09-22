@@ -11,9 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * User: Yoav
  * Date: 06/09/13
- * Email: yoav.luft@gmail.com
  *
  * Defines access to the parse server.
  */
