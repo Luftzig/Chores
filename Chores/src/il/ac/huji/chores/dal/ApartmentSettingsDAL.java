@@ -8,12 +8,15 @@ import android.content.Context;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.PushService;
 
 import il.ac.huji.chores.Settings;
 import il.ac.huji.chores.exceptions.FailedToGetApartmentSettings;
 import il.ac.huji.chores.exceptions.FailedToUpdateSettingsException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
+
+import java.util.List;
 
 public class ApartmentSettingsDAL {
 
@@ -54,7 +57,6 @@ public class ApartmentSettingsDAL {
 			throws UserNotLoggedInException, FailedToGetApartmentSettings {
 
 		Settings settings = new Settings();
-		settings.username = RoommateDAL.getRoomateUsername();
 		// Notifications
 		settings.notifications = settings.new Notifications();
 		settings.notifications.newChoresHasBeenDivided = true;
@@ -64,8 +66,8 @@ public class ApartmentSettingsDAL {
 
 		// chores
 		settings.chores = settings.new Chores();
-		settings.chores.disableRemindersAboutUpcomingChores = true;
-		settings.chores.forbidRoommatesFromTakingMyChores = true;
+		settings.chores.disableRemindersAboutUpcomingChores = false;
+		settings.chores.forbidRoommatesFromTakingMyChores = false;
 
 		// reminders
 		settings.reminders = settings.new Reminders();
@@ -88,7 +90,7 @@ public class ApartmentSettingsDAL {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseObject parseSettings = new ParseObject("Settings");
 		//parseSettings.put("apartment", apartmentID);
-		parseSettings.put("username",settings.username);
+		parseSettings.put("username",ParseUser.getCurrentUser().getUsername());
 		parseSettings.put("newChoresHasBeenDivided",
 				settings.notifications.newChoresHasBeenDivided);
 		parseSettings.put("roommateFinishedChore",
@@ -121,7 +123,6 @@ public class ApartmentSettingsDAL {
 				.getBoolean("roommateMissedChore");
 		settings.notifications.roommateStoleMyChore = obj
 				.getBoolean("roommateStoleMyChore");
-		settings.username = obj.getString("username");
 		settings.chores = settings.new Chores();
 		settings.chores.disableRemindersAboutUpcomingChores = obj
 				.getBoolean("disableRemindersAboutUpcomingChores");

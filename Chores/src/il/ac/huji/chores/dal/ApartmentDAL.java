@@ -44,15 +44,14 @@ public class ApartmentDAL {
 
 		return apartment.getObjectId();
 	}
+
 	public static boolean inviteRoommate(String name,String number, String email){
 		return false;
 	}
+
 	public static String getApartmentID(String apartmentName) {
-
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
-
 		query.whereEqualTo("apartmentName", apartmentName);
-
 		List<ParseObject> apartmentsList = new ArrayList<ParseObject>();
 		try {
 			apartmentsList = query.find();
@@ -61,12 +60,17 @@ public class ApartmentDAL {
 			return null;
 		}
 
-		if (apartmentsList.size() > 0)
-			return apartmentsList.get(0).getObjectId();
-		else
-			return null;
-	}
+		if (apartmentsList.size() > 0) {
+            return apartmentsList.get(0).getObjectId();
+        } else {
+            return null;
+        }
+    }
 
+    /**
+     * @param apartmentID
+     * @return a list of roommates usernames of the the requested apartment
+     */
 	public static List<String> getApartmentRoommates(String apartmentID) {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;

@@ -23,8 +23,9 @@ import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_NEW_CHORES_CHAN
 
 public class NotificationsHandling {
 
-	 private static String PUSH_URL = "https://api.parse.com/1/push";
-	public static void notifyNewChores(String apartmentId) throws ClientProtocolException, IOException {
+    private static String PUSH_URL = "https://api.parse.com/1/push";
+
+    public static void notifyNewChores(String apartmentId) throws ClientProtocolException, IOException {
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<Roommate> roommates = parse.getApartmentRoommates(apartmentId);
 		String message = "New chores has been divided";

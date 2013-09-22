@@ -9,17 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * MyChoresFragment contains a list of all chores assigned to the current user.
@@ -65,10 +69,6 @@ public class MyChoresFragment extends Fragment {
         super.onDetach();
     }
 
-    //this will be called if there's a new ASSIGNED actions - new chores were assigned
-    protected void onNewIntent(Intent intent) {
-    
-    }
 
     @Override
     public void onResume() {
@@ -86,26 +86,83 @@ public class MyChoresFragment extends Fragment {
         }
 
         // Coins Chart stuff
-        if (chart == null) {
+        try {
             initChart();
-            createDataSet();
             chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
             ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
+        } catch (UserNotLoggedInException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (FailedToGetRoommateException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
-    private void createDataSet() {
-        currentSeries.add(1, 100);
-        currentSeries.add(1, 200);
-        currentSeries.add(1, 250);
+    private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException, FailedToGetRoommateException {
+        List<String> roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+        if (roommates == null || roommates.size() == 0) {
+            throw new FailedToGetRoommateException("No roommates found for apartment " + RoommateDAL.getApartmentID());
+        }
+        Map<String, Integer> coinsMap = new HashMap<String, Integer>(roommates.size());
+        for (String username : roommates) {
+            Roommate roommate = RoommateDAL.getRoommateByName(username);
+            coinsMap.put(roommate.getUsername(), roommate.getCoinsCollected());
+        }
+        return coinsMap;
     }
 
-    private void initChart() {
-        currentSeries = new XYSeries("Sample Data");
+    private List<String> createDataSeries(Map<String, Integer> coins) {
+        int i = 2;
+        List<String> orderedKeys = new ArrayList<String>(coins.size());
+        String currentRoommate = RoommateDAL.getRoomateUsername();
+        for (String key : coins.keySet()) {
+            if (key.equals(currentRoommate)) {
+                currentSeries.add(1, coins.get(key));
+                orderedKeys.add(0, key);
+            } else {
+                currentSeries.add(i, coins.get(key));
+                i++;
+                orderedKeys.add(key);
+            }
+        }
+        return orderedKeys;
+    }
+
+    private void initChart() throws UserNotLoggedInException, FailedToGetRoommateException {
+        currentSeries = new XYSeries("Coins");
+        Map<String, Integer> coinsMap = getCoinsMap();
+        List<String> orderedNames = createDataSeries(coinsMap);
         dataSet.addSeries(currentSeries);
         chartRenderer = new XYSeriesRenderer();
         renderer.addSeriesRenderer(chartRenderer);
-        renderer.setBarSpacing(1);
+        renderer.setBarSpacing(0.2);
+        renderer.setXAxisMin(0.0);
+        renderer.setXAxisMax(orderedNames.size() + 1);
+        int minCoins = findCoinsMin(coinsMap);
+        int maxCoins = findCoinsMax(coinsMap);
+        int padding = (maxCoins - minCoins) / 10;
+        renderer.setYAxisMax(maxCoins + padding);
+        renderer.setYAxisMin(minCoins - 2 * padding);
+        renderer.clearXTextLabels();
+        renderer.clearYTextLabels();
+        renderer.setShowAxes(false);
+        renderer.setShowGrid(false);
+        renderer.setMarginsColor(DefaultRenderer.NO_COLOR);
+        renderer.setBackgroundColor(DefaultRenderer.NO_COLOR); // TODO [yl] use color from theme
+        renderer.setClickEnabled(false);
+        renderer.setYTitle(getResources().getString(R.string.coins_graph_y_label));
+        int k = 1;
+        for (String name : orderedNames) {
+            renderer.addXTextLabel(k, name);
+            k++;
+        }
+    }
+
+    private int findCoinsMax(Map<String, Integer> coinsMap) {
+        return Collections.max(coinsMap.values());
+    }
+
+    private int findCoinsMin(Map<String, Integer> coinsMap) {
+        return Collections.min(coinsMap.values());
     }
 
     @Override

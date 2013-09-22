@@ -30,6 +30,7 @@
     <string name="apartment_historyButtoonText">Show more history</string>
     <string name="card_img_description">image of card</string>
     <string name="title_activity_apartment_settings">Apartment Settings</string>
+    <string name="title_activity_notification_dummy">Notification Dummy</string>
     <string name="title_activity_apartment">Apartment</string>
     <string name="title_activity_add_edit_chores">Add or edit chores</string>
     <string name="title_activity_chore_card">Chore Card</string>
@@ -137,5 +138,7 @@
     <string name="suggest_negative_response">Refuse offer</string>
     <string name="invitation_negative_response">Decline</string>
     <string name="failed_to_join_apartment">Failed to join apartment.</string>
+    <string name="alarm_dialog_positive">OK</string>
+    <string name="coins_graph_y_label">Coins</string>
 </resources>
 
