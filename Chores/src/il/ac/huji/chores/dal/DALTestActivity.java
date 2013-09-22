@@ -6,15 +6,11 @@ import android.view.Menu;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import il.ac.huji.chores.ApartmentChore;
-import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreStatistics;
 import il.ac.huji.chores.R;
 import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
-import java.util.ArrayList;
-import java.util.List;
+//import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
 public class DALTestActivity extends Activity {
 
@@ -50,7 +46,7 @@ public class DALTestActivity extends Activity {
 			ChoreStatisticsDAL.updateChorePointsTotalCount("choreTest", 9);
 			ChoreStatisticsDAL.updateChoreTotalCount("choreTest", 3);
 			} catch (ChoreStatisticsException e) {
-				// TODO Auto-generated catch block
+//				TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
