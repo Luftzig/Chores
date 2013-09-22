@@ -9,7 +9,9 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.ChoreStatistics;
 import il.ac.huji.chores.R;
+import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,27 @@ public class DALTestActivity extends Activity {
 			apt.setDivisionFrequency(Constants.ChoreDividePeriod.ONCE_A_WEEK.toString());
 			String aptId= ApartmentDAL.createApartment(apt);*/
 			RoommateDAL.Login("Yoav", "1234");
+			
+			//System.out.println("Exists choreTest ? "+ChoreStatisticsDAL.choreStatisticsExists("choreTest"));
+			ChoreStatisticsDAL.createChoreStatistic("choreTest");
+			ChoreStatistics stats =ChoreStatisticsDAL.getChoreStatistic("choreTest");
+			try {
+				ChoreStatisticsDAL.updateChoreDoneCount("choreTest",1);
+			ChoreStatisticsDAL.updateChoreMissedCount("choreTest", 2);
+			ChoreStatisticsDAL.updateChorePointsTotalCount("choreTest", 9);
+			ChoreStatisticsDAL.updateChoreTotalCount("choreTest", 3);
+			} catch (ChoreStatisticsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			stats  =ChoreStatisticsDAL.getChoreStatistic("choreTest");
+			System.out.println("avg: "+stats.getAverageValue());
+			System.out.println("totalcount :"+stats.getTotalCount());
+			System.out.println("total missed : "+stats.getTotalMissed());
+			System.out.println("total done:"+stats.getTotalDone());
+			
+			
 		//	RoommateDAL.addApartmentToRoommate("Tl0A2RZUh8");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -57,7 +80,7 @@ public class DALTestActivity extends Activity {
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_STEAL_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_NEW_CHORES_CHANNEL_KEY);
 		ApartmentSettingsDAL.registerToNotificationChannel(this,Constants.PARSE_SUGGEST_CHANNEL_KEY);*/
-		List<String> roommates = new ArrayList<String>();
+		/*List<String> roommates = new ArrayList<String>();
 		roommates.add("anna4");
 		Chore chore =new ApartmentChore();
 		chore.setName("WASH DISHES");
@@ -66,10 +89,10 @@ public class DALTestActivity extends Activity {
 		intallation.saveInBackground();
 		intallation.add("channels",Constants.ParseChannelKeys.PARSE_DONE_CHANNEL_KEY.toString());
 		intallation.saveInBackground();*/
-		System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
+		/*System.out.println("Installation : "+ParseInstallation.getCurrentInstallation().getObjectId());
 		System.out.println("Installation User : "+ParseInstallation.getCurrentInstallation().getString("username"));
 		//NotificationsDAL.notifyChoreMissed(chore, "anna3", roommates);
-		NotificationsDAL.notifyChoreDone(chore, "ANNA3", roommates);
+		NotificationsDAL.notifyChoreDone(chore, "ANNA3", roommates);*/
 		
 		
 	/*	try {
