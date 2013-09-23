@@ -87,8 +87,11 @@ public class ApartmentSettingsDAL {
 
 	public static void updateSettings(Settings settings)
 			throws UserNotLoggedInException, FailedToUpdateSettingsException {
-		String apartmentID = RoommateDAL.getApartmentID();
-		ParseObject parseSettings = new ParseObject("Settings");
+		String username = RoommateDAL.getRoomateUsername();
+		ParseObject parseSettings = getParseSettings(username);
+		if(parseSettings==null){
+			parseSettings = new ParseObject("Settings");
+		}
 		//parseSettings.put("apartment", apartmentID);
 		parseSettings.put("username",ParseUser.getCurrentUser().getUsername());
 		parseSettings.put("newChoresHasBeenDivided",
@@ -109,6 +112,18 @@ public class ApartmentSettingsDAL {
 		} catch (ParseException e) {
 			throw new FailedToUpdateSettingsException(e.toString());
 		}
+	}
+	
+	private static ParseObject getParseSettings(String apt){
+		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Settings");
+		query.whereEqualTo("apartment", apt);
+		try{
+			return query.find().get(0);
+		}
+		catch(ParseException e){
+			return null;
+		}
+		
 	}
 
 	private static Settings convertObjectToSettings(ParseObject obj) {
