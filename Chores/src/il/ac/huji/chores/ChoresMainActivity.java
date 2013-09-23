@@ -106,11 +106,12 @@ public class ChoresMainActivity extends Activity {
                 //If another things needs to be done, call function here
                 switch (Constants.ParseChannelKeys.valueOf(type)) {
                     case PARSE_SUGGEST_CHANNEL_KEY:
-                        	try {
-						ApartmentChoresFragment.doSuggestionAccepted(jsonData.get("choreId").toString(), getApplicationContext());
-					} catch (JSONException e) {
-						return;
-					}
+                        try {
+                            ApartmentChoresFragment.doSuggestionAccepted(jsonData.get("choreId").toString(),
+                                    getApplicationContext());
+                        } catch (JSONException e) {
+                            return;
+                        }
                         break;
                     case PARSE_INVITATION_CHANNEL_KEY:
                         acceptApartmentInvitation(jsonData);
