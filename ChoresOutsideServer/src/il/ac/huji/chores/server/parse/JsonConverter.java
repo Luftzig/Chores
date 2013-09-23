@@ -78,6 +78,12 @@ public class JsonConverter {
 		catch(JSONException e){
 			apt.setDivisionFrequency(null);
 		}
+		try{
+			apt.setId(obj.getString("objectId"));
+		}
+		catch(JSONException e){
+			apt.setDivisionFrequency(null);
+		}
 		apt.setName(obj.getString("apartmentName"));
 		return apt;
 	}

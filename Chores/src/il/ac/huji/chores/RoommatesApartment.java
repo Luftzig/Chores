@@ -56,6 +56,10 @@ public class RoommatesApartment implements Apartment {
     public String getId() {
         return _id;
     }
+    
+    public void setId(String id){
+    	_id = id;
+    }
 
     /**
      * @return the _name

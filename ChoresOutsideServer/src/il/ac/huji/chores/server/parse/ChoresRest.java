@@ -17,7 +17,7 @@ import java.util.List;
 public class ChoresRest {
 	
 	public static List<Chore> scheduleChores(String apartment){
-		
+	
 		List<Chore> chores = new ArrayList<Chore>();
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		List<ChoreInfo> choreInfoList=null;
@@ -31,7 +31,6 @@ public class ChoresRest {
 		Date currentDate = cal.getTime();
 		
 		for(ChoreInfo choreInfo :choreInfoList){
-			System.out.println("Scheduling chore :"+choreInfo.getName());
 			try {
 				chores.addAll(scheduleChore(choreInfo,currentDate, apartment));
 			} catch (ClientProtocolException e) {
@@ -51,15 +50,18 @@ public class ChoresRest {
 	private static List<Chore> scheduleChore(ChoreInfo choreInfo, Date currentDate,String apartment) throws ClientProtocolException, IOException{
 		
 		List<Chore> chores=new ArrayList<Chore>();
-		Chore chore = new ApartmentChore();
-		chore.setChoreInfoId(choreInfo.getChoreInfoID());
-		chore.setCoinsNum(choreInfo.getCoinsNum());
-		chore.setName(choreInfo.getName());
-		chore.setStartsFrom(currentDate);
-		chore.setApartment(apartment);
-		chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
-		chore.setFunFact(ChoresFunFacts.getFactForChore(chore.getName()));
+		
 		for(int i=0 ; i<choreInfo.getHowManyInPeriod();i++){
+			Chore chore = new ApartmentChore();
+			chore.setChoreInfoId(choreInfo.getChoreInfoID());
+			chore.setCoinsNum(choreInfo.getCoinsNum());
+			chore.setName(choreInfo.getName());
+			chore.setStartsFrom(currentDate);
+			chore.setApartment(apartment);
+
+			chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
+			chore.setFunFact(ChoresFunFacts.getFactForChore(chore.getName()));
+
 			Date deadline = calculateDeadline(choreInfo,currentDate,i);
 			chore.setDeadline(deadline);
 			chores.add(chore);

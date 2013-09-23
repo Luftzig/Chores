@@ -43,6 +43,10 @@ public class RoutineJob implements Job {
 			 
 			 public boolean apply(RoommatesApartment apartment){
 				 
+				 if(apartment == null){
+					 return false;
+				 }
+				 
 				 return IsDivisionTime(apartment);
 			 }
 		};
@@ -50,12 +54,16 @@ public class RoutineJob implements Job {
                 Collections2.filter(apartments, predicate));
 		
 		//Divide chores
+		String aptID = null;
 		for(int i=0; i< filteredApartments.size(); i++){
 			try {
 				if(filteredApartments.get(i).getRoommates().size() == 0){
 					continue; //fake apartment
 				}
-				DivideChoresForApartment(filteredApartments.get(i).getId(), todayCal.getTime());
+				aptID = filteredApartments.get(i).getId();
+				if(aptID != null){
+					DivideChoresForApartment(aptID, todayCal.getTime());
+				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				//continue
@@ -99,7 +107,15 @@ public class RoutineJob implements Job {
 		else if(frequency.equals("Every Five Weeks")){
 			cal.add(Calendar.WEEK_OF_YEAR, 5);
 		}
-		//TODO more periods
+		else if(frequency.equals("Every Six Weeks")){
+			cal.add(Calendar.WEEK_OF_YEAR, 6);
+		}
+		else if(frequency.equals("Once a Month")){
+			cal.add(Calendar.MONTH, 1);
+		}
+		else if(frequency.equals("Every Two Months")){
+			cal.add(Calendar.MONTH, 2);
+		}
 
 		if(cal.before(todayCal)){
 			return true;
@@ -125,7 +141,7 @@ public class RoutineJob implements Job {
 		parse.updateApartmentLastDivision(apartmentId, today);
 		
 		//Schedule chores
-		List<Chore> chores = ChoresRest.scheduleChores(apartmentId);
+		List<Chore> chores = ChoresRest.scheduleChores(apartmentId);//TODO there's a problem with this function. fix.
         Calendar earliestChore = Calendar.getInstance();
         for (Chore chore : chores) {
             Calendar startsFrom = Calendar.getInstance();

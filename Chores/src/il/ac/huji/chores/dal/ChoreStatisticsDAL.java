@@ -33,7 +33,12 @@ public class ChoreStatisticsDAL {
 	}
 	
 	public static int getChoreAverageValue(String choreName){
-		return getChoreStatistic(choreName).getAverageValue();
+		ChoreStatistics stats = getChoreStatistic(choreName);
+		if(stats == null){
+			return -1;
+		}
+		return stats.getAverageValue();
+	
 	}
 	public static ChoreStatistics getMostMissedChore(){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
@@ -148,6 +153,9 @@ public class ChoreStatisticsDAL {
 		query.whereEqualTo("chore", choreName);
 		try {
 			List<ParseObject> results = query.find();
+			if(results == null || results.size() == 0){
+				return null;//This needs to be handled above - inside this class.
+			}
 			return results.get(0);
 		} catch (ParseException e) {
 			return null;

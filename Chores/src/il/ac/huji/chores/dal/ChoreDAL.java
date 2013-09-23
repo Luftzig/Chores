@@ -173,6 +173,8 @@ public class ChoreDAL {
 		chore.setStartsFrom(new Date(obj.getLong("startsFrom")));
 		String choreStatus = obj.getString("status");
 		chore.setStatus(CHORE_STATUS.valueOf(choreStatus));
+		String funFact = obj.getString("funFact");
+		chore.setFunFact(funFact);
 		return chore;
 	}
 
