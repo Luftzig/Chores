@@ -126,15 +126,24 @@ public class RoutineJob implements Job {
 		
 		//Schedule chores
 		List<Chore> chores = ChoresRest.scheduleChores(apartmentId);
-		
-		//Assign chores
+        Calendar earliestChore = Calendar.getInstance();
+        for (Chore chore : chores) {
+            Calendar startsFrom = Calendar.getInstance();
+            startsFrom.setTime(chore.getStartsFrom());
+            if (startsFrom.before(earliestChore)) {
+                earliestChore = startsFrom;
+            }
+        }
+
+
+        //Assign chores
 		ChoresDivisionAlgorithms.assignChores(chores, apartmentId);
 		
 		//Write assigned chores to the server
 		parse.addChores(chores);
 		
 		//Notify roommates about the new chores
-		NotificationsHandling.notifyNewChores(apartmentId);
+		NotificationsHandling.notifyNewChores(apartmentId, earliestChore);
 		
 	}
 }

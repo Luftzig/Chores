@@ -15,8 +15,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_MISSED_CHANNEL_KEY;
 import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_NEW_CHORES_CHANNEL_KEY;
@@ -25,7 +24,7 @@ public class NotificationsHandling {
 
     private static String PUSH_URL = "https://api.parse.com/1/push";
 
-    public static void notifyNewChores(String apartmentId) throws ClientProtocolException, IOException {
+    public static void notifyNewChores(String apartmentId, Calendar earliest) throws ClientProtocolException, IOException {
         ParseRestClientImpl parse = new ParseRestClientImpl();
         List<Roommate> roommates = parse.getApartmentRoommates(apartmentId);
         String message = "New chores has been divided";
@@ -33,6 +32,14 @@ public class NotificationsHandling {
         List<String> channelsList = new ArrayList<String>();
         channelsList.add(PARSE_NEW_CHORES_CHANNEL_KEY.toString());
         JSONObject usersStatement = buildWhereRoommateStatement(roommates, channelsList);
+        TimeZone timeZone = earliest.getTimeZone();
+        Calendar roundedCalendar = Calendar.getInstance();
+        roundedCalendar.set(earliest.get(Calendar.YEAR),
+                            earliest.get(Calendar.MONTH),
+                            earliest.get(Calendar.DAY_OF_MONTH));
+        Date updateDayRounded = roundedCalendar.getTime();
+        data.put("updateTime", updateDayRounded.getTime());
+        data.put("timezone", timeZone.getID());
 
         //JSONArray channels = new JSONArray(channelsList);
         sendNotification(usersStatement, data);
