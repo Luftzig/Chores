@@ -12,6 +12,48 @@ import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
 public class ChoreStatisticsDAL {
 
+	public static ChoreStatistics getMostAccomplishedChore(){
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
+		try {
+			int max =0;
+			String choreName="";
+			List<ParseObject> chores =query.find();
+			for(ParseObject chore :chores){
+				int missed = chore.getInt("totalMissed");
+				int done = chore.getInt("totalDone");
+				if((missed+done>0)&& (done/(done+missed))>max){
+					max=done/(done+missed);
+					choreName = chore.getString("chore");
+				}
+			}
+			return getChoreStatistic("choreName");
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+	
+	public static int getChoreAverageValue(String choreName){
+		return getChoreStatistic(choreName).getAverageValue();
+	}
+	public static ChoreStatistics getMostMissedChore(){
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
+		try {
+			int max =0;
+			String choreName="";
+			List<ParseObject> chores =query.find();
+			for(ParseObject chore :chores){
+				int missed = chore.getInt("totalMissed");
+				int done = chore.getInt("totalDone");
+				if((missed+done>0)&& (missed/(done+missed))>max){
+					max=missed/(done+missed);
+					choreName = chore.getString("chore");
+				}
+			}
+			return getChoreStatistic("choreName");
+		} catch (ParseException e) {
+			return null;
+		}
+	}
 	public static void updateChoreMissedCount(String choreName, int count) throws ChoreStatisticsException {
 		ParseObject choreStatistics = getChoreStatisticsObj(choreName);
 		if(choreStatistics==null){
