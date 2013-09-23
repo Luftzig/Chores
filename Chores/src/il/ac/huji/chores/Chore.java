@@ -50,11 +50,6 @@ public interface Chore extends Serializable{
 	 */
 	public String getFunFact();
 
-	/*
-	 * gets the chore type (family)
-	 */
-	// TODO: move to local (in chore card)
-	public String getType(); 
 
 	/*
 	 * gets the current statistics about the chore
@@ -85,8 +80,6 @@ public interface Chore extends Serializable{
 	public void setDeadline(Date deadline);
 
 	public void setStatus(CHORE_STATUS status);
-
-	public void setType(String type);
 
 	public void setFunFact(String funFact);
 

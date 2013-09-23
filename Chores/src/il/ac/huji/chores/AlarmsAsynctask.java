@@ -53,7 +53,8 @@ public class AlarmsAsynctask extends AsyncTask<Long, Void, Void> {
 			cal.add(Calendar.HOUR, (-1)* (rmndHours));
 
 			Intent intentAlarm = new Intent(context, AlarmReciever.class); 
-
+			intentAlarm.putExtra("alarmMsg", "The deadline for the chore \n'" + chores.get(i).getName() + "'\nis in " + rmndHours + " hours");
+			
 			AlarmManager alarmManager = (AlarmManager)context. getSystemService(Context.ALARM_SERVICE);
 
 			//set the alarm for particular time

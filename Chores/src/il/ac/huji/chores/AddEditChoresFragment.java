@@ -1,16 +1,18 @@
 package il.ac.huji.chores;
 
 import il.ac.huji.chores.dal.ChoreDAL;
-import il.ac.huji.chores.dummy.ChoreInfoDal;
 import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import java.util.List;
 
+import com.parse.ParseException;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +72,17 @@ public class AddEditChoresFragment extends Fragment {
 
 		});
 
-		List<ChoreInfo> chores = ChoreInfoDal.getChoreInfos();
+		List<ChoreInfo> chores;
+		try {
+			chores = ChoreDAL.getAllChoreInfo();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			Log.e("Exception", e.getMessage());
+			return;
+		} catch (UserNotLoggedInException e) {
+			LoginActivity.OpenLoginScreen(getActivity(), false);
+			return;
+		}
 
 		// set adapter
 		_adapter = new ChoreInfosDisplayAdapter(getActivity(), chores);

@@ -83,16 +83,11 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-	<receiver android:name=".AlarmReciever"/> 
-	<service
-  		android:name=".AlarmService"
-  		android:label="alarmService" >
-	</service> 
-
-<!--        <activity
-            android:name="il.ac.huji.chores.NotificationDummyActivity"
-            android:label="@string/title_activity_notification_dummy" >
-        </activity>-->
+		<receiver android:name=".AlarmReciever"/> 
+		<service
+  			android:name=".AlarmService"
+  			android:label="alarmService" >
+		</service> 
     </application>
 
 </manifest>

@@ -86,15 +86,15 @@ public class MyChoresFragment extends Fragment {
         }
 
         // Coins Chart stuff
-        try {
-            initChart();
-            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
-            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
-        } catch (UserNotLoggedInException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (FailedToGetRoommateException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+//        try {
+//            initChart();
+//            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+//            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
+//        } catch (UserNotLoggedInException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } catch (FailedToGetRoommateException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
     }
 
     private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException, FailedToGetRoommateException {
@@ -175,7 +175,7 @@ public class MyChoresFragment extends Fragment {
             chores = ChoreDAL.getRoommatesChores();
             adapter = new MyChoresListAdapter(getActivity(), chores);
         } catch (UserNotLoggedInException e) {
-            e.printStackTrace();
+            LoginActivity.OpenLoginScreen(getActivity(), false);
         }
         listView.setAdapter(adapter);
     }

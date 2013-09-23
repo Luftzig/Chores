@@ -140,5 +140,16 @@
     <string name="failed_to_join_apartment">Failed to join apartment.</string>
     <string name="alarm_dialog_positive">OK</string>
     <string name="coins_graph_y_label">Coins</string>
+    
+      <string name="chore_type_dish_washing">Kitchen</string>
+     <string name="chore_type_cook_dinner">Food</string>
+     <string name="chore_type_do_the_laundry">Closing</string>
+     <string name="chore_type_dusting">Dirt</string>
+     <string name="chore_type_floor_sweeping">Dirt</string>
+     <string name="chore_type_floor_washing">Dirt</string>
+     <string name="chore_type_grocery_shopping">Food</string>
+     <string name="chore_type_take_out_trash">Dirt</string>
+     <string name="chore_type_toilet_cleaning">Bathroom</string>
+     <string name="chore_type_walk_dog">Prts</string>
 </resources>
 

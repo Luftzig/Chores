@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,7 +61,7 @@ public class ChoreCardFragment extends Fragment {
 		 
 		 //set chore type
 		 TextView type = (TextView)getActivity().findViewById(R.id.card_chore_type);
-		 type.setText(getResources().getString(R.string.card_choretype_textStart) + chore.getType());
+		 type.setText(getResources().getString(R.string.card_choretype_textStart) + getChoreType(chore.getName()));
 		 
 		 //set deadline
 		 TextView deadline = (TextView)getActivity().findViewById(R.id.card_deadline_txt);
@@ -93,20 +94,15 @@ public class ChoreCardFragment extends Fragment {
 		 
 		 //get roommates list
 		 List<String> roommatesList=new ArrayList<String>();
-		 //try {//TODO: return try-catch when dal function is written
-		 	
-			 try {
-				roommatesList = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
-			} catch (UserNotLoggedInException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			 roommatesList.remove(chore.getAssignedTo());
 
-//		 } catch (UserNotLoggedInException e) {
-//			 LoginActivity.OpenLoginScreen(getActivity(), false);
-//			 return;
-//		 }
+		 try {
+			 roommatesList = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+		 } catch (UserNotLoggedInException e) {
+			 // TODO Auto-generated catch block
+			 LoginActivity.OpenLoginScreen(getActivity(), false);
+			 return;
+		 }
+		 
 
 		 //handle buttons
 		 if(beforeStartDate){ // can't do chore yet
@@ -288,7 +284,46 @@ public class ChoreCardFragment extends Fragment {
 		
 	}
 
+	 //gets the chore type to display in the card
+	 private String getChoreType(String name) {
 
+		 String[] chores = getResources().getStringArray(R.array.chore_names_array);
+		 
+		 if(name.equals(chores[0])){//Cook dinner
+			 return getResources().getString(R.string.chore_type_cook_dinner);
+		 }
+		 else if(name.equals(chores[1])){//Dish washing
+			 return getResources().getString(R.string.chore_type_dish_washing);
+		 }
+		 else if(name.equals(chores[2])){//Do the laundry
+			 return getResources().getString(R.string.chore_type_do_the_laundry);
+		 }
+		 else if(name.equals(chores[3])){//Dusting
+			 return getResources().getString(R.string.chore_type_dusting);
+		 }
+		 else if(name.equals(chores[4])){//Floor sweeping
+			 return getResources().getString(R.string.chore_type_floor_sweeping);
+		 }
+		 else if(name.equals(chores[5])){//Floor washing
+			 return getResources().getString(R.string.chore_type_floor_washing);
+		 }
+		 else if(name.equals(chores[6])){//Grocery shopping
+			 return getResources().getString(R.string.chore_type_grocery_shopping);
+		 }
+		 else if(name.equals(chores[7])){//Take out the trash
+			 return getResources().getString(R.string.chore_type_take_out_trash);
+		 }
+		 else if(name.equals(chores[8])){//Toilet cleaning
+			 return getResources().getString(R.string.chore_type_toilet_cleaning);
+		 }
+		 else if(name.equals(chores[9])){//walk the dog
+			 return getResources().getString(R.string.chore_type_walk_dog);
+		 }
+		 else{
+			 Log.e("error", "chore name doesn't exist");
+			 return null;
+		 }
+	 }
 
 }
 

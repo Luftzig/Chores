@@ -26,6 +26,11 @@ public class ChoresDivisionAlgorithms {
 		List<Roommate> roommates=null;
 		try {
 			roommates = client.getApartmentRoommates(aptId);
+			if(roommates.size() == 0)
+			{
+				System.out.println("No roommates for apartment " + aptId);
+				return;
+			}
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

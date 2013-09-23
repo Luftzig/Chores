@@ -14,7 +14,6 @@ public class ApartmentChore implements Chore {
 	private Date startsFrom;
 	private Date deadline;
 	private CHORE_STATUS status;
-	private String type;
 	private String funFact;
 	private String statistics;
 	private int coinsNum;
@@ -32,7 +31,6 @@ public class ApartmentChore implements Chore {
 		this.startsFrom = startsFrom;
 		this.deadline = deadline;
 		this.status = status;
-		this.type = type;
 		this.funFact = funFact;
 		this.statistics = statistics;
 		this.coinsNum = coinsNum;
@@ -70,10 +68,6 @@ public class ApartmentChore implements Chore {
 		return funFact;
 	}
 
-	@Override
-	public String getType() {
-		return type;
-	}
 
 	@Override
 	public String getStatistics() {
@@ -136,10 +130,7 @@ public class ApartmentChore implements Chore {
 	public void setStatus(CHORE_STATUS status) {
 		this.status = status;
 	}
-	@Override
-	public void setType(String type) {
-		this.type = type;
-	}
+
 	@Override
 	public void setFunFact(String funFact) {
 		this.funFact = funFact;

@@ -35,7 +35,6 @@ public class RoutineJob implements Job {
 		try {
 			apartments = parse.getTodaysApartmentList(day);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			return; //try again later
 		}
 		
@@ -53,6 +52,9 @@ public class RoutineJob implements Job {
 		//Divide chores
 		for(int i=0; i< filteredApartments.size(); i++){
 			try {
+				if(filteredApartments.get(i).getRoommates().size() == 0){
+					continue; //fake apartment
+				}
 				DivideChoresForApartment(filteredApartments.get(i).getId(), todayCal.getTime());
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();

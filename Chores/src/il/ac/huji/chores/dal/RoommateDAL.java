@@ -26,6 +26,13 @@ public class RoommateDAL {
 	public static String getRoomateUsername(){
 		return ParseUser.getCurrentUser().getUsername();
 	}
+	
+	public static boolean isUserLoggedIn(){
+		if(ParseUser.getCurrentUser() == null){
+			return false;
+		}
+		return true;
+	}
 
     /**
      * @param roommateName

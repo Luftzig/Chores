@@ -290,7 +290,7 @@ public class NewChoreDialogFragment extends Fragment {
     
     //changes most chosen value in the values list 
     private void changeMostChosen(String choreName){
-    	int mostChosen = ChoreDAL.getChoreValueFromStats(_choreName); //handle statistics value
+    	int mostChosen = ChoreDAL.getChoreValueFromStats(_choreName); //handle statistics value //TODO(shani) change to getChoreAverageValue
     	if(mostChosen != -1){
     		chore_values[mostChosen] = "" + mostChosen + getResources().getString(R.string.new_chore_dialog_values_most_chosen);
     	}

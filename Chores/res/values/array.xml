@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="chore_names_array">
-        <item>Washing dishes</item>
+        <item>Cook dinner</item>
+        <item>Dish washing</item>
+        <item>Do the laundry</item>
+        <item>Dusting</item>
         <item>Floor sweeping</item>
-        <item>Cleaning bathrooms</item>
+        <item>Floor washing</item>
+        <item>Grocery shopping</item>
+        <item>Take out the trash</item>
+        <item>Toilet cleaning</item>
+        <item>Walk the dog</item>
     </string-array>
     <string-array name="how_many_array">
         <item>Once</item>

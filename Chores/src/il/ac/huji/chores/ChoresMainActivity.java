@@ -17,18 +17,22 @@ import org.json.JSONObject;
 
 public class ChoresMainActivity extends Activity {
 
-    static public boolean mainActivityRunning = false;
     ActivityBroadcastReceiver receiver;
+    private static boolean isActionBarSetup = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chores_main);
-        mainActivityRunning = true;
 
         AppSetup.getInstance(this);
 
         receiver = new ActivityBroadcastReceiver();
         registerReceiver(receiver, new IntentFilter("il.ac.huji.chores.choresNotification"));
+        
+        if(RoommateDAL.isUserLoggedIn()){ // user must be logged in
+        	AppSetup.getInstance(this).setupActionBar();
+        	isActionBarSetup = true;
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -45,10 +49,13 @@ public class ChoresMainActivity extends Activity {
                 startActivity(intent);
                 // TODO should get the apartmentID from the returned activity
             }
+            if(!isActionBarSetup){
+            	AppSetup.getInstance(this).setupActionBar();
+            }
 
-            AppSetup.getInstance(this).setupActionBar();
         }
     }
+    
 
     protected void onDestroy() {
         super.onDestroy();
@@ -216,7 +223,6 @@ public class ChoresMainActivity extends Activity {
     	Intent i= new Intent(this, AlarmService.class);
     	// potentially add data to the intent
     	i.putExtra("createTime", createTime);
-    	Log.e("^^^^^^^^^^", "start service was called");
     	this.startService(i); 
 	}
 }

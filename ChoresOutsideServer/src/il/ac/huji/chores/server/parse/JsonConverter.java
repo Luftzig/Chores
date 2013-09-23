@@ -37,6 +37,7 @@ public class JsonConverter {
 		json.put("choreInfoId", chore.getChoreInfoId());
 		json.put("apartment",chore.getApartment());
 		json.put("assignedTo",chore.getAssignedTo());
+		json.put("funFact",chore.getFunFact());
 		return json.toString();
 	}
 	
@@ -50,6 +51,7 @@ public class JsonConverter {
 		chore.setCoinsNum(obj.getInt("coins"));
 		chore.setChoreInfoId(obj.getString("choreInfoId"));
 		chore.setApartment(obj.getString("apartment"));
+		chore.setApartment(obj.getString("funFact"));
 		
 		return chore;
 

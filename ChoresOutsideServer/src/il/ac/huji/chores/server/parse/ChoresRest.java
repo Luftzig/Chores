@@ -4,6 +4,8 @@ import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.server.ChoresFunFacts;
+
 import org.apache.http.client.ClientProtocolException;
 
 import java.io.IOException;
@@ -56,6 +58,7 @@ public class ChoresRest {
 		chore.setStartsFrom(currentDate);
 		chore.setApartment(apartment);
 		chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
+		chore.setFunFact(ChoresFunFacts.getFactForChore(chore.getName()));
 		for(int i=0 ; i<choreInfo.getHowManyInPeriod();i++){
 			Date deadline = calculateDeadline(choreInfo,currentDate,i);
 			chore.setDeadline(deadline);
