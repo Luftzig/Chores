@@ -2,6 +2,7 @@ package il.ac.huji.chores;
 
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.ChoreStatisticsDAL;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -290,7 +291,7 @@ public class NewChoreDialogFragment extends Fragment {
     
     //changes most chosen value in the values list 
     private void changeMostChosen(String choreName){
-    	int mostChosen = ChoreDAL.getChoreValueFromStats(_choreName); //handle statistics value //TODO(shani) change to getChoreAverageValue
+    	int mostChosen = ChoreStatisticsDAL.getChoreAverageValue(_choreName); //handle statistics value 
     	if(mostChosen != -1){
     		chore_values[mostChosen] = "" + mostChosen + getResources().getString(R.string.new_chore_dialog_values_most_chosen);
     	}
