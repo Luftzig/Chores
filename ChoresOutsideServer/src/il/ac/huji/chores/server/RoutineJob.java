@@ -57,12 +57,13 @@ public class RoutineJob implements Job {
 		String aptID = null;
 		for(int i=0; i< filteredApartments.size(); i++){
 			try {
-				if(filteredApartments.get(i).getRoommates().size() == 0){
+				RoommatesApartment curApt = filteredApartments.get(i);
+				if(curApt.getRoommates().size() == 0){
 					continue; //fake apartment
 				}
-				aptID = filteredApartments.get(i).getId();
-				if(aptID != null){
-					DivideChoresForApartment(aptID, todayCal.getTime());
+				
+				if(curApt.getId() != null){
+					DivideChoresForApartment(curApt, todayCal.getTime());
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -104,12 +105,6 @@ public class RoutineJob implements Job {
 		else if(frequency.equals("Every Four Weeks")){
 			cal.add(Calendar.WEEK_OF_YEAR, 4);
 		}
-		else if(frequency.equals("Every Five Weeks")){
-			cal.add(Calendar.WEEK_OF_YEAR, 5);
-		}
-		else if(frequency.equals("Every Six Weeks")){
-			cal.add(Calendar.WEEK_OF_YEAR, 6);
-		}
 		else if(frequency.equals("Once a Month")){
 			cal.add(Calendar.MONTH, 1);
 		}
@@ -133,15 +128,15 @@ public class RoutineJob implements Job {
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 */
-	public static void DivideChoresForApartment(String apartmentId, Date today) throws ClientProtocolException, IOException{
+	public static void DivideChoresForApartment(RoommatesApartment apt, Date today) throws ClientProtocolException, IOException{
 		
 		ParseRestClient parse = new ParseRestClientImpl();
 		
 		//change last division date for the apartment
-		parse.updateApartmentLastDivision(apartmentId, today);
+		parse.updateApartmentLastDivision(apt.getId(), today);
 		
 		//Schedule chores
-		List<Chore> chores = ChoresRest.scheduleChores(apartmentId);//TODO there's a problem with this function. fix.
+		List<Chore> chores = ChoresRest.scheduleChores(apt);
         Calendar earliestChore = Calendar.getInstance();
         for (Chore chore : chores) {
             Calendar startsFrom = Calendar.getInstance();
@@ -151,15 +146,14 @@ public class RoutineJob implements Job {
             }
         }
 
-
         //Assign chores
-		ChoresDivisionAlgorithms.assignChores(chores, apartmentId);
+		ChoresDivisionAlgorithms.assignChores(chores, apt.getId());
 		
 		//Write assigned chores to the server
 		parse.addChores(chores);
 		
 		//Notify roommates about the new chores
-		NotificationsHandling.notifyNewChores(apartmentId, earliestChore);
+		NotificationsHandling.notifyNewChores(apt.getId(), earliestChore);
 		
 	}
 }

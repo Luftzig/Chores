@@ -29,10 +29,10 @@ public class DummyLoop {
 
         String apartmentId = "Tl0A2RZUh8";
         ChoresDivisionAlgorithms.assignChores(chores, apartmentId);
-        try {
-            RoutineJob.DivideChoresForApartment(apartmentId, Calendar.getInstance().getTime());
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+//        try {
+//            RoutineJob.DivideChoresForApartment(apartmentId, Calendar.getInstance().getTime());
+//        } catch (IOException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
     }
 }
