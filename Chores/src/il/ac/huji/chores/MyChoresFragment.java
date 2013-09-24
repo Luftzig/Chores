@@ -2,13 +2,16 @@ package il.ac.huji.chores;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
@@ -37,6 +40,11 @@ public class MyChoresFragment extends Fragment {
     private XYSeriesRenderer chartRenderer;
     private XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
     private GraphicalView chart;
+    private ListView listView;
+    private View progressBar;
+    private FrameLayout chartFrame;
+    private TextView messageBox;
+    private String yTitle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -74,27 +82,91 @@ public class MyChoresFragment extends Fragment {
     public void onResume() {
         Log.d("MyChoresFragment", "onResume");
         super.onResume();
+        final List<Chore>[] roommatesChores = new List[1];
         if (adapter != null) {
-            try {
-                adapter.clear();
-                adapter.addAll(ChoreDAL.getRoommatesChores());
-                Log.d("MyChoresFragment", "chores list size == " + adapter.getCount());
-                adapter.notifyDataSetChanged();
-            } catch (UserNotLoggedInException e) {
-                LoginActivity.OpenLoginScreen(getActivity(), false);
-            }
+            adapter.clear();
+            final View placeholder = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        roommatesChores[0] = ChoreDAL.getRoommatesChores();
+                    } catch (UserNotLoggedInException e) {
+                        LoginActivity.OpenLoginScreen(getActivity(), false);
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+                    adapter.addAll(roommatesChores[0]);
+                    Log.d("MyChoresFragment", "chores list size == " + adapter.getCount());
+                    adapter.notifyDataSetChanged();
+                    ViewUtils.replacePlaceholder(listView, placeholder);
+                }
+            }.execute();
         }
 
-//        // Coins Chart stuff
-//        try {
-//            initChart();
-//            chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
-//            ((ViewGroup) getActivity().findViewById(R.id.myChoresChartContainer)).addView(chart);
-//        } catch (UserNotLoggedInException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (FailedToGetRoommateException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
+        // Coins Chart stuff
+        final ProgressBar progressBar = new ProgressBar(getActivity());
+        chartFrame.removeAllViews();
+        chartFrame.addView(progressBar, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+                chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+                chartFrame.removeAllViewsInLayout();
+                chartFrame.addView(chart);
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    initChart();
+                } catch (UserNotLoggedInException e) {
+                    LoginActivity.OpenLoginScreen(getActivity(), false);
+                } catch (FailedToGetRoommateException e) {
+                    Log.w("MyChoresFragment.onResume", "error getting roommates", e);
+                } catch (Exception e) {
+                    Log.e("MyChoresFragment.onResume", "unexpected error while creating graph", e);
+                }
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+        }.execute();
+    }
+
+    private void initChart() throws UserNotLoggedInException, FailedToGetRoommateException {
+        currentSeries = new XYSeries("Coins");
+        Map<String, Integer> coinsMap = getCoinsMap();
+        List<String> orderedNames = createDataSeries(coinsMap);
+        dataSet.addSeries(currentSeries);
+        chartRenderer = new XYSeriesRenderer();
+        renderer.addSeriesRenderer(chartRenderer);
+        renderer.setBarSpacing(0.2);
+        renderer.setXAxisMin(0.0);
+        renderer.setXAxisMax(orderedNames.size() + 1);
+        int minCoins = findCoinsMin(coinsMap);
+        int maxCoins = findCoinsMax(coinsMap);
+        int padding = (maxCoins - minCoins) / 10;
+        renderer.setYAxisMax(maxCoins + padding);
+        renderer.setYAxisMin(minCoins - 2 * padding);
+        renderer.clearXTextLabels();
+        renderer.clearYTextLabels();
+        renderer.setShowAxes(false);
+        renderer.setShowGrid(false);
+        renderer.setMarginsColor(DefaultRenderer.NO_COLOR);
+        renderer.setBackgroundColor(DefaultRenderer.NO_COLOR); // TODO [yl] use color from theme
+        renderer.setClickEnabled(false);
+        renderer.setYTitle(yTitle);
+        int k = 1;
+        for (String name : orderedNames) {
+            renderer.addXTextLabel(k, name);
+            k++;
+        }
     }
 
     private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException, FailedToGetRoommateException {
@@ -127,36 +199,6 @@ public class MyChoresFragment extends Fragment {
         return orderedKeys;
     }
 
-    private void initChart() throws UserNotLoggedInException, FailedToGetRoommateException {
-        currentSeries = new XYSeries("Coins");
-        Map<String, Integer> coinsMap = getCoinsMap();
-        List<String> orderedNames = createDataSeries(coinsMap);
-        dataSet.addSeries(currentSeries);
-        chartRenderer = new XYSeriesRenderer();
-        renderer.addSeriesRenderer(chartRenderer);
-        renderer.setBarSpacing(0.2);
-        renderer.setXAxisMin(0.0);
-        renderer.setXAxisMax(orderedNames.size() + 1);
-        int minCoins = findCoinsMin(coinsMap);
-        int maxCoins = findCoinsMax(coinsMap);
-        int padding = (maxCoins - minCoins) / 10;
-        renderer.setYAxisMax(maxCoins + padding);
-        renderer.setYAxisMin(minCoins - 2 * padding);
-        renderer.clearXTextLabels();
-        renderer.clearYTextLabels();
-        renderer.setShowAxes(false);
-        renderer.setShowGrid(false);
-        renderer.setMarginsColor(DefaultRenderer.NO_COLOR);
-        renderer.setBackgroundColor(DefaultRenderer.NO_COLOR); // TODO [yl] use color from theme
-        renderer.setClickEnabled(false);
-        renderer.setYTitle(getResources().getString(R.string.coins_graph_y_label));
-        int k = 1;
-        for (String name : orderedNames) {
-            renderer.addXTextLabel(k, name);
-            k++;
-        }
-    }
-
     private int findCoinsMax(Map<String, Integer> coinsMap) {
         return Collections.max(coinsMap.values());
     }
@@ -170,13 +212,34 @@ public class MyChoresFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Log.d("MyChoresFragment", "MyChores: onActivityCreated");
         // Set the adapter
-        ListView listView = (ListView) getActivity().findViewById(R.id.myChoresFragmentListView);
-        try {
-            chores = ChoreDAL.getRoommatesChores();
-            adapter = new MyChoresListAdapter(getActivity(), chores);
-        } catch (UserNotLoggedInException e) {
-            LoginActivity.OpenLoginScreen(getActivity(), false);
-        }
-        listView.setAdapter(adapter);
+        listView = (ListView) getActivity().findViewById(R.id.myChoresFragmentListView);
+        progressBar = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
+        chartFrame = (FrameLayout) getActivity().findViewById(R.id.myChoresChartContainer);
+        messageBox = (TextView) getActivity().findViewById(R.id.myChoresMessageBox);
+        yTitle = getResources().getString(R.string.coins_graph_y_label);
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    chores = ChoreDAL.getRoommatesChores();
+                } catch (UserNotLoggedInException e) {
+                    LoginActivity.OpenLoginScreen(getActivity(), false);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+                ViewUtils.replacePlaceholder(listView, progressBar);
+                adapter = new MyChoresListAdapter(getActivity(), chores);
+                listView.setAdapter(adapter);
+                if (adapter == null || adapter.getCount() == 0) {
+                    messageBox.setText(R.string.my_chores_no_chores_message);
+                    messageBox.setVisibility(View.VISIBLE);
+                }
+            }
+        }.execute();
     }
 }

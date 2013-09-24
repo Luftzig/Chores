@@ -148,6 +148,7 @@
      <string name="chore_type_grocery_shopping">Food</string>
      <string name="chore_type_take_out_trash">Dirt</string>
      <string name="chore_type_toilet_cleaning">Bathroom</string>
+    <string name="my_chores_no_chores_message">No chores are waiting for you!</string>
      <string name="chore_type_walk_dog">Pets</string>
      
      <string name="setting_saved_toast_text">Settings were saved</string>
