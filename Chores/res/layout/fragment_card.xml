@@ -67,7 +67,7 @@
             android:layout_weight="0.17"
             android:text="Deadline"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@color/red" />
 
         <TextView
             android:id="@+id/card_fun_fact"

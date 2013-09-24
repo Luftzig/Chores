@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -75,7 +76,7 @@ public class ApartmentSettingsDAL {
 
 		// store defaults in database
 		try {
-			updateSettings(settings);
+			updateSettings(settings, true);
 		} catch (FailedToUpdateSettingsException e) {
 			FailedToGetApartmentSettings ex = new FailedToGetApartmentSettings(
 					e.toString());
@@ -85,15 +86,19 @@ public class ApartmentSettingsDAL {
 		return settings;
 	}
 
-	public static void updateSettings(Settings settings)
+	//isDefault - true if it's an update of the default settings
+	public static void updateSettings(Settings settings, boolean isDefault)
 			throws UserNotLoggedInException, FailedToUpdateSettingsException {
 		String username = RoommateDAL.getRoomateUsername();
-		ParseObject parseSettings = getParseSettings(username);
-		if(parseSettings==null){
+		ParseObject parseSettings = null;
+		if(!isDefault){
+			parseSettings = getParseSettings(username);
+		}
+		if(parseSettings == null){
 			parseSettings = new ParseObject("Settings");
 		}
-		//parseSettings.put("apartment", apartmentID);
-		parseSettings.put("username",ParseUser.getCurrentUser().getUsername());
+//		parseSettings.put("apartment", apartmentID);
+//		parseSettings.put("username",ParseUser.getCurrentUser().getUsername());
 		parseSettings.put("newChoresHasBeenDivided",
 				settings.notifications.newChoresHasBeenDivided);
 		parseSettings.put("roommateFinishedChore",
@@ -114,11 +119,16 @@ public class ApartmentSettingsDAL {
 		}
 	}
 	
-	private static ParseObject getParseSettings(String apt){
+	private static ParseObject getParseSettings(String username){
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Settings");
-		query.whereEqualTo("apartment", apt);
+		query.whereEqualTo("username", username);
+		List<ParseObject> parseSettingsList = null;
 		try{
-			return query.find().get(0);
+			parseSettingsList = query.find();
+			if(parseSettingsList.size() == 0){
+				return null;
+			}
+			return parseSettingsList.get(0);
 		}
 		catch(ParseException e){
 			return null;

@@ -88,7 +88,7 @@
     <string name="new_chore_dialog_every_prompt">Every&#8230;</string>
     <string name="new_chore_dialog_coins_text">coins.</string>
     <string name="new_chore_dialog_value_prompt">"For how many "</string>
-    <string name="new_chore_dialog_everyone_checkbox_text">Should be done by everyone together.</string>
+    <string name="new_chore_dialog_everyone_checkbox_text">Group chore</string>
     <string name="new_chore_dialog_create_button_text">Create Chore</string>
     <string name="new_chore_dialog_cancel_button_text">Discard</string>
     <string name="card_activity_extra1_name">choreData</string>
@@ -148,6 +148,8 @@
      <string name="chore_type_grocery_shopping">Food</string>
      <string name="chore_type_take_out_trash">Dirt</string>
      <string name="chore_type_toilet_cleaning">Bathroom</string>
-     <string name="chore_type_walk_dog">Prts</string>
+     <string name="chore_type_walk_dog">Pets</string>
+     
+     <string name="setting_saved_toast_text">Settings were saved</string>
 </resources>
 
