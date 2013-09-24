@@ -51,5 +51,7 @@ public class Constants {
             inHowMuch = numPeriods;
         }
     }
+    
+	public static final String CHORE_ASSIGNED_TO_EVERYONE = "Everyone";
 
 }

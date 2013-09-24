@@ -50,6 +50,7 @@ public class ChoreCardFragment extends Fragment {
 	 public void OrganizeUIParts(Chore chore, String curUser){
 		
 		boolean ownerOpen = ((curUser.equals(chore.getAssignedTo())) ? (true) : (false));
+		boolean everyone = (((Constants.CHORE_ASSIGNED_TO_EVERYONE).equals(chore.getAssignedTo())) ? (true) : (false)); 
 		 
 		 //set chore name
 		 TextView name = (TextView)getActivity().findViewById(R.id.card_chore_name);
@@ -136,13 +137,13 @@ public class ChoreCardFragment extends Fragment {
 		 }
 		 else{ // chore time
 			 
-			 if(ownerOpen) { // I'm done button, and suggest chore button
+			 if(ownerOpen || everyone) { // I'm done button, and suggest chore button if owner opens. only done if everyone.
 				
 				 rightButton.setEnabled(true);
 				 rightButton.setVisibility(Button.VISIBLE);
 				 rightButton.setText(getResources().getString(R.string.button_done_text));
 
-				 if(roommatesList.size() != 0){
+				 if((roommatesList.size() != 0) && (!everyone)){
 					 leftButton.setEnabled(true);
 					 leftButton.setVisibility(Button.VISIBLE);
 					 leftButton.setText(getResources().getString(R.string.button_suggestchore_text));

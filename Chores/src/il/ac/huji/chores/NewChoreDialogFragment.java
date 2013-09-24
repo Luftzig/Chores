@@ -214,7 +214,9 @@ public class NewChoreDialogFragment extends Fragment {
     	
     	//is everyone check box
     	 final CheckBox checkBox = (CheckBox) getActivity().findViewById(R.id.newChoreDialogEveryoneCheckbox);
-         _isEveryone = checkBox.isChecked();
+    	 if(_isEdit){
+    		 checkBox.setChecked(_isEveryone);
+    	 }
          
          //Create chore button
 		 createButton.setOnClickListener(new OnClickListener() {
@@ -261,6 +263,8 @@ public class NewChoreDialogFragment extends Fragment {
 				 else{
 					 howMany = 6;
 				 }
+				 
+		         _isEveryone = checkBox.isChecked();
 				 
 				
 				ChoreInfo newChore = (ChoreInfo) new ChoreInfoInstance(_choreName, _value, howMany, period, _isEveryone);

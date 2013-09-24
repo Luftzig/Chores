@@ -1,12 +1,14 @@
 package il.ac.huji.chores.dal;
 
 import com.parse.*;
+
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.ChoreInfoInstance;
+import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.exceptions.*;
 
 import java.util.ArrayList;
@@ -175,6 +177,7 @@ public class ChoreDAL {
 		chore.setStatus(CHORE_STATUS.valueOf(choreStatus));
 		String funFact = obj.getString("funFact");
 		chore.setFunFact(funFact);
+		chore.setApartment(obj.getString("apartment"));
 		return chore;
 	}
 
@@ -195,21 +198,43 @@ public class ChoreDAL {
 
 	public static List<Chore> getRoommatesChores()
 			throws UserNotLoggedInException {
-        List<Chore> chores;
-        List<ParseObject> parseChores;
+		List<Chore> chores = new ArrayList<Chore>();;
+		List<ParseObject> parseChores;
 		try {
-            String username = ParseUser.getCurrentUser().getUsername();
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
-            query.whereEqualTo("assignedTo", username);
-            chores = new ArrayList<Chore>();
+			String username = ParseUser.getCurrentUser().getUsername();
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+			query.whereEqualTo("assignedTo", username);
 			parseChores = query.find();
+
+			for (ParseObject chore : parseChores) {
+				chores.add(convertParseObjectToChore(chore));
+			}
+
+			chores.addAll(getAllRoommatesChores(RoommateDAL.getApartmentID()));
+
 		} catch (ParseException e) {
-            throw new UserNotLoggedInException("User not logged in");
+			throw new UserNotLoggedInException("User not logged in");
 		}
+
+		return chores;
+	}
+	
+	private static List<Chore> getAllRoommatesChores(String aptId) throws ParseException{
+		
+		List<Chore> chores;
+        List<ParseObject> parseChores;
+	
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+        query.whereEqualTo("assignedTo", Constants.CHORE_ASSIGNED_TO_EVERYONE);
+        query.whereEqualTo("apartment", aptId);
+        chores = new ArrayList<Chore>();
+        parseChores = query.find();
+
 		for (ParseObject chore : parseChores) {
 			chores.add(convertParseObjectToChore(chore));
 		}
 		return chores;
+		
 	}
 
 	public static List<ChoreInfo> getAllChoreInfo() throws ParseException,

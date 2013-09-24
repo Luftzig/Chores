@@ -3,6 +3,7 @@ package il.ac.huji.chores.server;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.server.parse.ChoresRest;
 import il.ac.huji.chores.server.parse.ParseRestClient;
@@ -134,7 +135,7 @@ public class RoutineJob implements Job {
 		
 		//change last division date for the apartment
 		parse.updateApartmentLastDivision(apt.getId(), today);
-		
+	
 		//Schedule chores
 		List<Chore> chores = ChoresRest.scheduleChores(apt);
         Calendar earliestChore = Calendar.getInstance();

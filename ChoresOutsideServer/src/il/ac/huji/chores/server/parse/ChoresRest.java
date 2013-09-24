@@ -5,8 +5,10 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
+import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.server.ChoresDivisionAlgorithms;
 import il.ac.huji.chores.server.ChoresFunFacts;
 
 import org.apache.http.client.ClientProtocolException;
@@ -172,9 +174,11 @@ public class ChoresRest {
 				chore.setName(choreInfo.getName());
 				chore.setStartsFrom(startCal.getTime());
 				chore.setApartment(aptId);
-	
 				chore.setStatus(CHORE_STATUS.STATUS_FUTURE);
 				chore.setFunFact(ChoresFunFacts.getFactForChore(chore.getName()));
+				if(choreInfo.isEveryone()){
+					chore.setAssignedTo(Constants.CHORE_ASSIGNED_TO_EVERYONE);
+				}
 	
 				Date deadline = calculateDeadline(choreInfo,curCal.getTime(),i);
 				chore.setDeadline(deadline);

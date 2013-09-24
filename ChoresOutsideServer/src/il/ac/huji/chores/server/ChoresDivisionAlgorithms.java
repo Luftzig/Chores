@@ -1,6 +1,8 @@
 package il.ac.huji.chores.server;
 
 import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.server.parse.ParseRestClient;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
@@ -50,7 +52,14 @@ public class ChoresDivisionAlgorithms {
 		List<Roommate> equalCollected = new ArrayList<Roommate>();
 		
 		//Divide chores
+		Chore chore = null;
 		for(int i=0; i<sortedChores.size();){
+			
+			chore = chores.get(i);
+			if(chore.getAssignedTo().equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
+				continue;
+			}
+						
 			//The roommates list is sorted according to coins collected.
 			//If roommate_1.coins == roommate_2.coins == ... == roommate_n.coins 
 			//then their order should be random.
