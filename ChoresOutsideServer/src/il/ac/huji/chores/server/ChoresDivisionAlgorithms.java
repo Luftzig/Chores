@@ -93,6 +93,13 @@ public class ChoresDivisionAlgorithms {
 			}
 		}
 		
+		//update roommateDebts
+		Roommate roommate = null;
+		for(int i=0; i< roommates.size(); i++){
+			roommate = roommates.get(i);
+			client.setRommateDebt(roommate.getUsername(), roommate.getDebt());
+		}
+		
 	}
 	
 	/*
@@ -103,13 +110,18 @@ public class ChoresDivisionAlgorithms {
 	private static int randomlyAssignAndStartNewList(List<Roommate> equalCollected, List<Roommate> roommates, Roommate roommate, List<Chore> sortedChores, int cur){
 		
 		int dividedChoresNum = equalCollected.size();
+		Roommate curRoommate = null;
+		Chore curChore = null;
 		
-		if(equalCollected.size() !=0 ){
+		if(equalCollected.size() !=0){
 			Collections.shuffle(equalCollected);
 			for(int k=0; (k<equalCollected.size() && cur< sortedChores.size()); k++, cur++){//divide chores to all roommates in equal coins collected list
-				sortedChores.get(cur).setAssignedTo(equalCollected.get(k).getUsername()); // assign chore to roommate.
-				equalCollected.get(k).setCoinsCollected(equalCollected.get(k).getCoinsCollected() + sortedChores.get(cur).getCoinsNum()); //update coinsCollected (for the algorithm)
+				curRoommate = equalCollected.get(k);
+				curChore = sortedChores.get(cur);
+				curChore.setAssignedTo(curRoommate.getUsername()); // assign chore to roommate.
+				curRoommate.setCoinsCollected(curRoommate.getCoinsCollected() + curChore.getCoinsNum()); //update coinsCollected (for the algorithm)
 				Collections.sort(roommates, new ValueComparator());//coinsCollected was changed. sortList.
+				curRoommate.setDebt(curRoommate.getDebt() + curChore.getCoinsNum());// used to update roomate's debt in db later
 			}
 			equalCollected.clear(); // Clear to start a new list.
 		}

@@ -68,4 +68,11 @@ public interface ParseRestClient {
      * @throws ClientProtocolException 
      */
 	public void updateApartmentLastDivision(String apartmentId, Date date) throws ClientProtocolException, IOException;
+	
+	/**
+	 * Sets debt to the user (instead of the old one)
+	 * @param username - the username of the user to set new debt to
+	 * @param debt - the new debt to set
+	 */
+	public void setRommateDebt(String username, int debt);
 }

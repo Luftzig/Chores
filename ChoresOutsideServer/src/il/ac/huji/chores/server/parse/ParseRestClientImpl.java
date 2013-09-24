@@ -230,4 +230,10 @@ public class ParseRestClientImpl implements ParseRestClient {
         String update = json.toString();
         updateObject("Apartment", apartmentId, update);
     }
+
+	@Override
+	public void setRommateDebt(String username, int debt) {
+		// TODO Auto-generated method stub
+		
+	}
 }
