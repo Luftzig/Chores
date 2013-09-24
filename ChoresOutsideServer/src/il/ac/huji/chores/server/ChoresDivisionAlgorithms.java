@@ -23,6 +23,8 @@ public class ChoresDivisionAlgorithms {
 	 */
 	public static void assignChores(List<Chore> chores, String aptId){
 		
+		int everyoneDebt = 0; // sums the debt that should be added to everyone (in a group chore)
+		
 		//get roommates set
 		ParseRestClient client = new ParseRestClientImpl();
 		List<Roommate> roommates=null;
@@ -57,6 +59,7 @@ public class ChoresDivisionAlgorithms {
 			
 			chore = chores.get(i);
 			if(chore.getAssignedTo().equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
+				everyoneDebt += chore.getCoinsNum();
 				continue;
 			}
 						
@@ -97,7 +100,7 @@ public class ChoresDivisionAlgorithms {
 		Roommate roommate = null;
 		for(int i=0; i< roommates.size(); i++){
 			roommate = roommates.get(i);
-			client.setRommateDebt(roommate.getUsername(), roommate.getDebt());
+			client.setRommateDebt(roommate.getUsername(), roommate.getDebt() + everyoneDebt);
 		}
 		
 	}
