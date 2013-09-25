@@ -12,6 +12,13 @@ public class ViewUtils {
     private ViewUtils() {
     }
 
+    /**
+     * Hides the loadingView and reveals the view with the given ID
+     * @param loadingView the view that is still loading and should be hidden
+     * @param activity  activity context
+     * @param placeholderId android identifier for the view that should be displayed instead
+     * @return
+     */
     public static View hideLoadingView(View loadingView, Activity activity, int placeholderId) {
         loadingView.setVisibility(View.INVISIBLE);
         View view = activity.findViewById(placeholderId);
@@ -19,6 +26,7 @@ public class ViewUtils {
         return view;
     }
 
+    @Deprecated
     public static View hideLoadingView(View loadingView, Context context) {
         try {
             ViewGroup container = (ViewGroup) loadingView.getParent();

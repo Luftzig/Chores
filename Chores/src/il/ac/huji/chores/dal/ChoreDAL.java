@@ -1,5 +1,7 @@
 package il.ac.huji.chores.dal;
 
+import android.util.Log;
+import com.google.common.collect.Collections2;
 import com.parse.*;
 
 import il.ac.huji.chores.ApartmentChore;
@@ -12,6 +14,7 @@ import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -270,7 +273,10 @@ public class ChoreDAL {
 	public static List<ChoreInfo> getAllChoreInfo() throws ParseException,
 			UserNotLoggedInException {
 		String apartmentID = RoommateDAL.getApartmentID();
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
+        if (apartmentID == null) {
+            return Collections.emptyList();
+        }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		query.whereEqualTo("apartment", apartmentID);
 		List<ParseObject> results = query.find();
 		List<ChoreInfo> choresInfoList = new ArrayList<ChoreInfo>();
@@ -383,7 +389,11 @@ public class ChoreDAL {
 	public static List<Chore> getAllChores() throws UserNotLoggedInException,
 			FailedToRetriveAllChoresException {
 		String apartmentID = RoommateDAL.getApartmentID();
-		ParseQuery<ParseObject> queryfuture = ParseQuery.getQuery("Chores");
+        if (apartmentID == null) {
+            Log.w("ChoreDAL.getAllChores", "all chores was called with null apartment");
+            return Collections.emptyList();
+        }
+        ParseQuery<ParseObject> queryfuture = ParseQuery.getQuery("Chores");
 		queryfuture.whereEqualTo("apartment", apartmentID).whereEqualTo(
 				"status", CHORE_STATUS.STATUS_FUTURE.toString());
 

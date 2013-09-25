@@ -153,5 +153,8 @@
      <string name="chore_type_walk_dog">Pets</string>
      
      <string name="setting_saved_toast_text">Settings were saved</string>
+  <string name="apartment_chores_no_chores">There are no chores for your apartment.\nTouch \"Add/Edit Chores\" to add
+    new chores.
+  </string>
 </resources>
 
