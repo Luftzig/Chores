@@ -88,69 +88,12 @@ public class RoommateDAL {
 	}
 
 
-	public static void increaseCoinsCollectedDecreaseDebt(int coins) throws FailedToSaveOperationException{
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		int currentCoins = currentUser.getInt("coinsCollected");
-		int debt = currentUser.getInt("coins");
-		currentCoins += coins;
-		debt =- coins;
-		currentUser.put("coinsCollected",currentCoins);
-		currentUser.put("coins",debt);
-		try {
-			currentUser.save();
-		} catch (ParseException e) {
-			throw new FailedToSaveOperationException(e.getMessage());
-		}
-	}
-
-	public static void increaseCoinsCollectedDecreaseDebtAllRoommates(int coins, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException{
-
-		ParseUser user = null;
-		
-		for(int i=0; i< roommates.size(); i++){
-			
-			user = getParseUserByName(roommates.get(i));
-			
-			int currentCoins = user.getInt("coinsCollected");
-			int debt = user.getInt("coins");
-			
-			currentCoins+=coins;
-			debt -= coins;
-			
-			user.put("coinsCollected",currentCoins);
-			user.put("coins",debt);
-			
-			try {
-				user.save();
-			} catch (ParseException e) {
-				throw new FailedToSaveOperationException(e.getMessage());
-			}
-
-		}
-	}
-
-
-	public static int getRoommateCollectedCoins(String roommate) throws FailedToGetChoreException{
-		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_DONE");
-		try {
-			List<ParseObject> results = query.find();
-			int coinsCollected = 0;
-			for(ParseObject obj : results){
-				coinsCollected+=obj.getInt("coins");
-			}
-			return coinsCollected;
-		} catch (ParseException e) {
-			throw new FailedToGetChoreException(e.getMessage());
-		}
-	}
-
 	public static void initRoommateProperties(String phoneNumber) throws UserNotLoggedInException{
 		ParseUser roommate = ParseUser.getCurrentUser();
-		roommate.put("coinsCollected", 0);
-		roommate.put("coins", 0);
 		roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
 		try {
 			roommate.save();
+			CoinsDAL.createDefaultCoinsForRoommate();
 		} catch (ParseException e) {
 			throw new UserNotLoggedInException(e.getMessage());
 		}
@@ -161,7 +104,7 @@ public class RoommateDAL {
 		return phoneNumber.replaceAll("[^0-9]", "");
 	}
 
-	public static int getRoommateDebt(String roommate) throws FailedToGetChoreException{
+	public static int getRoommateDebtFromChores(String roommate) throws FailedToGetChoreException{
 		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_FUTURE");
 		try {
 			List<ParseObject> results = query.find();
@@ -174,11 +117,12 @@ public class RoommateDAL {
 			throw new FailedToGetChoreException(e.getMessage());
 		}
 	}
+	
+	
 	private static Roommate convertObjToRoommate(ParseObject obj){
 		Roommate roommate = new Roommate();
 		roommate.setId(obj.getObjectId());
 		roommate.setUsername(obj.getString("username"));
-		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
 		return roommate;
 
 	}

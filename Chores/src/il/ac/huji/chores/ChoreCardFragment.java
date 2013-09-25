@@ -15,6 +15,7 @@ import android.widget.TextView;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.CoinsDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
@@ -28,6 +29,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
+
+import com.parse.ParseException;
 
 
 public class ChoreCardFragment extends Fragment {
@@ -267,10 +270,20 @@ public class ChoreCardFragment extends Fragment {
 	protected void updateDebtAndCoinsCollected(int coinsNum, String assignedTo, String userName, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException {
 
 		if(assignedTo.equals(userName)){
-			RoommateDAL.increaseCoinsCollectedDecreaseDebt(coinsNum);
+			try {
+				CoinsDAL.increaseCoinsCollectedDecreaseDebt(coinsNum);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(assignedTo.equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
-			RoommateDAL.increaseCoinsCollectedDecreaseDebtAllRoommates(coinsNum, roommates);
+			try {
+				CoinsDAL.increaseCoinsCollectedDecreaseDebtAllRoommates(coinsNum, roommates);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
