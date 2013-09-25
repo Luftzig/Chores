@@ -76,6 +76,9 @@ public class ApartmentDAL {
 		ParseObject apartment;
 		try {
 			apartment = query.get(apartmentID);
+			if(apartment == null){
+				return new ArrayList<String>();
+			}
 			return apartment.getList("Roommates");
 		} catch (ParseException e) {
 			Log.e("getApartmentRoommates",e.toString());

@@ -18,6 +18,8 @@ import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
+import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
+import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.FailedToUpdateStatusException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
@@ -193,11 +195,20 @@ public class ChoreCardFragment extends Fragment {
 					try {
 						ChoreDAL.updateChoreStatus(chore.getId(), CHORE_STATUS.STATUS_DONE);
 						String sender = RoommateDAL.getRoomateUsername();
+						
+						updateDebtAndCoinsCollected(chore.getCoinsNum(), chore.getAssignedTo(), sender, roommates);
+						
 						//MessagesToServer.notifyRoomates(roommates, "DONE", chore.getId());
 						NotificationsDAL.notifyChoreDone(chore, sender, roommates);
 
 					} catch (FailedToUpdateStatusException e) {
 						// TODO (shani) decide what to do
+					} catch (FailedToSaveOperationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FailedToGetRoommateException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					getActivity().finish();
 				}
@@ -224,16 +235,26 @@ public class ChoreCardFragment extends Fragment {
 					try {
 						String oldOwner = chore.getAssignedTo();// This line should be before the stealing.
 						ChoreDAL.stealChore(chore.getId(), curUser);
+						
+						updateDebtAndCoinsCollected(chore.getCoinsNum(), curUser, curUser, roommates);
+						
 						List<String> list = new ArrayList<String>();
 						list.add(oldOwner);
+						
 						//MessagesToServer.notifyRoomates(list , "STEAL", chore.getId());
 						String sender = RoommateDAL.getRoomateUsername();
-						NotificationsDAL.notifySuggestStealChore(chore, sender, roommates);
+						NotificationsDAL.notifySuggestStealChore(chore, sender, list);
 					} catch (UserNotLoggedInException e) {
 						LoginActivity.OpenLoginScreen(getActivity(), false);
 						e.printStackTrace();
 					} catch (DataNotFoundException e) {
 						// TODO decide what to do
+					} catch (FailedToSaveOperationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FailedToGetRoommateException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					getActivity().finish();
 				}
@@ -241,6 +262,18 @@ public class ChoreCardFragment extends Fragment {
 		}
 	}
 
+	
+	
+	protected void updateDebtAndCoinsCollected(int coinsNum, String assignedTo, String userName, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException {
+
+		if(assignedTo.equals(userName)){
+			RoommateDAL.increaseCoinsCollectedDecreaseDebt(coinsNum);
+		}
+		else if(assignedTo.equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
+			RoommateDAL.increaseCoinsCollectedDecreaseDebtAllRoommates(coinsNum, roommates);
+		}
+		
+	}
 
 	/*
 	 * chore id - the id of the chore object to suggest.
