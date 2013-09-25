@@ -1,5 +1,8 @@
 package il.ac.huji.chores.dal;
 
+import java.util.Date;
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +10,7 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 
+import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.ChoreInfoInstance;
@@ -37,19 +41,9 @@ public class DALTestActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 
 		try {
-			RoommateDAL
-					.createRoommateUser("ANNA_COINS", "123123", "0505050505");
-
 			RoommateDAL.Login("ANNA_COINS", "123123");
-			Coins coins = CoinsDAL.getRoommageCoins("ANNA_COINS");
-			CoinsDAL.increaseCoinsCollectedDecreaseDebt(5);
-			
-			System.out.println("roommate coins:"+CoinsDAL.getRoommageCoins("ANNA_COINS"));
-			System.out.println("roommate dept:"+CoinsDAL.getRoommateDebt("ANNA_COINS"));
-			coins.setDept(100);
-			coins.setCoinsCollected(100);
-			coins.setUsername("ANNA_COINS");
-			CoinsDAL.updateCoinsToRoommates(coins);
+			Date today = new Date();
+			List<Chore> results = ChoreDAL.getAllChoresCreatedAfter(today.getTime());
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -57,10 +51,7 @@ public class DALTestActivity extends Activity {
 		} catch (UserNotLoggedInException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (FailedToSaveOperationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
 	}
 

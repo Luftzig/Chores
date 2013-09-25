@@ -1,7 +1,10 @@
 package il.ac.huji.chores;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import com.parse.ParseException;
 
 import il.ac.huji.chores.dal.ApartmentSettingsDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
@@ -30,7 +33,16 @@ public class AlarmsAsynctask extends AsyncTask<Long, Void, Void> {
 		if(create == -1){
 			return null;
 		}
-		List<Chore> chores = ChoreDAL.getAllChoresCreatedAfter(create);
+		List<Chore> chores=new ArrayList<Chore>();
+		try {
+			chores = ChoreDAL.getAllChoresCreatedAfter(create);
+		} catch (UserNotLoggedInException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Settings settings;
 		try {
 			settings = ApartmentSettingsDAL.getSettings();

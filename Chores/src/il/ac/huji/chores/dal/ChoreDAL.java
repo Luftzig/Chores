@@ -417,10 +417,21 @@ public class ChoreDAL {
 
 	/**
 	 * Gets all chores created after createTime. createTime in milis.
+	 * @throws UserNotLoggedInException 
+	 * @throws ParseException 
 	 **/
-	public static List<Chore> getAllChoresCreatedAfter(long createTime) {
-		// TODO Auto-generated method stub
-		return new ArrayList<Chore>();
+	public static List<Chore> getAllChoresCreatedAfter(long createTime) throws UserNotLoggedInException, ParseException {
+		String username = RoommateDAL.getRoomateUsername();
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+		query.whereEqualTo("assignedTo", username).whereGreaterThan(
+				"startsFrom", createTime);
+		List<Chore> chores = new ArrayList<Chore>();
+		List<ParseObject> results = query.find();
+		for (ParseObject result : results) {
+			Chore chore = convertParseObjectToChore(result);
+			chores.add(chore);
+		}
+		return chores;
 	}
 
 }
