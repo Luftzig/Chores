@@ -132,9 +132,6 @@ public class RoutineJob implements Job {
 	public static void DivideChoresForApartment(RoommatesApartment apt, Date today) throws ClientProtocolException, IOException{
 		
 		ParseRestClient parse = new ParseRestClientImpl();
-		
-		//change last division date for the apartment
-		parse.updateApartmentLastDivision(apt.getId(), today);
 	
 		//Schedule chores
 		List<Chore> chores = ChoresRest.scheduleChores(apt);
@@ -148,10 +145,16 @@ public class RoutineJob implements Job {
         }
 
         //Assign chores
-		ChoresDivisionAlgorithms.assignChores(chores, apt.getId());
+		if(!ChoresDivisionAlgorithms.assignChores(chores, apt.getId()))
+		{
+			return;//try next time
+		}
 		
 		//Write assigned chores to the server
 		parse.addChores(chores);
+		
+		//change last division date for the apartment
+		parse.updateApartmentLastDivision(apt.getId(), today);
 		
 		//Notify roommates about the new chores
 		NotificationsHandling.notifyNewChores(apt.getId(), earliestChore);
