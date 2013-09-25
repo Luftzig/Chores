@@ -98,6 +98,7 @@ public class ParseRestClientImpl implements ParseRestClient {
         return JsonConverter.convertJsonToChore(new JSONObject(jsonStr));
 
     }
+    
 
     public StringBuilder updateObject(String className, String id, String jsonObject) throws ClientProtocolException, IOException {
         HttpClient client = new DefaultHttpClient();
@@ -232,8 +233,11 @@ public class ParseRestClientImpl implements ParseRestClient {
     }
 
 	@Override
-	public void setRommateDebt(String username, int debt) {
-		// TODO Auto-generated method stub
-		
+	public void setRommateDebt(String userId, int debt) throws ClientProtocolException, IOException {
+		  Map<String, Object> keyValue = new HashMap<String, Object>();
+	        keyValue.put("coins", debt);
+	        JSONObject json = new JSONObject(keyValue);
+	        String update = json.toString();
+	        updateObject("_User", userId, update);
 	}
 }
