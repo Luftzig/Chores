@@ -76,5 +76,6 @@ public interface ParseRestClient {
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 */
-	public void setRommateDebt(String username, int debt) throws ClientProtocolException, IOException;
+	public void setRommateDebt(String userId, int debt)throws ClientProtocolException, IOException;
+
 }

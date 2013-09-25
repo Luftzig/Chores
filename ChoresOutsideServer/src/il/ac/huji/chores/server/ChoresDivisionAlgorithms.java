@@ -100,7 +100,15 @@ public class ChoresDivisionAlgorithms {
 		Roommate roommate = null;
 		for(int i=0; i< roommates.size(); i++){
 			roommate = roommates.get(i);
-			client.setRommateDebt(roommate.getUsername(), roommate.getDebt() + everyoneDebt);
+			try {
+				client.setRommateDebt(roommate.getId(), roommate.getDebt() + everyoneDebt);
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}

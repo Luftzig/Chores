@@ -232,12 +232,12 @@ public class ParseRestClientImpl implements ParseRestClient {
         updateObject("Apartment", apartmentId, update);
     }
 
-	@Override
 	public void setRommateDebt(String userId, int debt) throws ClientProtocolException, IOException {
 		  Map<String, Object> keyValue = new HashMap<String, Object>();
 	        keyValue.put("coins", debt);
 	        JSONObject json = new JSONObject(keyValue);
 	        String update = json.toString();
 	        updateObject("_User", userId, update);
+
 	}
 }
