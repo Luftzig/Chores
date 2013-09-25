@@ -35,7 +35,7 @@ public class ViewUtils {
     }
 
     public static void replacePlaceholder(View view, View placeholder) {
-        placeholder.setVisibility(View.INVISIBLE);
+        placeholder.setVisibility(View.GONE);
         view.setVisibility(View.VISIBLE);
     }
 
