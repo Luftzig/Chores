@@ -25,7 +25,16 @@ public class AppSetup {
               
         setupPushNotifications();
     }
-    
+
+    private void destory() {
+        context = null;
+    }
+
+    public static void destroy() {
+        instance.destory();
+        instance = null;
+    }
+
     //VERY IMPORTANT COMMENT: If you change the channel subscribing, you must update the un-subscribing to this channel!!!
     //(the un-subscribing is done on the app setting)
     private void setupPushNotifications(){
@@ -52,7 +61,7 @@ public class AppSetup {
                 if (e != null) {
                     Log.e("setupPushNotifications", e.getMessage(), e);
                 } else {
-                    Log.e("setupPushNotifications", "saveInBackground succeeded");
+                    Log.i("setupPushNotifications", "saveInBackground succeeded");
                 }
 
             }
@@ -116,4 +125,6 @@ public class AppSetup {
 		ParseACL.setDefaultACL(defaultACL, true);
 		
     }
+
+
 }
