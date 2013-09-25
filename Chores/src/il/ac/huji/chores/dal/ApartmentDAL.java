@@ -34,7 +34,6 @@ public class ApartmentDAL {
 		apartment.put("frequency", apt.getDivisionFrequency());
 		apartment.put("lastDivision", 0);
 		apartment.save();
-		addRoommateToApartment(ApartmentDAL.getApartmentID(apt.getName()));
 		return apartment.getObjectId();
 	}
 

@@ -19,6 +19,7 @@
         <item>Every Two Months</item>
     </string-array>
 
+    
     <string name="app_name">Chores</string>
     <string name="action_settings">Settings</string>
     <string name="apartment_editChoresButton">Add/Edit Chores</string>
@@ -127,8 +128,8 @@
     <string name="login_bad_login_msg">Login failed. Try again.</string>
     <string name="login_bad_signup_msg">Signup failed. Try again.</string>
     <string name="login_signup_username_exist_msg">Username exist. Try again.</string>
-	<string name="chores_connection_failed">Connection failed</string>
-	
+	<string name="chores_connection_failed">Connecting to the server has failed. Operation hasent been completed.</string>
+	<string name="general_error">Never gonna give you up</string>
 	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
 	<string name="chore_card_suggest_chore_suggest_button">Suggest</string><string name="login_ask_for_phone_msg">Enter your phone number</string>
     <string name="suggest_positive_response">Take chore</string>
