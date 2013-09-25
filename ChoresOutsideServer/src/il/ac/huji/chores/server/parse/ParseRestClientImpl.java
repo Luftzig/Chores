@@ -232,7 +232,7 @@ public class ParseRestClientImpl implements ParseRestClient {
     }
 
 	@Override
-	public void setRommateDebt(String username, int debt) {
+	public void setRommateDebt(String userId, int debt) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -74,5 +74,5 @@ public interface ParseRestClient {
 	 * @param username - the username of the user to set new debt to
 	 * @param debt - the new debt to set
 	 */
-	public void setRommateDebt(String username, int debt);
+	public void setRommateDebt(String userId, int debt);
 }
