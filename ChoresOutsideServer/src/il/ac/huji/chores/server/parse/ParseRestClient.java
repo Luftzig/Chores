@@ -2,6 +2,7 @@ package il.ac.huji.chores.server.parse;
 
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.Coins;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
 import org.apache.http.client.ClientProtocolException;
@@ -76,6 +77,8 @@ public interface ParseRestClient {
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 */
-	public void setRommateDebt(String userId, int debt)throws ClientProtocolException, IOException;
+	public void setRommateDebt(String username, int debt)throws ClientProtocolException, IOException;
+	
+	public Coins getRoommateCoins(String username) throws ClientProtocolException, IOException;
 
 }

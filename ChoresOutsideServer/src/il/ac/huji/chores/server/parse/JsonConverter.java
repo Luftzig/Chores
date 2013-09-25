@@ -136,14 +136,14 @@ public class JsonConverter {
 
 	public static Roommate convertJsonToRoommate(JSONObject obj) {
 		Roommate roommate = new Roommate();
-		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
-        try {
-		roommate.setDebt(obj.getInt("coins"));
-        } catch (JSONException e) {
-            // TODO [yl] Log it!
-            System.err.println(String.format("JSONException: %s", e.getMessage()));
-            roommate.setDebt(0);
-        }
+//		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
+//        try {
+//		roommate.setDebt(obj.getInt("coins"));
+//        } catch (JSONException e) {
+//            // TODO [yl] Log it!
+//            System.err.println(String.format("JSONException: %s", e.getMessage()));
+//            roommate.setDebt(0);
+//        }
 		roommate.setId(obj.getString("objectId"));
 		roommate.setUsername(obj.getString("username"));
 		return roommate;

@@ -2,6 +2,7 @@ package il.ac.huji.chores.server;
 
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.Coins;
 import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.server.parse.ParseRestClient;
@@ -44,12 +45,25 @@ public class ChoresDivisionAlgorithms {
 			System.out.println("No roommates for apartment " + aptId);
 			return false;
 		}
+				
+		//get coins collected and debt to each roommate
+		Coins coins = null;
+		for(int i=0; i< roommates.size(); i++){
+			try {
+				coins = client.getRoommateCoins(roommates.get(i).getUsername());
+			} catch (Exception e) {
+				try {
+					coins = client.getRoommateCoins(roommates.get(i).getUsername());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					return false;
+				}
+			} 
+			roommates.get(i).setCoinsCollected(coins.getCoinsCollected());
+			roommates.get(i).setDebt(coins.getDept());
+		}
 
 		Collections.sort(roommates, new ValueComparator());
-
-		////TODO/////
-		//DummyDal.printRoommates(roommates);
-		/////////
 
 		//Sort chores list, to start the division,
 		List<Chore> sortedChores = sortChores(chores);
@@ -64,6 +78,7 @@ public class ChoresDivisionAlgorithms {
 			if(chore.getAssignedTo() != null){
 				if(chore.getAssignedTo().equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
 					everyoneDebt += chore.getCoinsNum();
+					i++;
 					continue;
 				}
 			}
@@ -103,13 +118,13 @@ public class ChoresDivisionAlgorithms {
 
 		//update roommateDebts
 		Roommate roommate = null;
-		for(int i=0; i< roommates.size(); i++){
-			roommate = roommates.get(i);
+		for(int l=0; l< roommates.size(); l++){
+			roommate = roommates.get(l);
 			try {
-				client.setRommateDebt(roommate.getId(), roommate.getDebt() + everyoneDebt);
+				client.setRommateDebt(roommate.getUsername(), roommate.getDebt() + everyoneDebt);
 			} catch (Exception e) {
 				try {
-					client.setRommateDebt(roommate.getId(), roommate.getDebt() + everyoneDebt);
+					client.setRommateDebt(roommate.getUsername(), roommate.getDebt() + everyoneDebt);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 					return false;
