@@ -1,160 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="days_of_the_week_array">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-    </string-array>
-    <string-array name="chores_divison_periods">
-        <item>Once a Week</item>
-        <item>Every Two Weeks</item>
-        <item>Every Three Weeks</item>
-        <item>Every Four Weeks</item>
-        <item>Once a Month</item>
-        <item>Every Two Months</item>
-    </string-array>
+  <string-array name="days_of_the_week_array">
+    <item>Sunday</item>
+    <item>Monday</item>
+    <item>Tuesday</item>
+    <item>Wednesday</item>
+    <item>Thursday</item>
+    <item>Friday</item>
+    <item>Saturday</item>
+  </string-array>
+  <string-array name="chores_divison_periods">
+    <item>Once a Week</item>
+    <item>Every Two Weeks</item>
+    <item>Every Three Weeks</item>
+    <item>Every Four Weeks</item>
+    <item>Once a Month</item>
+    <item>Every Two Months</item>
+  </string-array>
 
-    
-    <string name="app_name">Chores</string>
-    <string name="action_settings">Settings</string>
-    <string name="apartment_editChoresButton">Add/Edit Chores</string>
-    <string name="apartment_inviteButton">Invite roomates</string>
-    <string name="apartment_settingsButton">Apartment settings</string>
-    <string name="apartment_tableTitle">Apartment chores</string>
-    <string name="apartment_historyButtoonText">Show more history</string>
-    <string name="card_img_description">image of card</string>
-    <string name="title_activity_apartment_settings">Apartment Settings</string>
-    <string name="title_activity_notification_dummy">Notification Dummy</string>
-    <string name="title_activity_apartment">Apartment</string>
-    <string name="title_activity_add_edit_chores">Add or edit chores</string>
-    <string name="title_activity_chore_card">Chore Card</string>
-    <string name="apartment_leaveButton">Leave apartment</string>
-    <string name="title_activity_settings">Settings Activity</string>
-    <string name="title_activity_settings_fragment">Settings Fragment</string>
-    <string name="settings_notifications_title">Notifications</string>
-    <string name="notifications_settings_roomate_missed_chore">Roommate missed a chore</string>
-    <string name="notifications_settings_roomate_stole_chore">Roommate stole my chore</string>
-    <string name="notifications_settings_roomate_finished_chore">Roommate finished a chore</string>
-    <string name="notifications_settings_new_chores">New chores divided</string>
-    <string name="chores_title">Chores</string>
-    <string name="chores_settings_forbid">Forbid roomates from taking my chores</string>
-    <string name="chores_settings_disable_reminders">Disable reminders about upcoming chores</string>
-    <string name="reminders_title">Reminders</string>
-    <string name="reminders_settings_hours">hours reminder before deadline</string>
-    <string name="card_deadline_textStart">Deadline:  </string>
-    <string name="card_choretype_textStart">Chore type:  </string>
-    <string name="card_funfact_textStart">Fun fact:  </string>
-    <string name="card_statistics_textStart">Statistics:  </string>
-    <string name="card_coins_num_textend">X</string>
-    <string name="button_suggestchore_text">Suggest chore</string>
-    <string name="button_stealchore_text">Steal chore</string>
-    <string name="button_done_text">I\'m done!</string>
-    <string name="my_chores_headline_text">My Chores</string>
-    <string name="my_chores_row_title_placeholder">Chore placeholder</string>
-    <string name="chore_edit_button_text">Edit Chore</string>
-    <!-- Anna's keys 
-    <string name="parse_client_key">CBnyHLzYGwlBz1YAOFMFakzalqWVosN3JRmpLmx4</string>
-    <string name="parse_windows_key">n3yY1qWyL1qJ4HMZqGUE3mhX0lrdvXJuYuCIvOUo</string>
-    <string name="parse_rest_key">Key 7ATSYPzLCuIUgxsMFKuwOFaFhdiqC2WQrlo21Jtv</string>
-    <string name="parse_master_key">dneNmljVEFIMdiRAmPGLGvXt8ZjpAJgITQvisWBq</string>
-    <string name="parse_app_id">G3vUvpy8mCgucxXp2RnSnFBs490CqfpWItmfA9hc</string>
-    -->
-    <string name="parse_client_key">lwIedRCoQhd7vcDkY0rXSxGTlQxtcaeXjlWfdXSN</string>
-    <string name="parse_windows_key">GMwSpgIsAB2rvvkMLVERRIjaa18EOTPsQPNJ0LTu</string>
-    <string name="parse_rest_key">Tu5aHmbnn2Bz7AXVfSb2CPOng7LaoGkJHH0YbVXr</string>
-    <string name="parse_master_key">BVqynDa3FCHFKeeHMuGPg26LQwYpafsA42jqsjxZ</string>
-    <string name="parse_app_id">oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG</string>
-    <string name="title_activity_my_chores">MyChoresActivity</string>
-    <string name="title_activity_push_notifications_handler">push notifications handler activity</string>
-    <string name="title_activity_login">Login activity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="new_apartment_dialog_title_text">Creating new apartment</string>
-    <string name="new_apartment_dialog_name_prompt">Choose a name for your apartment.</string>
-    <string name="help_icon_text">Click for help</string>
-    <string name="new_apartment_dialog_chores_division_prompt">Choose on what day chores will given</string>
-    <string name="new_apartment_dialog_divison_period_prompt">How often chores will be divided?</string>
-    <string name="new_apartment_dialog_create">Create Apartment</string>
-    <string name="new_apartment_dialog_name_hint">E.g. your apartment\'s address</string>
-    <string name="new_apartment_invite_roommates_prompt">Invite your roommates</string>
-    <string name="title_activity_chores_action_bar">ChoresActionBarActivity</string>
-    <string name="title_activity_new_chore_dialog">NewChoreDialogActivity</string>
-    <string name="new_chore_dialog_what_text">What should be done?</string>
-    <string name="new_chore_dialog_how_many_prompt">Who many times?</string>
-    <string name="new_chore_dialog_every_prompt">Every&#8230;</string>
-    <string name="new_chore_dialog_coins_text">coins.</string>
-    <string name="new_chore_dialog_value_prompt">"For how many "</string>
-    <string name="new_chore_dialog_everyone_checkbox_text">Group chore</string>
-    <string name="new_chore_dialog_create_button_text">Create Chore</string>
-    <string name="new_chore_dialog_cancel_button_text">Discard</string>
-    <string name="card_activity_extra1_name">choreData</string>
-    <string name="card_activity_extra2_name">curUser</string>
-    <string name="title_activity_daltest">DALTestActivity</string>
-    <string name="add_edit_chores_title">Add or edit chores</string>
-    <string name="add_edit_chores_add_chore_button_title">Add chore</string>
-    <string name="new_chore_extra1_name">choreData</string>
-    <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite...</string>
-    <string name="new_apartment_dialog_invite_button_text">Invite!</string>
-    <string name="new_chore_before_coins_spinner">value:</string>
-    <string name="new_chore_dialog_update_button_text">Update Chore</string>
-    <string name="new_chore_dialog_values_most_chosen">  (most chosen)</string>
-    <string name="action_bar_my_chores">Home</string>
-    <string name="action_bar_apartment">Apartment</string>
-    <string name="action_bar_statistics">Statistics</string>
-    <string name="action_bar_settings">Settings</string>
-	<string name="title_add_edit_chores">Add or Edit Chore</string>
-    <string name="my_chores_new_assigned_chores_notification_dialog_txt">New chores were assigned.</string>
-    <string name="my_chores_new_assigned_chores_notification_dialog_txt_question">Check out chores?</string>
-    <string name="settings_reminder_hours_before_hint">2</string>
-    <string name="settings_save_settings_button">Save</string>
-    <string name="settings_cancel_button">Cancel</string>
-    <string name="chore_suggestion_dialog_title">Suggest chore to:</string>
-    <string name="chore_suggestion_dialog_ok_button">Suggest</string>
-    <string name="chore_suggestion_dialog_cancel_button">Cancel</string>
-    <string name="login_app_title">Chores</string>
-    <string name="login_login_button">Login</string>
-    <string name="login_signup_button">Signup</string>
-    <string name="login_username_title">Username</string>
-    <string name="login_password_title">Password</string>
-    <string name="login_password_verify_title">Re-enter password</string>
-    <string name="login_want_signup_text">Don\'t have a user?</string>
-    <string name="login_want_login_text">Already have a user?</string>
-    <string name="login_bad_password_msg">Verification failed.</string>
-    <string name="login_bad_login_msg">Login failed. Try again.</string>
-    <string name="login_bad_signup_msg">Signup failed. Try again.</string>
-    <string name="login_signup_username_exist_msg">Username exist. Try again.</string>
-	<string name="chores_connection_failed">Connecting to the server has failed. Operation hasent been completed.</string>
-	<string name="general_error">Never gonna give you up</string>
-	<string name="chore_card_suggest_chore_cancel_button">Cancel</string>
-	<string name="chore_card_suggest_chore_suggest_button">Suggest</string><string name="login_ask_for_phone_msg">Enter your phone number</string>
-    <string name="suggest_positive_response">Take chore</string>
-    <string name="invitation_positive_response">Join Apartment</string>
-    <string name="suggest_negative_response">Refuse offer</string>
-    <string name="invitation_negative_response">Decline</string>
-    <string name="failed_to_join_apartment">Failed to join apartment.</string>
-    <string name="alarm_dialog_positive">OK</string>
-    <string name="coins_graph_y_label">Coins</string>
-    
-      <string name="chore_type_dish_washing">Kitchen</string>
-     <string name="chore_type_cook_dinner">Food</string>
-     <string name="chore_type_do_the_laundry">Closing</string>
-     <string name="chore_type_dusting">Dirt</string>
-     <string name="chore_type_floor_sweeping">Dirt</string>
-     <string name="chore_type_floor_washing">Dirt</string>
-     <string name="chore_type_grocery_shopping">Food</string>
-     <string name="chore_type_take_out_trash">Dirt</string>
-     <string name="chore_type_toilet_cleaning">Bathroom</string>
-    <string name="my_chores_no_chores_message">No chores are waiting for you!</string>
-     <string name="chore_type_walk_dog">Pets</string>
-     
-     <string name="setting_saved_toast_text">Settings were saved</string>
-  <string name="apartment_chores_no_chores">There are no chores for your apartment.\nTouch \"Add/Edit Chores\" to add
-    new chores.
+  <string name="app_name">Chores</string>
+  <string name="action_settings">Settings</string>
+  <string name="apartment_editChoresButton">Add/Edit Chores</string>
+  <string name="apartment_inviteButton">Invite roomates</string>
+  <string name="apartment_settingsButton">Apartment settings</string>
+  <string name="apartment_tableTitle">Apartment chores</string>
+  <string name="apartment_historyButtoonText">Show more history</string>
+  <string name="card_img_description">image of card</string>
+  <string name="title_activity_apartment_settings">Apartment Settings</string>
+  <string name="title_activity_notification_dummy">Notification Dummy</string>
+  <string name="title_activity_apartment">Apartment</string>
+  <string name="title_activity_add_edit_chores">Add or edit chores</string>
+  <string name="title_activity_chore_card">Chore Card</string>
+  <string name="apartment_leaveButton">Leave apartment</string>
+  <string name="title_activity_settings">Settings Activity</string>
+  <string name="title_activity_settings_fragment">Settings Fragment</string>
+  <string name="settings_notifications_title">Notifications</string>
+  <string name="notifications_settings_roomate_missed_chore">Roommate missed a chore</string>
+  <string name="notifications_settings_roomate_stole_chore">Roommate stole my chore</string>
+  <string name="notifications_settings_roomate_finished_chore">Roommate finished a chore</string>
+  <string name="notifications_settings_new_chores">New chores divided</string>
+  <string name="chores_title">Chores</string>
+  <string name="chores_settings_forbid">Forbid roomates from taking my chores</string>
+  <string name="chores_settings_disable_reminders">Disable reminders about upcoming chores</string>
+  <string name="reminders_title">Reminders</string>
+  <string name="reminders_settings_hours">hours reminder before deadline</string>
+  <string name="card_deadline_textStart">Deadline:</string>
+  <string name="card_choretype_textStart">Chore type:</string>
+  <string name="card_funfact_textStart">Fun fact:</string>
+  <string name="card_statistics_textStart">Statistics:</string>
+  <string name="card_coins_num_textend">X</string>
+  <string name="button_suggestchore_text">Suggest chore</string>
+  <string name="button_stealchore_text">Steal chore</string>
+  <string name="button_done_text">I\'m done!</string>
+  <string name="my_chores_headline_text">My Chores</string>
+  <string name="my_chores_row_title_placeholder">Chore placeholder</string>
+  <string name="chore_edit_button_text">Edit Chore</string>
+  <!-- Anna's keys
+  <string name="parse_client_key">CBnyHLzYGwlBz1YAOFMFakzalqWVosN3JRmpLmx4</string>
+  <string name="parse_windows_key">n3yY1qWyL1qJ4HMZqGUE3mhX0lrdvXJuYuCIvOUo</string>
+  <string name="parse_rest_key">Key 7ATSYPzLCuIUgxsMFKuwOFaFhdiqC2WQrlo21Jtv</string>
+  <string name="parse_master_key">dneNmljVEFIMdiRAmPGLGvXt8ZjpAJgITQvisWBq</string>
+  <string name="parse_app_id">G3vUvpy8mCgucxXp2RnSnFBs490CqfpWItmfA9hc</string>
+  -->
+  <string name="parse_client_key">lwIedRCoQhd7vcDkY0rXSxGTlQxtcaeXjlWfdXSN</string>
+  <string name="parse_windows_key">GMwSpgIsAB2rvvkMLVERRIjaa18EOTPsQPNJ0LTu</string>
+  <string name="parse_rest_key">Tu5aHmbnn2Bz7AXVfSb2CPOng7LaoGkJHH0YbVXr</string>
+  <string name="parse_master_key">BVqynDa3FCHFKeeHMuGPg26LQwYpafsA42jqsjxZ</string>
+  <string name="parse_app_id">oNViNVhyxp6dS0VXvucqgtaGmBMFIGWww0sHuPGG</string>
+  <string name="title_activity_my_chores">MyChoresActivity</string>
+  <string name="title_activity_push_notifications_handler">push notifications handler activity</string>
+  <string name="title_activity_login">Login activity</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="new_apartment_dialog_title_text">Creating new apartment</string>
+  <string name="new_apartment_dialog_name_prompt">Choose a name for your apartment.</string>
+  <string name="help_icon_text">Click for help</string>
+  <string name="new_apartment_dialog_chores_division_prompt">Choose on what day chores will given</string>
+  <string name="new_apartment_dialog_divison_period_prompt">How often chores will be divided?</string>
+  <string name="new_apartment_dialog_create">Create Apartment</string>
+  <string name="new_apartment_dialog_name_hint">E.g. your apartment\'s address</string>
+  <string name="new_apartment_invite_roommates_prompt">Invite your roommates</string>
+  <string name="title_activity_chores_action_bar">ChoresActionBarActivity</string>
+  <string name="title_activity_new_chore_dialog">NewChoreDialogActivity</string>
+  <string name="new_chore_dialog_what_text">What should be done?</string>
+  <string name="new_chore_dialog_how_many_prompt">Who many times?</string>
+  <string name="new_chore_dialog_every_prompt">Every&#8230;</string>
+  <string name="new_chore_dialog_coins_text">coins.</string>
+  <string name="new_chore_dialog_value_prompt">"For how many "</string>
+  <string name="new_chore_dialog_everyone_checkbox_text">Group chore</string>
+  <string name="new_chore_dialog_create_button_text">Create Chore</string>
+  <string name="new_chore_dialog_cancel_button_text">Discard</string>
+  <string name="card_activity_extra1_name">choreData</string>
+  <string name="card_activity_extra2_name">curUser</string>
+  <string name="title_activity_daltest">DALTestActivity</string>
+  <string name="add_edit_chores_title">Add or edit chores</string>
+  <string name="add_edit_chores_add_chore_button_title">Add chore</string>
+  <string name="new_chore_extra1_name">choreData</string>
+  <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite...</string>
+  <string name="new_apartment_dialog_invite_button_text">Invite!</string>
+  <string name="new_chore_before_coins_spinner">value:</string>
+  <string name="new_chore_dialog_update_button_text">Update Chore</string>
+  <string name="new_chore_dialog_values_most_chosen">(most chosen)</string>
+  <string name="action_bar_my_chores">Home</string>
+  <string name="action_bar_apartment">Apartment</string>
+  <string name="action_bar_statistics">Statistics</string>
+  <string name="action_bar_settings">Settings</string>
+  <string name="title_add_edit_chores">Add or Edit Chore</string>
+  <string name="my_chores_new_assigned_chores_notification_dialog_txt">New chores were assigned.</string>
+  <string name="my_chores_new_assigned_chores_notification_dialog_txt_question">Check out chores?</string>
+  <string name="settings_reminder_hours_before_hint">2</string>
+  <string name="settings_save_settings_button">Save</string>
+  <string name="settings_cancel_button">Cancel</string>
+  <string name="chore_suggestion_dialog_title">Suggest chore to:</string>
+  <string name="chore_suggestion_dialog_ok_button">Suggest</string>
+  <string name="chore_suggestion_dialog_cancel_button">Cancel</string>
+  <string name="login_app_title">Chores</string>
+  <string name="login_login_button">Login</string>
+  <string name="login_signup_button">Signup</string>
+  <string name="login_username_title">Username</string>
+  <string name="login_password_title">Password</string>
+  <string name="login_password_verify_title">Re-enter password</string>
+  <string name="login_want_signup_text">Don\'t have a user?</string>
+  <string name="login_want_login_text">Already have a user?</string>
+  <string name="login_bad_password_msg">Verification failed.</string>
+  <string name="login_bad_login_msg">Login failed. Try again.</string>
+  <string name="login_bad_signup_msg">Signup failed. Try again.</string>
+  <string name="login_signup_username_exist_msg">Username exist. Try again.</string>
+  <string name="chores_connection_failed">Connection failed</string>
+
+  <string name="chore_card_suggest_chore_cancel_button">Cancel</string>
+  <string name="chore_card_suggest_chore_suggest_button">Suggest</string>
+  <string name="login_ask_for_phone_msg">Enter your phone number</string>
+  <string name="suggest_positive_response">Take chore</string>
+  <string name="invitation_positive_response">Join Apartment</string>
+  <string name="suggest_negative_response">Refuse offer</string>
+  <string name="invitation_negative_response">Decline</string>
+  <string name="failed_to_join_apartment">Failed to join apartment.</string>
+  <string name="alarm_dialog_positive">OK</string>
+  <string name="coins_graph_y_label">Coins</string>
+
+  <string name="chore_type_dish_washing">Kitchen</string>
+  <string name="chore_type_cook_dinner">Food</string>
+  <string name="chore_type_do_the_laundry">Closing</string>
+  <string name="chore_type_dusting">Dirt</string>
+  <string name="chore_type_floor_sweeping">Dirt</string>
+  <string name="chore_type_floor_washing">Dirt</string>
+  <string name="chore_type_grocery_shopping">Food</string>
+  <string name="chore_type_take_out_trash">Dirt</string>
+  <string name="chore_type_toilet_cleaning">Bathroom</string>
+  <string name="my_chores_no_chores_message">Seems like you weren\'t given any chores...\n
+  You can create new chores in the apartment tab</string>
+  <string name="chore_type_walk_dog">Pets</string>
+
+  <string name="setting_saved_toast_text">Settings were saved</string>
+  <string name="apartment_chores_no_chores">There are no chores for your apartment.\n
+    Touch \"Add/Edit Chores\" to add new chores.
   </string>
+  <string name="ask_to_create_apartment">Hmmm... You\'re not part of an apartment, would you like to create one?</string>
+  <string name="ask_to_create_apartment_positive">I will create an apartment!</string>
+  <string name="ask_to_create_apartment_negative">No, my roommates will invite me. Hopefully.</string>
+  <string name="invitation_positive_response_warning">Leave your current apartment and join the new one</string>
 </resources>
 

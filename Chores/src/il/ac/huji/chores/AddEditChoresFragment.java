@@ -27,6 +27,7 @@ public class AddEditChoresFragment extends Fragment {
     private ChoreInfo _editedChore = null;
     private List<ChoreInfo> choreInfos;
     private ListView listChores;
+    private View progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +42,7 @@ public class AddEditChoresFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         getActivity().setContentView(R.layout.fragment_add_edit_chores);
-
+        progressBar = getActivity().findViewById(R.id.progressBar);
         listChores = (ListView) getActivity().findViewById(
                 R.id.AddEditChoresFragment_choresList);
 
@@ -69,12 +70,18 @@ public class AddEditChoresFragment extends Fragment {
 
         });
 
+        ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                 // set adapter
-                _adapter = new ChoreInfosDisplayAdapter(getActivity(), choreInfos);
+                Activity activity = getActivity();
+                if (activity == null) {
+                    return;
+                }
+                ViewUtils.replacePlaceholder(listChores, progressBar);
+                _adapter = new ChoreInfosDisplayAdapter(activity, choreInfos);
                 listChores.setAdapter(_adapter);
                 _adapter.notifyDataSetChanged();
                 if (_adapter.isEmpty()) {

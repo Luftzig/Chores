@@ -50,6 +50,7 @@ public class MyChoresFragment extends Fragment {
     private FrameLayout chartFrame;
     private TextView messageBox;
     private String yTitle;
+    private List<Chore> roommatesChores;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -87,15 +88,13 @@ public class MyChoresFragment extends Fragment {
     public void onResume() {
         Log.d("MyChoresFragment", "onResume");
         super.onResume();
-        final List<Chore>[] roommatesChores = new List[1];
         if (adapter != null) {
-            adapter.clear();
             final View placeholder = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
                     try {
-                        roommatesChores[0] = ChoreDAL.getRoommatesChores();
+                        roommatesChores = ChoreDAL.getRoommatesChores();
                     } catch (UserNotLoggedInException e) {
                         LoginActivity.OpenLoginScreen(getActivity(), false);
                     }
@@ -105,7 +104,18 @@ public class MyChoresFragment extends Fragment {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-                    adapter.addAll(roommatesChores[0]);
+                    if (getActivity() == null) {
+                        return;
+                    }
+                    adapter.clear();
+                    adapter.addAll(roommatesChores);
+                    if (adapter == null || adapter.getCount() == 0) {
+                        listView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        messageBox.setText(R.string.my_chores_no_chores_message);
+                        messageBox.setVisibility(View.VISIBLE);
+                        return;
+                    }
                     Log.d("MyChoresFragment", "chores list size == " + adapter.getCount());
                     adapter.notifyDataSetChanged();
                     ViewUtils.replacePlaceholder(listView, placeholder);
@@ -125,7 +135,6 @@ public class MyChoresFragment extends Fragment {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                 Activity context = getActivity();
                 if (context == null) {
-                    this.cancel(true);
                     return;
                 }
                 chart = ChartFactory.getBarChartView(context, dataSet, renderer, BarChart.Type.DEFAULT);
@@ -279,7 +288,6 @@ public class MyChoresFragment extends Fragment {
                 ViewUtils.replacePlaceholder(listView, progressBar);
                 Activity context = getActivity();
                 if (context == null) {
-                    this.cancel(true);
                     return;
                 }
                 adapter = new MyChoresListAdapter(context, chores);
