@@ -118,7 +118,12 @@ public class MyChoresFragment extends Fragment {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-                chart = ChartFactory.getBarChartView(getActivity(), dataSet, renderer, BarChart.Type.DEFAULT);
+                Activity context = getActivity();
+                if (context == null) {
+                    this.cancel(true);
+                    return;
+                }
+                chart = ChartFactory.getBarChartView(context, dataSet, renderer, BarChart.Type.DEFAULT);
                 chartFrame.removeAllViewsInLayout();
                 chartFrame.addView(chart);
             }
@@ -233,7 +238,12 @@ public class MyChoresFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                 ViewUtils.replacePlaceholder(listView, progressBar);
-                adapter = new MyChoresListAdapter(getActivity(), chores);
+                Activity context = getActivity();
+                if (context == null) {
+                    this.cancel(true);
+                    return;
+                }
+                adapter = new MyChoresListAdapter(context, chores);
                 listView.setAdapter(adapter);
                 if (adapter == null || adapter.getCount() == 0) {
                     messageBox.setText(R.string.my_chores_no_chores_message);

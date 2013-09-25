@@ -35,6 +35,18 @@ public class ChoresMainActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("ChoresMainActivity.onRestart", "");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("ChoresMainActivity.onStop", "");
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
             //login/signup ok, create apartment
@@ -59,7 +71,9 @@ public class ChoresMainActivity extends Activity {
 
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("ChoresMainActivity.onDestroy", "");
         unregisterReceiver(receiver);
+        AppSetup.destroy();
     }
 
     private void showNotificationDialog(final boolean onRightTab, int chosenTabLocation,

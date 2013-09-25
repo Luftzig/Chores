@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.parse.ParseUser;
-import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nullable;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
