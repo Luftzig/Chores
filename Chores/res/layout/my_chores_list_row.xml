@@ -3,6 +3,7 @@
     android:id="@+id/myChoresRowLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/apartment_table_row__height"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal" >
 
     <TextView
@@ -32,6 +33,8 @@
         android:maxHeight="@dimen/aartment_buttons_height"
         android:maxWidth="@dimen/aartment_buttons_height"
         android:scaleType="fitCenter"
-        android:src="@drawable/pencil_32px" />
+        android:src="@drawable/pencil_32px"
+        android:focusable="false"
+  		android:focusableInTouchMode="false" />
 
 </LinearLayout>

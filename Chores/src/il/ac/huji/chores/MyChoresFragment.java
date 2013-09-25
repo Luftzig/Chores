@@ -2,12 +2,14 @@ package il.ac.huji.chores;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -243,6 +245,22 @@ public class MyChoresFragment extends Fragment {
         chartFrame = (FrameLayout) getActivity().findViewById(R.id.myChoresChartContainer);
         messageBox = (TextView) getActivity().findViewById(R.id.myChoresMessageBox);
         yTitle = getResources().getString(R.string.coins_graph_y_label);
+        
+        //set item click listener       
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     
+           // if list chore item is clicked - open chore card
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+           	final Chore chore = (Chore) parent.getItemAtPosition(position);
+           	Intent intent = new Intent(getActivity(), ChoreCardActivity.class);
+           	intent.putExtra(getResources().getString(R.string.card_activity_extra1_name) ,chore);
+           	String userName = RoommateDAL.getRoomateUsername();
+           	intent.putExtra(getResources().getString(R.string.card_activity_extra2_name) , userName);
+           	startActivity(intent);
+           }
+       });
+        
         new AsyncTask<Void, Void, Void>() {
 
             @Override

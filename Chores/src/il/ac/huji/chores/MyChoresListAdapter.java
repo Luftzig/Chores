@@ -67,17 +67,17 @@ public class MyChoresListAdapter extends ArrayAdapter<Chore> {
         choreTitle.setText(chore.getName());
         String choreDueString = DateFormat.getDateInstance(DateFormat.SHORT).format(chore.getDeadline());
         choreDueDate.setText(choreDueString);
-        ImageButton editButton = (ImageButton) view.findViewById(R.id.myChoresRowEditButton);
-        editButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ChoreCardActivity.class);
-                intent.putExtra(context.getResources().getString(R.string.card_activity_extra1_name), chore);
-                intent.putExtra(context.getResources().getString(R.string.card_activity_extra2_name), getCurUsername(context));
-                context.startActivity(intent);
-            }
-        });
+//        ImageButton editButton = (ImageButton) view.findViewById(R.id.myChoresRowEditButton);
+//        editButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Context context = v.getContext();
+//                Intent intent = new Intent(context, ChoreCardActivity.class);
+//                intent.putExtra(context.getResources().getString(R.string.card_activity_extra1_name), chore);
+//                intent.putExtra(context.getResources().getString(R.string.card_activity_extra2_name), getCurUsername(context));
+//                context.startActivity(intent);
+//            }
+//        });
         return view;
     }
 
