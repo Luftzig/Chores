@@ -13,7 +13,7 @@ import java.util.*;
 
 
 public class ChoresDivisionAlgorithms {
-	
+
 	/**
 	 * Gets the scheduled chores list and assign them to the roommates
 	 * according to the random algorithm.
@@ -21,48 +21,53 @@ public class ChoresDivisionAlgorithms {
 	 * aptId - the apartment Id.
 	 * Notice that when this function returns, there's garbage inn coinsCollected field.
 	 */
-	public static void assignChores(List<Chore> chores, String aptId){
-		
+	public static boolean assignChores(List<Chore> chores, String aptId){
+
 		int everyoneDebt = 0; // sums the debt that should be added to everyone (in a group chore)
-		
+
 		//get roommates set
 		ParseRestClient client = new ParseRestClientImpl();
 		List<Roommate> roommates=null;
 		try {
 			roommates = client.getApartmentRoommates(aptId);
-			if(roommates.size() == 0)
-			{
-				System.out.println("No roommates for apartment " + aptId);
-				return;
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			try {
+				roommates = client.getApartmentRoommates(aptId);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				return false;
+			} 
+
+		} 
+		if(roommates.size() == 0)
+		{
+			System.out.println("No roommates for apartment " + aptId);
+			return false;
 		}
+
 		Collections.sort(roommates, new ValueComparator());
-		
+
 		////TODO/////
 		//DummyDal.printRoommates(roommates);
 		/////////
-				
+
 		//Sort chores list, to start the division,
 		List<Chore> sortedChores = sortChores(chores);
-		
+
 		List<Roommate> equalCollected = new ArrayList<Roommate>();
-		
+
 		//Divide chores
 		Chore chore = null;
 		for(int i=0; i<sortedChores.size();){
-			
+
 			chore = chores.get(i);
-			if(chore.getAssignedTo().equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
-				everyoneDebt += chore.getCoinsNum();
-				continue;
+			if(chore.getAssignedTo() != null){
+				if(chore.getAssignedTo().equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)){
+					everyoneDebt += chore.getCoinsNum();
+					continue;
+				}
 			}
-						
+
 			//The roommates list is sorted according to coins collected.
 			//If roommate_1.coins == roommate_2.coins == ... == roommate_n.coins 
 			//then their order should be random.
@@ -71,12 +76,12 @@ public class ChoresDivisionAlgorithms {
 			Roommate roommate = null;
 			while(itr.hasNext()){
 				roommate = (Roommate)itr.next();
-				
+
 				if((roommate.getCoinsCollected()) == prevVal){
 					equalCollected.add(roommate);
 				}
 				else{//add chores to roommates in list randomly and save start a new equal list
-					
+
 					int divided = randomlyAssignAndStartNewList(equalCollected, roommates, roommate, sortedChores, i);
 					i += divided;
 					if(divided != 0){ // divided == 0 is in case of first roommate in iterator.
@@ -95,35 +100,38 @@ public class ChoresDivisionAlgorithms {
 				i += divided;
 			}
 		}
-		
+
 		//update roommateDebts
 		Roommate roommate = null;
 		for(int i=0; i< roommates.size(); i++){
 			roommate = roommates.get(i);
 			try {
 				client.setRommateDebt(roommate.getId(), roommate.getDebt() + everyoneDebt);
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {
+				try {
+					client.setRommateDebt(roommate.getId(), roommate.getDebt() + everyoneDebt);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					return false;
+				} 
+
+			} 
 		}
-		
+
+		return true;
 	}
-	
+
 	/*
 	 * Randomly assign chores from sortedChores list(starts from 'cur' place) to roommates in equalCollected list (all the roommates in equalCollected list
 	 * have the same coinsCollected field). Then, the function clears the equalCollected list and add 'roommate' to it.
 	 * Return number of chores that were already divided.
 	 */
 	private static int randomlyAssignAndStartNewList(List<Roommate> equalCollected, List<Roommate> roommates, Roommate roommate, List<Chore> sortedChores, int cur){
-		
+
 		int dividedChoresNum = equalCollected.size();
 		Roommate curRoommate = null;
 		Chore curChore = null;
-		
+
 		if(equalCollected.size() !=0){
 			Collections.shuffle(equalCollected);
 			for(int k=0; (k<equalCollected.size() && cur< sortedChores.size()); k++, cur++){//divide chores to all roommates in equal coins collected list
@@ -136,7 +144,7 @@ public class ChoresDivisionAlgorithms {
 			}
 			equalCollected.clear(); // Clear to start a new list.
 		}
-				
+
 		return dividedChoresNum;
 	}
 
@@ -151,30 +159,30 @@ public class ChoresDivisionAlgorithms {
 		Map<String, Stack<Chore>> sortedChores = new HashMap<String, Stack<Chore>>();
 		Chore chore = null;
 		for(int i=0; i < chores.size(); i++){
-			
+
 			chore = chores.get(i);
 			Stack<Chore> stack = null;
 			if(sortedChores.containsKey(chore.getName())){
 				sortedChores.get(chore.getName()).push(chore);
 			}
 			else {
-				
+
 				stack = new Stack<Chore>();
 				stack.push(chore);
 				sortedChores.put(chore.getName(), stack);
 			}
 		}
-		
+
 		//Get a random permutation to the chore types
 		List<String> choreTypes = new ArrayList<String>(sortedChores.keySet());
 		Collections.shuffle(choreTypes);
-		
+
 		//Put chores back in the list according to a random order of the types
 		List<Chore> orderedChores = new ArrayList<Chore>();
 		int i = 0;
 		String curChoreType = null;
 		Stack<Chore> stack = null;
-		
+
 		while(i< chores.size()){
 			for(int j=0; j<choreTypes.size(); j++){
 				curChoreType = choreTypes.get(j);
@@ -187,7 +195,7 @@ public class ChoresDivisionAlgorithms {
 				}
 			}
 		}
-		
+
 		return chores;
 	}
 
