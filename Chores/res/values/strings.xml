@@ -161,5 +161,7 @@
   <string name="ask_to_create_apartment_positive">I will create an apartment!</string>
   <string name="ask_to_create_apartment_negative">No, my roommates will invite me. Hopefully.</string>
   <string name="invitation_positive_response_warning">Leave your current apartment and join the new one</string>
+  <string name="general_error">Never gonna give you up!</string>
+  <string name="apartment_chores_no_apartment">Seems like you\'re not part of an apartment.</string>
 </resources>
 

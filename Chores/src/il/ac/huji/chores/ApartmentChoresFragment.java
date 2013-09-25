@@ -33,6 +33,7 @@ public class ApartmentChoresFragment extends Fragment {
     private ListView listChores;
     private List<Chore> histChores;
     private TextView titleText;
+    private String apartmentID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class ApartmentChoresFragment extends Fragment {
                     adapter.clear();
                     adapter.addAll(chores);
                     titleText.setText(getResources().getString(R.string.apartment_tableTitle));
+                } else if (apartmentID == null) {
+                    titleText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
                 } else {
                     titleText.setText(getResources().getString(R.string.apartment_chores_no_chores));
                 }
@@ -105,6 +108,7 @@ public class ApartmentChoresFragment extends Fragment {
         progressBar = getActivity().findViewById(R.id.progressBar);
         listChores = (ListView) getActivity().findViewById(R.id.apartmentListChores);
         titleText = (TextView) getActivity().findViewById(R.id.myChoresRowTitle);
+        apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
 
         ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
@@ -133,6 +137,8 @@ public class ApartmentChoresFragment extends Fragment {
                     adapter = new ApartmentChoresDisplayAdapter(activity, chores);
                     listChores.setAdapter(adapter);
                     titleText.setText(getResources().getString(R.string.apartment_tableTitle));
+                } else if (apartmentID == null) {
+                    titleText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
                 } else {
                     titleText.setText(getResources().getString(R.string.apartment_chores_no_chores));
                 }
@@ -173,9 +179,12 @@ public class ApartmentChoresFragment extends Fragment {
         apartmentSettings.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //apartment settings button
-                Intent intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
+                Intent intent;
+                if (apartmentID == null) {
+                    intent = new Intent(getActivity(), NewApartmentDialogActivity.class);
+                } else {
+                    intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
+                }
                 startActivity(intent);
             }
         });

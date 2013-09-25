@@ -60,9 +60,7 @@ public class ChoresMainActivity extends Activity {
                 LoginActivity.OpenLoginScreen(this, false);
             }
             if (apartmentId == null) {
-                Intent intent = new Intent(this, NewApartmentDialogActivity.class);
-                startActivity(intent);
-                // TODO should get the apartmentID from the returned activity
+                askForCreateNewApartment();
             }
             if(!isActionBarSetup){
             	AppSetup.getInstance(this).setupActionBar();
@@ -71,7 +69,6 @@ public class ChoresMainActivity extends Activity {
         }
     }
     
-
     private void askForCreateNewApartment() {
         final Context thisContext = this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -194,6 +191,7 @@ public class ChoresMainActivity extends Activity {
             Log.w("acceptApartmentInvitation", "Error occured when trying to accept invitation", e);
             Log.d("acceptApartmentInvitation", "Offending JSON: " + jsonData.toString());
             showErrorDialog(getResources().getString(R.string.failed_to_join_apartment), e);
+        } catch (ParseException e) {
             if (e.getCode() == ParseException.CONNECTION_FAILED) {
                 Toast.makeText(
                         this,
@@ -296,7 +294,6 @@ public class ChoresMainActivity extends Activity {
 			} 
 		}
 	}
-}
 
 	// Schedule reminders to new chores created at 'createTime' (in background)
 	private void setChoreAlarms(long createTime) {
