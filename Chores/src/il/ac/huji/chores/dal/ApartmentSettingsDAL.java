@@ -9,12 +9,8 @@ import android.util.Log;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.PushService;
-
 import il.ac.huji.chores.Settings;
-import il.ac.huji.chores.exceptions.FailedToGetApartmentSettings;
-import il.ac.huji.chores.exceptions.FailedToUpdateSettingsException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import java.util.List;
@@ -22,28 +18,25 @@ import java.util.List;
 public class ApartmentSettingsDAL {
 
 	public static Settings getSettings() throws UserNotLoggedInException,
-			FailedToGetApartmentSettings {
+			ParseException {
 		String username = RoommateDAL.getRoomateUsername();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Settings");
 		query.whereEqualTo("username", username);
 		ParseObject result;
-		try {
-			List<ParseObject> results = query.find();
-			if (results.size() == 0) {
-				return getDefaultSettings();
-			}
-			result = query.find().get(0);
-		} catch (ParseException e) {
-			throw new FailedToGetApartmentSettings(e.getMessage());
+		List<ParseObject> results = query.find();
+		if (results.size() == 0) {
+			return getDefaultSettings(true);
+		} else {
+			result = results.get(0);
+			return convertObjectToSettings(result);
 		}
-		return convertObjectToSettings(result);
+
 	}
 
 	public static void registerToNotificationChannel(Context context,
 			String channel) {
 		PushService.subscribe(context, channel,
 				il.ac.huji.chores.ChoresNotification.class);
-
 	}
 
 	public static void unegisterToNotificationChannel(Context context,
@@ -54,8 +47,8 @@ public class ApartmentSettingsDAL {
 	// get default settings and store the default settings in the database. Used
 	// by getSettings method.
 
-	private static Settings getDefaultSettings()
-			throws UserNotLoggedInException, FailedToGetApartmentSettings {
+	public static Settings getDefaultSettings(boolean update)
+			throws UserNotLoggedInException, ParseException {
 
 		Settings settings = new Settings();
 		// Notifications
@@ -75,30 +68,23 @@ public class ApartmentSettingsDAL {
 		settings.reminders.hours = 2;
 
 		// store defaults in database
-		try {
+		if (update) {
 			updateSettings(settings, true);
-		} catch (FailedToUpdateSettingsException e) {
-			FailedToGetApartmentSettings ex = new FailedToGetApartmentSettings(
-					e.toString());
-			throw ex;
 		}
-
 		return settings;
 	}
 
-	//isDefault - true if it's an update of the default settings
+	// isDefault - true if it's an update of the default settings
 	public static void updateSettings(Settings settings, boolean isDefault)
-			throws UserNotLoggedInException, FailedToUpdateSettingsException {
+			throws UserNotLoggedInException, ParseException {
 		String username = RoommateDAL.getRoomateUsername();
 		ParseObject parseSettings = null;
-		if(!isDefault){
+		if (!isDefault) {
 			parseSettings = getParseSettings(username);
 		}
-		if(parseSettings == null){
+		if (parseSettings == null) {
 			parseSettings = new ParseObject("Settings");
 		}
-//		parseSettings.put("apartment", apartmentID);
-//		parseSettings.put("username",ParseUser.getCurrentUser().getUsername());
 		parseSettings.put("newChoresHasBeenDivided",
 				settings.notifications.newChoresHasBeenDivided);
 		parseSettings.put("roommateFinishedChore",
@@ -112,28 +98,21 @@ public class ApartmentSettingsDAL {
 		parseSettings.put("forbidRoommatesFromTakingMyChores",
 				settings.chores.forbidRoommatesFromTakingMyChores);
 		parseSettings.put("reminderHours", settings.reminders.hours);
-		try {
-			parseSettings.save();
-		} catch (ParseException e) {
-			throw new FailedToUpdateSettingsException(e.toString());
-		}
+		parseSettings.save();
+
 	}
-	
-	private static ParseObject getParseSettings(String username){
+
+	private static ParseObject getParseSettings(String username)
+			throws ParseException {
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Settings");
 		query.whereEqualTo("username", username);
 		List<ParseObject> parseSettingsList = null;
-		try{
-			parseSettingsList = query.find();
-			if(parseSettingsList.size() == 0){
-				return null;
-			}
-			return parseSettingsList.get(0);
-		}
-		catch(ParseException e){
+		parseSettingsList = query.find();
+		if (parseSettingsList.size() == 0) {
 			return null;
 		}
-		
+		return parseSettingsList.get(0);
+
 	}
 
 	private static Settings convertObjectToSettings(ParseObject obj) {

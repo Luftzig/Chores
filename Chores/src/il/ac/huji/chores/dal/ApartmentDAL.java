@@ -2,6 +2,7 @@ package il.ac.huji.chores.dal;
 
 import android.util.Log;
 import com.parse.*;
+
 import il.ac.huji.chores.RoommatesApartment;
 import il.ac.huji.chores.exceptions.ApartmentAlreadyExistsException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
@@ -12,9 +13,10 @@ import java.util.List;
 public class ApartmentDAL {
 
 	public static String createApartment(RoommatesApartment apt)
-			throws ApartmentAlreadyExistsException, UserNotLoggedInException {
+			throws ApartmentAlreadyExistsException, UserNotLoggedInException,
+			ParseException {
 		ParseUser curreentUser = ParseUser.getCurrentUser();
-		if(curreentUser == null){
+		if (curreentUser == null) {
 			throw new UserNotLoggedInException("User not logged in");
 		}
 		if (getApartmentID(apt.getName()) != null) {
@@ -30,81 +32,53 @@ public class ApartmentDAL {
 		apartment.add("Roommates", curreentUser.getUsername());
 		apartment.put("divisionDay", apt.getDivisionDay());
 		apartment.put("frequency", apt.getDivisionFrequency());
-		apartment.put("lastDivision", 0);		
-		try {
-			apartment.save();
-		} catch (ParseException e) {
-			e.printStackTrace();
-			return null;
-		} 
-		
-		if(!addRoommateToApartment(ApartmentDAL.getApartmentID(apt.getName()))){
-			//TODO Do something ?
-		}
-
+		apartment.put("lastDivision", 0);
+		apartment.save();
+		addRoommateToApartment(ApartmentDAL.getApartmentID(apt.getName()));
 		return apartment.getObjectId();
 	}
 
-	public static boolean inviteRoommate(String name,String number, String email){
-		return false;
-	}
-
-	public static String getApartmentID(String apartmentName) {
+	public static String getApartmentID(String apartmentName)
+			throws ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		query.whereEqualTo("apartmentName", apartmentName);
 		List<ParseObject> apartmentsList = new ArrayList<ParseObject>();
-		try {
-			apartmentsList = query.find();
-		} catch (ParseException e) {
-			Log.d("getApartmentID", "parse exception" + e);
-			return null;
-		}
-
+		apartmentsList = query.find();
 		if (apartmentsList.size() > 0) {
-            return apartmentsList.get(0).getObjectId();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @param apartmentID
-     * @return a list of roommates usernames of the the requested apartment
-     */
-	public static List<String> getApartmentRoommates(String apartmentID) {
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
-		ParseObject apartment;
-		try {
-			apartment = query.get(apartmentID);
-			if(apartment == null){
-				return new ArrayList<String>();
-			}
-			return apartment.getList("Roommates");
-		} catch (ParseException e) {
-			Log.e("getApartmentRoommates",e.toString());
+			return apartmentsList.get(0).getObjectId();
+		} else {
 			return null;
 		}
 	}
 
-	public static boolean addRoommateToApartment(String apartmentID)
-			throws UserNotLoggedInException {
+	/**
+	 * @param apartmentID
+	 * @return a list of roommates usernames of the the requested apartment
+	 * @throws ParseException 
+	 */
+	public static List<String> getApartmentRoommates(String apartmentID) throws ParseException {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
+		ParseObject apartment;
+		apartment = query.get(apartmentID);
+		if (apartment == null) {
+			return new ArrayList<String>();
+		}
+		return apartment.getList("Roommates");
+	}
+
+	public static void addRoommateToApartment(String apartmentID)
+			throws UserNotLoggedInException, ParseException {
 		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser == null){
+		if (currentUser == null) {
 			throw new UserNotLoggedInException("User not logged in");
 		}
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;
-		try {
-			String roommate = currentUser.getUsername();
-			apartment = query.get(apartmentID);
-			apartment.add("Roommates", currentUser.getUsername());
-			apartment.save();
-			RoommateDAL.addApartmentToRoommate(apartmentID);
-		} catch (ParseException e) {
-			Log.e("addRoommateToApatment", e.toString());
-			return false;
-		}
-		return true;
+		String roommate = currentUser.getUsername();
+		apartment = query.get(apartmentID);
+		apartment.add("Roommates", currentUser.getUsername());
+		apartment.save();
+		RoommateDAL.addApartmentToRoommate(apartmentID);
 	}
 
 }

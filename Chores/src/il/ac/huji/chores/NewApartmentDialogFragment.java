@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import com.parse.ParseException;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,6 +105,11 @@ public class NewApartmentDialogFragment extends Fragment {
                     Log.d("NewApartmentDialogFragment", "Caught exception" + e);
                 } catch (UserNotLoggedInException e) {
                     Log.d("NewApartmentDialogFragment", "Caught exception" + e);
+                }
+                catch(ParseException e){
+                	if(e.getCode()==ParseException.CONNECTION_FAILED){
+                		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.setting_saved_toast_text), Toast.LENGTH_SHORT).show();
+                	}
                 }
                 Log.d(getClass().toString(), "Apartment created: " + apartment.toString());
                 // Return results

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
@@ -25,6 +26,8 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+
+import com.parse.ParseException;
 
 import java.util.*;
 
@@ -175,7 +178,25 @@ public class MyChoresFragment extends Fragment {
     }
 
     private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException, FailedToGetRoommateException {
-        List<String> roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+        List<String> roommates;
+		try {
+			roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL.getApartmentID());
+		} catch (ParseException e) {
+			if (e.getCode() == ParseException.CONNECTION_FAILED) {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.chores_connection_failed),
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.general_error),
+						Toast.LENGTH_LONG).show();
+			}
+			return new HashMap<String, Integer>();
+		}
         if (roommates == null || roommates.size() == 0) {
             throw new FailedToGetRoommateException("No roommates found for apartment " + RoommateDAL.getApartmentID());
         }

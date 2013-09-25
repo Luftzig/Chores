@@ -1,6 +1,8 @@
 package il.ac.huji.chores.dal;
 
 import android.util.Log;
+
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
@@ -94,7 +96,7 @@ public class NotificationsDAL {
         push.sendInBackground();
     }
 
-    public static void notifyInvitationAccepted(String accepter, String apartmentId) {
+    public static void notifyInvitationAccepted(String accepter, String apartmentId) throws ParseException {
         List<String> roommates = ApartmentDAL.getApartmentRoommates(apartmentId);
         Log.d("NotificationsDAL.notifyInvitationAccepted", "Accepted message will be sent to " + roommates.toString());
         ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();

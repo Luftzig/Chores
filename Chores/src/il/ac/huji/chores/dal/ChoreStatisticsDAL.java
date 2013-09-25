@@ -12,158 +12,132 @@ import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
 public class ChoreStatisticsDAL {
 
-	public static ChoreStatistics getMostAccomplishedChore(){
+	public static ChoreStatistics getMostAccomplishedChore()
+			throws ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
-		try {
-			int max =0;
-			String choreName="";
-			List<ParseObject> chores =query.find();
-			for(ParseObject chore :chores){
-				int missed = chore.getInt("totalMissed");
-				int done = chore.getInt("totalDone");
-				if((missed+done>0)&& (done/(done+missed))>max){
-					max=done/(done+missed);
-					choreName = chore.getString("chore");
-				}
+		int max = 0;
+		String choreName = "";
+		List<ParseObject> chores = query.find();
+		for (ParseObject chore : chores) {
+			int missed = chore.getInt("totalMissed");
+			int done = chore.getInt("totalDone");
+			if ((missed + done > 0) && (done / (done + missed)) >= max) {
+				max = done / (done + missed);
+				choreName = chore.getString("chore");
 			}
-			return getChoreStatistic("choreName");
-		} catch (ParseException e) {
-			return null;
 		}
+		return getChoreStatistic("choreName");
+
 	}
-	
-	public static int getChoreAverageValue(String choreName){
+
+	public static int getChoreAverageValue(String choreName) throws ParseException {
 		ChoreStatistics stats = getChoreStatistic(choreName);
-		if(stats == null){
+		if (stats == null) {
 			return -1;
 		}
 		return stats.getAverageValue();
-	
 	}
-	public static ChoreStatistics getMostMissedChore(){
+
+	public static ChoreStatistics getMostMissedChore() throws ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
-		try {
-			int max =0;
-			String choreName="";
-			List<ParseObject> chores =query.find();
-			for(ParseObject chore :chores){
-				int missed = chore.getInt("totalMissed");
-				int done = chore.getInt("totalDone");
-				if((missed+done>0)&& (missed/(done+missed))>max){
-					max=missed/(done+missed);
-					choreName = chore.getString("chore");
-				}
+		int max = 0;
+		String choreName = "";
+		List<ParseObject> chores = query.find();
+		for (ParseObject chore : chores) {
+			int missed = chore.getInt("totalMissed");
+			int done = chore.getInt("totalDone");
+			if ((missed + done > 0) && (missed / (done + missed)) > max) {
+				max = missed / (done + missed);
+				choreName = chore.getString("chore");
 			}
-			return getChoreStatistic("choreName");
-		} catch (ParseException e) {
-			return null;
 		}
+		return getChoreStatistic("choreName");
+
 	}
-	public static void updateChoreMissedCount(String choreName, int count) throws ChoreStatisticsException {
+
+	public static void updateChoreMissedCount(String choreName, int count)
+			throws ParseException {
 		ParseObject choreStatistics = getChoreStatisticsObj(choreName);
-		if(choreStatistics==null){
+		if (choreStatistics == null) {
 			choreStatistics = createChoreStatistic(choreName);
 		}
 		int currentCount = choreStatistics.getInt("totalMissed");
-		currentCount+=count;
+		currentCount += count;
 		choreStatistics.put("totalMissed", currentCount);
-		try {
-			choreStatistics.save();
-		} catch (ParseException e) {
-			throw new ChoreStatisticsException(e.getMessage());
-		}
+		choreStatistics.save();
+
 	}
 
-	public static void updateChoreDoneCount(String choreName, int count) throws ChoreStatisticsException {
+	public static void updateChoreDoneCount(String choreName, int count)
+			throws ParseException {
 		ParseObject choreStatistics = getChoreStatisticsObj(choreName);
-		if(choreStatistics==null){
+		if (choreStatistics == null) {
 			choreStatistics = createChoreStatistic(choreName);
 		}
 		int currentCount = choreStatistics.getInt("totalDone");
-		currentCount+=count;
+		currentCount += count;
 		choreStatistics.put("totalDone", currentCount);
-		try {
-			choreStatistics.save();
-		} catch (ParseException e) {
-			throw new ChoreStatisticsException(e.getMessage());
-		}
+		choreStatistics.save();
 
 	}
 
-	public static void updateChoreTotalCount(String choreName, int count) throws ChoreStatisticsException {
+	public static void updateChoreTotalCount(String choreName, int count)
+			throws ParseException {
 		ParseObject choreStatistics = getChoreStatisticsObj(choreName);
-		if(choreStatistics==null){
+		if (choreStatistics == null) {
 			choreStatistics = createChoreStatistic(choreName);
 		}
 		int currentCount = choreStatistics.getInt("totalCount");
-		currentCount+=count;
+		currentCount += count;
 		choreStatistics.put("totalCount", currentCount);
-		try {
-			choreStatistics.save();
-		} catch (ParseException e) {
-			throw new ChoreStatisticsException(e.getMessage());
-		}
-
+		choreStatistics.save();
 	}
 
-	public static void updateChorePointsTotalCount(String choreName, int count) throws ChoreStatisticsException {
+	public static void updateChorePointsTotalCount(String choreName, int count)
+			throws ParseException {
 		ParseObject choreStatistics = getChoreStatisticsObj(choreName);
-		if(choreStatistics==null){
+		if (choreStatistics == null) {
 			choreStatistics = createChoreStatistic(choreName);
 		}
 		int currentCount = choreStatistics.getInt("totalCoins");
-		currentCount+=count;
+		currentCount += count;
 		choreStatistics.put("totalCoins", currentCount);
-		try {
-			choreStatistics.save();
-		} catch (ParseException e) {
-			throw new ChoreStatisticsException(e.getMessage());
-		}
-
+		choreStatistics.save();
 	}
 
-	public static ParseObject createChoreStatistic(String choreName) {
+	public static ParseObject createChoreStatistic(String choreName)
+			throws ParseException {
 		ParseObject choreStatistics = new ParseObject("choreStatistics");
 		choreStatistics.put("chore", choreName);
 		choreStatistics.put("totalCount", 0);
 		choreStatistics.put("totalMissed", 0);
 		choreStatistics.put("totalDone", 0);
 		choreStatistics.put("totalCoins", 0);
-		try {
-			choreStatistics.save();
-		} catch (ParseException e) {
-			return null;
-		}
+		choreStatistics.save();
 		return choreStatistics;
 	}
-	
-	public static boolean choreStatisticsExists(String choreName){
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
-		query.whereEqualTo("chore", choreName);
-		try {
-			List<ParseObject> results = query.find();
-			return results.size()>0;
-		} catch (ParseException e) {
-			return false;
-		}
-	}
 
-	public static ParseObject getChoreStatisticsObj(String choreName) {
+	public static boolean choreStatisticsExists(String choreName)
+			throws ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
 		query.whereEqualTo("chore", choreName);
-		try {
-			List<ParseObject> results = query.find();
-			if(results == null || results.size() == 0){
-				return null;//This needs to be handled above - inside this class.
-			}
-			return results.get(0);
-		} catch (ParseException e) {
-			return null;
-		}
+		List<ParseObject> results = query.find();
+		return results.size() > 0;
 
 	}
 
-	public static ChoreStatistics getChoreStatistic(String choreName) {
+	public static ParseObject getChoreStatisticsObj(String choreName) throws ParseException {
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("choreStatistics");
+		query.whereEqualTo("chore", choreName);
+		List<ParseObject> results = query.find();
+		if (results == null || results.size() == 0) {
+			return null;// This needs to be handled above - inside this
+		}
+		return results.get(0);
+
+	}
+
+	public static ChoreStatistics getChoreStatistic(String choreName) throws ParseException {
 		ParseObject choreStaticsObj = getChoreStatisticsObj(choreName);
 		if (choreStaticsObj == null)
 			return null;

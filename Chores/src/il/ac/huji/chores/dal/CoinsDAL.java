@@ -73,10 +73,6 @@ public class CoinsDAL {
 		return coins;
 		
 	}
-	
-
-
-	
 
 	public static void increaseCoinsCollectedDecreaseDebtAllRoommates(int coins, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException, ParseException{
 		for(String roommate : roommates){

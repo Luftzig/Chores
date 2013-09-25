@@ -22,26 +22,24 @@ public class AlarmsAsynctask extends AsyncTask<Long, Void, Void> {
 	Context context;
 	static private int id = 0;
 
-	public AlarmsAsynctask(Context context){
+	public AlarmsAsynctask(Context context) {
 		this.context = context;
 	}
 
 	@Override
 	protected Void doInBackground(Long... createTime) {
-		
+
 		long create = createTime[0].longValue();
-		if(create == -1){
+		if (create == -1) {
 			return null;
 		}
-		List<Chore> chores=new ArrayList<Chore>();
+		List<Chore> chores = new ArrayList<Chore>();
 		try {
 			chores = ChoreDAL.getAllChoresCreatedAfter(create);
 		} catch (UserNotLoggedInException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			return null;
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			return null;
 		}
 		Settings settings;
 		try {
@@ -49,31 +47,37 @@ public class AlarmsAsynctask extends AsyncTask<Long, Void, Void> {
 		} catch (UserNotLoggedInException e) {
 			LoginActivity.OpenLoginScreen(context, false);
 			return null;
-		} catch (FailedToGetApartmentSettings e) {
+		} catch (ParseException e) {
 			return null;
 		}
-		if(settings.chores.disableRemindersAboutUpcomingChores){
+		if (settings.chores.disableRemindersAboutUpcomingChores) {
 			return null;
 		}
-		int rmndHours = settings.reminders.hours; // how many hours before deadline to remind
+		int rmndHours = settings.reminders.hours; // how many hours before
+													// deadline to remind
 
-		for(int i=0; i<chores.size(); i++){
-			
-			//set reminder time in a calendar
+		for (int i = 0; i < chores.size(); i++) {
+
+			// set reminder time in a calendar
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(chores.get(i).getDeadline());
-			cal.add(Calendar.HOUR, (-1)* (rmndHours));
+			cal.add(Calendar.HOUR, (-1) * (rmndHours));
 
-			Intent intentAlarm = new Intent(context, AlarmReciever.class); 
-			intentAlarm.putExtra("alarmMsg", "The deadline for the chore \n'" + chores.get(i).getName() + "'\nis in " + rmndHours + " hours");
-			
-			AlarmManager alarmManager = (AlarmManager)context. getSystemService(Context.ALARM_SERVICE);
+			Intent intentAlarm = new Intent(context, AlarmReciever.class);
+			intentAlarm.putExtra("alarmMsg", "The deadline for the chore \n'"
+					+ chores.get(i).getName() + "'\nis in " + rmndHours
+					+ " hours");
 
-			//set the alarm for particular time
-			alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(context, id++,  intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT));
-			
+			AlarmManager alarmManager = (AlarmManager) context
+					.getSystemService(Context.ALARM_SERVICE);
+
+			// set the alarm for particular time
+			alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+					PendingIntent.getBroadcast(context, id++, intentAlarm,
+							PendingIntent.FLAG_UPDATE_CURRENT));
+
 		}
-		//context.stopService();
+		// context.stopService();
 
 		return null;
 	}

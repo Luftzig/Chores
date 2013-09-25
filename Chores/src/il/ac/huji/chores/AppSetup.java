@@ -122,6 +122,7 @@ public class AppSetup {
                 context.getResources().getString(R.string.parse_client_key));
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
+		defaultACL.setPublicWriteAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
 		
     }

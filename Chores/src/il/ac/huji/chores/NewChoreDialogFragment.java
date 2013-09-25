@@ -1,5 +1,7 @@
 package il.ac.huji.chores;
 
+import com.parse.ParseException;
+
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.ChoreStatisticsDAL;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewChoreDialogFragment extends Fragment {
 
@@ -295,10 +298,19 @@ public class NewChoreDialogFragment extends Fragment {
     
     //changes most chosen value in the values list 
     private void changeMostChosen(String choreName){
-    	int mostChosen = ChoreStatisticsDAL.getChoreAverageValue(_choreName); //handle statistics value 
+    	int mostChosen;
+		try {
+			mostChosen = ChoreStatisticsDAL.getChoreAverageValue(_choreName);
+		 //handle statistics value 
     	if(mostChosen != -1){
     		chore_values[mostChosen] = "" + mostChosen + getResources().getString(R.string.new_chore_dialog_values_most_chosen);
     	}
+		} catch (ParseException e) {
+			if(e.getCode()==ParseException.CONNECTION_FAILED){
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.chores_connection_failed), Toast.LENGTH_SHORT).show();
+
+			}
+		}
     }
     
 
