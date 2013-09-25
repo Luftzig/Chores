@@ -26,7 +26,7 @@ public class RoommateDAL {
 	public static String getRoomateUsername(){
 		return ParseUser.getCurrentUser().getUsername();
 	}
-	
+
 	public static boolean isUserLoggedIn(){
 		if(ParseUser.getCurrentUser() == null){
 			return false;
@@ -34,56 +34,102 @@ public class RoommateDAL {
 		return true;
 	}
 
-    /**
-     * @param roommateName
-     * @return Roommate object for given roommate username
-     * @throws FailedToGetRoommateException if user name does not exist or data is malformed.
-     */
-    public static Roommate getRoommateByName(String roommateName) throws FailedToGetRoommateException{
+	/**
+	 * @param roommateName
+	 * @return Roommate object for given roommate username
+	 * @throws FailedToGetRoommateException if user name does not exist or data is malformed.
+	 */
+	public static Roommate getRoommateByName(String roommateName) throws FailedToGetRoommateException{
+		ParseObject obj = getParseUserByName(roommateName);
+		if(obj == null)
+			return null;
+		Roommate roommate = convertObjToRoommate(obj);
+		return roommate;
+	}
+	
+	/**
+	 * @param roommateName
+	 * @return ParseUser object for given roommate username
+	 * @throws FailedToGetRoommateException if user name does not exist or data is malformed.
+	 */
+	private static ParseUser getParseUserByName(String roommateName) throws FailedToGetRoommateException{
+		
+
 		ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("username", roommateName);
 		try {
-            List<ParseUser> parseUsers = query.find();
-            if (parseUsers.size() == 0) {
-                return null;
-            }
-            ParseObject obj = (ParseObject) parseUsers.get(0);
-            Roommate roommate = convertObjToRoommate(obj);
-            return roommate;
-        } catch (ParseException e) {
+			List<ParseUser> parseUsers = query.find();
+			if (parseUsers.size() == 0) {
+				return null;
+			}
+			ParseUser userObj = (ParseUser) parseUsers.get(0);
+			return userObj;
+			
+		} catch (ParseException e) {
 			throw new FailedToGetRoommateException(e.getMessage());
 		}
 	}
 
-   // @Nullable
-    public static Roommate getRoommateById(String id) throws FailedToGetRoommateException{
-        ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("objectId", id);
-        try {
-            List<ParseUser> parseUsers = query.find();
-            if (parseUsers.size() == 0) {
-                return null;
-            }
-            ParseObject obj = (ParseObject) parseUsers.get(0);
-            Roommate roommate = convertObjToRoommate(obj);
-            return roommate;
-        } catch (ParseException e) {
-            throw new FailedToGetRoommateException(e.getMessage());
-        }
 
-    }
+	// @Nullable
+	public static Roommate getRoommateById(String id) throws FailedToGetRoommateException{
+		ParseQuery<ParseUser> query =ParseUser.getQuery().whereEqualTo("objectId", id);
+		try {
+			List<ParseUser> parseUsers = query.find();
+			if (parseUsers.size() == 0) {
+				return null;
+			}
+			ParseObject obj = (ParseObject) parseUsers.get(0);
+			Roommate roommate = convertObjToRoommate(obj);
+			return roommate;
+		} catch (ParseException e) {
+			throw new FailedToGetRoommateException(e.getMessage());
+		}
+
+	}
 
 
-    public static void increaseCoinsCollected(int coins) throws FailedToSaveOperationException{
+	public static void increaseCoinsCollectedDecreaseDebt(int coins) throws FailedToSaveOperationException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
-		int currentCoins = currentUser.getInt("coins");
-		currentCoins+=coins;
-		currentUser.put("coins",currentCoins);
+		int currentCoins = currentUser.getInt("coinsCollected");
+		int debt = currentUser.getInt("coins");
+		currentCoins += coins;
+		debt =- coins;
+		currentUser.put("coinsCollected",currentCoins);
+		currentUser.put("coins",debt);
 		try {
 			currentUser.save();
 		} catch (ParseException e) {
 			throw new FailedToSaveOperationException(e.getMessage());
 		}
-		
 	}
+
+	public static void increaseCoinsCollectedDecreaseDebtAllRoommates(int coins, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException{
+
+		ParseUser user = null;
+		
+		for(int i=0; i< roommates.size(); i++){
+			
+			user = getParseUserByName(roommates.get(i));
+			
+			int currentCoins = user.getInt("coinsCollected");
+			int debt = user.getInt("coins");
+			
+			currentCoins+=coins;
+			debt -= coins;
+			
+			user.put("coinsCollected",currentCoins);
+			user.put("coins",debt);
+			
+			try {
+				user.save();
+			} catch (ParseException e) {
+				throw new FailedToSaveOperationException(e.getMessage());
+			}
+
+		}
+	}
+
+
 	public static int getRoommateCollectedCoins(String roommate) throws FailedToGetChoreException{
 		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_DONE");
 		try {
@@ -97,25 +143,25 @@ public class RoommateDAL {
 			throw new FailedToGetChoreException(e.getMessage());
 		}
 	}
-	
+
 	public static void initRoommateProperties(String phoneNumber) throws UserNotLoggedInException{
 		ParseUser roommate = ParseUser.getCurrentUser();
 		roommate.put("coinsCollected", 0);
 		roommate.put("coins", 0);
-        roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
-        try {
+		roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
+		try {
 			roommate.save();
 		} catch (ParseException e) {
 			throw new UserNotLoggedInException(e.getMessage());
 		}
-		
+
 	}
 
-    private static String sanitizePhoneNumber(String phoneNumber) {
-        return phoneNumber.replaceAll("[^0-9]", "");
-    }
+	private static String sanitizePhoneNumber(String phoneNumber) {
+		return phoneNumber.replaceAll("[^0-9]", "");
+	}
 
-    public static int getRoommateDebt(String roommate) throws FailedToGetChoreException{
+	public static int getRoommateDebt(String roommate) throws FailedToGetChoreException{
 		ParseQuery<ParseObject> query= ParseQuery.getQuery("Chores").whereEqualTo("assignedTo", roommate).whereEqualTo("status","STATUS_FUTURE");
 		try {
 			List<ParseObject> results = query.find();
@@ -134,7 +180,7 @@ public class RoommateDAL {
 		roommate.setUsername(obj.getString("username"));
 		roommate.setCoinsCollected(obj.getInt("coinsCollected"));
 		return roommate;
-	
+
 	}
 	public static String getApartmentID() throws UserNotLoggedInException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
@@ -142,42 +188,42 @@ public class RoommateDAL {
 			throw new UserNotLoggedInException("User is not logged in");
 		return (String) currentUser.get("apartmentID");
 	}
-	
+
 	public static String getUserID() throws UserNotLoggedInException{
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if(currentUser==null)
 			throw new UserNotLoggedInException("User is not logged in");
 		return (String) currentUser.getObjectId();
-		
+
 	}
 
-    public static String createRoommateUser(String username, String password, String phoneNumber)
-            throws ParseException, UserNotLoggedInException {
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        try {
-            user.signUp();
-            initRoommateProperties(phoneNumber);
-            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put("userId", user.getObjectId());
-            installation.put("username", username);
-            installation.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Log.d("createRoommateUser", "Installation created");
-                    } else {
-                        Log.w("createRoommateUser", "Installation failed with " + e.getMessage());
-                    }
-                }
-            });
-            return user.getObjectId();
-        } catch (ParseException e) {
-            Log.e("createRoommateUser", e.toString());
-            throw e;
-        }
-    }
+	public static String createRoommateUser(String username, String password, String phoneNumber)
+			throws ParseException, UserNotLoggedInException {
+		ParseUser user = new ParseUser();
+		user.setUsername(username);
+		user.setPassword(password);
+		try {
+			user.signUp();
+			initRoommateProperties(phoneNumber);
+			ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+			installation.put("userId", user.getObjectId());
+			installation.put("username", username);
+			installation.saveInBackground(new SaveCallback() {
+				@Override
+				public void done(ParseException e) {
+					if (e == null) {
+						Log.d("createRoommateUser", "Installation created");
+					} else {
+						Log.w("createRoommateUser", "Installation failed with " + e.getMessage());
+					}
+				}
+			});
+			return user.getObjectId();
+		} catch (ParseException e) {
+			Log.e("createRoommateUser", e.toString());
+			throw e;
+		}
+	}
 
 	public static boolean addApartmentToRoommate(String apartmentID)
 			throws UserNotLoggedInException {
@@ -196,5 +242,5 @@ public class RoommateDAL {
 		}
 		return false;
 	}
-	
+
 }
