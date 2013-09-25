@@ -6,9 +6,16 @@ import android.view.Menu;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+
+import il.ac.huji.chores.ChoreInfo;
+import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
+import il.ac.huji.chores.ChoreInfoInstance;
 import il.ac.huji.chores.ChoreStatistics;
 import il.ac.huji.chores.R;
 import il.ac.huji.chores.exceptions.ChoreStatisticsException;
+import il.ac.huji.chores.exceptions.DataNotFoundException;
+import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 //import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
@@ -36,9 +43,21 @@ public class DALTestActivity extends Activity {
 			apt.setDivisionFrequency(Constants.ChoreDividePeriod.ONCE_A_WEEK.toString());
 			String aptId= ApartmentDAL.createApartment(apt);*/
 			RoommateDAL.Login("Yoav", "1234");
-			
+			ChoreInfo choreInfo = new ChoreInfoInstance();
+			choreInfo.setChoreInfoName("Anna's updated chore");
+			choreInfo.setCoins(10);
+			choreInfo.setHowMany(10);
+			choreInfo.setPeriod(CHORE_INFO_PERIOD.CHORE_INFO_WEEK);
+			choreInfo.setIsEveryone(false);
+			try {
+				//updateChoreInfoName("NJmVnzdSfM")
+				ChoreDAL.updateChoreInfo(choreInfo,"NJmVnzdSfM");
+			}
+			catch(ParseException e){
+				System.out.println(e.getMessage());
+			}
 			//System.out.println("Exists choreTest ? "+ChoreStatisticsDAL.choreStatisticsExists("choreTest"));
-			ChoreStatisticsDAL.createChoreStatistic("choreTest");
+			/*ChoreStatisticsDAL.createChoreStatistic("choreTest");
 			ChoreStatistics stats =ChoreStatisticsDAL.getChoreStatistic("choreTest");
 			try {
 				ChoreStatisticsDAL.updateChoreDoneCount("choreTest",1);
@@ -49,14 +68,13 @@ public class DALTestActivity extends Activity {
 //				TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			*
 			stats  =ChoreStatisticsDAL.getChoreStatistic("choreTest");
 			System.out.println("avg: "+stats.getAverageValue());
 			System.out.println("totalcount :"+stats.getTotalCount());
 			System.out.println("total missed : "+stats.getTotalMissed());
 			System.out.println("total done:"+stats.getTotalDone());
-			
-			
+			*/
 		//	RoommateDAL.addApartmentToRoommate("Tl0A2RZUh8");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
