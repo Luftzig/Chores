@@ -73,6 +73,8 @@ public interface ParseRestClient {
 	 * Sets debt to the user (instead of the old one)
 	 * @param username - the username of the user to set new debt to
 	 * @param debt - the new debt to set
+	 * @throws IOException 
+	 * @throws ClientProtocolException 
 	 */
-	public void setRommateDebt(String username, int debt);
+	public void setRommateDebt(String username, int debt) throws ClientProtocolException, IOException;
 }
