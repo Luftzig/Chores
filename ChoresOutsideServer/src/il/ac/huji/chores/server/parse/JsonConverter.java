@@ -41,6 +41,14 @@ public class JsonConverter {
 		return json.toString();
 	}
 	
+	public static String convertCoinsToJson(Coins coins){
+		JSONObject json = new JSONObject();
+		json.put("username", coins.getUsername());
+		json.put("dept",coins.getDept());
+		json.put("coinsCollected", coins.getCoinsCollected());
+		return json.toString();
+	}
+	
 	public static Chore convertJsonToChore(JSONObject obj) {
 		Chore chore = new ApartmentChore();
 		chore.setName(obj.getString("name"));
@@ -56,6 +64,16 @@ public class JsonConverter {
 		return chore;
 
 	}
+	
+	public static Coins convertJsonToCoins(JSONObject obj){
+		Coins coins = new Coins();
+		coins.setUsername(obj.getString("username"));
+		coins.setDept(obj.getInt("dept"));
+		coins.setCoinsCollected(obj.getInt("coinsCollected"));
+		coins.setId(obj.getString("objectId"));
+		return coins;
+	}
+	
 	public static RoommatesApartment convertJsonToApartment(JSONObject obj) {
 		RoommatesApartment apt = new RoommatesApartment();
 		List<String> roommates = obj.getJSONArray("Roommates").getStringList();
