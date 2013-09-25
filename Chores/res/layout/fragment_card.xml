@@ -42,9 +42,10 @@
         android:id="@+id/card_chore_img"
         android:layout_width="310dp"
         android:layout_height="232dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="0.5"
         android:contentDescription="@string/card_img_description"
-        android:src="@drawable/ic_launcher"
-        android:layout_weight="0.5" />
+        android:src="@drawable/ic_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,14 +76,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.20"
             android:text="fun_fact"
-            android:textColor="@android:color/white"  />
-
-        <TextView
-            android:id="@+id/card_statistics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.20"
-            android:text="statistics"
             android:textColor="@android:color/white"  />
 
     </LinearLayout>

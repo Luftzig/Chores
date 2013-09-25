@@ -76,7 +76,7 @@ public class ChoreCardFragment extends Fragment {
 		TextView type = (TextView) getActivity().findViewById(
 				R.id.card_chore_type);
 		type.setText(getResources()
-				.getString(R.string.card_choretype_textStart)
+				.getString(R.string.card_choretype_textStart) + "  "
 				+ getChoreType(chore.getName()));
 
 		// set deadline
@@ -84,22 +84,15 @@ public class ChoreCardFragment extends Fragment {
 				R.id.card_deadline_txt);
 		String deadlineStr = chore.getPrintableDate(chore.getDeadline());
 		deadline.setText(getResources().getString(
-				R.string.card_deadline_textStart)
+				R.string.card_deadline_textStart) + "  "
 				+ deadlineStr);
 
 		// fun fact
 		TextView funFact = (TextView) getActivity().findViewById(
 				R.id.card_fun_fact);
 		funFact.setText(getResources().getString(
-				R.string.card_funfact_textStart)
+				R.string.card_funfact_textStart) + "\n"
 				+ chore.getFunFact());
-
-		// statistics
-		TextView statistics = (TextView) getActivity().findViewById(
-				R.id.card_statistics);
-		statistics.setText(getResources().getString(
-				R.string.card_statistics_textStart)
-				+ chore.getStatistics());
 
 		// set an image
 		setChoreImage(chore.getName());

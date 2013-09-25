@@ -46,8 +46,8 @@
   <string name="reminders_title">Reminders</string>
   <string name="reminders_settings_hours">hours reminder before deadline</string>
   <string name="card_deadline_textStart">Deadline:</string>
-  <string name="card_choretype_textStart">Chore type:</string>
-  <string name="card_funfact_textStart">Fun fact:</string>
+  <string name="card_choretype_textStart">Type:</string>
+  <string name="card_funfact_textStart">Fact</string>
   <string name="card_statistics_textStart">Statistics:</string>
   <string name="card_coins_num_textend">X</string>
   <string name="button_suggestchore_text">Suggest chore</string>
