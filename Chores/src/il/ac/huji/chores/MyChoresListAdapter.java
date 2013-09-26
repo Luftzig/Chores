@@ -24,7 +24,7 @@ import java.util.List;
 public class MyChoresListAdapter extends ArrayAdapter<Chore> {
 
     public MyChoresListAdapter(Context context, List<Chore> chores) {
-        super(context, R.layout.my_chores_list_row);
+        super(context, R.layout.my_chores_list_row, chores);
         Log.d("MyChoresListAdapter", "Created with " + chores.size() + " chores");
     }
 

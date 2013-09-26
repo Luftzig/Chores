@@ -124,10 +124,8 @@ public class MyChoresFragment extends Fragment {
 					else{
 						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
 					}
-					Log.d("MyChoresFragment",
-							"chores list size == " + adapter.getCount());
+			
 					adapter.notifyDataSetChanged();
-					ViewUtils.replacePlaceholder(listView, placeholder);
 				}
 			}.execute();
 		}
@@ -332,6 +330,7 @@ public class MyChoresFragment extends Fragment {
 			protected Void doInBackground(Void... voids) {
 				try {
 					chores = ChoreDAL.getRoommatesChores();
+			
 				} catch (UserNotLoggedInException e) {
 					LoginActivity.OpenLoginScreen(getActivity(), false);
 				}

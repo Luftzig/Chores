@@ -68,6 +68,7 @@ public class ApartmentChoresFragment extends Fragment {
             protected Void doInBackground(Void... params) {
                 try {
                     chores = ChoreDAL.getAllChores();
+   
                 }  catch( UserNotLoggedInException e1 )  {
                     LoginActivity.OpenLoginScreen(getActivity(), false);
                 } catch (ParseException e) {
@@ -97,7 +98,7 @@ public class ApartmentChoresFragment extends Fragment {
                     Log.e("ApartmentChoresFragment$AsyncTask.onPostExecute", "activity was null when loading finished");
                     return;
                 }
-                if (chores.size() > 0) {
+                if (chores != null && chores.size() > 0) {
                     adapter.clear();
                     adapter.addAll(chores);
                     ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
