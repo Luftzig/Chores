@@ -187,11 +187,11 @@ public class AddEditChoresFragment extends Fragment {
                 protected Exception doInBackground(Void... params) {
                     try {
                         ChoreDAL.addChoreInfo(newChore);
-                    } catch (FailedToAddChoreInfoException e) {
-                        return e;
                     } catch (UserNotLoggedInException e) {
                         return e;
-                    }
+                    } catch (ParseException e) {
+						
+					}
                     return null;
                 }
             }.execute();
@@ -201,7 +201,6 @@ public class AddEditChoresFragment extends Fragment {
                 _adapter.remove(_editedChore);
                 _adapter.notifyDataSetChanged();
             }
-
             _adapter.add(newChore);
         }
 

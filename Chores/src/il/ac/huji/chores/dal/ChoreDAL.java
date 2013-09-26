@@ -21,7 +21,7 @@ import java.util.List;
 public class ChoreDAL {
 
 	public static String addChoreInfo(ChoreInfo choreInfo)
-			throws UserNotLoggedInException, FailedToAddChoreInfoException {
+			throws UserNotLoggedInException, ParseException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseObject chores = new ParseObject("ChoresInfo");
 		ParseACL permissions = new ParseACL();
@@ -34,45 +34,31 @@ public class ChoreDAL {
 		chores.put("coins", choreInfo.getCoinsNum());
 		chores.put("period", choreInfo.getPriod().toString());
 		chores.put("isEveryone", choreInfo.isEveryone());
-		try {
-			chores.save();
-		} catch (ParseException e) {
-			throw new FailedToAddChoreInfoException(
-					"FailedToAddChoreInfoException:" + e.toString());
-		}
+		chores.save();
 		return chores.getObjectId();
 	}
 
 	public static void updateAssignedTo(String choreID, String newOwner)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		ParseObject choreObj;
-		try {
-			choreObj = query.get(choreID);
-			choreObj.put("assignedTo", newOwner);
-			choreObj.save();
-		} catch (ParseException e) {
-			throw new DataNotFoundException("Chore with id " + choreID
-					+ " wasn't found");
-		}
+		choreObj = query.get(choreID);
+		choreObj.put("assignedTo", newOwner);
+		choreObj.save();
+
 	}
 
 	// updateAssignedTo + updateChoreStatus to done
 	public static void stealChore(String choreID, String newOwner)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		ParseObject choreObj;
-		try {
-			choreObj = query.get(choreID);
-			choreObj.put("assignedTo", newOwner);
-			choreObj.put("status", CHORE_STATUS.STATUS_DONE.toString());
-			choreObj.save();
-		} catch (ParseException e) {
-			throw new DataNotFoundException("Chore with id " + choreID
-					+ " wasn't found");
-		}
+		choreObj = query.get(choreID);
+		choreObj.put("assignedTo", newOwner);
+		choreObj.put("status", CHORE_STATUS.STATUS_DONE.toString());
+		choreObj.save();
 	}
 
 	public static void updateChoreInfo(ChoreInfo choreInfo, String choreInfoId)
@@ -104,33 +90,24 @@ public class ChoreDAL {
 	}
 
 	public static void updateFrequency(String choreID, int frequency)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		ParseObject choreInfoObj;
-		try {
-			choreInfoObj = query.get(choreID);
-			choreInfoObj.put("frequency", frequency);
-			choreInfoObj.save();
-		} catch (ParseException e) {
-			throw new DataNotFoundException("Chore info with id " + choreID
-					+ " wasn't found");
-		}
+		choreInfoObj = query.get(choreID);
+		choreInfoObj.put("frequency", frequency);
+		choreInfoObj.save();
 	}
 
 	public static void updatePeriod(String choreID, CHORE_INFO_PERIOD period)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 		String apartmentID = RoommateDAL.getApartmentID();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		ParseObject choreInfoObj;
-		try {
-			choreInfoObj = query.get(choreID);
-			choreInfoObj.put("period", period.toString());
-			choreInfoObj.save();
-		} catch (ParseException e) {
-			throw new DataNotFoundException("Chore info with id " + choreID
-					+ " wasn't found");
-		}
+		choreInfoObj = query.get(choreID);
+		choreInfoObj.put("period", period.toString());
+		choreInfoObj.save();
+
 	}
 
 	public static void updateCoins(String choreID, int coins)
@@ -149,47 +126,29 @@ public class ChoreDAL {
 	}
 
 	public static ChoreInfo getChoreInfo(String choreInfoId)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 
 		ParseObject choreInfoObj;
-		try {
-			choreInfoObj = getChoreInfoObj(choreInfoId);
-			ChoreInfo choreInfo = convertParseObjectToChoreInfo(choreInfoObj);
-			return choreInfo;
-		} catch (UserNotLoggedInException e) {
-			throw new DataNotFoundException("Chore info with id " + choreInfoId
-					+ " wasn't found");
-		}
+		choreInfoObj = getChoreInfoObj(choreInfoId);
+		ChoreInfo choreInfo = convertParseObjectToChoreInfo(choreInfoObj);
+		return choreInfo;
 	}
 
 	public static ParseObject getChoreInfoObj(String choreInfoId)
-			throws UserNotLoggedInException, DataNotFoundException {
+			throws UserNotLoggedInException, ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		ParseObject choreInfoObj;
-		try {
-			choreInfoObj = query.get(choreInfoId);
-			return choreInfoObj;
-		} catch (ParseException e) {
-			throw new DataNotFoundException("Chore info with id " + choreInfoId
-					+ " wasn't found");
-		}
+		choreInfoObj = query.get(choreInfoId);
+		return choreInfoObj;
 
 	}
 
-	public static boolean updateChoreStatus(String choreId, CHORE_STATUS status)
-			throws FailedToUpdateStatusException {
+	public static void updateChoreStatus(String choreId, CHORE_STATUS status) throws ParseException {
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		ParseObject chore;
-		try {
-			chore = query.get(choreId);
-			chore.put("status", status.toString());
-			chore.save();
-		} catch (ParseException e) {
-
-			throw new FailedToUpdateStatusException(e.getMessage());
-		}
-
-		return false;
+		chore = query.get(choreId);
+		chore.put("status", status.toString());
+		chore.save();
 	}
 
 	public static Chore convertParseObjectToChore(ParseObject obj) {
@@ -251,10 +210,10 @@ public class ChoreDAL {
 			throws ParseException {
 		List<Chore> chores;
 		List<ParseObject> parseChores;
-        if (apartmentId == null) {
-            return Collections.emptyList();
-        }
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+		if (apartmentId == null) {
+			return Collections.emptyList();
+		}
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		query.whereEqualTo("assignedTo", Constants.CHORE_ASSIGNED_TO_EVERYONE);
 		query.whereEqualTo("apartment", apartmentId);
 		chores = new ArrayList<Chore>();
@@ -270,10 +229,10 @@ public class ChoreDAL {
 	public static List<ChoreInfo> getAllChoreInfo() throws ParseException,
 			UserNotLoggedInException {
 		String apartmentID = RoommateDAL.getApartmentID();
-        if (apartmentID == null) {
-            return Collections.emptyList();
-        }
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
+		if (apartmentID == null) {
+			return Collections.emptyList();
+		}
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		query.whereEqualTo("apartment", apartmentID);
 		List<ParseObject> results = query.find();
 		List<ChoreInfo> choresInfoList = new ArrayList<ChoreInfo>();
@@ -298,7 +257,7 @@ public class ChoreDAL {
 	}
 
 	public static List<Chore> getUserAllOldChores()
-			throws FailedToRetrieveOldChoresException, UserNotLoggedInException {
+			throws UserNotLoggedInException, ParseException {
 		String roommateID = RoommateDAL.getUserID();
 		ParseQuery<ParseObject> queryDone = ParseQuery.getQuery("Chores");
 		// .whereEqualTo("assignedTo", roommateID)
@@ -312,12 +271,7 @@ public class ChoreDAL {
 		queries.add(queryMissed);
 		ParseQuery<ParseObject> query = ParseQuery.or(queries);
 		List<ParseObject> results;
-
-		try {
-			results = query.find();
-		} catch (ParseException e) {
-			throw new FailedToRetrieveOldChoresException(e.toString());
-		}
+		results = query.find();
 		List<Chore> choresList = new ArrayList<Chore>();
 		Chore chore;
 		for (ParseObject parseChore : results) {
@@ -327,27 +281,17 @@ public class ChoreDAL {
 		return choresList;
 	}
 
-	/*
-	 * returns the most chosen value for this chore Every call keeps the
-	 * previous the results - to return it in the next call if there's no
-	 * network. If there's no network and no saved value, return -1.
-	 */
-	public static int getChoreValueFromStats(String choreName) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	/**
 	 * gets older chores. oldestChoreDisplayed is the parse id. if
 	 * oldestChoreDisplayed is null, there are no chores displayed at the moment
 	 * - return the first amount
 	 * 
 	 * @throws UserNotLoggedInException
+	 * @throws ParseException
 	 * @throws FailedToRetrieveOldChoresException
 	 */
 	public static List<Chore> getUserOldChores(String oldestChoreDisplayed,
-			int amount) throws UserNotLoggedInException,
-			FailedToRetrieveOldChoresException {
+			int amount) throws UserNotLoggedInException, ParseException {
 		if (oldestChoreDisplayed == null)
 			return null;
 		String roommateID = RoommateDAL.getUserID();
@@ -365,11 +309,7 @@ public class ChoreDAL {
 		ParseQuery<ParseObject> query = ParseQuery.or(queries)
 				.orderByAscending("startsFrom");
 		List<ParseObject> results;
-		try {
-			results = query.find();
-		} catch (ParseException e) {
-			throw new FailedToRetrieveOldChoresException(e.toString());
-		}
+		results = query.find();
 		List<Chore> choresList = new ArrayList<Chore>();
 		Chore chore;
 		for (int i = 0; i < Math.min(results.size(), amount); i++) {
@@ -384,31 +324,30 @@ public class ChoreDAL {
 	 * are no chores, return an empty ArrayList.
 	 */
 	public static List<Chore> getAllChores() throws UserNotLoggedInException,
-			FailedToRetriveAllChoresException {
+			ParseException {
 		String apartmentID = RoommateDAL.getApartmentID();
-        if (apartmentID == null) {
-            Log.w("ChoreDAL.getAllChores", "all chores was called with null apartment");
-            return Collections.emptyList();
-        }
-        ParseQuery<ParseObject> queryfuture = ParseQuery.getQuery("Chores");
+		if (apartmentID == null) {
+			Log.w("ChoreDAL.getAllChores",
+					"all chores was called with null apartment");
+			return Collections.emptyList();
+		}
+		ParseQuery<ParseObject> queryfuture = ParseQuery.getQuery("Chores");
 		queryfuture.whereEqualTo("apartment", apartmentID).whereEqualTo(
 				"status", CHORE_STATUS.STATUS_FUTURE.toString());
 
 		List<ParseObject> results;
-		try {
-			results = queryfuture.find();
-		} catch (ParseException e) {
-			throw new FailedToRetriveAllChoresException(e.toString());
-		}
+		results = queryfuture.find();
 		List<Chore> choresList = new ArrayList<Chore>();
 		Chore chore;
 		for (ParseObject parseChore : results) {
 			chore = convertParseObjectToChore(parseChore);
-            if (chore.getAssignedTo() == null) {
-                Log.w("ChoreDAL.getAllChores", "found a chore with a null owner in apartment " + apartmentID);
-                continue;
-            }
-            choresList.add(chore);
+			if (chore.getAssignedTo() == null) {
+				Log.w("ChoreDAL.getAllChores",
+						"found a chore with a null owner in apartment "
+								+ apartmentID);
+				continue;
+			}
+			choresList.add(chore);
 		}
 		return choresList;
 	}
@@ -428,10 +367,12 @@ public class ChoreDAL {
 
 	/**
 	 * Gets all chores created after createTime. createTime in milis.
-	 * @throws UserNotLoggedInException 
-	 * @throws ParseException 
+	 * 
+	 * @throws UserNotLoggedInException
+	 * @throws ParseException
 	 **/
-	public static List<Chore> getAllChoresCreatedAfter(long createTime) throws UserNotLoggedInException, ParseException {
+	public static List<Chore> getAllChoresCreatedAfter(long createTime)
+			throws UserNotLoggedInException, ParseException {
 		String username = RoommateDAL.getRoomateUsername();
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		query.whereEqualTo("assignedTo", username).whereGreaterThan(

@@ -38,12 +38,12 @@ public class CoinsDAL {
 		return getRoommageCoinsObj(username).getInt("dept");
 	}
 	
-	public static void increaseCoinsCollectedDecreaseDebt(int coins) throws FailedToSaveOperationException, ParseException{
+	public static void increaseCoinsCollectedDecreaseDebt(int coins) throws ParseException{
 		String username = RoommateDAL.getRoomateUsername();
 		increaseCoinsCollectedDecreaseDebt(username,coins);
 	}
 	
-	public static void increaseCoinsCollectedDecreaseDebt(String roommate,int coins) throws FailedToSaveOperationException, ParseException{
+	public static void increaseCoinsCollectedDecreaseDebt(String roommate,int coins) throws ParseException{
 		ParseObject coinsObj =getRoommageCoinsObj(roommate);
 		coinsObj.increment("coinsCollected", coins);
 		coinsObj.increment("dept",coins*(-1));
@@ -74,7 +74,7 @@ public class CoinsDAL {
 		
 	}
 
-	public static void increaseCoinsCollectedDecreaseDebtAllRoommates(int coins, List<String> roommates) throws FailedToSaveOperationException, FailedToGetRoommateException, ParseException{
+	public static void increaseCoinsCollectedDecreaseDebtAllRoommates(int coins, List<String> roommates) throws ParseException{
 		for(String roommate : roommates){
 			increaseCoinsCollectedDecreaseDebt(roommate,coins);
 		}

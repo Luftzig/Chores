@@ -76,7 +76,8 @@ public class ChoreCardFragment extends Fragment {
 		TextView type = (TextView) getActivity().findViewById(
 				R.id.card_chore_type);
 		type.setText(getResources()
-				.getString(R.string.card_choretype_textStart) + "  "
+				.getString(R.string.card_choretype_textStart)
+				+ "  "
 				+ getChoreType(chore.getName()));
 
 		// set deadline
@@ -84,15 +85,15 @@ public class ChoreCardFragment extends Fragment {
 				R.id.card_deadline_txt);
 		String deadlineStr = chore.getPrintableDate(chore.getDeadline());
 		deadline.setText(getResources().getString(
-				R.string.card_deadline_textStart) + "  "
-				+ deadlineStr);
+				R.string.card_deadline_textStart)
+				+ "  " + deadlineStr);
 
 		// fun fact
 		TextView funFact = (TextView) getActivity().findViewById(
 				R.id.card_fun_fact);
 		funFact.setText(getResources().getString(
-				R.string.card_funfact_textStart) + "\n"
-				+ chore.getFunFact());
+				R.string.card_funfact_textStart)
+				+ "\n" + chore.getFunFact());
 
 		// set an image
 		setChoreImage(chore.getName());
@@ -241,14 +242,20 @@ public class ChoreCardFragment extends Fragment {
 						NotificationsDAL.notifyChoreDone(chore, sender,
 								roommates);
 
-					} catch (FailedToUpdateStatusException e) {
-						// TODO (shani) decide what to do
-					} catch (FailedToSaveOperationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (FailedToGetRoommateException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					} catch (ParseException e) {
+						if (e.getCode() == ParseException.CONNECTION_FAILED) {
+							Toast.makeText(
+									getActivity(),
+									getActivity().getResources().getString(
+											R.string.chores_connection_failed),
+									Toast.LENGTH_LONG).show();
+						} else {
+							Toast.makeText(
+									getActivity(),
+									getActivity().getResources().getString(
+											R.string.general_error),
+									Toast.LENGTH_LONG).show();
+						}
 					}
 					getActivity().finish();
 				}
@@ -277,7 +284,25 @@ public class ChoreCardFragment extends Fragment {
 																// should be
 																// before the
 																// stealing.
-						ChoreDAL.stealChore(chore.getId(), curUser);
+						try {
+							ChoreDAL.stealChore(chore.getId(), curUser);
+						} catch (ParseException e) {
+							if (e.getCode() == ParseException.CONNECTION_FAILED) {
+								Toast.makeText(
+										getActivity(),
+										getActivity()
+												.getResources()
+												.getString(
+														R.string.chores_connection_failed),
+										Toast.LENGTH_LONG).show();
+							} else {
+								Toast.makeText(
+										getActivity(),
+										getActivity().getResources().getString(
+												R.string.general_error),
+										Toast.LENGTH_LONG).show();
+							}
+						}
 
 						updateDebtAndCoinsCollected(chore.getCoinsNum(),
 								curUser, curUser, roommates);
@@ -293,15 +318,8 @@ public class ChoreCardFragment extends Fragment {
 					} catch (UserNotLoggedInException e) {
 						LoginActivity.OpenLoginScreen(getActivity(), false);
 						e.printStackTrace();
-					} catch (DataNotFoundException e) {
-						// TODO decide what to do
-					} catch (FailedToSaveOperationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (FailedToGetRoommateException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
+
 					getActivity().finish();
 				}
 			});
@@ -309,23 +327,31 @@ public class ChoreCardFragment extends Fragment {
 	}
 
 	protected void updateDebtAndCoinsCollected(int coinsNum, String assignedTo,
-			String userName, List<String> roommates)
-			throws FailedToSaveOperationException, FailedToGetRoommateException {
+			String userName, List<String> roommates) {
+		try {
+			if (assignedTo.equals(userName)) {
 
-		if (assignedTo.equals(userName)) {
-			try {
 				CoinsDAL.increaseCoinsCollectedDecreaseDebt(coinsNum);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else if (assignedTo.equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)) {
-			try {
+
+			} else if (assignedTo.equals(Constants.CHORE_ASSIGNED_TO_EVERYONE)) {
+
 				CoinsDAL.increaseCoinsCollectedDecreaseDebtAllRoommates(
 						coinsNum, roommates);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			}
+		} catch (ParseException e) {
+			if (e.getCode() == ParseException.CONNECTION_FAILED) {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.chores_connection_failed),
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.general_error), Toast.LENGTH_LONG)
+						.show();
 			}
 		}
 

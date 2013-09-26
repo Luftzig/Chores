@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
+
+import com.parse.ParseException;
 import com.parse.ParseUser;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
@@ -39,6 +41,14 @@ public class ApartmentChoresFragment extends Fragment {
     private TextView msgText;
     private String apartmentID;
 
+    private void showErrorMessage() {
+    	Toast.makeText(
+				getActivity(),
+				getActivity().getResources().getString(
+						R.string.general_error),
+				Toast.LENGTH_LONG).show();
+		
+	}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,9 +66,21 @@ public class ApartmentChoresFragment extends Fragment {
                     chores = ChoreDAL.getAllChores();
                 }  catch( UserNotLoggedInException e1 )  {
                     LoginActivity.OpenLoginScreen(getActivity(), false);
-                } catch (FailedToRetriveAllChoresException e) {
-                    showErrorMessage();
-                }
+                } catch (ParseException e) {
+                	if (e.getCode() == ParseException.CONNECTION_FAILED) {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.chores_connection_failed),
+    							Toast.LENGTH_LONG).show();
+    				} else {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.general_error),
+    							Toast.LENGTH_LONG).show();
+    				}
+				}
                 return null;
             }
 
@@ -106,11 +128,6 @@ public class ApartmentChoresFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
-    private void showErrorMessage() {
-        //To change body of created methods use File | Settings | File Templates.
-    }
-
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         progressBar = getActivity().findViewById(R.id.progressBar);
@@ -127,9 +144,21 @@ public class ApartmentChoresFragment extends Fragment {
                     chores = ChoreDAL.getAllChores();
                 }  catch( UserNotLoggedInException e1 )  {
                     LoginActivity.OpenLoginScreen(getActivity(), false);
-                } catch (FailedToRetriveAllChoresException e) {
-                    showErrorMessage();
-                }
+                } catch (ParseException e) {
+                	if (e.getCode() == ParseException.CONNECTION_FAILED) {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.chores_connection_failed),
+    							Toast.LENGTH_LONG).show();
+    				} else {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.general_error),
+    							Toast.LENGTH_LONG).show();
+    				}
+				}
                 return null;
             }
 
@@ -221,17 +250,29 @@ public class ApartmentChoresFragment extends Fragment {
                         ViewUtils.replacePlaceholder(listChores, progressBar);
                     }
 
-                    @Override
+                    
+
+					@Override
                     protected Void doInBackground(Void... params) {
                         try {
                             histChores = ChoreDAL.getUserOldChores(_oldestChoreDisplayed, HISTORY_FUNC_AMMOUNT);
                         } catch (UserNotLoggedInException e) {
                             // Ignore
-                        } catch (FailedToRetrieveOldChoresException e) {
-                            Log.w("ApartmentChoresFragment$AsyncTask.doInBackground", "Failed to retrieve");
-                            Log.d("ApartmentChoresFragment$AsyncTask.doInBackground", "Failed to retrieve", e);
-                            showErrorMessage();
-                        }
+                        } catch (ParseException e) {
+                        	if (e.getCode() == ParseException.CONNECTION_FAILED) {
+            					Toast.makeText(
+            							getActivity(),
+            							getActivity().getResources().getString(
+            									R.string.chores_connection_failed),
+            							Toast.LENGTH_LONG).show();
+            				} else {
+            					Toast.makeText(
+            							getActivity(),
+            							getActivity().getResources().getString(
+            									R.string.general_error),
+            							Toast.LENGTH_LONG).show();
+            				}
+						}
                         return null;  //To change body of implemented methods use File | Settings | File Templates.
                     }
                 }.execute();
@@ -269,10 +310,9 @@ public class ApartmentChoresFragment extends Fragment {
         } catch (UserNotLoggedInException e) {
             LoginActivity.OpenLoginScreen(context, false);
             return;
-        } catch (DataNotFoundException e) {
-            Log.e("Exception", e.getMessage());
-            return;
-        }
+        } catch (ParseException e) {
+        	
+		}
     }
 }
 

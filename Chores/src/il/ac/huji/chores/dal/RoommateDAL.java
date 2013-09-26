@@ -35,11 +35,12 @@ public class RoommateDAL {
 	/**
 	 * @param roommateName
 	 * @return Roommate object for given roommate username
+	 * @throws ParseException 
 	 * @throws FailedToGetRoommateException
 	 *             if user name does not exist or data is malformed.
 	 */
-	public static Roommate getRoommateByName(String roommateName)
-			throws FailedToGetRoommateException {
+	public static Roommate getRoommateByName(String roommateName) throws ParseException
+	{
         if (roommateName == null || roommateName.isEmpty()) {
             return null;
         }
@@ -53,25 +54,22 @@ public class RoommateDAL {
 	/**
 	 * @param roommateName
 	 * @return ParseUser object for given roommate username
+	 * @throws ParseException 
 	 * @throws FailedToGetRoommateException
 	 *             if user name does not exist or data is malformed.
 	 */
-	private static ParseUser getParseUserByName(String roommateName)
-			throws FailedToGetRoommateException {
+	private static ParseUser getParseUserByName(String roommateName) throws ParseException
+			 {
 
 		ParseQuery<ParseUser> query = ParseUser.getQuery().whereEqualTo(
 				"username", roommateName);
-		try {
+		
 			List<ParseUser> parseUsers = query.find();
 			if (parseUsers.size() == 0) {
 				return null;
 			}
 			ParseUser userObj = (ParseUser) parseUsers.get(0);
 			return userObj;
-
-		} catch (ParseException e) {
-			throw new FailedToGetRoommateException(e.getMessage());
-		}
 	}
 
 	// @Nullable
@@ -105,20 +103,17 @@ public class RoommateDAL {
 	}
 
 	public static int getRoommateDebtFromChores(String roommate)
-			throws FailedToGetChoreException {
+			throws ParseException
+			{
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores")
 				.whereEqualTo("assignedTo", roommate)
 				.whereEqualTo("status", "STATUS_FUTURE");
-		try {
 			List<ParseObject> results = query.find();
 			int debt = 0;
 			for (ParseObject obj : results) {
 				debt += obj.getInt("coins");
 			}
 			return debt;
-		} catch (ParseException e) {
-			throw new FailedToGetChoreException(e.getMessage());
-		}
 	}
 
 	private static Roommate convertObjToRoommate(ParseObject obj) {
