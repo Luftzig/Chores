@@ -48,7 +48,7 @@ public class ApartmentChoresFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
+        ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -86,6 +86,8 @@ public class ApartmentChoresFragment extends Fragment {
             }
         }.execute();
     }
+    
+  
 
     public String getCurUsername() {
         if (_userName != null) {
@@ -113,11 +115,11 @@ public class ApartmentChoresFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         progressBar = getActivity().findViewById(R.id.progressBar);
         listChores = (ListView) getActivity().findViewById(R.id.apartmentListChores);
-        titleText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_TableTitle);//TODO
+        titleText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_TableTitle);
         msgText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_msgBox);
         apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
 
-        ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
+        ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -199,11 +201,11 @@ public class ApartmentChoresFragment extends Fragment {
         });
 
         // apartment settings button
-        final Button history = (Button) getActivity().findViewById(R.id.ApartmentChoresFragment_historyButton);
-        history.setOnClickListener(new OnClickListener() {
+        final Button historyButton = (Button) getActivity().findViewById(R.id.ApartmentChoresFragment_historyButton);
+        historyButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
+                ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
                 //chores history button
                 new AsyncTask<Void, Void, Void>() {
 

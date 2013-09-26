@@ -73,6 +73,7 @@
         android:layout_height="34dp"
         android:text="@string/apartment_historyButtoonText"
         android:textSize="@dimen/apartment_history_button_textSize"
+        android:layout_gravity="bottom"
         android:visibility="visible" />
 
 </LinearLayout>

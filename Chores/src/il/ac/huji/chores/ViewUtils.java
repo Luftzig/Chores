@@ -25,6 +25,14 @@ public class ViewUtils {
         view.setVisibility(View.VISIBLE);
         return view;
     }
+    
+    public static View hideAndKeepLoadingView(View loadingView, Activity activity, int placeholderId){
+        loadingView.setVisibility(View.INVISIBLE);
+        View view = activity.findViewById(placeholderId);
+        view.setVisibility(View.VISIBLE);
+        return view;
+    }
+    
 
     @Deprecated
     public static View hideLoadingView(View loadingView, Context context) {
