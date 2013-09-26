@@ -15,8 +15,8 @@ public class ApartmentDAL {
 	public static String createApartment(RoommatesApartment apt)
 			throws ApartmentAlreadyExistsException, UserNotLoggedInException,
 			ParseException {
-		ParseUser curreentUser = ParseUser.getCurrentUser();
-		if (curreentUser == null) {
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser == null) {
 			throw new UserNotLoggedInException("User not logged in");
 		}
 		if (getApartmentID(apt.getName()) != null) {
@@ -29,11 +29,11 @@ public class ApartmentDAL {
 		permissions.setPublicReadAccess(true);
 		apartment.setACL(permissions);
 		apartment.put("apartmentName", apt.getName());
-		apartment.add("Roommates", curreentUser.getUsername());
 		apartment.put("divisionDay", apt.getDivisionDay());
 		apartment.put("frequency", apt.getDivisionFrequency());
 		apartment.put("lastDivision", 0);
 		apartment.save();
+        addRoommateToApartment(apartment.getObjectId());
 		return apartment.getObjectId();
 	}
 
@@ -73,7 +73,6 @@ public class ApartmentDAL {
 		}
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Apartment");
 		ParseObject apartment;
-		String roommate = currentUser.getUsername();
 		apartment = query.get(apartmentID);
 		apartment.add("Roommates", currentUser.getUsername());
 		apartment.save();

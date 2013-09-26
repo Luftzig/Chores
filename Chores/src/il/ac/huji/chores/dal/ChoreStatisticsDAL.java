@@ -123,7 +123,6 @@ public class ChoreStatisticsDAL {
 		query.whereEqualTo("chore", choreName);
 		List<ParseObject> results = query.find();
 		return results.size() > 0;
-
 	}
 
 	public static ParseObject getChoreStatisticsObj(String choreName) throws ParseException {
@@ -134,7 +133,6 @@ public class ChoreStatisticsDAL {
 			return null;// This needs to be handled above - inside this
 		}
 		return results.get(0);
-
 	}
 
 	public static ChoreStatistics getChoreStatistic(String choreName) throws ParseException {

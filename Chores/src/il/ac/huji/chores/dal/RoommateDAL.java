@@ -40,12 +40,15 @@ public class RoommateDAL {
 	 */
 	public static Roommate getRoommateByName(String roommateName)
 			throws FailedToGetRoommateException {
-		ParseObject obj = getParseUserByName(roommateName);
-		if (obj == null)
-			return null;
-		Roommate roommate = convertObjToRoommate(obj);
-		return roommate;
-	}
+        if (roommateName == null || roommateName.isEmpty()) {
+            return null;
+        }
+        ParseObject obj = getParseUserByName(roommateName);
+        if (obj == null)
+            return null;
+        Roommate roommate = convertObjToRoommate(obj);
+        return roommate;
+    }
 
 	/**
 	 * @param roommateName
