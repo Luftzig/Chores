@@ -80,7 +80,7 @@ public class AddEditChoresFragment extends Fragment {
                     return;
                 }
                 ViewUtils.replacePlaceholder(listChores, progressBar);
-                _adapter = new ChoreInfosDisplayAdapter(activity, choreInfos);
+                _adapter = new AddEditChoresDisplayAdapter(activity, choreInfos);
                 listChores.setAdapter(_adapter);
                 _adapter.notifyDataSetChanged();
                 if (_adapter.isEmpty()) {
