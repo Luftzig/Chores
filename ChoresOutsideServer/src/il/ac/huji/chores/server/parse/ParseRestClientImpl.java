@@ -262,7 +262,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 					.toString();
 			String jsonResult = addChore(jsonChore);
 			JSONObject result = new JSONObject(jsonResult);
-			idStr = JsonConverter.convertJsonToChore(result).getId();
+			idStr = getChoreIdFromJson(result);
 
 			json = new JSONObject(idStr);
 			chore.setId(json.getString("objectId"));
@@ -312,5 +312,14 @@ public class ParseRestClientImpl implements ParseRestClient {
 		JSONObject json = new JSONObject(keyValue);
 		String update = json.toString();
 		updateObject("Coins", coins.getId(), update);
+	}
+	public String getChoreIdFromJson(JSONObject json) {
+		String location = json.getString("Location");
+		String[] splits = location.split("/");
+		if (splits.length > 0) {
+			String id = splits[splits.length - 1];
+			return id;
+		}
+		return null;
 	}
 }
