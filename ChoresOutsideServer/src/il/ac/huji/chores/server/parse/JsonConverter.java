@@ -60,6 +60,7 @@ public class JsonConverter {
 		chore.setChoreInfoId(obj.getString("choreInfoId"));
 		chore.setApartment(obj.getString("apartment"));
 		chore.setApartment(obj.getString("funFact"));
+		chore.setId(obj.getString("objectId"));
 		
 		return chore;
 
