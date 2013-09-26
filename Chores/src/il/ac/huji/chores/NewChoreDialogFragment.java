@@ -291,7 +291,7 @@ public class NewChoreDialogFragment extends Fragment {
 		try {
 			mostChosen = ChoreStatisticsDAL.getChoreAverageValue(_choreName);
 		 //handle statistics value 
-    	if(mostChosen != -1){
+    	if(mostChosen != -1 && mostChosen < chore_values.length){
     		chore_values[mostChosen] = "" + mostChosen + getResources().getString(R.string.new_chore_dialog_values_most_chosen);
     	}
 		} catch (ParseException e) {
