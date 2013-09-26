@@ -97,7 +97,7 @@
   <string name="add_edit_chores_title">Add or edit chores</string>
   <string name="add_edit_chores_add_chore_button_title">Add chore</string>
   <string name="new_chore_extra1_name">choreData</string>
-  <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite...</string>
+  <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite&#8230;</string>
   <string name="new_apartment_dialog_invite_button_text">Invite!</string>
   <string name="new_chore_before_coins_spinner">value:</string>
   <string name="new_chore_dialog_update_button_text">Update Chore</string>
@@ -149,7 +149,7 @@
   <string name="chore_type_grocery_shopping">Food</string>
   <string name="chore_type_take_out_trash">Dirt</string>
   <string name="chore_type_toilet_cleaning">Bathroom</string>
-  <string name="my_chores_no_chores_message">Seems like you weren\'t given any chores...\n
+  <string name="my_chores_no_chores_message">Seems like you weren\'t given any chores&#8230;\n
   You can create new chores in the apartment tab</string>
   <string name="chore_type_walk_dog">Pets</string>
 
@@ -157,9 +157,9 @@
   <string name="apartment_chores_no_chores">There are no chores for your apartment.\n
     Touch \"Add/Edit Chores\" to add new chores.
   </string>
-  <string name="ask_to_create_apartment">Hmmm... You\'re not part of an apartment, would you like to create one?</string>
+  <string name="ask_to_create_apartment">Hmmm&#8230; You\'re not part of an apartment, would you like to create one?</string>
   <string name="ask_to_create_apartment_positive">I will create an apartment!</string>
-  <string name="ask_to_create_apartment_negative">No, my roommates will invite me. Hopefully.</string>
+  <string name="ask_to_create_apartment_negative">No, I will be invited. Hopefully.</string>
   <string name="invitation_positive_response_warning">Leave your current apartment and join the new one</string>
   <string name="general_error">Never gonna give you up!</string>
   <string name="apartment_chores_no_apartment">Seems like you\'re not part of an apartment.</string>
