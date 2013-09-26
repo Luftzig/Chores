@@ -98,6 +98,7 @@ public class ApartmentSettingsDAL {
 		parseSettings.put("forbidRoommatesFromTakingMyChores",
 				settings.chores.forbidRoommatesFromTakingMyChores);
 		parseSettings.put("reminderHours", settings.reminders.hours);
+		parseSettings.put("username", username);
 		parseSettings.save();
 
 	}
