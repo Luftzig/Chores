@@ -292,8 +292,9 @@ public class ChoreDAL {
 	 */
 	public static List<Chore> getUserOldChores(String oldestChoreDisplayed,
 			int amount) throws UserNotLoggedInException, ParseException {
+		List<Chore> choresList = new ArrayList<Chore>();
 		if (oldestChoreDisplayed == null)
-			return null;
+			return choresList; 
 		String roommateID = RoommateDAL.getUserID();
 		ParseQuery<ParseObject> queryDone = ParseQuery.getQuery("Chores");
 		queryDone.whereEqualTo("assignedTo", roommateID)
@@ -310,7 +311,7 @@ public class ChoreDAL {
 				.orderByAscending("startsFrom");
 		List<ParseObject> results;
 		results = query.find();
-		List<Chore> choresList = new ArrayList<Chore>();
+		
 		Chore chore;
 		for (int i = 0; i < Math.min(results.size(), amount); i++) {
 			chore = convertParseObjectToChore(results.get(i));
