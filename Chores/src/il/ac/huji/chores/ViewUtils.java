@@ -20,7 +20,7 @@ public class ViewUtils {
      * @return
      */
     public static View hideLoadingView(View loadingView, Activity activity, int placeholderId) {
-        loadingView.setVisibility(View.INVISIBLE);
+        loadingView.setVisibility(View.GONE);
         View view = activity.findViewById(placeholderId);
         view.setVisibility(View.VISIBLE);
         return view;

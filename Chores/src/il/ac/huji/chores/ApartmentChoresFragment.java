@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.parse.ParseUser;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.NotificationsDAL;
+import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
 import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class ApartmentChoresFragment extends Fragment {
     private ListView listChores;
     private List<Chore> histChores;
     private TextView titleText;
+    private TextView msgText;
     private String apartmentID;
 
     @Override
@@ -70,11 +74,13 @@ public class ApartmentChoresFragment extends Fragment {
                 if (chores.size() > 0) {
                     adapter.clear();
                     adapter.addAll(chores);
-                    titleText.setText(getResources().getString(R.string.apartment_tableTitle));
+                    ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
                 } else if (apartmentID == null) {
-                    titleText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
-                } else {
-                    titleText.setText(getResources().getString(R.string.apartment_chores_no_chores));
+                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                    msgText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
+                 } else {
+                    ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                	msgText.setText(getResources().getString(R.string.apartment_chores_no_chores));
                 }
                 ViewUtils.replacePlaceholder(listChores, progressBar);
             }
@@ -107,7 +113,8 @@ public class ApartmentChoresFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         progressBar = getActivity().findViewById(R.id.progressBar);
         listChores = (ListView) getActivity().findViewById(R.id.apartmentListChores);
-        titleText = (TextView) getActivity().findViewById(R.id.myChoresRowTitle);
+        titleText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_TableTitle);//TODO
+        msgText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_msgBox);
         apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
 
         ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
@@ -136,11 +143,13 @@ public class ApartmentChoresFragment extends Fragment {
                 if (chores.size() > 0) {
                     adapter = new ApartmentChoresDisplayAdapter(activity, chores);
                     listChores.setAdapter(adapter);
-                    titleText.setText(getResources().getString(R.string.apartment_tableTitle));
+                    ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
                 } else if (apartmentID == null) {
-                    titleText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
+                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                    msgText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
                 } else {
-                    titleText.setText(getResources().getString(R.string.apartment_chores_no_chores));
+                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                 	msgText.setText(getResources().getString(R.string.apartment_chores_no_chores));
                 }
                 ViewUtils.replacePlaceholder(listChores, progressBar);
             }
@@ -244,8 +253,16 @@ public class ApartmentChoresFragment extends Fragment {
      */
     public static void doSuggestionAccepted(String suggestedChoreId, Context context) {
         try {
-            ChoreDAL.updateAssignedTo(suggestedChoreId, ParseUser.getCurrentUser().getUsername());
-            //TODO(shani): add call to suggestion accepted.
+        	Chore chore = ChoreDAL.getChore(suggestedChoreId);
+        	String user = RoommateDAL.getRoomateUsername();
+        	String oldOwner = chore.getAssignedTo();
+        	
+            ChoreDAL.updateAssignedTo(suggestedChoreId, user);
+            
+            List<String> roommates = new ArrayList<String>();
+            roommates.add(oldOwner);
+            
+            NotificationsDAL.notifySuggestChoreAccepted(chore, user, roommates);
         } catch (UserNotLoggedInException e) {
             LoginActivity.OpenLoginScreen(context, false);
             return;

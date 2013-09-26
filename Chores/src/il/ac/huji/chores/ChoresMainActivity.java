@@ -151,6 +151,7 @@ public class ChoresMainActivity extends Activity {
                 switch (Constants.ParseChannelKeys.valueOf(type)) {
                     case PARSE_SUGGEST_CHANNEL_KEY:
                         try {
+                 
                             ApartmentChoresFragment.doSuggestionAccepted(jsonData.get("choreId").toString(),
                                     getApplicationContext());
                         } catch (JSONException e) {

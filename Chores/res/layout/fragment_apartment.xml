@@ -33,11 +33,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/myChoresRowTitle"
+        android:id="@+id/ApartmentChoresFragment_TableTitle"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_weight="0.08"
         android:gravity="center"
         android:text="@string/apartment_tableTitle"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -47,6 +46,17 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/progressBar" android:layout_gravity="center_vertical"/>
+
+  <TextView
+      android:id="@+id/ApartmentChoresFragment_msgBox"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Medium Text"
+      android:textAppearance="?android:attr/textAppearanceMedium" 
+      android:gravity="center"
+      android:layout_margin="10dp"
+      android:visibility="gone"/>
+
   <ListView
         android:id="@+id/apartmentListChores"
         android:layout_width="match_parent"
