@@ -262,10 +262,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 					.toString();
 			String jsonResult = addChore(jsonChore);
 			JSONObject result = new JSONObject(jsonResult);
-			idStr = getChoreIdFromJson(result);
-
-			json = new JSONObject(idStr);
-			chore.setId(json.getString("objectId"));
+			chore.setId( result.getString("objectId"));
 			ChoresServerMain.triggerDeadlinePassed(chore);
 		}
 	}
