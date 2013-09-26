@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
+import il.ac.huji.chores.dal.CoinsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
@@ -105,8 +106,8 @@ public class MyChoresFragment extends Fragment {
 				@Override
 				protected void onPostExecute(Void aVoid) {
 					super.onPostExecute(aVoid); // To change body of overridden
-												// methods use File | Settings |
-												// File Templates.
+					// methods use File | Settings |
+					// File Templates.
 
 					if (getActivity() == null) {
 						return;
@@ -117,19 +118,19 @@ public class MyChoresFragment extends Fragment {
 						listView.setVisibility(View.GONE);
 						progressBar.setVisibility(View.GONE);
 						messageBox
-								.setText(R.string.my_chores_no_chores_message);
+						.setText(R.string.my_chores_no_chores_message);
 						messageBox.setVisibility(View.VISIBLE);
 						return;
 					}
 					else{
 						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
 					}
-		
+
 					ViewUtils.replacePlaceholder(listView, placeholder);
 				}
 			}.execute();
 		}
-		
+
 		// Coins Chart stuff
 		final ProgressBar progressBar = new ProgressBar(getActivity());
 		chartFrame.removeAllViews();
@@ -141,8 +142,8 @@ public class MyChoresFragment extends Fragment {
 			@Override
 			protected void onPostExecute(Void aVoid) {
 				super.onPostExecute(aVoid); // To change body of overridden
-											// methods use File | Settings |
-											// File Templates.
+				// methods use File | Settings |
+				// File Templates.
 				Activity context = getActivity();
 				if (context == null) {
 					return;
@@ -167,13 +168,13 @@ public class MyChoresFragment extends Fragment {
 							"unexpected error while creating graph", e);
 				}
 				return null; // To change body of implemented methods use File |
-								// Settings | File Templates.
+				// Settings | File Templates.
 			}
 		}.execute();
 	}
 
 	private void initChart() throws UserNotLoggedInException,
-			FailedToGetRoommateException {
+	FailedToGetRoommateException {
 		currentSeries = new XYSeries("Coins");
 		Map<String, Integer> coinsMap = getCoinsMap();
 		if (coinsMap.size() == 0)
@@ -196,8 +197,8 @@ public class MyChoresFragment extends Fragment {
 		renderer.setShowGrid(false);
 		renderer.setMarginsColor(DefaultRenderer.NO_COLOR);
 		renderer.setBackgroundColor(DefaultRenderer.NO_COLOR); // TODO [yl] use
-																// color from
-																// theme
+		// color from
+		// theme
 		renderer.setClickEnabled(false);
 		renderer.setYTitle(yTitle);
 		int k = 1;
@@ -208,7 +209,7 @@ public class MyChoresFragment extends Fragment {
 	}
 
 	private Map<String, Integer> getCoinsMap() throws UserNotLoggedInException,
-			FailedToGetRoommateException {
+	FailedToGetRoommateException {
 		List<String> roommates;
 		try {
 			roommates = ApartmentDAL.getApartmentRoommates(RoommateDAL
@@ -219,13 +220,13 @@ public class MyChoresFragment extends Fragment {
 						getActivity(),
 						getActivity().getResources().getString(
 								R.string.chores_connection_failed),
-						Toast.LENGTH_LONG).show();
+								Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(
 						getActivity(),
 						getActivity().getResources().getString(
 								R.string.general_error), Toast.LENGTH_LONG)
-						.show();
+								.show();
 			}
 			return new HashMap<String, Integer>();
 		}
@@ -240,24 +241,31 @@ public class MyChoresFragment extends Fragment {
 			Roommate roommate = null;
 			try {
 				roommate = RoommateDAL.getRoommateByName(username);
+
+				if (roommate != null) {
+					//get roommate's coins
+					Coins coins = CoinsDAL.getRoommageCoins(username);
+					roommate.setCoinsCollected(coins.getCoinsCollected());
+					roommate.setDebt(coins.getDept());
+
+					coinsMap.put(roommate.getUsername(),
+							roommate.getCoinsCollected());
+				}
+
 			} catch (ParseException e) {
 				if (e.getCode() == ParseException.CONNECTION_FAILED) {
 					Toast.makeText(
 							getActivity(),
 							getActivity().getResources().getString(
 									R.string.chores_connection_failed),
-							Toast.LENGTH_LONG).show();
+									Toast.LENGTH_LONG).show();
 				} else {
 					Toast.makeText(
 							getActivity(),
 							getActivity().getResources().getString(
 									R.string.general_error), Toast.LENGTH_LONG)
-							.show();
+									.show();
 				}
-			}
-			if (roommate != null) {
-				coinsMap.put(roommate.getUsername(),
-						roommate.getCoinsCollected());
 			}
 		}
 		return coinsMap;
@@ -330,7 +338,7 @@ public class MyChoresFragment extends Fragment {
 			protected Void doInBackground(Void... voids) {
 				try {
 					chores = ChoreDAL.getRoommatesChores();
-			
+
 				} catch (UserNotLoggedInException e) {
 					LoginActivity.OpenLoginScreen(getActivity(), false);
 				}
@@ -340,17 +348,17 @@ public class MyChoresFragment extends Fragment {
 			@Override
 			protected void onPostExecute(Void aVoid) {
 				super.onPostExecute(aVoid); // To change body of overridden
-											// methods use File | Settings |
-											// File Templates.
+				// methods use File | Settings |
+				// File Templates.
 				ViewUtils.replacePlaceholder(listView, progressBar);
 				Activity context = getActivity();
 				if (context == null) {
 					return;
 				}
 				adapter = new MyChoresListAdapter(context, chores);
-				
+
 				listView.setAdapter(adapter);
-		
+
 				if (adapter == null || adapter.getCount() == 0) {
 					messageBox.setText(R.string.my_chores_no_chores_message);
 					ViewUtils.hideLoadingView(listView, context, messageBox);
