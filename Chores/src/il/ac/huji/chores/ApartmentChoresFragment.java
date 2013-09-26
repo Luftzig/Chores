@@ -60,6 +60,7 @@ public class ApartmentChoresFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+		apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
         ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -214,7 +215,6 @@ public class ApartmentChoresFragment extends Fragment {
             	
             	if(apartmentID == null){
             		askForCreateNewApartment();
-            		apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
             		return;
             	}
             	
@@ -231,7 +231,6 @@ public class ApartmentChoresFragment extends Fragment {
                 Intent intent;
                 if (apartmentID == null) {
                 	askForCreateNewApartment();
-            		apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
             		return;
                 } 
                 intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
