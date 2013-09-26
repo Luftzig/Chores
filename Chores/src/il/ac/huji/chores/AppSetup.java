@@ -21,8 +21,12 @@ public class AppSetup {
         setupDAL();
         
       //start login activity (sign up inside)
-      	LoginActivity.OpenLoginScreen(context, true);
-              
+        if (ParseUser.getCurrentUser() == null) {
+            LoginActivity.OpenLoginScreen(context, true);
+        } else {
+            Log.d("AppSetup.constructor", "Already logged in as " + ParseUser.getCurrentUser().getUsername());
+        }
+
         setupPushNotifications();
     }
 
@@ -101,7 +105,6 @@ public class AppSetup {
     	settingsTab.setText(fragLabel);
     	settingsTab.setTabListener(new ChoresTabListener());
     	bar.addTab(settingsTab);
-		
 	}
 
     public static AppSetup getInstance(Context ctx) {

@@ -9,31 +9,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:tag="SettingsFragment_tag" >
 
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true" android:id="@+id/userLoggedInLayout">
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_not_logged_in"
+        android:id="@+id/settingsLoggedInAs" android:layout_alignParentLeft="true" android:layout_marginLeft="16dp"
+        android:layout_alignBaseline="@+id/logout_button"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_button_text"
+        android:id="@+id/logout_button" android:layout_alignParentRight="true" android:layout_alignParentTop="true"
+        style="@android:style/Widget.Holo.Light.Button.Borderless.Small" android:layout_marginRight="16dp"/>
+  </RelativeLayout>
+
+
+  <TextView
         android:id="@+id/Settings_NotificationsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings_notifications_title"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-
-    <CheckBox
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignLeft="@+id/userLoggedInLayout"
+        android:layout_below="@+id/userLoggedInLayout"/>
+  <CheckBox
+      android:id="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignLeft="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
+      android:layout_below="@+id/Settings_NotificationsTitle"
+      android:text="@string/notifications_settings_roomate_finished_chore" />
+  <CheckBox
         android:id="@+id/NotificationsSettingRoomateMissedChoreCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/Settings_NotificationsTitle"
-        android:layout_below="@+id/Settings_NotificationsTitle"
+        android:layout_below="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
         android:text="@string/notifications_settings_roomate_missed_chore" />
 
-    <CheckBox
+  <CheckBox
         android:id="@+id/NotificationsSettingsRoomateStoleChoreCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
-        android:layout_below="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
+        android:layout_below="@+id/NotificationsSettingRoomateMissedChoreCheckbox"
         android:text="@string/notifications_settings_roomate_stole_chore" />
 
-    <CheckBox
+  <CheckBox
         android:id="@+id/ChoresSettingsForbidCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,17 +94,7 @@
         android:layout_below="@+id/ChoresTitle"
         android:text="@string/chores_settings_disable_reminders" />
 
-    <CheckBox
-        android:id="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
-        android:layout_below="@+id/NotificationsSettingsRoomateFinishedChoreCheckbox"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="73dp"
-        android:text="@string/notifications_settings_roomate_finished_chore" />
-
-    <TextView
+  <TextView
         android:id="@+id/ChoresTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,6 +133,6 @@
         android:layout_alignLeft="@+id/NotificationsSettingRoomateMissedChoreCheckbox"
         android:layout_below="@+id/RemindersSettingsHours"
         android:text="@string/settings_save_settings_button" />
-    
+
 </RelativeLayout>
 </ScrollView>

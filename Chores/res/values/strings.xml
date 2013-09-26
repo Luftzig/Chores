@@ -163,5 +163,9 @@
   <string name="invitation_positive_response_warning">Leave your current apartment and join the new one</string>
   <string name="general_error">Never gonna give you up!</string>
   <string name="apartment_chores_no_apartment">Seems like you\'re not part of an apartment.</string>
+  <string name="logout_button_text">Log Out</string>
+  <string name="settings_not_logged_in">You are not logged in</string>
+  <string name="logged_in_prompt">Logged in as </string>
+  <string name="please_log_in">Please log in.</string>
 </resources>
 
