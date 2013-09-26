@@ -94,8 +94,8 @@
   <string name="card_activity_extra1_name">choreData</string>
   <string name="card_activity_extra2_name">curUser</string>
   <string name="title_activity_daltest">DALTestActivity</string>
-  <string name="add_edit_chores_title">Add or edit chores</string>
-  <string name="add_edit_chores_add_chore_button_title">Add chore</string>
+  <string name="add_edit_chores_title">Chores manager</string>
+  <string name="add_edit_chores_add_chore_button_title">+</string>
   <string name="new_chore_extra1_name">choreData</string>
   <string name="new_apartment_dialog_invite_autocomplete_prompt">Invite&#8230;</string>
   <string name="new_apartment_dialog_invite_button_text">Invite!</string>
@@ -167,5 +167,6 @@
   <string name="settings_not_logged_in">You are not logged in</string>
   <string name="logged_in_prompt">Logged in as </string>
   <string name="please_log_in">Please log in.</string>
+  <string name="add_edit_chores_table_row_image_description">chore image</string>
 </resources>
 
