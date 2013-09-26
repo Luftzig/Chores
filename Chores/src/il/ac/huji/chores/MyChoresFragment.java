@@ -214,7 +214,9 @@ public class MyChoresFragment extends Fragment {
         Map<String, Integer> coinsMap = new HashMap<String, Integer>(roommates.size());
         for (String username : roommates) {
             Roommate roommate = RoommateDAL.getRoommateByName(username);
-            coinsMap.put(roommate.getUsername(), roommate.getCoinsCollected());
+            if (roommate != null) {
+                coinsMap.put(roommate.getUsername(), roommate.getCoinsCollected());
+            }
         }
         return coinsMap;
     }

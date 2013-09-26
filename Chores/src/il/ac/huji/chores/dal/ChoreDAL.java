@@ -77,7 +77,6 @@ public class ChoreDAL {
 
 	public static void updateChoreInfo(ChoreInfo choreInfo, String choreInfoId)
 			throws ParseException {
-
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("ChoresInfo");
 		ParseObject updated = query.get(choreInfoId);
 		updated.put("coins", choreInfo.getCoinsNum());
@@ -85,9 +84,7 @@ public class ChoreDAL {
 		updated.put("period", choreInfo.getPriod().toString());
 		updated.put("choreName", choreInfo.getName());
 		updated.put("isEveryone", choreInfo.isEveryone());
-
 		updated.save();
-
 	}
 
 	public static void updateChoreInfoName(String choreID, String choreName)
@@ -230,7 +227,6 @@ public class ChoreDAL {
 	public static List<Chore> getRoommatesChores()
 			throws UserNotLoggedInException {
 		List<Chore> chores = new ArrayList<Chore>();
-		;
 		List<ParseObject> parseChores;
 		try {
 			String username = ParseUser.getCurrentUser().getUsername();
@@ -251,15 +247,16 @@ public class ChoreDAL {
 		return chores;
 	}
 
-	private static List<Chore> getAllRoommatesChores(String aptId)
+	private static List<Chore> getAllRoommatesChores(String apartmentId)
 			throws ParseException {
-
 		List<Chore> chores;
 		List<ParseObject> parseChores;
-
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
+        if (apartmentId == null) {
+            return Collections.emptyList();
+        }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Chores");
 		query.whereEqualTo("assignedTo", Constants.CHORE_ASSIGNED_TO_EVERYONE);
-		query.whereEqualTo("apartment", aptId);
+		query.whereEqualTo("apartment", apartmentId);
 		chores = new ArrayList<Chore>();
 		parseChores = query.find();
 
@@ -407,7 +404,11 @@ public class ChoreDAL {
 		Chore chore;
 		for (ParseObject parseChore : results) {
 			chore = convertParseObjectToChore(parseChore);
-			choresList.add(chore);
+            if (chore.getAssignedTo() == null) {
+                Log.w("ChoreDAL.getAllChores", "found a chore with a null owner in apartment " + apartmentID);
+                continue;
+            }
+            choresList.add(chore);
 		}
 		return choresList;
 	}

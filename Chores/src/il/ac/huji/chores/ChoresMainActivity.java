@@ -65,7 +65,6 @@ public class ChoresMainActivity extends Activity {
             if(!isActionBarSetup){
             	AppSetup.getInstance(this).setupActionBar();
             }
-
         }
     }
     

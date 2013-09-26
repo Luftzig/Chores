@@ -59,7 +59,6 @@ public class NewChoreDialogFragment extends Fragment {
     	Button createButton = (Button)getActivity().findViewById(R.id.newChoreDialogCreateButton);
     	
     	if(chore != null){
-    		
     		//button text should be update chore
     		createButton.setText(getResources().getString(R.string.new_chore_dialog_update_button_text));
     	
@@ -224,75 +223,65 @@ public class NewChoreDialogFragment extends Fragment {
          //Create chore button
 		 createButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View view) {
-				
-				// get period
-				CHORE_INFO_PERIOD period;
-				
-				 if(_period.equals(_xmlList_every[0])){
-					 period = CHORE_INFO_PERIOD.CHORE_INFO_DAY;
-				 }
-				 else if(_period.equals(_xmlList_every[1])){
-					 period = CHORE_INFO_PERIOD.CHORE_INFO_WEEK;
-				 }
-				 else if(_period.equals(_xmlList_every[2])){
-					 period = CHORE_INFO_PERIOD.CHORE_INFO_MONTH;
-				 }
-				 else if(_period.equals(_xmlList_every[3])){
-					 period = CHORE_INFO_PERIOD.CHORE_INFO_DAY;
-				 }
-				 else{ //not repeated
-					 period = CHORE_INFO_PERIOD.CHORE_INFO_NOT_REPEATED;
-				 }
-				 
-				 //get how many
-				 int howMany=0;
-				 if(_howMany.equals(_xmlList_howMany[0])){
-					 howMany = 1;
-				 }
-				 else if(_howMany.equals(_xmlList_howMany[1])){
-					 howMany = 2;
-				 }
-				 else if(_howMany.equals(_xmlList_howMany[2])){
-					 howMany = 3;
-				 }
-				 else if(_howMany.equals(_xmlList_howMany[3])){
-					 howMany = 4;
-				 }
-				 else if(_howMany.equals(_xmlList_howMany[4])){
-					 howMany=5;
-				 }
-				 else{
-					 howMany = 6;
-				 }
-				 
-		         _isEveryone = checkBox.isChecked();
-				 
-				
-				ChoreInfo newChore = (ChoreInfo) new ChoreInfoInstance(_choreName, _value, howMany, period, _isEveryone);
-				
-				//send back new chore
-				Intent resultIntent = new Intent();
-				resultIntent.putExtra(getResources().getString(R.string.new_chore_extra1_name), newChore);
-				getActivity().setResult(Activity.RESULT_OK, resultIntent);
-				getActivity().finish();
-			}
-			 
-		 });
+             @Override
+             public void onClick(View view) {
+
+                 // get period
+                 CHORE_INFO_PERIOD period;
+
+                 if (_period.equals(_xmlList_every[0])) {
+                     period = CHORE_INFO_PERIOD.CHORE_INFO_DAY;
+                 } else if (_period.equals(_xmlList_every[1])) {
+                     period = CHORE_INFO_PERIOD.CHORE_INFO_WEEK;
+                 } else if (_period.equals(_xmlList_every[2])) {
+                     period = CHORE_INFO_PERIOD.CHORE_INFO_MONTH;
+                 } else if (_period.equals(_xmlList_every[3])) {
+                     period = CHORE_INFO_PERIOD.CHORE_INFO_DAY;
+                 } else { //not repeated
+                     period = CHORE_INFO_PERIOD.CHORE_INFO_NOT_REPEATED;
+                 }
+
+                 //get how many
+                 int howMany = 0;
+                 if (_howMany.equals(_xmlList_howMany[0])) {
+                     howMany = 1;
+                 } else if (_howMany.equals(_xmlList_howMany[1])) {
+                     howMany = 2;
+                 } else if (_howMany.equals(_xmlList_howMany[2])) {
+                     howMany = 3;
+                 } else if (_howMany.equals(_xmlList_howMany[3])) {
+                     howMany = 4;
+                 } else if (_howMany.equals(_xmlList_howMany[4])) {
+                     howMany = 5;
+                 } else {
+                     howMany = 6;
+                 }
+
+                 _isEveryone = checkBox.isChecked();
+
+                 ChoreInfo newChore = (ChoreInfo) new ChoreInfoInstance(_choreName, _value, howMany, period, _isEveryone);
+
+                 //send back new chore
+                 Intent resultIntent = new Intent();
+                 resultIntent.putExtra(getResources().getString(R.string.new_chore_extra1_name), newChore);
+                 getActivity().setResult(Activity.RESULT_OK, resultIntent);
+                 getActivity().finish();
+             }
+
+         });
 		 
 		 //Create cancel button
          Button cancelButton = (Button)getActivity().findViewById(R.id.newChoreDialogCancelButton);
-         cancelButton.setOnClickListener(new OnClickListener() {
+        cancelButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View view) {
-				Intent resultIntent = new Intent();
-				getActivity().setResult(Activity.RESULT_CANCELED, resultIntent);
-				getActivity().finish();
-			}
-			
-		 });
+            @Override
+            public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                getActivity().setResult(Activity.RESULT_CANCELED, resultIntent);
+                getActivity().finish();
+            }
+
+        });
 
     }
     

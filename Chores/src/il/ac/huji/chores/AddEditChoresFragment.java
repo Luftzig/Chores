@@ -10,10 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.*;
 import com.parse.ParseException;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.exceptions.FailedToAddChoreInfoException;
@@ -23,6 +20,8 @@ import java.util.List;
 
 public class AddEditChoresFragment extends Fragment {
 
+    private final int CREATE_NEW_CHORE = 2222;
+    private final int UPDATE_CHORE_INFO = 1111;
     private ArrayAdapter<ChoreInfo> _adapter;
     private ChoreInfo _editedChore = null;
     private List<ChoreInfo> choreInfos;
@@ -56,7 +55,7 @@ public class AddEditChoresFragment extends Fragment {
 
                 _editedChore = (ChoreInfo) parent
                         .getItemAtPosition(position);
-                CallNewChoreDialog(_editedChore, 1111);
+                CallNewChoreDialog(_editedChore, UPDATE_CHORE_INFO);
             }
         });
 
@@ -65,7 +64,7 @@ public class AddEditChoresFragment extends Fragment {
         addChore.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                CallNewChoreDialog(null, 2222);
+                CallNewChoreDialog(null, CREATE_NEW_CHORE);
             }
 
         });
@@ -86,7 +85,7 @@ public class AddEditChoresFragment extends Fragment {
                 _adapter.notifyDataSetChanged();
                 if (_adapter.isEmpty()) {
                     // open add new chore automatically
-                    CallNewChoreDialog(null, 2222);
+                    CallNewChoreDialog(null, CREATE_NEW_CHORE);
                 }
             }
 
@@ -125,30 +124,77 @@ public class AddEditChoresFragment extends Fragment {
             return;
         }
 
-        ChoreInfo newChore = (ChoreInfo) data
+        ViewUtils.hideLoadingView(listChores, getActivity(), R.id.progressBar);
+        final ChoreInfo newChore = (ChoreInfo) data
                 .getSerializableExtra(getResources().getString(
                         R.string.new_chore_extra1_name));
 
-        if (requestCode == 1111 && resultCode == Activity.RESULT_OK) {
-            try {
+        if (requestCode == UPDATE_CHORE_INFO && resultCode == Activity.RESULT_OK) {
+            new AsyncTask<Void, Void, ParseException>() {
 
-                ChoreDAL.addChoreInfo(newChore);
-            } catch (FailedToAddChoreInfoException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (UserNotLoggedInException e) {
-                LoginActivity.OpenLoginScreen(getActivity(), false);
-            }
+                @Override
+                protected void onPostExecute(ParseException e) {
+                    super.onPostExecute(e);    //To change body of overridden methods use File | Settings | File Templates.
+                    Activity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+                    ViewUtils.replacePlaceholder(listChores, progressBar);
+                    if (e == null) {
+                        return;
+                    }
+                    if (e.getCode() == ParseException.CONNECTION_FAILED) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.chores_connection_failed),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.general_error),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                protected ParseException doInBackground(Void... params) {
+                    try {
+                        ChoreDAL.updateChoreInfo(newChore, newChore.getChoreInfoID());
+                    } catch (ParseException e) {
+                        return e;
+                    }
+                    return null;
+                }
+            }.execute();
             //TODO:UPDATE SPECIFIC FIELDS
-        } else if (requestCode == 2222 && resultCode == Activity.RESULT_OK) {
-            try {
-                ChoreDAL.addChoreInfo(newChore);
-            } catch (UserNotLoggedInException e) {
-                LoginActivity.OpenLoginScreen(getActivity(), false);
-            } catch (FailedToAddChoreInfoException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        } else if (requestCode == CREATE_NEW_CHORE && resultCode == Activity.RESULT_OK) {
+            new AsyncTask<Void, Void, Exception>() {
+
+                @Override
+                protected void onPostExecute(Exception e) {
+                    super.onPostExecute(e);    //To change body of overridden methods use File | Settings | File Templates.
+                    Activity activity = getActivity();
+                    if (activity == null) {
+                        return;
+                    }
+                    ViewUtils.replacePlaceholder(listChores, progressBar);
+                    if (e == null) {
+                        return;
+                    } else if (e instanceof UserNotLoggedInException) {
+                        LoginActivity.OpenLoginScreen(getActivity(), false);
+                    } else {
+                        Log.e("AddEditChoresFragment.onActivityResult", "adding chore info failed.", e);
+                    }
+                }
+
+                @Override
+                protected Exception doInBackground(Void... params) {
+                    try {
+                        ChoreDAL.addChoreInfo(newChore);
+                    } catch (FailedToAddChoreInfoException e) {
+                        return e;
+                    } catch (UserNotLoggedInException e) {
+                        return e;
+                    }
+                    return null;
+                }
+            }.execute();
         }
         if (resultCode == Activity.RESULT_OK) {
             if (_editedChore != null) { // add chore

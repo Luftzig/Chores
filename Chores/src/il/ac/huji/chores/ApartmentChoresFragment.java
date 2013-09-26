@@ -193,6 +193,7 @@ public class ApartmentChoresFragment extends Fragment {
                 Intent intent;
                 if (apartmentID == null) {
                     intent = new Intent(getActivity(), NewApartmentDialogActivity.class);
+                    apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
                 } else {
                     intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
                 }

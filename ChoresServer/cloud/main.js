@@ -1,20 +1,3 @@
-
-// Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
-Parse.Cloud.define("hello", function(request, response) {
-  response.success("Hello world!");
-});
-
-Parse.Cloud.define("test", function(request, response) {
-    Parse.Push.send({
-            where: new Parse.Query(Parse.Installation),
-            data: {
-                alert: "Push test!"
-            }
-    });
-    response.success("Push sent");
-});
-
 //noinspection JSUnfilteredForInLoop
 function findPhones(phones) {
     var splitted = phones.split("; ");
@@ -108,4 +91,67 @@ Parse.Cloud.define("invite", function(request, response) {
     }, function(error) {
             respose.error(error);
     });
+});
+
+
+/* Updating statistics */
+Parse.Cloud.beforeSave("ChoresInfo", function(request, response) {
+    var query = new Parse.Query("choreStatistics");
+    query.equalTo("chore", request.object.get("choreName"));
+    Parse.Promise.when(query.find(), new Parse.Query("ChoresInfo").get(request.object.id))
+        .then(function (results, oldChoreInfo) {
+            console.log("results: " + results);
+            logKeys(request.object);
+            if (results.length == 0) {
+                console.log("New chore info");
+                var ChoreStatistics = Parse.Object.extend("choreStatistics");
+                var choreStatistics = new ChoreStatistics();
+                choreStatistics.set("chore", request.object.get("choreName"));
+                choreStatistics.set("totalCoins", request.object.get("coins"));
+                choreStatistics.set("totalCount", 1);
+                choreStatistics.set("totalDone", 0);
+                choreStatistics.set("totalMissed", 0);
+                choreStatistics.set("totalAssigned", 0);
+                choreStatistics.save();
+            } else {
+                console.log("oldChoreInfo " + oldChoreInfo);
+                for (var i in results) {
+                    if (!oldChoreInfo) {
+                        results[i].increment("totalCount");
+                        results[i].increment("totalCoins", request.object.get("coins"));
+                    } else {
+                        var difference = request.object.get("coins") - oldChoreInfo.get("coins");
+                        console.log("ChoreInfo being updated, coins value difference " + difference);
+                        results[i].increment("totalCoins", difference);
+                    }
+                    results[i].save();
+                }
+            }
+            response.success();
+        });
+});
+
+Parse.Cloud.beforeSave("Chores", function(request, response) {
+    var query = new Parse.Query("choreStatistics");
+    query.equalTo("chore", request.object.get("name"));
+    Parse.Promise.when(query.find(), new Parse.Query("Chores").get(request.object.id))
+        .then(function (statistics, oldChore) {
+            if (oldChore === undefined) {
+                // This chore is new, update total assigned count
+                for (var i in statistics) {
+                    statistics[i].increment("totalAssigned");
+                }
+            } else {
+                if (oldChore.get("status") == "STATUS_FUTURE" && request.object.get("status") == "STATUS_MISSED") {
+                    for (var i in statistics) {
+                        statistics[i].increment("totalMissed");
+                    }
+                } else if (request.object.get("status") == "STATUS_DONE") {
+                    for (var i in statistics) {
+                        statistics[i].increment("totalDone");
+                    }
+                }
+            }
+            response.success();
+        });
 });
