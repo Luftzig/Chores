@@ -139,7 +139,7 @@ public class ChoreStatisticsDAL {
 
     public static List<String> getChoreStatisticsNames() throws ParseException {
         ParseQuery query = ParseQuery.getQuery("choreStatistics");
-        List<String> results = new ArrayList<>();
+        List<String> results = new ArrayList<String>();
         List<ParseObject> queryResults = query.find();
         for (ParseObject res : queryResults) {
             results.add(res.getString("chore"));
