@@ -107,6 +107,7 @@ public class MyChoresFragment extends Fragment {
 					super.onPostExecute(aVoid); // To change body of overridden
 												// methods use File | Settings |
 												// File Templates.
+
 					if (getActivity() == null) {
 						return;
 					}
@@ -120,6 +121,9 @@ public class MyChoresFragment extends Fragment {
 						messageBox.setVisibility(View.VISIBLE);
 						return;
 					}
+					else{
+						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
+					}
 					Log.d("MyChoresFragment",
 							"chores list size == " + adapter.getCount());
 					adapter.notifyDataSetChanged();
@@ -127,7 +131,7 @@ public class MyChoresFragment extends Fragment {
 				}
 			}.execute();
 		}
-
+		
 		// Coins Chart stuff
 		final ProgressBar progressBar = new ProgressBar(getActivity());
 		chartFrame.removeAllViews();
@@ -345,10 +349,15 @@ public class MyChoresFragment extends Fragment {
 					return;
 				}
 				adapter = new MyChoresListAdapter(context, chores);
+				
 				listView.setAdapter(adapter);
+		
 				if (adapter == null || adapter.getCount() == 0) {
 					messageBox.setText(R.string.my_chores_no_chores_message);
-					messageBox.setVisibility(View.VISIBLE);
+					ViewUtils.hideLoadingView(listView, context, messageBox);
+				}
+				else{
+					ViewUtils.hideLoadingView(messageBox, context, listView);
 				}
 			}
 		}.execute();
