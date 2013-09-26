@@ -56,7 +56,8 @@
         </activity>
         <activity
             android:name="il.ac.huji.chores.NewApartmentDialogActivity"
-            android:label="" >
+            android:label=""
+             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
             android:name="il.ac.huji.chores.ChoreCardActivity"

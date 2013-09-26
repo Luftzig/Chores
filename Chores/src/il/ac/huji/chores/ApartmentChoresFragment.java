@@ -1,8 +1,10 @@
 package il.ac.huji.chores;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -58,6 +60,7 @@ public class ApartmentChoresFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+		apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
         ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -135,6 +138,7 @@ public class ApartmentChoresFragment extends Fragment {
         titleText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_TableTitle);
         msgText = (TextView) getActivity().findViewById(R.id.ApartmentChoresFragment_msgBox);
         apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
+        Button editChores = (Button) getActivity().findViewById(R.id.ApartmentChoresFragment_editChores_button);
 
         ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
         new AsyncTask<Void, Void, Void>() {
@@ -205,10 +209,15 @@ public class ApartmentChoresFragment extends Fragment {
 
         /* Buttons listeners */
         // add/edit chores button
-        Button editChores = (Button) getActivity().findViewById(R.id.ApartmentChoresFragment_editChores_button);
         editChores.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+            	
+            	if(apartmentID == null){
+            		askForCreateNewApartment();
+            		return;
+            	}
+            	
                 Intent intent = new Intent(getActivity(), AddEditChoresActivity.class);
                 startActivity(intent);
             }
@@ -221,11 +230,10 @@ public class ApartmentChoresFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent;
                 if (apartmentID == null) {
-                    intent = new Intent(getActivity(), NewApartmentDialogActivity.class);
-                    apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
-                } else {
-                    intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
-                }
+                	askForCreateNewApartment();
+            		return;
+                } 
+                intent = new Intent(getActivity(), ApartmentSettingsActivity.class);
                 startActivity(intent);
             }
         });
@@ -278,6 +286,29 @@ public class ApartmentChoresFragment extends Fragment {
                 }.execute();
             }
         });
+    }
+    
+    
+    private void askForCreateNewApartment() {
+        final Context thisContext = getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(thisContext);
+        AlertDialog alertDialog = builder.setMessage(R.string.ask_to_create_apartment)
+                .setPositiveButton(R.string.ask_to_create_apartment_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(thisContext, NewApartmentDialogActivity.class);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.ask_to_create_apartment_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        alertDialog.show();
     }
 
     //check what chore is the oldest (deadline-wise) from a given list.
