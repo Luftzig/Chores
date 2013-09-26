@@ -6,7 +6,7 @@
     android:theme="@android:style/Theme.Dialog"
     tools:context=".NewApartmentDialogFragment" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -107,6 +107,7 @@
 
             <Button
                 android:id="@+id/newChoreDialogCreateButton"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_chore_dialog_create_button_text"
@@ -114,6 +115,7 @@
 
             <Button
                 android:id="@+id/newChoreDialogCancelButton"
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_chore_dialog_cancel_button_text"           

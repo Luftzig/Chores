@@ -250,11 +250,9 @@ public class ApartmentChoresFragment extends Fragment {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-                        if (histChores != null) {
+                        if (histChores.size()>0) {
                             adapter.addAll(histChores);
-                        } else {
-                            showErrorMessage();
-                        }
+                        } 
                         ViewUtils.replacePlaceholder(listChores, progressBar);
                     }
 

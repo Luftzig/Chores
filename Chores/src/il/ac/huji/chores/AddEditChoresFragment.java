@@ -36,6 +36,43 @@ public class AddEditChoresFragment extends Fragment {
                 container, false);
         return view;
     }
+    
+    @Override
+    public void onResume(){
+    	super.onResume();
+    	 new AsyncTask<Void, Void, Void>() {
+             @Override
+             protected void onPostExecute(Void aVoid) {
+                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+                 // set adapter
+                 Activity activity = getActivity();
+                 if (activity == null) {
+                     return;
+                 }
+                 ViewUtils.replacePlaceholder(listChores, progressBar);
+                 _adapter = new AddEditChoresDisplayAdapter(activity, choreInfos);
+                 listChores.setAdapter(_adapter);
+                 _adapter.notifyDataSetChanged();
+                 if (_adapter.isEmpty()) {
+                     // open add new chore automatically
+                     CallNewChoreDialog(null, CREATE_NEW_CHORE);
+                 }
+             }
+
+             @Override
+             protected Void doInBackground(Void... params) {
+                 try {
+                     choreInfos = ChoreDAL.getAllChoreInfo();
+                 } catch (ParseException e) {
+                     // TODO Auto-generated catch block
+                     Log.e("Exception", e.getMessage());
+                 } catch (UserNotLoggedInException e) {
+//                     LoginActivity.OpenLoginScreen(getActivity(), false);
+                 }
+                 return null;  //To change body of implemented methods use File | Settings | File Templates.
+             }
+         }.execute();
+    }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
