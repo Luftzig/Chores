@@ -213,7 +213,24 @@ public class MyChoresFragment extends Fragment {
         }
         Map<String, Integer> coinsMap = new HashMap<String, Integer>(roommates.size());
         for (String username : roommates) {
-            Roommate roommate = RoommateDAL.getRoommateByName(username);
+            Roommate roommate = null;
+			try {
+				roommate = RoommateDAL.getRoommateByName(username);
+			} catch (ParseException e) {
+				if (e.getCode() == ParseException.CONNECTION_FAILED) {
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.chores_connection_failed),
+							Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.general_error),
+							Toast.LENGTH_LONG).show();
+				}
+			}
             if (roommate != null) {
                 coinsMap.put(roommate.getUsername(), roommate.getCoinsCollected());
             }
