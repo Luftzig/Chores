@@ -65,7 +65,7 @@ public class StatisticsFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
-                statistics = new ArrayList<>();
+                statistics = new ArrayList<ChoreApartmentStatistics>();
                 adapter = new StatisticsListAdapter(getActivity(), statistics);
                 listView.setAdapter(adapter);
             }
