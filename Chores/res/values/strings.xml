@@ -167,6 +167,8 @@
   <string name="settings_not_logged_in">You are not logged in</string>
   <string name="logged_in_prompt">Logged in as </string>
   <string name="please_log_in">Please log in.</string>
+  <string name="apartment_table_title_suffix">\" Chores</string>
+  <string name="apartment_table_title_prefix">\"</string>
   <string name="add_edit_chores_table_row_image_description">chore image</string>
 </resources>
 

@@ -131,7 +131,15 @@ public class RoommateDAL {
 		return (String) currentUser.get("apartmentID");
 	}
 
-	public static String getUserID() throws UserNotLoggedInException {
+    public static String getApartmentName() throws UserNotLoggedInException, ParseException {
+        ParseUser user = ParseUser.getCurrentUser();
+        if (user == null) {
+            throw new UserNotLoggedInException("User is not logged in");
+        }
+        return ParseQuery.getQuery("Apartment").get(getApartmentID()).getString("apartmentName");
+    }
+
+    public static String getUserID() throws UserNotLoggedInException {
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null)
 			throw new UserNotLoggedInException("User is not logged in");
@@ -162,7 +170,6 @@ public class RoommateDAL {
 			}
 		});
 		return user.getObjectId();
-
 	}
 
 	public static boolean addApartmentToRoommate(String apartmentID)
@@ -176,5 +183,4 @@ public class RoommateDAL {
 		currentUser.save();
 		return false;
 	}
-
 }

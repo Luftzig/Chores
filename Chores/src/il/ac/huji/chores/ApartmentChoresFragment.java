@@ -17,6 +17,7 @@ import android.widget.*;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
@@ -131,6 +132,7 @@ public class ApartmentChoresFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+    
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         progressBar = getActivity().findViewById(R.id.progressBar);
@@ -212,7 +214,6 @@ public class ApartmentChoresFragment extends Fragment {
         editChores.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-            	
             	if(apartmentID == null){
             		askForCreateNewApartment();
             		return;
@@ -256,9 +257,7 @@ public class ApartmentChoresFragment extends Fragment {
                         ViewUtils.replacePlaceholder(listChores, progressBar);
                     }
 
-                    
-
-					@Override
+                    @Override
                     protected Void doInBackground(Void... params) {
                         try {
                             histChores = ChoreDAL.getUserOldChores(_oldestChoreDisplayed, HISTORY_FUNC_AMMOUNT);
@@ -284,6 +283,46 @@ public class ApartmentChoresFragment extends Fragment {
                 }.execute();
             }
         });
+    }
+
+    private void initializeChoreList() {
+        ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    chores = ChoreDAL.getAllChores();
+                }  catch( UserNotLoggedInException e1 )  {
+                    LoginActivity.OpenLoginScreen(getActivity(), false);
+                } catch (FailedToRetriveAllChoresException e) {
+                    showErrorMessage();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
+
+                Activity activity = getActivity();
+                if (activity == null) {
+                    Log.e("ApartmentChoresFragment$AsyncTask.onPostExecute", "activity was null when loading finished");
+                    return;
+                }
+                if (chores.size() > 0) {
+                    adapter = new ApartmentChoresDisplayAdapter(activity, chores);
+                    listChores.setAdapter(adapter);
+                    ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
+                } else if (apartmentID == null) {
+                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                    msgText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
+                } else {
+                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
+                 	msgText.setText(getResources().getString(R.string.apartment_chores_no_chores));
+                }
+                ViewUtils.replacePlaceholder(listChores, progressBar);
+            }
+        }.execute();
     }
     
     
