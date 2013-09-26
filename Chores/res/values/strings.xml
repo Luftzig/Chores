@@ -169,6 +169,11 @@
   <string name="please_log_in">Please log in.</string>
   <string name="apartment_table_title_suffix">\" Chores</string>
   <string name="apartment_table_title_prefix">\"</string>
+  <string name="statistics_total_count_title">Used by apartments:</string>
+  <string name="statistics_chore_assigned_world">Assigned Worldwide</string>
+  <string name="statistics_total_missed">Worldwide missed deadlines:</string>
+  <string name="statistics_chore_assigned_apartment">Assigned in apartment:</string>
+  <string name="statistics_apartment_missed">Missed deadlines in apartment:</string>
   <string name="add_edit_chores_table_row_image_description">chore image</string>
 </resources>
 

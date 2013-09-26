@@ -1,5 +1,6 @@
 package il.ac.huji.chores.dal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.parse.ParseException;
@@ -7,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import il.ac.huji.chores.ApartmentChore;
+import il.ac.huji.chores.ChoreApartmentStatistics;
 import il.ac.huji.chores.ChoreStatistics;
 import il.ac.huji.chores.exceptions.ChoreStatisticsException;
 
@@ -135,7 +137,42 @@ public class ChoreStatisticsDAL {
 		return results.get(0);
 	}
 
-	public static ChoreStatistics getChoreStatistic(String choreName) throws ParseException {
+    public static List<String> getChoreStatisticsNames() throws ParseException {
+        ParseQuery query = ParseQuery.getQuery("choreStatistics");
+        List<String> results = new ArrayList<>();
+        List<ParseObject> queryResults = query.find();
+        for (ParseObject res : queryResults) {
+            results.add(res.getString("chore"));
+        }
+        return results;
+    }
+
+    public static ChoreApartmentStatistics getChoreApartmentStatistic(String choreName, String apartmentId)
+            throws ParseException {
+        List<ParseObject> results = ParseQuery.getQuery("Chores")
+                .whereEqualTo("apartment", apartmentId).whereEqualTo("name", choreName).find();
+        ChoreApartmentStatistics statistic = new ChoreApartmentStatistics(getChoreStatistic(choreName));
+        int assigned = 0, missed = 0, done = 0, value = 0;
+        for (ParseObject chore : results) {
+            if (chore.getString("assignedTo") != null) {
+                assigned++;
+            }
+            if ("STATUS_MISSED".equals(chore.getString("status"))) {
+                missed++;
+            }
+            if ("STATUS_DONE".equals(chore.getString("status"))) {
+                done++;
+            }
+            value = chore.getInt("coins");
+        }
+        statistic.setApartmentAssigned(assigned);
+        statistic.setApartmentMissed(missed);
+        statistic.setApartmentDone(done);
+        statistic.setApartmentValue(value);
+        return statistic;
+    }
+
+    public static ChoreStatistics getChoreStatistic(String choreName) throws ParseException {
 		ParseObject choreStaticsObj = getChoreStatisticsObj(choreName);
 		if (choreStaticsObj == null)
 			return null;
@@ -145,6 +182,7 @@ public class ChoreStatisticsDAL {
 		choreStatistics.setTotalDone(choreStaticsObj.getInt("totalDone"));
 		choreStatistics.setTotalMissed(choreStaticsObj.getInt("totalMissed"));
 		choreStatistics.setTotalPoints(choreStaticsObj.getInt("totalCoins"));
+        choreStatistics.setTotalPoints(choreStaticsObj.getInt("totalAssigned"));
 		if (choreStatistics.getTotalCount() > 0) {
 			choreStatistics.setAverageValue(choreStatistics.getTotalPoints()
 					/ choreStatistics.getTotalCount());

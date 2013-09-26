@@ -142,55 +142,7 @@ public class ApartmentChoresFragment extends Fragment {
         apartmentID = (String) ParseUser.getCurrentUser().get("apartmentID");
         Button editChores = (Button) getActivity().findViewById(R.id.ApartmentChoresFragment_editChores_button);
 
-        ViewUtils.hideAndKeepLoadingView(listChores, getActivity(), R.id.progressBar);
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    chores = ChoreDAL.getAllChores();
-                }  catch( UserNotLoggedInException e1 )  {
-                    LoginActivity.OpenLoginScreen(getActivity(), false);
-                } catch (ParseException e) {
-                	if (e.getCode() == ParseException.CONNECTION_FAILED) {
-    					Toast.makeText(
-    							getActivity(),
-    							getActivity().getResources().getString(
-    									R.string.chores_connection_failed),
-    							Toast.LENGTH_LONG).show();
-    				} else {
-    					Toast.makeText(
-    							getActivity(),
-    							getActivity().getResources().getString(
-    									R.string.general_error),
-    							Toast.LENGTH_LONG).show();
-    				}
-				}
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
-
-                Activity activity = getActivity();
-                if (activity == null) {
-                    Log.e("ApartmentChoresFragment$AsyncTask.onPostExecute", "activity was null when loading finished");
-                    return;
-                }
-                if (chores.size() > 0) {
-                    adapter = new ApartmentChoresDisplayAdapter(activity, chores);
-                    listChores.setAdapter(adapter);
-                    ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
-                } else if (apartmentID == null) {
-                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
-                    msgText.setText(getResources().getString(R.string.apartment_chores_no_apartment));
-                } else {
-                	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
-                 	msgText.setText(getResources().getString(R.string.apartment_chores_no_chores));
-                }
-                ViewUtils.replacePlaceholder(listChores, progressBar);
-            }
-        }.execute();
+        initializeChoreList();
         if (chores != null) {
             _oldestChoreDisplayed = checkOldestChoreInList(chores);
         }
@@ -294,9 +246,21 @@ public class ApartmentChoresFragment extends Fragment {
                     chores = ChoreDAL.getAllChores();
                 }  catch( UserNotLoggedInException e1 )  {
                     LoginActivity.OpenLoginScreen(getActivity(), false);
-                } catch (FailedToRetriveAllChoresException e) {
-                    showErrorMessage();
-                }
+                } catch (ParseException e) {
+                	if (e.getCode() == ParseException.CONNECTION_FAILED) {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.chores_connection_failed),
+    							Toast.LENGTH_LONG).show();
+    				} else {
+    					Toast.makeText(
+    							getActivity(),
+    							getActivity().getResources().getString(
+    									R.string.general_error),
+    							Toast.LENGTH_LONG).show();
+    				}
+				}
                 return null;
             }
 

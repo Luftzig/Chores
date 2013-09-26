@@ -127,6 +127,7 @@ Parse.Cloud.beforeSave("ChoresInfo", function(request, response) {
                     results[i].save();
                 }
             }
+        }).then(function(ignore) {
             response.success();
         });
 });
@@ -152,6 +153,7 @@ Parse.Cloud.beforeSave("Chores", function(request, response) {
                     }
                 }
             }
+        }).then(function(ignore) {
             response.success();
         });
 });

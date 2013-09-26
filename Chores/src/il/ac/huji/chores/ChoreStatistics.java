@@ -7,6 +7,30 @@ public class ChoreStatistics {
 	private int totalMissed;
 	private int totalDone;
 	private int totalPoints;
+
+    public ChoreStatistics(String choreName, int totalCount, int totalMissed, int totalDone, int totalPoints,
+                           int totalAssigned, int averageValue) {
+        this.choreName = choreName;
+        this.totalCount = totalCount;
+        this.totalMissed = totalMissed;
+        this.totalDone = totalDone;
+        this.totalPoints = totalPoints;
+        this.totalAssigned = totalAssigned;
+        this.averageValue = averageValue;
+    }
+
+    public ChoreStatistics() {
+    }
+
+    public int getTotalAssigned() {
+        return totalAssigned;
+    }
+
+    public void setTotalAssigned(int totalAssigned) {
+        this.totalAssigned = totalAssigned;
+    }
+
+    private int totalAssigned;
 	private int averageValue;
 	
 	public String getChoreName() {

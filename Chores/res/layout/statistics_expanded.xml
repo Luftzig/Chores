@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_gravity="top" android:layout_margin="16dp"
+        android:clickable="true" android:focusable="true" android:focusableInTouchMode="false">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/statisticsName" android:layout_gravity="left" android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+        <ImageView
+          android:layout_width="@dimen/statistics_image_width"
+          android:layout_height="@dimen/statistics_image_height"
+          android:id="@+id/staticsImageView" android:layout_gravity="right" android:layout_alignParentTop="true"
+          android:layout_alignParentRight="true" android:layout_margin="16dp"/>
+    </RelativeLayout>
+    <TableLayout
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content" android:layout_margin="16dp" android:layout_gravity="bottom"
+      android:visibility="gone" android:id="@+id/details">
+      <TableRow android:layout_width="match_parent">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/statistics_total_count_title"
+            android:id="@+id/textView" android:layout_gravity="left" android:layout_marginRight="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/statisticsTotalCount"/>
+    </TableRow>
+      <TableRow
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/statistics_chore_assigned_world"
+              android:id="@+id/textView1"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="New Text"
+              android:id="@+id/statisticsWorldAssigned" android:layout_gravity="right"/>
+      </TableRow>
+      <TableRow
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/statistics_chore_assigned_apartment"
+              android:id="@+id/textView1"/>
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="New Text"
+              android:id="@+id/statisticsApartmentAssigned" android:layout_gravity="right"/>
+      </TableRow>
+      <TableRow
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/statistics_total_missed"
+              android:id="@+id/textView1" android:layout_gravity="left"/>
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/statisticsWorldMissed" android:layout_gravity="right"/>
+      </TableRow>
+      <TableRow
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent">
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="@string/statistics_apartment_missed"
+              android:id="@+id/textView1" android:layout_gravity="left"/>
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/statisticsApartmentMissed" android:layout_gravity="right"/>
+      </TableRow>
+  </TableLayout>
+</LinearLayout>
