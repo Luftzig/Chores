@@ -124,8 +124,8 @@ public class MyChoresFragment extends Fragment {
 					else{
 						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
 					}
-			
-					adapter.notifyDataSetChanged();
+		
+					ViewUtils.replacePlaceholder(listView, placeholder);
 				}
 			}.execute();
 		}
