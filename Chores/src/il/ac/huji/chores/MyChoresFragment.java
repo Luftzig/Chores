@@ -90,6 +90,7 @@ public class MyChoresFragment extends Fragment {
 		Log.d("MyChoresFragment", "onResume");
 		super.onResume();
 		if (adapter != null) {
+			
 			final View placeholder = ViewUtils.hideLoadingView(listView,
 					getActivity(), R.id.progressBar);
 			new AsyncTask<Void, Void, Void>() {
@@ -114,7 +115,9 @@ public class MyChoresFragment extends Fragment {
 					}
 					adapter.clear();
 					adapter.addAll(roommatesChores);
+					adapter.sort(new DeadlineComparator());
 					if (adapter == null || adapter.getCount() == 0) {
+						
 						listView.setVisibility(View.GONE);
 						progressBar.setVisibility(View.GONE);
 						messageBox
@@ -123,6 +126,7 @@ public class MyChoresFragment extends Fragment {
 						return;
 					}
 					else{
+						
 						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
 					}
 
@@ -356,7 +360,7 @@ public class MyChoresFragment extends Fragment {
 					return;
 				}
 				adapter = new MyChoresListAdapter(context, chores);
-
+				adapter.sort(new DeadlineComparator());
 				listView.setAdapter(adapter);
 
 				if (adapter == null || adapter.getCount() == 0) {

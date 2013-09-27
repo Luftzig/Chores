@@ -54,7 +54,8 @@ public class ApartmentChoresDisplayAdapter extends ArrayAdapter<Chore>{
         //deadline
         time = chore.getPrintableDate(chore.getDeadline());
         deadline.setText(DATE__END + time);
-
+        
+        
         return view;
     }
 

@@ -101,6 +101,7 @@ public class ApartmentChoresFragment extends Fragment {
                 if (chores != null && chores.size() > 0) {
                     adapter.clear();
                     adapter.addAll(chores);
+                    adapter.sort(new DeadlineComparator());
                     ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
                 } else if (apartmentID == null) {
                 	ViewUtils.hideLoadingView(titleText, getActivity(), R.id.ApartmentChoresFragment_msgBox);
@@ -206,6 +207,7 @@ public class ApartmentChoresFragment extends Fragment {
                         super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                         if (histChores.size()>0) {
                             adapter.addAll(histChores);
+                            adapter.sort(new DeadlineComparator());
                         } 
                         ViewUtils.replacePlaceholder(listChores, progressBar);
                     }
@@ -276,6 +278,7 @@ public class ApartmentChoresFragment extends Fragment {
                 }
                 if (chores.size() > 0) {
                     adapter = new ApartmentChoresDisplayAdapter(activity, chores);
+                    adapter.sort(new DeadlineComparator());;
                     listChores.setAdapter(adapter);
                     ViewUtils.hideLoadingView(msgText, getActivity(), R.id.ApartmentChoresFragment_TableTitle);
                 } else if (apartmentID == null) {
