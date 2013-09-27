@@ -25,23 +25,23 @@ public class InviteContactsFragment extends Fragment {
     private int invitedIds = 0;
     private ArrayList<String> invited;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
-        View view = inflater.inflate(R.layout.invite_contacts_fragment, container, true);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        
         // Invite Contacts
         // Get contact list for autocomplete
-        final AutoCompleteTextView inviteEdit = (AutoCompleteTextView) view.findViewById(R.id.inviteContactsEditText);
+        final AutoCompleteTextView inviteEdit = (AutoCompleteTextView) getActivity().findViewById(R.id.inviteContactsEditText);
         ContentResolver cr = getActivity().getContentResolver();
         Cursor contactsCursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         inviteEdit.setAdapter(new ContactsCursorAdapter(getActivity(), contactsCursor));
 
-        final LinearLayout invitedLayout = (LinearLayout) view.findViewById(R.id.inviteContactsInvitedLayout);
-        Button inviteButton = (Button) view.findViewById(R.id.inviteContactsInviteButton);
+        final LinearLayout invitedLayout = (LinearLayout) getActivity().findViewById(R.id.inviteContactsInvitedLayout);
+        Button inviteButton = (Button) getActivity().findViewById(R.id.inviteContactsInviteButton);
 
         inviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            	
                 String contactName = inviteEdit.getText().toString();
                 invited.add(contactName);
                 ContactsCursorAdapter adapter = (ContactsCursorAdapter) inviteEdit.getAdapter();
@@ -54,7 +54,8 @@ public class InviteContactsFragment extends Fragment {
                 if (adapter.getCursor().getPosition() > 0) {
                     phone = adapter.getPhones(adapter.getCursor());
                 } else {
-                    phone = inviteEdit.getEditableText().toString();
+                    Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.invit_phone_err), Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 MessagesToServer.invite(new FunctionCallback() {
                     @Override
@@ -78,6 +79,15 @@ public class InviteContactsFragment extends Fragment {
                 inviteEdit.setText("");
             }
         });
+        
+    }
+    
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);    //To change body of overridden methods use File | Settings | File Templates.
+        View view = inflater.inflate(R.layout.invite_contacts_fragment, container, true);
+        
         return view;
     }
 

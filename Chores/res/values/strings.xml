@@ -176,5 +176,6 @@
   <string name="statistics_chore_assigned_apartment">Assigned in apartment:</string>
   <string name="statistics_apartment_missed">Missed deadlines in apartment:</string>
   <string name="add_edit_chores_table_row_image_description">chore image</string>
+  <string name="invit_phone_err">You must choose from the phone contacts</string>
 </resources>
 
