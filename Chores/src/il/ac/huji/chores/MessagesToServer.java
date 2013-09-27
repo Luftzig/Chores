@@ -20,7 +20,9 @@ public class MessagesToServer {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("name", name);
         params.put("phone", phoneNumbers);
-        params.put("inviter", ParseUser.getCurrentUser());
+        params.put("inviterName", ParseUser.getCurrentUser().getUsername());
+        params.put("apartmentId", ParseUser.getCurrentUser().getString("apartmentID"));
+
         ParseCloud.callFunctionInBackground("invite", params, callback);
     }
 
