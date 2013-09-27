@@ -95,65 +95,67 @@ Parse.Cloud.define("invite", function(request, response) {
 
 
 /* Updating statistics */
-Parse.Cloud.beforeSave("ChoresInfo", function(request, response) {
-    var query = new Parse.Query("choreStatistics");
-    query.equalTo("chore", request.object.get("choreName"));
-    Parse.Promise.when(query.find(), new Parse.Query("ChoresInfo").get(request.object.id))
-        .then(function (results, oldChoreInfo) {
-            console.log("results: " + results);
-            logKeys(request.object);
-            if (results.length == 0) {
-                console.log("New chore info");
-                var ChoreStatistics = Parse.Object.extend("choreStatistics");
-                var choreStatistics = new ChoreStatistics();
-                choreStatistics.set("chore", request.object.get("choreName"));
-                choreStatistics.set("totalCoins", request.object.get("coins"));
-                choreStatistics.set("totalCount", 1);
-                choreStatistics.set("totalDone", 0);
-                choreStatistics.set("totalMissed", 0);
-                choreStatistics.set("totalAssigned", 0);
-                choreStatistics.save();
-            } else {
-                console.log("oldChoreInfo " + oldChoreInfo);
-                for (var i in results) {
-                    if (!oldChoreInfo) {
-                        results[i].increment("totalCount");
-                        results[i].increment("totalCoins", request.object.get("coins"));
-                    } else {
-                        var difference = request.object.get("coins") - oldChoreInfo.get("coins");
-                        console.log("ChoreInfo being updated, coins value difference " + difference);
-                        results[i].increment("totalCoins", difference);
-                    }
-                    results[i].save();
-                }
+Parse.Cloud.job("statisticsUpdate", function (request, status) {
+//    1. Get old stats
+    Parse.Cloud.useMasterKey();
+    var Statistic = Parse.Object.extend("choreStatistics");
+    var statsQuery = new Parse.Query("choreStatistics");
+    var statisticsMap = {};
+    statsQuery.find().then(function (statistics) {
+        // Create map of statistics
+        for (var i in statistics) {
+            statisticsMap[statistics[i].get("chore")] = statistics[i];
+            statistics[i].clear();
+        }
+    }).then(function (choreInfos) {
+//        3. Update statistics with choreInfos {}
+        var choreInfosQuery = new Parse.Query("ChoresInfo");
+        choreInfosQuery.count(function (result) {
+            status.message("Reading " + result + " choreInfos");
+        })
+        return choreInfosQuery.each(function(choreInfo) {
+            var choreName = choreInfo.get("choreName");
+            var statObj = statisticsMap[choreName];
+            var updatedAt;
+            if (!statObj) {
+                statisticsMap[choreName] = new Statistic();
+                // We're making as old as time itself...
+                statObj = statisticsMap[choreName];
+                status.message("Creating new object for" + choreName);
             }
-        }).then(function(ignore) {
-            response.success();
+            statObj.set("chore", choreName);
+            statObj.increment("totalCoins", choreInfo.get("coins"));
+            statObj.increment("totalCount");
         });
+        // 4. now get the chores
+    }).then(function (chores) {
+        var choresQuery = new Parse.Query("Chores");
+        choresQuery.count(function (result) {
+            status.message("Reading " + result + " chores");
+        })
+        return choresQuery.each(function (chore) {
+            var choreName = chore.get("name");
+            var statObj = statisticsMap[choreName];
+            if (!statObj) {
+                return;
+            }
+            if (chore.get("status") == "STATUS_MISSED") {
+                statObj.increment("totalMissed");
+            } else if (chore.get("status") == "STATUS_DONE") {
+                statObj.increment("totalDone");
+            }
+            statObj.increment("totalAssigned");
+        });
+    }).then(function (success) {
+            var resultList = [];
+            for (var name in statisticsMap) {
+                resultList.push(statisticsMap[name]);
+            }
+            Parse.Object.saveAll(resultList).then(function () {
+                status.success("Statistics updated");
+            })
+        }, function (error) {
+            status.error("Failed to update statistics due to ", error);
+    });
 });
 
-Parse.Cloud.beforeSave("Chores", function(request, response) {
-    var query = new Parse.Query("choreStatistics");
-    query.equalTo("chore", request.object.get("name"));
-    Parse.Promise.when(query.find(), new Parse.Query("Chores").get(request.object.id))
-        .then(function (statistics, oldChore) {
-            if (oldChore === undefined) {
-                // This chore is new, update total assigned count
-                for (var i in statistics) {
-                    statistics[i].increment("totalAssigned");
-                }
-            } else {
-                if (oldChore.get("status") == "STATUS_FUTURE" && request.object.get("status") == "STATUS_MISSED") {
-                    for (var i in statistics) {
-                        statistics[i].increment("totalMissed");
-                    }
-                } else if (request.object.get("status") == "STATUS_DONE") {
-                    for (var i in statistics) {
-                        statistics[i].increment("totalDone");
-                    }
-                }
-            }
-        }).then(function(ignore) {
-            response.success();
-        });
-});

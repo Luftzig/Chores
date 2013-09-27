@@ -20,6 +20,8 @@
   </string-array>
 
   <string name="app_name">Chores</string>
+  <string  name="apartment_creation_apartment_name_exists">The apartment name already exists. Please choose another one.</string>
+  <string name="apartment_creation_no_apartment_name">Please insert apartment name</string>
   <string name="statistics_no_statistics">There are no statistics yet.</string>
   <string name="action_settings">Settings</string>
   <string name="apartment_editChoresButton">Add/Edit Chores</string>

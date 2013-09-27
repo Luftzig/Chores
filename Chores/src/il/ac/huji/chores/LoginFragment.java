@@ -55,15 +55,7 @@ public class LoginFragment extends Fragment {
 				EditText passwordTxt = (EditText) (getActivity()
 						.findViewById(R.id.LoginFragment_password));
 				String password = passwordTxt.getText().toString();
-				System.out.println("username :" + username+";");
-				System.out.println("password :" + password+";");
-				if (password.trim().equals("") || username.trim().equals("")) {
-					err = true;
-					msg.setVisibility(View.VISIBLE);
-					msg.setText("Please insert both username and password");
-					msg.setEnabled(true);
-					return;
-				}
+				
 				String verifyPassword;
 				if (!isLogin[0]) {
 					EditText passwordVerifyTxt = (EditText) (getActivity()
@@ -78,6 +70,13 @@ public class LoginFragment extends Fragment {
 							.findViewById(R.id.loginFragmentPhoneEdit))
 							.getText().toString();
 
+					if (password.trim().equals("") || username.trim().equals("")||phoneNumber.trim().equals("")) {
+						err = true;
+						msg.setVisibility(View.VISIBLE);
+						msg.setText("Please fill in all fields.");
+						msg.setEnabled(true);
+						return;
+					}
 					try {
 						RoommateDAL.createRoommateUser(username, password,
 								phoneNumber);
@@ -103,6 +102,13 @@ public class LoginFragment extends Fragment {
 					}
 				} else {
 					try {
+						if (password.trim().equals("") || username.trim().equals("")) {
+							err = true;
+							msg.setVisibility(View.VISIBLE);
+							msg.setText("Please fill in all fields.");
+							msg.setEnabled(true);
+							return;
+						}
 						RoommateDAL.Login(username, password);
 					} catch (ParseException e) {
 						// unsuccessful login
