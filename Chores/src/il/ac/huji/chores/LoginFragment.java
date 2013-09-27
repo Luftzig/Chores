@@ -50,7 +50,12 @@ public class LoginFragment extends Fragment {
 
                 EditText passwordTxt = (EditText) (getActivity().findViewById(R.id.LoginFragment_password));
                 String password = passwordTxt.getText().toString();
-
+                if(password=="" || username==""){
+                	   msg.setVisibility(View.VISIBLE);
+                	   msg.setText("Please insert both username and password");
+                       msg.setEnabled(true);
+                       return;
+                }
                 String verifyPassword;
                 if (!isLogin[0]) {
                     EditText passwordVerifyTxt = (EditText) (getActivity().findViewById(R.id.LoginFragment_password_verify));

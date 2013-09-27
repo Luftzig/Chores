@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.parse.ParseException;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreStatisticsDAL;
@@ -26,25 +28,17 @@ public class StatisticsFragment extends Fragment {
     private StatisticsListAdapter adapter;
     private List<ChoreApartmentStatistics> statistics;
     private ProgressBar progressBar;
+    private TextView messageBox;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
-        listView = (ListView) view.findViewById(R.id.statisticsListView);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+    
+    @Override 
+    public void onResume(){
+    	super.onResume();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                View table = v.findViewById(R.id.details);
-                if (table.getVisibility() == View.GONE) {
-                    table.setVisibility(View.VISIBLE);
-                } else if (table.getVisibility() == View.VISIBLE) {
-                    table.setVisibility(View.GONE);
-                }
-            }
-        });
-        new AsyncTask<Void, Void, Void>() {
+        messageBox = (TextView) getActivity().findViewById(
+				R.id.statisticsNoStatisticsTextView);
+        
+    	new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -67,13 +61,28 @@ public class StatisticsFragment extends Fragment {
                 super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
                 statistics = new ArrayList<ChoreApartmentStatistics>();
                 adapter = new StatisticsListAdapter(getActivity(), statistics);
+            	messageBox.setVisibility(View.GONE);
                 listView.setAdapter(adapter);
+                
+               
+                
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                 progressBar.setVisibility(View.GONE);
+                if(adapter==null ||adapter.getCount()==0){
+                    messageBox
+    				.setText(R.string.statistics_no_statistics);
+    				messageBox.setVisibility(View.VISIBLE);
+    				ViewUtils.hideLoadingView(listView, getActivity(), messageBox);
+                }
+				else{
+					ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
+				
+                }
+                
             }
 
             @Override
@@ -82,6 +91,27 @@ public class StatisticsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         }.execute();
+    	
+    	
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        listView = (ListView) view.findViewById(R.id.statisticsListView);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                View table = v.findViewById(R.id.details);
+                if (table.getVisibility() == View.GONE) {
+                    table.setVisibility(View.VISIBLE);
+                } else if (table.getVisibility() == View.VISIBLE) {
+                    table.setVisibility(View.GONE);
+                }
+            }
+        });
+        
         return view;
     }
 

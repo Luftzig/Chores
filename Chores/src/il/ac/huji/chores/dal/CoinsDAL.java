@@ -63,13 +63,25 @@ public class CoinsDAL {
 		}
 	}
 	
+	private static Coins getDefaultCoins(String username){
+		Coins defaultCoins = new Coins();
+		defaultCoins.setCoinsCollected(0);
+		defaultCoins.setDept(0);
+		defaultCoins.setUsername(username);
+		defaultCoins.setId("");
+		return defaultCoins;
+	}
 	public static Coins getRoommageCoins(String username)
 			throws ParseException {
 		Coins coins = new Coins();
 		ParseObject coinsObj =getRoommageCoinsObj(username);
+		if(coinsObj==null){
+			return getDefaultCoins(username);
+		}
 		coins.setCoinsCollected(coinsObj.getInt("coinsCollected"));
 		coins.setDept(coinsObj.getInt("dept"));
-		coins.setUsername("username");
+		coins.setUsername(username);
+		coins.setId(coinsObj.getObjectId());
 		return coins;
 		
 	}
