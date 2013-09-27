@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -32,21 +33,34 @@ public class NewApartmentDialogFragment extends Fragment {
 		// Move focus from the name textEdit
 		final EditText nameInput = (EditText) getActivity().findViewById(
 				R.id.newApartmentNameEdit);
-		nameInput.setFocusableInTouchMode(false);
-		nameInput.setFocusable(false);
-		nameInput.setFocusableInTouchMode(true);
-		nameInput.setFocusable(true);
+
 		nameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 
-				if (v.getId() == R.id.newApartmentNameEdit && !hasFocus) {
+				//nameInput.clearFocus();
 
-					InputMethodManager imm = (InputMethodManager) getActivity()
-							.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager imm = (InputMethodManager) getActivity()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+			}
+		});
+		LinearLayout mainLinearLayout = (LinearLayout) getActivity()
+				.findViewById(R.id.mainLinearLayoutNewApartmentDialog);
+		mainLinearLayout.setOnTouchListener(new View.OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent arg1) {
+				if (nameInput.isFocused()) {
+
+					nameInput.clearFocus();
+					InputMethodManager imm = (InputMethodManager) v
+							.getContext().getSystemService(
+									Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
 				}
-
+				return false;
 			}
 		});
 
@@ -94,8 +108,6 @@ public class NewApartmentDialogFragment extends Fragment {
 		finishBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), "clicked create apartment",
-						Toast.LENGTH_SHORT).show();
 				System.out.println("clicked create apartment");
 				Log.d("NewApartmentDialogFragment", "clicked create apartment");
 				String apartmentName = nameInput.getText().toString();
@@ -110,7 +122,7 @@ public class NewApartmentDialogFragment extends Fragment {
 									.getResources()
 									.getString(
 											R.string.apartment_creation_no_apartment_name),
-							Toast.LENGTH_SHORT).show();
+							Toast.LENGTH_LONG).show();
 					return;
 				}
 				RoommatesApartment apartment = new RoommatesApartment();
