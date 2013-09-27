@@ -120,9 +120,9 @@ public class AppSetup {
 
     private void setupDAL(){
 
-		Parse.initialize(context,
-                context.getResources().getString(R.string.parse_app_id),
-                context.getResources().getString(R.string.parse_client_key));
+//		Parse.initialize(context,
+//                context.getResources().getString(R.string.parse_app_id),
+//                context.getResources().getString(R.string.parse_client_key));
 		ParseACL defaultACL = new ParseACL();
 		defaultACL.setPublicReadAccess(true);
 		defaultACL.setPublicWriteAccess(true);

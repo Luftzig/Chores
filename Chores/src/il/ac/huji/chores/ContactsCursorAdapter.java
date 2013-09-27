@@ -36,11 +36,12 @@ class ContactsCursorAdapter extends CursorAdapter implements Filterable {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view;
-        if (cursor.getInt(2) == 1) {
+        //if (cursor.getInt(2) == 1) {
+        
             view = inflater.inflate(R.layout.contacts_dropdown_layout, parent, false);
-        } else {
-            view =  inflater.inflate(R.layout.simple_dropdown_item, parent, false);
-        }
+//        } else {
+//            //view =  inflater.inflate(R.layout.simple_dropdown_item, parent, false);
+//        }
         populateView(view, cursor);
         Log.d("ContactsCursorAdapter", "new view " + cursor.getString(1));
         return view;
@@ -51,9 +52,12 @@ class ContactsCursorAdapter extends CursorAdapter implements Filterable {
             String phones = getPhones(cursor);
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutName)).setText(cursor.getString(1));
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutNumber)).setText(phones);
-        } else {
-        	((TextView) view.findViewById(R.id.text_item)).setText(cursor.getString(1));
         }
+//        else {
+//        	
+//        
+//        	((TextView) view.findViewById(R.id.text_item)).setText(cursor.getString(1));
+//        }
     }
 
     public String getPhones(Cursor cursor) {
