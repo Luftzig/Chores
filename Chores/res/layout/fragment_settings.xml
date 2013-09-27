@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="@string/logout_button_text"
         android:id="@+id/logout_button" android:layout_alignParentRight="true" android:layout_alignParentTop="true"
-        style="@android:style/Widget.Holo.Light.Button.Borderless.Small" android:layout_marginRight="16dp"/>
+        style="?android:attr/borderlessButtonStyle" android:layout_marginRight="16dp"/>
   </RelativeLayout>
 
 

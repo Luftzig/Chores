@@ -39,7 +39,7 @@ class ContactsCursorAdapter extends CursorAdapter implements Filterable {
         if (cursor.getInt(2) == 1) {
             view = inflater.inflate(R.layout.contacts_dropdown_layout, parent, false);
         } else {
-            view =  inflater.inflate(android.R.layout.simple_dropdown_item_1line, parent, false);
+            view =  inflater.inflate(R.layout.simple_dropdown_item, parent, false);
         }
         populateView(view, cursor);
         Log.d("ContactsCursorAdapter", "new view " + cursor.getString(1));
@@ -52,7 +52,7 @@ class ContactsCursorAdapter extends CursorAdapter implements Filterable {
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutName)).setText(cursor.getString(1));
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutNumber)).setText(phones);
         } else {
-            ((TextView) view).setText(cursor.getString(1));
+        	((TextView) view.findViewById(R.id.text_item)).setText(cursor.getString(1));
         }
     }
 

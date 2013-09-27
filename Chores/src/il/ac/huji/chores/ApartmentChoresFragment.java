@@ -17,13 +17,9 @@ import android.widget.*;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
-import il.ac.huji.chores.exceptions.DataNotFoundException;
-import il.ac.huji.chores.exceptions.FailedToRetrieveOldChoresException;
-import il.ac.huji.chores.exceptions.FailedToRetriveAllChoresException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import java.util.ArrayList;
@@ -98,7 +94,13 @@ public class ApartmentChoresFragment extends Fragment {
                     Log.e("ApartmentChoresFragment$AsyncTask.onPostExecute", "activity was null when loading finished");
                     return;
                 }
+                
+                
                 if (chores != null && chores.size() > 0) {
+                	
+                    if(adapter == null){
+                    	adapter = new ApartmentChoresDisplayAdapter(getActivity(), chores);
+                    }
                     adapter.clear();
                     adapter.addAll(chores);
                     adapter.sort(new DeadlineComparator());
@@ -276,7 +278,7 @@ public class ApartmentChoresFragment extends Fragment {
                     Log.e("ApartmentChoresFragment$AsyncTask.onPostExecute", "activity was null when loading finished");
                     return;
                 }
-                if (chores.size() > 0) {
+                if (chores != null && chores.size() > 0) {
                     adapter = new ApartmentChoresDisplayAdapter(activity, chores);
                     adapter.sort(new DeadlineComparator());;
                     listChores.setAdapter(adapter);
