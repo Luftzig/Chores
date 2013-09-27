@@ -90,6 +90,9 @@ public class MyChoresFragment extends Fragment {
 	public void onResume() {
 		Log.d("MyChoresFragment", "onResume");
 		super.onResume();
+		adapter = new MyChoresListAdapter(getActivity(), chores);
+		adapter.sort(new DeadlineComparator());
+		listView.setAdapter(adapter);
 		if (adapter != null) {
 			
 			final View placeholder = ViewUtils.hideLoadingView(listView,
