@@ -48,11 +48,11 @@ class ContactsCursorAdapter extends CursorAdapter implements Filterable {
     }
 
     private void populateView(View view, Cursor cursor) {
-        if (cursor.getInt(2) == 1) {
+       // if (cursor.getInt(2) == 1) {
             String phones = getPhones(cursor);
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutName)).setText(cursor.getString(1));
             ((TextView) view.findViewById(R.id.contactsDropdownLayoutNumber)).setText(phones);
-        }
+       // }
 //        else {
 //        	
 //        

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ViewUtils {
     private ViewUtils() {
@@ -54,6 +55,15 @@ public class ViewUtils {
             Log.d("ViewUtils$hideLoadingView", "Unexpected exception", e);
         }
         return null;
+    }
+
+    /**
+     * Pops a Toast message in the supplied context with the supplied string
+     * @param context
+     * @param stringId
+     */
+    public static void callToast(Context context, int stringId) {
+        Toast.makeText(context, context.getResources().getString(stringId), Toast.LENGTH_LONG).show();
     }
 
     public static void replacePlaceholder(View view, View placeholder) {
