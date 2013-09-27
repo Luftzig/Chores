@@ -2,6 +2,7 @@ package il.ac.huji.chores;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -220,17 +221,9 @@ public class MyChoresFragment extends Fragment {
 					.getApartmentID());
 		} catch (ParseException e) {
 			if (e.getCode() == ParseException.CONNECTION_FAILED) {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.chores_connection_failed),
-								Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.general_error), Toast.LENGTH_LONG)
-								.show();
+                ViewUtils.callToast(getActivity(), R.string.chores_connection_failed);
+            } else {
+                ViewUtils.callToast(getActivity(), R.string.general_error);
 			}
 			return new HashMap<String, Integer>();
 		}
@@ -258,24 +251,17 @@ public class MyChoresFragment extends Fragment {
 
 			} catch (ParseException e) {
 				if (e.getCode() == ParseException.CONNECTION_FAILED) {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.chores_connection_failed),
-									Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.general_error), Toast.LENGTH_LONG)
-									.show();
+                    ViewUtils.callToast(getActivity(), R.string.chores_connection_failed);
+                } else {
+                    ViewUtils.callToast(getActivity(), R.string.general_error);
 				}
 			}
 		}
 		return coinsMap;
 	}
 
-	private List<String> createDataSeries(Map<String, Integer> coins) {
+
+    private List<String> createDataSeries(Map<String, Integer> coins) {
 		int i = 2;
 		List<String> orderedKeys = new ArrayList<String>(coins.size());
 		String currentRoommate = RoommateDAL.getRoomateUsername();
