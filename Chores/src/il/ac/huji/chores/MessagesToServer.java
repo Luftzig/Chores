@@ -2,6 +2,7 @@ package il.ac.huji.chores;
 
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 
@@ -16,9 +17,10 @@ public class MessagesToServer {
      * @param phoneNumbers semicolon separated list of phone numbers
      */
     public static void invite(FunctionCallback callback, String name, String phoneNumbers) {
-        HashMap<String, String> params = new HashMap<String, String>();
+        HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("name", name);
         params.put("phone", phoneNumbers);
+        params.put("inviter", ParseUser.getCurrentUser());
         ParseCloud.callFunctionInBackground("invite", params, callback);
     }
 
