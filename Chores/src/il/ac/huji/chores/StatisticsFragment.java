@@ -75,6 +75,7 @@ public class StatisticsFragment extends Fragment {
                 super.onPostExecute(aVoid);    //To change body of overridden methods use File | Settings | File Templates.
                 progressBar.setVisibility(View.GONE);
                 if(adapter==null ||adapter.getCount()==0){
+                	adapter.notifyDataSetChanged();
                     messageBox
     				.setText(R.string.statistics_no_statistics);
     				messageBox.setVisibility(View.VISIBLE);
