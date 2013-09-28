@@ -351,7 +351,19 @@ public class MyChoresFragment extends Fragment {
 				listView.setAdapter(adapter);
 
 				if (adapter == null || adapter.getCount() == 0) {
+					String apartment=null;;
+					try {
+						apartment = RoommateDAL.getApartmentID();
+					} catch (UserNotLoggedInException e) {
+						LoginActivity.OpenLoginScreen(getActivity(), false);
+
+					}
+					if(apartment==null || apartment.equals("")){
+						messageBox.setText(R.string.my_chores_no_apartment);
+					}
+					else{
 					messageBox.setText(R.string.my_chores_no_chores_message);
+					}
 					ViewUtils.hideLoadingView(listView, context, messageBox);
 				}
 				else{

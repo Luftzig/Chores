@@ -18,7 +18,7 @@
     <item>Once a Month</item>
     <item>Every Two Months</item>
   </string-array>
-
+	<string name="my_chores_no_apartment">You are not part of an apartment.\nCreate one by touching going to the "Apartment" tab, or ask one of your roommates to invite you.</string>
   <string name="app_name">Chores</string>
   <string  name="apartment_creation_apartment_name_exists">The apartment name already exists. Please choose another one.</string>
   <string name="apartment_creation_no_apartment_name">Please insert apartment name</string>
