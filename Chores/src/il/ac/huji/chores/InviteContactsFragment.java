@@ -42,24 +42,21 @@ public class InviteContactsFragment extends Fragment {
         inviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            	
-                String contactName = inviteEdit.getText().toString();
-
-                ContactsCursorAdapter adapter = (ContactsCursorAdapter) inviteEdit.getAdapter();
-
-                Log.d("InviteContactsFragment", "Selection: " + adapter.getPhones(adapter.getCursor()));
-                LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
-                final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
-                TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
                 String phone;
-                if (adapter.getCursor().getPosition() > 0) {
+                ContactsCursorAdapter adapter = (ContactsCursorAdapter) inviteEdit.getAdapter();
+                if (adapter.getCursor().getPosition() >= 0) {
                     phone = adapter.getPhones(adapter.getCursor());
                 } else {
                     Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.invit_phone_err), Toast.LENGTH_SHORT).show();
-                	 (rowView.findViewById(R.id.contactRowProgress)).setVisibility(View.GONE);
                     return;
                 }
-          
+                String contactName = inviteEdit.getText().toString();
+
+                LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
+                final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
+                Log.d("InviteContactsFragment", "Selection: " + adapter.getPhones(adapter.getCursor()));
+                TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
+
                 invited.add(contactName);
                 MessagesToServer.invite(new FunctionCallback() {
                     @Override

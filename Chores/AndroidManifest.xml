@@ -86,8 +86,11 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".AlarmReciever" />
-
+        <receiver android:name="il.ac.huji.chores.ChoresBroadcastReceiver">
+            <intent-filter>
+                <action android:name="il.ac.huji.chores.ChoresNotification" />
+            </intent-filter>
+        </receiver>        <receiver android:name=".AlarmReciever" />
         <service
             android:name=".AlarmService"
             android:label="alarmService" >

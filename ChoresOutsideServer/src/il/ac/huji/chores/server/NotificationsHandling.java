@@ -115,8 +115,6 @@ public class NotificationsHandling {
         json.put("action", "il.ac.huji.chores.ChoresNotification");
         json.put("notificationType", notificationType);
         return json;
-
     }
-
 
 }

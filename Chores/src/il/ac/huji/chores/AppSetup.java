@@ -14,6 +14,7 @@ public class AppSetup {
     private Context context;
     private String username;
     private String password;
+    private ActionBar actionBar;
 
     private AppSetup(Context ctx) {
         context = ctx;
@@ -30,6 +31,22 @@ public class AppSetup {
         setupPushNotifications();
     }
 
+    public static Context getApplicationContext() {
+        return instance.context.getApplicationContext();
+    }
+
+    /**
+     * Return the context that was used to create this AppSetup, usually the launcher activity.
+     * @return
+     */
+    public static Context getContext() {
+        return instance.context;
+    }
+
+    public static ActionBar getActionBar() {
+        return instance.actionBar;
+    }
+
     private void destory() {
         context = null;
     }
@@ -42,7 +59,7 @@ public class AppSetup {
     //VERY IMPORTANT COMMENT: If you change the channel subscribing, you must update the un-subscribing to this channel!!!
     //(the un-subscribing is done on the app setting)
     private void setupPushNotifications(){
-    	//PushService.setDefaultPushCallback(_ctx, ChoresMainActivity.class);
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
     	PushService.subscribe(context,
                 Constants.ParseChannelKeys.PARSE_NEW_CHORES_CHANNEL_KEY.toString(), ChoresMainActivity.class);
     	PushService.subscribe(context,
@@ -55,6 +72,7 @@ public class AppSetup {
                 Constants.ParseChannelKeys.PARSE_SUGGEST_CHANNEL_KEY.toString(), ApartmentActivity.class);
     	PushService.subscribe(context,
                 Constants.ParseChannelKeys.PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY.toString(), ApartmentActivity.class);
+        PushService.setDefaultPushCallback(context, ChoresMainActivity.class);
 
     	
     	ParseInstallation install = ParseInstallation.getCurrentInstallation();
@@ -73,38 +91,37 @@ public class AppSetup {
     }
 
     public void setupActionBar() {
-    	
-    	ActionBar bar = ((Activity)context).getActionBar();
-    	bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar = ((Activity)context).getActionBar();
+    	actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     	String fragLabel;
     	
     	/** My chores tab handling **/
     	fragLabel = context.getResources().getString(R.string.action_bar_my_chores);
-    	Tab myChoresTab = bar.newTab();
+    	Tab myChoresTab = actionBar.newTab();
     	myChoresTab.setText(fragLabel);
     	myChoresTab.setTabListener(new ChoresTabListener());
-    	bar.addTab(myChoresTab);
+    	actionBar.addTab(myChoresTab);
     	
     	/** Apartment tab handling **/
     	fragLabel = context.getResources().getString(R.string.action_bar_apartment);
-    	Tab apartmentTab = bar.newTab();
+    	Tab apartmentTab = actionBar.newTab();
     	apartmentTab.setText(fragLabel);
     	apartmentTab.setTabListener(new ChoresTabListener());
-    	bar.addTab(apartmentTab);
+    	actionBar.addTab(apartmentTab);
     	
     	/** Statistics tab handling **/
     	fragLabel = context.getResources().getString(R.string.action_bar_statistics);
-    	Tab statisticsTab = bar.newTab();
+    	Tab statisticsTab = actionBar.newTab();
     	statisticsTab.setText(fragLabel);
     	statisticsTab.setTabListener(new ChoresTabListener());
-    	bar.addTab(statisticsTab);
+    	actionBar.addTab(statisticsTab);
     	
     	/** Settings tab handling **/
     	fragLabel = context.getResources().getString(R.string.action_bar_settings);
-    	Tab settingsTab = bar.newTab();
+    	Tab settingsTab = actionBar.newTab();
     	settingsTab.setText(fragLabel);
     	settingsTab.setTabListener(new ChoresTabListener());
-    	bar.addTab(settingsTab);
+    	actionBar.addTab(settingsTab);
 	}
 
     public static AppSetup getInstance(Context ctx) {
@@ -127,8 +144,5 @@ public class AppSetup {
 		defaultACL.setPublicReadAccess(true);
 		defaultACL.setPublicWriteAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
-		
     }
-
-
 }
