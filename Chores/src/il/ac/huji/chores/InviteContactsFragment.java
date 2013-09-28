@@ -48,18 +48,17 @@ public class InviteContactsFragment extends Fragment {
                 ContactsCursorAdapter adapter = (ContactsCursorAdapter) inviteEdit.getAdapter();
 
                 Log.d("InviteContactsFragment", "Selection: " + adapter.getPhones(adapter.getCursor()));
-                LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
-                final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
-                TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
                 String phone;
-                if (adapter.getCursor().getPosition() > 0) {
+                if (adapter.getCursor().getPosition() >= 0) {
                     phone = adapter.getPhones(adapter.getCursor());
                 } else {
                     Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.invit_phone_err), Toast.LENGTH_SHORT).show();
-                	 (rowView.findViewById(R.id.contactRowProgress)).setVisibility(View.GONE);
                     return;
                 }
-          
+                LayoutInflater inflaterRow = LayoutInflater.from(getActivity());
+                final View rowView = inflaterRow.inflate(R.layout.invite_contact_row, invitedLayout);
+                TextView nameView = (TextView) rowView.findViewById(R.id.contactRowContactNameText);
+
                 invited.add(contactName);
                 MessagesToServer.invite(new FunctionCallback() {
                     @Override
