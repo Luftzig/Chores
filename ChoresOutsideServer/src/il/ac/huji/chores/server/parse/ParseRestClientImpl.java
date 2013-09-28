@@ -5,6 +5,7 @@ import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.Coins;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.RoommatesApartment;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
 import il.ac.huji.chores.server.ChoresServerMain;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -58,7 +59,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 
 	@Override
 	public List<String> getApartmentIds() throws ClientProtocolException,
-			IOException {
+	IOException {
 		String result = Query("Apartment");
 		System.out.println("result = " + result);
 		JSONObject resultJson = new JSONObject(result);
@@ -91,7 +92,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 	}
 
 	public String addChore(String choreJson) throws ClientProtocolException,
-			IOException {
+	IOException {
 		return createObject("Chores", choreJson);
 	}
 
@@ -168,7 +169,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 	}
 
 	public String getRequest(String url) throws ClientProtocolException,
-			IOException {
+	IOException {
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(url);
 		request.setHeader("X-Parse-Application-Id",
@@ -189,12 +190,12 @@ public class ParseRestClientImpl implements ParseRestClient {
 	}
 
 	public String getApartment(String id) throws ClientProtocolException,
-			IOException {
+	IOException {
 		return getObject("Apartment", id);
 	}
 
 	public String Query(String className) throws ClientProtocolException,
-			IOException {
+	IOException {
 		return getRequest("https://api.parse.com/1/classes/" + className);
 	}
 
@@ -228,7 +229,19 @@ public class ParseRestClientImpl implements ParseRestClient {
 		return getRequest(BASE_URL + className + "?" + where);
 	}
 
+	public String QueryWhere(String className, JSONObject keyValue)
+			throws ClientProtocolException, IOException {
+		String where = buildWhereStatement(keyValue);
+		return getRequest(BASE_URL + className + "?" + where);
+	}
+
 	public String buildWhereStatement(Map<String, Object> keyValue) {
+
+		return JsonConverter.whereConditionToJson(keyValue);
+
+	}
+
+	public String buildWhereStatement(JSONObject keyValue) {
 
 		return JsonConverter.whereConditionToJson(keyValue);
 
@@ -250,7 +263,7 @@ public class ParseRestClientImpl implements ParseRestClient {
 
 	@Override
 	public void addChores(List<Chore> chores) throws ClientProtocolException,
-			IOException {
+	IOException {
 
 		Chore chore;
 		String idStr;
@@ -268,11 +281,13 @@ public class ParseRestClientImpl implements ParseRestClient {
 	}
 
 	public void addChoreObj(Chore chore) throws ClientProtocolException,
-			IOException {
+	IOException {
 
 		String jsonChore = JsonConverter.convertChoreToJson(chore).toString();
 		addChore(jsonChore);
 	}
+
+
 
 	@Override
 	public void updateApartmentLastDivision(String apartmentId, Date today)
@@ -318,5 +333,41 @@ public class ParseRestClientImpl implements ParseRestClient {
 			return id;
 		}
 		return null;
+	}
+
+	public void updatePassedDeadlinesChores() throws ClientProtocolException, IOException{
+		Map<String, Object> whereConditionsMap = new HashMap<String, Object>();
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		JSONObject lessCond = new JSONObject();
+		lessCond.put("$lt",  date.getTime());
+		//lessCond.put("status",  CHORE_STATUS.STATUS_FUTURE.toString());
+		JSONObject query= new JSONObject();
+		query.put("deadline", lessCond);
+		//whereConditionsMap.put("deadline",lessCond.toString());
+
+
+		String result = QueryWhere("Chores", query);
+		System.out.println("result = " + result);
+		JSONObject resultJson = new JSONObject(result);
+		JSONArray jsonArr = resultJson.getJSONArray("results");
+		JSONObject obj;
+		JSONObject status = new JSONObject();
+		status.put("status", CHORE_STATUS.STATUS_MISS.toString());
+		for(int i=0;i<jsonArr.length();i++){
+			obj = (JSONObject)jsonArr.get(i);
+			if(obj == null){
+				continue;
+			}
+		
+			Chore chore =JsonConverter.convertJsonToChore(obj);
+			if(chore.getStatus().equals( CHORE_STATUS.STATUS_FUTURE)){
+				updateObject("Chores", chore.getId(), status.toString());
+			}
+	
+			//chores.add(JsonConverter.convertJsonToChore(obj));
+	
+		}
+
 	}
 }

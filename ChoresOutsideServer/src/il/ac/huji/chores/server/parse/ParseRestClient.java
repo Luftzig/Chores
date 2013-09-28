@@ -80,5 +80,9 @@ public interface ParseRestClient {
 	public void setRommateDebt(String username, int debt)throws ClientProtocolException, IOException;
 	
 	public Coins getRoommateCoins(String username) throws ClientProtocolException, IOException;
+	
+	public void updatePassedDeadlinesChores() throws ClientProtocolException, IOException;
+	
+	public void addChoreObj(Chore chore) throws ClientProtocolException, IOException;
 
 }

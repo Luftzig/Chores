@@ -26,6 +26,17 @@ public class JsonConverter {
 		return json.toString();
 	}
 
+    @SuppressWarnings("deprecation")
+	public static  String whereConditionToJson(JSONObject whereParams) {
+		
+		StringBuilder json = new StringBuilder();
+		json.append("where=");
+		json.append(URLEncoder.encode(whereParams.toString()));
+		
+		return json.toString();
+	}
+    
+
 	public static String convertChoreToJson(Chore chore){
 		JSONObject json = new JSONObject();
 		json.put("name", chore.getName());

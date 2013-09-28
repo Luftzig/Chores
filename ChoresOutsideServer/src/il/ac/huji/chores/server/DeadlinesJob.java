@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.server.parse.JsonConverter;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 
+import org.json.JSONObject;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -18,16 +20,20 @@ public class DeadlinesJob implements Job {
 
 		JobDataMap dataMap = jobContext.getJobDetail().getJobDataMap();
 		String choreId = dataMap.getString("choreId");
-		
+
 		ParseRestClientImpl parse = new ParseRestClientImpl();
 		Chore chore;
 		try {
 			chore = parse.getChoreObj(choreId);
 
+			JSONObject status = new JSONObject();
+			status.put("status", CHORE_STATUS.STATUS_FUTURE.toString());
+	
+
 			if(chore.getStatus() == CHORE_STATUS.STATUS_FUTURE){
-				chore.setStatus(CHORE_STATUS.STATUS_MISS);
-				parse.addChoreObj(chore);
 				
+				parse.updateObject("Chores", chore.getId(), status.toString());
+
 				NotificationsHandling.notifyMissedChore(chore);
 			}
 
@@ -38,3 +44,4 @@ public class DeadlinesJob implements Job {
 	}
 
 }
+

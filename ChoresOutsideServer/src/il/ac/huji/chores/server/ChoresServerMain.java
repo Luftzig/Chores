@@ -1,10 +1,16 @@
 package il.ac.huji.chores.server;
 
 import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.Chore.CHORE_STATUS;
+import il.ac.huji.chores.server.parse.ParseRestClient;
+import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -50,6 +56,10 @@ public class ChoresServerMain {
 			// Tell quartz to schedule the job using our trigger
 			scheduler.scheduleJob(RoutineJob, routineTrigger);
 
+			//schedule a deadline job for now
+			updateDeadlinePassed();
+
+
 			//scheduler.shutdown();
 
 		} catch (SchedulerException se) {
@@ -59,12 +69,26 @@ public class ChoresServerMain {
 
 	}
 
+	private static void updateDeadlinePassed(){
+
+		ParseRestClient parse = new ParseRestClientImpl();
+		List<Chore> chores;
+		try {
+			parse.updatePassedDeadlinesChores();
+
+		} catch (IOException e) {
+			System.out.println("IO exception");
+			return;
+		}
+
+	}
+
 	public static void triggerDeadlinePassed(Chore chore){
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(chore.getDeadline());
 		cal.add(Calendar.MINUTE, 1);
-		
+
 		/**** Create the missed deadline job ****/
 		JobDetail missedDeadlineJob = newJob(DeadlinesJob.class)
 				.withIdentity("job"+(curMissedDeadlineID++), "group2")
@@ -72,20 +96,20 @@ public class ChoresServerMain {
 				.build();
 
 		//Trigger the job a minute after the deadline.
-		
+
 		int hour= ((cal.get(Calendar.AM_PM) == Calendar.AM) ? (cal.get(Calendar.HOUR)) : (cal.get(Calendar.HOUR) + 12));
-		
+
 		Trigger deadlineTrigger = newTrigger()
-			    .withIdentity("deadlineTrigger"+(curMissedDeadlineID++), "group2")
-			    .withSchedule(cronSchedule("" 
-			    						+ cal.get(Calendar.SECOND) + " "
-			    						+ cal.get(Calendar.MINUTE) + " "
-			    						+ hour + " "
-			    						+ cal.get(Calendar.DAY_OF_MONTH) + " "
-			    						+ (cal.get(Calendar.MONTH)+1) + " "
-			    						+ "? "
-			    						+ cal.get(Calendar.YEAR)))
-			    .build();
+				.withIdentity("deadlineTrigger"+(curMissedDeadlineID++), "group2")
+				.withSchedule(cronSchedule("" 
+						+ cal.get(Calendar.SECOND) + " "
+						+ cal.get(Calendar.MINUTE) + " "
+						+ hour + " "
+						+ cal.get(Calendar.DAY_OF_MONTH) + " "
+						+ (cal.get(Calendar.MONTH)+1) + " "
+						+ "? "
+						+ cal.get(Calendar.YEAR)))
+						.build();
 
 		// Tell quartz to schedule the job using deadline trigger
 		try {
