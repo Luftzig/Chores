@@ -56,7 +56,7 @@ public class InviteContactsFragment extends Fragment {
                     phone = adapter.getPhones(adapter.getCursor());
                 } else {
                     Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.invit_phone_err), Toast.LENGTH_SHORT).show();
-                	 (rowView.findViewById(R.id.contactRowProgress)).setVisibility(View.INVISIBLE);
+                	 (rowView.findViewById(R.id.contactRowProgress)).setVisibility(View.GONE);
                     return;
                 }
           

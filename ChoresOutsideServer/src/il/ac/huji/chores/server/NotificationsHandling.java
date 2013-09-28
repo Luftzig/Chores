@@ -110,7 +110,7 @@ public class NotificationsHandling {
     public static JSONObject buildDataJson(String message, String notificationType) {
         JSONObject json = new JSONObject();
         json.put("msg", message);
-        //json.put("alert",message);
+        json.put("alert",message);
         //json.put("title",title);
         json.put("action", "il.ac.huji.chores.ChoresNotification");
         json.put("notificationType", notificationType);

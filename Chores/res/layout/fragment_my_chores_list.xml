@@ -12,7 +12,7 @@
     <FrameLayout
             android:id="@+id/myChoresChartContainer"
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:layout_gravity="center_horizontal|top">
     </FrameLayout>
 
@@ -25,6 +25,8 @@
         android:id="@+id/myChoresFragmentListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="false"
+  		android:focusableInTouchMode="false" 
             />
 
     <TextView

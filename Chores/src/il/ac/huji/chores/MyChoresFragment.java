@@ -164,6 +164,10 @@ public class MyChoresFragment extends Fragment {
 				if (context == null) {
 					return;
 				}
+				if(dataSet == null ||renderer == null){
+					chartFrame.setVisibility(View.GONE);
+					return;
+				}
 				chart = ChartFactory.getBarChartView(context, dataSet, renderer, BarChart.Type.DEFAULT);
 				chartFrame.removeAllViewsInLayout();
 				chartFrame.addView(chart);
