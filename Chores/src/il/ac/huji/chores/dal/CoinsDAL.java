@@ -5,12 +5,8 @@ import java.util.List;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import il.ac.huji.chores.Coins;
-import il.ac.huji.chores.exceptions.FailedToGetChoreException;
-import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
-import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 
 public class CoinsDAL {
 
@@ -27,7 +23,7 @@ public class CoinsDAL {
 
 	public static void updateCoinsToRoommates(Coins coins)
 			throws ParseException {
-		ParseObject coinsObj = getRoommageCoinsObj(coins.getUsername());
+		ParseObject coinsObj = getRoommateCoinsObj(coins.getUsername());
 		if (coinsObj == null)
 			coinsObj = createDefaultCoinsForRoommate();
 		coinsObj.put("dept", coins.getDept());
@@ -35,7 +31,7 @@ public class CoinsDAL {
 		coinsObj.save();
 	}
 	public static int getRoommateDebt(String username) throws ParseException{
-		return getRoommageCoinsObj(username).getInt("dept");
+		return getRoommateCoinsObj(username).getInt("dept");
 	}
 	
 	public static void increaseCoinsCollectedDecreaseDebt(int coins) throws ParseException{
@@ -44,13 +40,13 @@ public class CoinsDAL {
 	}
 	
 	public static void increaseCoinsCollectedDecreaseDebt(String roommate,int coins) throws ParseException{
-		ParseObject coinsObj =getRoommageCoinsObj(roommate);
+		ParseObject coinsObj = getRoommateCoinsObj(roommate);
 		coinsObj.increment("coinsCollected", coins);
 		coinsObj.increment("dept",coins*(-1));
 		coinsObj.save();
 	}
 	
-	public static ParseObject getRoommageCoinsObj(String username)
+	public static ParseObject getRoommateCoinsObj(String username)
 			throws ParseException {
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Coins");
 		query.whereEqualTo("username", username);
@@ -71,10 +67,10 @@ public class CoinsDAL {
 		defaultCoins.setId("");
 		return defaultCoins;
 	}
-	public static Coins getRoommageCoins(String username)
+	public static Coins getRoommateCoins(String username)
 			throws ParseException {
 		Coins coins = new Coins();
-		ParseObject coinsObj =getRoommageCoinsObj(username);
+		ParseObject coinsObj = getRoommateCoinsObj(username);
 		if(coinsObj==null){
 			return getDefaultCoins(username);
 		}
@@ -93,7 +89,12 @@ public class CoinsDAL {
 	}
 
 	public static int getRoommateCollectedCoins(String roommate) throws ParseException {
-		return getRoommageCoinsObj(roommate).getInt("coinsCollected");
+        ParseObject coinsObj = getRoommateCoinsObj(roommate);
+        if (coinsObj != null) {
+            return coinsObj.getInt("coinsCollected");
+        } else {
+            return -1;
+        }
 	}
 
 }

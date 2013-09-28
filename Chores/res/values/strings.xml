@@ -179,5 +179,7 @@
   <string name="statistics_apartment_missed">Missed deadlines in apartment:</string>
   <string name="add_edit_chores_table_row_image_description">chore image</string>
   <string name="invit_phone_err">You must choose from the phone contacts</string>
+    <string name="legend_coins_collected">Coins Collected</string>
+    <string name="legend_coins_debt">Debt</string>
 </resources>
 
