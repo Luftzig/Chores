@@ -2,15 +2,24 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
+              android:descendantFocusability="blocksDescendants"
               android:layout_width="fill_parent"
               android:layout_height="match_parent">
 
-  <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/statisticsHeaderText"/>
-  <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/statisticsHeaderImage" android:layout_gravity="center_horizontal|right|top"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_gravity="top"
+        android:layout_marginLeft="16dp" android:layout_marginRight="16dp">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/statisticsName" android:layout_gravity="left" android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="true" android:layout_alignWithParentIfMissing="false"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:layout_width="@dimen/statistics_image_width"
+            android:layout_height="@dimen/statistics_image_height"
+            android:id="@+id/staticsImageView" android:layout_gravity="right" android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 </LinearLayout>

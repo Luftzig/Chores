@@ -3,6 +3,7 @@ package il.ac.huji.chores;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static il.ac.huji.chores.StatisticsListAdapter.StatisticsRowWrapper;
+
 public class StatisticsFragment extends Fragment {
 
     private ListView listView;
     private StatisticsListAdapter adapter;
-    private List<ChoreApartmentStatistics> statistics;
+    private List<StatisticsRowWrapper> statistics;
     private ProgressBar progressBar;
     private TextView messageBox;
 
@@ -45,7 +48,9 @@ public class StatisticsFragment extends Fragment {
                     String apartmentId = RoommateDAL.getApartmentID();
                     List<String> names = ChoreStatisticsDAL.getChoreStatisticsNames();
                     for (String name : names) {
-                        statistics.add(ChoreStatisticsDAL.getChoreApartmentStatistic(name, apartmentId));
+                        ChoreApartmentStatistics choreApartmentStatistic = ChoreStatisticsDAL.getChoreApartmentStatistic(name, apartmentId);
+                        StatisticsRowWrapper wrapper = new StatisticsRowWrapper(choreApartmentStatistic, StatisticsListAdapter.Display.COMPACT);
+                        statistics.add(wrapper);
                         publishProgress();
                     }
                 } catch (UserNotLoggedInException e) {
@@ -59,13 +64,10 @@ public class StatisticsFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();    //To change body of overridden methods use File | Settings | File Templates.
-                statistics = new ArrayList<ChoreApartmentStatistics>();
+                statistics = new ArrayList<StatisticsRowWrapper>();
                 adapter = new StatisticsListAdapter(getActivity(), statistics);
             	messageBox.setVisibility(View.GONE);
                 listView.setAdapter(adapter);
-                
-               
-                
             }
 
             @Override
@@ -77,12 +79,10 @@ public class StatisticsFragment extends Fragment {
     				.setText(R.string.statistics_no_statistics);
     				messageBox.setVisibility(View.VISIBLE);
     				ViewUtils.hideLoadingView(listView, getActivity(), messageBox);
-                }
-				else{
+                } else {
 					ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
 				
                 }
-                
             }
 
             @Override
@@ -91,9 +91,8 @@ public class StatisticsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         }.execute();
-    	
-    	
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
@@ -103,15 +102,16 @@ public class StatisticsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                View table = v.findViewById(R.id.details);
-                if (table.getVisibility() == View.GONE) {
-                    table.setVisibility(View.VISIBLE);
-                } else if (table.getVisibility() == View.VISIBLE) {
-                    table.setVisibility(View.GONE);
+                Log.d("StatisticsFragment", "onClick called on item which is " + adapter.getItem(position).displayType);
+                StatisticsRowWrapper row = adapter.getItem(position);
+                if (row.displayType == StatisticsListAdapter.Display.EXPANDED) {
+                    row.displayType = StatisticsListAdapter.Display.COMPACT;
+                } else {
+                    row.displayType = StatisticsListAdapter.Display.EXPANDED;
                 }
+                adapter.notifyDataSetChanged();
             }
         });
-        
         return view;
     }
 
