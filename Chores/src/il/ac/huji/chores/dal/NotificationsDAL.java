@@ -111,7 +111,7 @@ public class NotificationsDAL {
     public static JSONObject createDataJson(String msg, String notificationtype) {
         JSONObject data = new JSONObject();
         try {
-            data.put("action", "il.ac.huji.chores.ChoresNotification");
+            data.put("action", "il.ac.huji.chores.choresNotification");
             data.put("alert", msg);
             data.put("msg", msg);
             data.put("notificationType", notificationtype);

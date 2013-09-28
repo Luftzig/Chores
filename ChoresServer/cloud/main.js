@@ -73,7 +73,7 @@ Parse.Cloud.define("invite", function(request, response) {
                         alert: "You were invited to join an apartment",
                         apartmentId: apartmentId,
                         msg: "You were invited to join " + inviterName + "'s apartment.",
-                        action: "il.ac.huji.chores.ChoresNotification",
+                        action: "il.ac.huji.chores.choresNotification",
                         notificationType: "PARSE_INVITATION_CHANNEL_KEY",
                         inviter: inviterName
                     }
