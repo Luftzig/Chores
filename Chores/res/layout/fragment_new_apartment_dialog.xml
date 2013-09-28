@@ -9,7 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        
+        android:id="@+id/mainLinearLayoutNewApartmentDialog" >
 
         <TextView
             android:id="@+id/newApartmentTitle"
@@ -57,6 +59,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:imeOptions="actionDone"
                 android:hint="@string/new_apartment_dialog_name_hint" >
 
             	<requestFocus />
