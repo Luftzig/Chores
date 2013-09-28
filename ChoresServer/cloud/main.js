@@ -49,18 +49,16 @@ function getUserByName(username) {
 
 Parse.Cloud.define("invite", function(request, response) {
     var name = request.params.name, phone = request.params.phone,
-        inviterName = request.params.inviter.username;
+        inviterName = request.params.inviterName, apartmentId = request.params.apartmentId;
     if (phone == null || phone === undefined || phone == "" ) {
         console.log("No phone number was provided");
         response.error("No phone number was provided");
     }
     var query = findPhones(phone);
-    var inviterPromise = getUserByName(inviterName);
-    /*console.log("invite: querying for user " + name + ", " + phone);*/
     var usersPromise = query.find(function (results) {
         console.log("Found users");
     });
-    Parse.Promise.when(usersPromise, inviterPromise).then(function (users, inviter) {
+    Parse.Promise.when(usersPromise).then(function (users) {
         if (users.length > 0) {
             for (var i in users) {
                 if (users[i] == null || users[i] === undefined) {
@@ -73,11 +71,11 @@ Parse.Cloud.define("invite", function(request, response) {
                     where: installationsQuery,
                     data: {
                         alert: "You were invited to join an apartment",
-                        apartmentId: inviter.get("apartmentID"),
-                        msg: "You were invited to join " + inviter.get("username") + "'s apartment.",
+                        apartmentId: apartmentId,
+                        msg: "You were invited to join " + inviterName + "'s apartment.",
                         action: "il.ac.huji.chores.choresNotification",
                         notificationType: "PARSE_INVITATION_CHANNEL_KEY",
-                        inviter: inviter
+                        inviter: inviterName
                     }
                 });
             }
