@@ -76,6 +76,7 @@
         android:text="@string/apartment_historyButtoonText"
         android:textSize="@dimen/apartment_history_button_textSize"
         android:layout_gravity="bottom"
-        android:visibility="visible" />
+        android:visibility="gone"
+        android:enabled="false" />
 
 </LinearLayout>
