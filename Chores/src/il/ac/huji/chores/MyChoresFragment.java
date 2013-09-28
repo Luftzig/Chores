@@ -161,7 +161,8 @@ public class MyChoresFragment extends Fragment {
                     return;
                 }
                 Activity context = getActivity();
-				if (context == null) {
+				if (context == null || dataSet == null || renderer == null
+                        || dataSet.getSeriesCount() != renderer.getSeriesRendererCount()) {
 					return;
 				}
 				if(dataSet == null ||renderer == null){
@@ -265,14 +266,8 @@ public class MyChoresFragment extends Fragment {
 
     private List<String> createDataSeries(Map<String, int[]> coins) {
 		List<String> orderedKeys = new ArrayList<String>(coins.size());
-        /*String currentRoommate = RoommateDAL.getRoomateUsername();*/
         coinSeries = new CategorySeries(legendTitles[0]);
         debtSeries = new CategorySeries(legendTitles[1]);
-        /*int[] currentCoinsAndDebt = coins.get(currentRoommate);
-        coinSeries.add(currentCoinsAndDebt[0]);
-        debtSeries.add(currentCoinsAndDebt[1]);
-        orderedKeys.add(0, currentRoommate);
-        coins.remove(currentRoommate);*/
         for (String key : coins.keySet()) {
             int[] coinsAndDebt = coins.get(key);
             coinSeries.add(key, coinsAndDebt[0]);
