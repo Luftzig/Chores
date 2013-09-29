@@ -12,7 +12,7 @@
     <FrameLayout
             android:id="@+id/myChoresChartContainer"
             android:layout_width="fill_parent"
-            android:layout_height="140dp"
+            android:layout_height="190dp"
             android:layout_gravity="center_horizontal|top">
     </FrameLayout>
 
