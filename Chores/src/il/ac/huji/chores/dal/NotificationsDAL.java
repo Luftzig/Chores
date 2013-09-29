@@ -62,7 +62,7 @@ public class NotificationsDAL {
 																				// the
 																				// channel
 		pushQuery.whereContainedIn("username", roommates);
-		String msg = sender + " missed the chore " + chore.getName();
+		String msg = sender + " stole the chore " + chore.getName();
 		JSONObject data = createDataJson(msg,
 				PARSE_STEAL_CHANNEL_KEY.toString());
 		// Send push notification to query
@@ -129,15 +129,15 @@ public class NotificationsDAL {
 		query.whereContainedIn("username", roommates);
 		ParsePush push = new ParsePush();
 		push.setQuery(query);
-		push.setMessage(accepter + " has joined the apartment!");
+		//push.setMessage(accepter + " has joined the apartment!");
 		push.sendInBackground();
 	}
 
 	public static JSONObject createDataJson(String msg, String notificationtype) {
 		JSONObject data = new JSONObject();
 		try {
-			data.put("action", "il.ac.huji.chores.choresNotification");
-			data.put("alert", msg);
+			//data.put("action", "il.ac.huji.chores.choresNotification");
+			//data.put("alert", msg);
 			data.put("msg", msg);
 			data.put("notificationType", notificationtype);
 		} catch (JSONException e) {
