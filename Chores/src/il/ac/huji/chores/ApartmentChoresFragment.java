@@ -333,28 +333,36 @@ public class ApartmentChoresFragment extends Fragment {
      * @param suggestedChoreId
      * @param context
      */
-    public static void doSuggestionAccepted(String suggestedChoreId, Context context) {
-        try {
-        	Chore chore = ChoreDAL.getChore(suggestedChoreId);
-        	String user = RoommateDAL.getRoomateUsername();
-            if (user == null || chore == null) {
-                Log.e("ApartmentChoresFragment", "user or chore were null");
-                return;
+    public static void doSuggestionAccepted(String suggestedChoreId, final Context context) {
+        new AsyncTask<String, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(String... params) {
+                try {
+                    String suggestedChoreId = params[0];
+                    Chore chore = ChoreDAL.getChore(suggestedChoreId);
+                    String user = RoommateDAL.getRoomateUsername();
+                    if (user == null || chore == null) {
+                        Log.e("ApartmentChoresFragment", "user or chore were null");
+                        return null;
+                    }
+                    String oldOwner = chore.getAssignedTo();
+
+                    ChoreDAL.updateAssignedTo(suggestedChoreId, user);
+
+                    List<String> roommates = new ArrayList<String>();
+                    roommates.add(oldOwner);
+
+                    NotificationsDAL.notifySuggestChoreAccepted(chore, user, roommates);
+                } catch (UserNotLoggedInException e) {
+                    LoginActivity.OpenLoginScreen(context, false);
+                    return null;
+                } catch (ParseException e) {
+
+                }
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
-            String oldOwner = chore.getAssignedTo();
-        	
-            ChoreDAL.updateAssignedTo(suggestedChoreId, user);
-            
-            List<String> roommates = new ArrayList<String>();
-            roommates.add(oldOwner);
-            
-            NotificationsDAL.notifySuggestChoreAccepted(chore, user, roommates);
-        } catch (UserNotLoggedInException e) {
-            LoginActivity.OpenLoginScreen(context, false);
-            return;
-        } catch (ParseException e) {
-        	
-		}
+        }.execute(suggestedChoreId);
     }
 }
 
