@@ -9,6 +9,7 @@ import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
+import java.util.Date;
 import java.util.List;
 
 //import javax.annotation.Nullable;
@@ -89,7 +90,9 @@ public class RoommateDAL {
 			throws UserNotLoggedInException {
 		ParseUser roommate = ParseUser.getCurrentUser();
 		roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
+		roommate.put("lastUpdated",new Date());
 		try {
+			
 			roommate.save();
 			CoinsDAL.createDefaultCoinsForRoommate();
 		} catch (ParseException e) {
@@ -152,6 +155,7 @@ public class RoommateDAL {
 		ParseUser user = new ParseUser();
 		user.setUsername(username);
 		user.setPassword(password);
+		
 		user.signUp();
 		initRoommateProperties(phoneNumber);
 		ParseInstallation installation = ParseInstallation
