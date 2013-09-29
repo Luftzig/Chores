@@ -20,7 +20,7 @@ public class choresDevisionDummy {
         chore.setApartment("Tl0A2RZUh8");
         NotificationsHandling.notifyMissedChore(chore);*/
     	ParseRestClientImpl parse = new ParseRestClientImpl();
-    	parse.setRommateDebt("anna", 100);
+    	parse.setRommateDebt("anna", 200);
     	
     }
 

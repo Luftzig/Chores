@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -43,21 +45,17 @@ public class DALTestActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 
 		try {
-			RoommateDAL.Login("ANNA_COINS", "123123");
-			Chore chore = new ApartmentChore();
+			RoommateDAL.Login("Yoav", "1234");
+			/*Chore chore = new ApartmentChore();
 			chore.setApartment("apt id");
 			chore.setName("chore to pull");
 			chore.setId("chore ID");
 			String sender = "anna";
 			List<String> roommates = new ArrayList<String>();
 			roommates.add("Shani");
-			roommates.add("Yoav");
-			//PullNotificationsDAL.notifyChoreDone(chore, sender, roommates);
-			//PullNotificationsDAL.notifyChoreMissed(chore, sender, roommates);
-			PullNotificationsDAL.notifyInvitationAccepted(sender, "LkX1fKO0wf");
-			PullNotificationsDAL.notifySuggestChore(chore, sender, roommates);
-			PullNotificationsDAL.notifySuggestChoreAccepted(chore, sender, roommates);
-			PullNotificationsDAL.notifySuggestStealChore(chore, sender, roommates);
+			roommates.add("Yoav");*/
+			List<JSONObject> results = PullNotificationsDAL.pullAllNotifications();
+			
 			//Date today = new Date();
 			//List<Chore> results = ChoreDAL.getAllChoresCreatedAfter(today.getTime());
 			

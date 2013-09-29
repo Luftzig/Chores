@@ -26,13 +26,12 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
         ChoresMainActivity mainActivityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
         assert mainActivityContext != null;
         ActionBar bar = AppSetup.getActionBar();
-        ActionBar.Tab curSelected = bar.getSelectedTab();
         JSONObject jsonData;
         try {
             jsonData = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
-            String type = jsonData.getString("notificationType");
             boolean onRightTab;
+            ActionBar.Tab curSelected = bar.getSelectedTab();
             if (curSelected != null) {
                 CharSequence text = curSelected.getText();
                 onRightTab = (!mainActivityContext.getResources().getString(R.string.action_bar_apartment)
@@ -41,6 +40,7 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
                 onRightTab = false;
             }
             int nextTab = 0;
+            String type = jsonData.getString("notificationType");
             switch (Constants.ParseChannelKeys.valueOf(type)) {
             case PARSE_NEW_CHORES_CHANNEL_KEY:
                 boolean showDialog = handleNewChoresMessage();
