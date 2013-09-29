@@ -45,15 +45,17 @@ public class DALTestActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 
 		try {
-			RoommateDAL.Login("Yoav", "1234");
-			/*Chore chore = new ApartmentChore();
+			RoommateDAL.Login("Yoav Luft", "1234");
+			Chore chore = new ApartmentChore();
 			chore.setApartment("apt id");
 			chore.setName("chore to pull");
 			chore.setId("chore ID");
+			chore.setDeadline(new Date());
 			String sender = "anna";
 			List<String> roommates = new ArrayList<String>();
 			roommates.add("Shani");
-			roommates.add("Yoav");*/
+			roommates.add("Yoav Lufy");
+		//	PullNotificationsDAL.notifySuggestChore(chore, sender, roommates);
 			List<JSONObject> results = PullNotificationsDAL.pullAllNotifications();
 			
 			//Date today = new Date();

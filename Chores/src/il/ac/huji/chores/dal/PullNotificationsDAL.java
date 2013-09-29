@@ -61,17 +61,6 @@ public class PullNotificationsDAL extends NotificationsDAL {
 			List<String> roommates) {
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
-		notification.put("info", chore.getId());
-		notification.put("target", roommates);
-		notification.put("type", PARSE_SUGGEST_CHANNEL_KEY.toString());
-		notification.saveInBackground();
-	}
-
-	public static void notifySuggestChoreAccepted(Chore chore, String sender,
-			List<String> roommates) {
-
-		ParseObject notification = new ParseObject("Notifications");
-		notification.put("sender", sender);
 		JSONObject json = new JSONObject();
 		try {
 			json.put("name", chore.getName());
@@ -80,7 +69,23 @@ public class PullNotificationsDAL extends NotificationsDAL {
 		} catch (JSONException e) {
 
 		}
-		notification.put("info", json);
+		notification.put("info", json.toString());
+		notification.put("target", roommates);
+		notification.put("type", PARSE_SUGGEST_CHANNEL_KEY.toString());
+		try {
+			notification.save();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public static void notifySuggestChoreAccepted(Chore chore, String sender,
+			List<String> roommates) {
+
+		ParseObject notification = new ParseObject("Notifications");
+		notification.put("sender", sender);
+		notification.put("info", chore.getName());
 		notification.put("target", roommates);
 		notification.put("type", PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY.toString());
 		notification.saveInBackground();
@@ -118,8 +123,10 @@ public class PullNotificationsDAL extends NotificationsDAL {
 		}
 		for (ParseObject result : results) {
 			JSONObject jsonRes = handleParseObject(result);
-			if (jsonRes != null)
+			if (jsonRes != null){
 				notifications.add(jsonRes);
+				System.out.println("json:"+jsonRes.toString());
+			}
 		}
 		return notifications;
 	}
@@ -147,10 +154,10 @@ public class PullNotificationsDAL extends NotificationsDAL {
 						+ obj.getString("info");
 				break;
 			case PARSE_SUGGEST_CHANNEL_KEY:
-				JSONObject json = obj.getJSONObject("info");
+				JSONObject json = new JSONObject(obj.getString("info"));
 				msg = obj.getString("sender")
 						+ " suggest you to take the chore :"
-						+ obj.getString("info");
+						+ json.getString("name");
 
 				notification.put("choreId", json.getString("choreId"));
 				notification.put("sender", obj.getString("sender"));
