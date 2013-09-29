@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.parse.ParseUser;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.CoinsDAL;
@@ -96,43 +97,49 @@ public class MyChoresFragment extends Fragment {
 	public void onResume() {
 		Log.d("MyChoresFragment", "onResume");
 		super.onResume();
-		
-		if (adapter != null) {
-			
-			final View placeholder = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
-			new AsyncTask<Void, Void, Void>() {
-				@Override
-				protected Void doInBackground(Void... voids) {
-					try {
-						roommatesChores = ChoreDAL.getRoommatesChores();
-					} catch (UserNotLoggedInException e) {
-						LoginActivity.OpenLoginScreen(getActivity(), false);
-					}
-					return null;
-				}
 
-				@Override
-				protected void onPostExecute(Void aVoid) {
-					super.onPostExecute(aVoid);
-					if (getActivity() == null) {
-						return;
-					}
-					adapter.clear();
-					adapter.addAll(roommatesChores);
-					adapter.sort(new DeadlineComparator());
-					if (adapter == null || adapter.getCount() == 0) {
-						listView.setVisibility(View.GONE);
-						progressBar.setVisibility(View.GONE);
-						messageBox.setText(R.string.my_chores_no_chores_message);
-						messageBox.setVisibility(View.VISIBLE);
-						return;
-					} else {
-						ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
-					}
-					ViewUtils.replacePlaceholder(listView, placeholder);
-				}
-			}.execute();
-		}
+		if (adapter != null || ParseUser.getCurrentUser().get("apartmentID") == null) {
+            Log.w("MyChoresFragment.onResume", "adapter is null or no apartment");
+            messageBox.setText(R.string.my_chores_no_apartment);
+            return;
+        }
+
+        final View placeholder = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    roommatesChores = ChoreDAL.getRoommatesChores();
+                } catch (UserNotLoggedInException e) {
+                    LoginActivity.OpenLoginScreen(getActivity(), false);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (getActivity() == null) {
+                    return;
+                }
+                adapter.clear();
+                adapter.addAll(roommatesChores);
+                adapter.sort(new DeadlineComparator());
+                if (adapter == null || adapter.getCount() == 0) {
+                    listView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    messageBox.setText(R.string.my_chores_no_chores_message);
+                    messageBox.setVisibility(View.VISIBLE);
+                    return;
+                } else {
+                    ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
+                }
+                if(ParseUser.getCurrentUser().get("apartmentID") == null){
+                    messageBox.setText(R.string.my_chores_no_apartment);
+                }
+                ViewUtils.replacePlaceholder(listView, placeholder);
+            }
+        }.execute();
 
 		// Coins Chart stuff
 		final ProgressBar progressBar = new ProgressBar(getActivity());
@@ -147,6 +154,7 @@ public class MyChoresFragment extends Fragment {
 				super.onPostExecute(e); // To change body of overridden
 				// methods use File | Settings |
 				// File Templates.
+                chartFrame.removeAllViewsInLayout();
                 if (e != null) {
                     if (e instanceof ParseException) {
                         if (((ParseException) e).getCode() == ParseException.CONNECTION_FAILED) {
@@ -170,7 +178,6 @@ public class MyChoresFragment extends Fragment {
 					return;
 				}
 				chart = ChartFactory.getBarChartView(context, dataSet, renderer, BarChart.Type.DEFAULT);
-				chartFrame.removeAllViewsInLayout();
 				chartFrame.addView(chart);
 			}
 
@@ -368,11 +375,10 @@ public class MyChoresFragment extends Fragment {
 						LoginActivity.OpenLoginScreen(getActivity(), false);
 
 					}
-					if(apartment==null || apartment.equals("")){
+					if(apartment == null || apartment.equals("")){
 						messageBox.setText(R.string.my_chores_no_apartment);
-					}
-					else{
-					messageBox.setText(R.string.my_chores_no_chores_message);
+					} else {
+                        messageBox.setText(R.string.my_chores_no_chores_message);
 					}
 					ViewUtils.hideLoadingView(listView, context, messageBox);
 				}
