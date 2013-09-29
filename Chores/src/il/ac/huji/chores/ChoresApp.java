@@ -29,7 +29,7 @@ public class ChoresApp extends Application {
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 
-		Intent intent = new Intent(context, PullSessionReciever.class);
+		Intent intent = new Intent(context, PullSessionReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 10, intent, 0);
         alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), PULL_ALARM_REPEAT_INTERVAL , pi);
     }
