@@ -1,6 +1,8 @@
 package il.ac.huji.chores.server;
 
+import com.parse.ParseObject;
 import il.ac.huji.chores.Chore;
+import il.ac.huji.chores.Constants;
 import il.ac.huji.chores.Roommate;
 import il.ac.huji.chores.server.parse.ParseRestClientImpl;
 import org.apache.http.HttpResponse;
@@ -22,6 +24,7 @@ import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_NEW_CHORES_CHAN
 
 public class NotificationsHandling {
 
+    private static final String CHORES_SERVER = "CHORES_SERVER";
     private static String PUSH_URL = "https://api.parse.com/1/push";
 
     public static void notifyNewChores(String apartmentId, Calendar earliest) throws ClientProtocolException, IOException {
@@ -43,6 +46,8 @@ public class NotificationsHandling {
 
         //JSONArray channels = new JSONArray(channelsList);
         sendNotification(usersStatement, data);
+        JSONObject timeJson = new JSONObject().put("updateTime", updateDayRounded.getTime()).put("timezone", timeZone.getID());
+        updateTableHelper(PARSE_NEW_CHORES_CHANNEL_KEY, CHORES_SERVER, getRoommatesNames(roommates), timeJson);
     }
 
     //notify parse chore chore was missed (parse then need to notify the roommates)
@@ -59,6 +64,18 @@ public class NotificationsHandling {
 
         //JSONArray channels = new JSONArray(channelsList);
         sendNotification(usersStatement, data);
+        updateTableHelper(PARSE_MISSED_CHANNEL_KEY, CHORES_SERVER, getRoommatesNames(roommates), chore.getName());
+    }
+
+    private static void updateTableHelper(Constants.ParseChannelKeys type, String sender, List<String> target, Object info)
+            throws IOException {
+        ParseRestClientImpl parse = new ParseRestClientImpl();
+        JSONObject notification = new JSONObject();
+        notification.put("sender", sender);
+        notification.put("info", info);
+        notification.put("target", target);
+        notification.put("type", type.toString());
+        parse.createObject("Notifications", notification.toString());
     }
 
     private static void sendNotification(JSONObject where, JSONObject data) throws ClientProtocolException, IOException {
@@ -98,13 +115,18 @@ public class NotificationsHandling {
     }
 
     public static JSONArray convertRoommatesToJSonArray(List<Roommate> roommates) {
+        List<String> usersList = getRoommatesNames(roommates);
+        JSONArray jsonArr = new JSONArray(usersList);
+        System.out.println(jsonArr.toString());
+        return jsonArr;
+    }
+
+    private static List<String> getRoommatesNames(List<Roommate> roommates) {
         List<String> usersList = new ArrayList<String>();
         for (Roommate roommate : roommates) {
             usersList.add(roommate.getUsername());
         }
-        JSONArray jsonArr = new JSONArray(usersList);
-        System.out.println(jsonArr.toString());
-        return jsonArr;
+        return usersList;
     }
 
     public static JSONObject buildDataJson(String message, String notificationType) {
