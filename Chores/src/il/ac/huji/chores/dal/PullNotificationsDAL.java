@@ -8,10 +8,15 @@ import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_SUGGEST_ACCEPTE
 import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_SUGGEST_CHANNEL_KEY;
 import il.ac.huji.chores.Chore;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
 public class PullNotificationsDAL extends NotificationsDAL {
@@ -86,5 +91,20 @@ public class PullNotificationsDAL extends NotificationsDAL {
 		notification.saveInBackground();
 
 	}
+	
+	public static List<JSONObject> pullAllNotifications(){
+		ParseUser currUser = ParseUser.getCurrentUser();
+		List<String> target = new ArrayList<String>();
+		target.add(currUser.getUsername());
+		List<JSONObject> notifications = new ArrayList<JSONObject>();
+		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Notifications");
+		query.whereContainedIn("target", target);
+		
+		//List<O>query.find();
+		return notifications;
+		
+		
+	}
 
 }
+ 
