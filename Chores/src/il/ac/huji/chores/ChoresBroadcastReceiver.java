@@ -59,7 +59,8 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
                 nextTab = ChoresMainActivity.ACTION_BAR_TABS_ORDER.APARTMENT.ordinal();
             }
             showNotificationDialog(onRightTab, nextTab, type, jsonData);
-        } catch (JSONException | UserNotLoggedInException ignored) {
+        } catch (JSONException e1) {
+        }catch(UserNotLoggedInException e1){	
         }
     }
 
