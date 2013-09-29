@@ -23,11 +23,11 @@ import com.parse.ParseUser;
 
 import javax.annotation.Nullable;
 
-public class PullNotificationsDAL extends NotificationsDAL {
+public class PullNotificationsDAL {
 
 	public static void notifyChoreDone(Chore chore, String sender,
 			List<String> roommates) {
-
+		NotificationsDAL.notifyChoreDone(chore,sender,roommates);
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
 		notification.put("info", chore.getName());
@@ -36,10 +36,10 @@ public class PullNotificationsDAL extends NotificationsDAL {
 		notification.saveInBackground();
 
 	}
-
+	
 	public static void notifyChoreMissed(Chore chore, String sender,
 			List<String> roommates) {
-
+		NotificationsDAL.notifyChoreMissed(chore,sender,roommates);
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
 		notification.put("info", chore.getName());
@@ -50,7 +50,7 @@ public class PullNotificationsDAL extends NotificationsDAL {
 
 	public static void notifySuggestStealChore(Chore chore, String sender,
 			List<String> roommates) {
-
+		NotificationsDAL.notifySuggestStealChore(chore,sender,roommates);
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
 		notification.put("info", chore.getName());
@@ -62,6 +62,7 @@ public class PullNotificationsDAL extends NotificationsDAL {
 
 	public static void notifySuggestChore(Chore chore, String sender,
 			List<String> roommates) {
+		NotificationsDAL.notifySuggestChore(chore,sender,roommates);
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
 		JSONObject json = new JSONObject();
@@ -85,7 +86,7 @@ public class PullNotificationsDAL extends NotificationsDAL {
 
 	public static void notifySuggestChoreAccepted(Chore chore, String sender,
 			List<String> roommates) {
-
+		NotificationsDAL.notifySuggestChoreAccepted(chore,sender,roommates);
 		ParseObject notification = new ParseObject("Notifications");
 		notification.put("sender", sender);
 		notification.put("info", chore.getName());
