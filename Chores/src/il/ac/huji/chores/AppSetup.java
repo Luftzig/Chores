@@ -8,12 +8,12 @@ import android.util.Log;
 import com.parse.*;
 import il.ac.huji.chores.dal.RoommateDAL;
 
+import javax.annotation.Nullable;
+
 public class AppSetup {
 
     private static AppSetup instance;
     private Context context;
-    private String username;
-    private String password;
 
     private AppSetup(Context ctx) {
         context = ctx;
@@ -107,15 +107,33 @@ public class AppSetup {
     	bar.addTab(settingsTab);
 	}
 
+    public static ActionBar getActionBar() {
+        if (instance != null && instance.context != null && instance.context instanceof ChoresMainActivity) {
+            return ((ChoresMainActivity)instance.getContext()).getActionBar();
+        } else {
+            Log.e("AppSetup.getActionBar", "Not initialized or context is null or context is not ChoresMainActivity");
+            return null;
+        }
+    }
+
+    /**
+     * @return context with which the AppSetup was created, should be {@link ChoresMainActivity}, or null if AppSetup
+     * was not initialized.
+     */
+    @Nullable
+    public static Context getMainActivityContext() {
+        if (instance != null) {
+            return instance.getContext();
+        } else {
+            return null;
+        }
+    }
+
     public static AppSetup getInstance(Context ctx) {
         if (instance == null) {
             instance = new AppSetup(ctx);
         }
         return instance;
-    }
-
-    private String loginParse() throws ParseException{
-    	return RoommateDAL.Login(username, password);
     }
 
     private void setupDAL(){
@@ -130,5 +148,10 @@ public class AppSetup {
 		
     }
 
-
+    /**
+     * @return context with which the AppSetup was created, should be {@link ChoresMainActivity}
+     */
+    public Context getContext() {
+        return context;
+    }
 }
