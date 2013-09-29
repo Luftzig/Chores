@@ -181,5 +181,6 @@
   <string name="invit_phone_err">You must choose from the phone contacts</string>
     <string name="legend_coins_collected">Coins Collected</string>
     <string name="legend_coins_debt">Debt</string>
+    <string name="joined_apartment_text">had joined your apartment</string>
 </resources>
 
