@@ -337,7 +337,11 @@ public class ApartmentChoresFragment extends Fragment {
         try {
         	Chore chore = ChoreDAL.getChore(suggestedChoreId);
         	String user = RoommateDAL.getRoomateUsername();
-        	String oldOwner = chore.getAssignedTo();
+            if (user == null || chore == null) {
+                Log.e("ApartmentChoresFragment", "user or chore were null");
+                return;
+            }
+            String oldOwner = chore.getAssignedTo();
         	
             ChoreDAL.updateAssignedTo(suggestedChoreId, user);
             
