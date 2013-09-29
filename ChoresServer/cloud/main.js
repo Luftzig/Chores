@@ -1,16 +1,16 @@
 //noinspection JSUnfilteredForInLoop
 function findPhones(phones) {
-    var splitted = phones.split("; ");
+    var splitted = phones.split(";");
     var queries = [];
-    for (i in splitted) {
+    for (var i in splitted) {
         if (splitted[i] == null || splitted[i] === undefined) {
             continue;
         }
-        var number = splitted[i].replace("[^0-9]", "");
-        console.log("Looking for phone number: " + number);
+        var number = splitted[i].replace(new RegExp('[^0-9]', 'g'), "");
         if (number == "") {
             continue;
         }
+        console.log("Looking for phone number: " + number);
         var query = findPhoneNumber(number);
         if (query !== undefined && query != null) {
             queries.push(query);
@@ -21,9 +21,6 @@ function findPhones(phones) {
 
 function findPhoneNumber(number) {
     var query = new Parse.Query(Parse.User);
-/*    var suffix = number.slice(-6);
-    var prefix = number.slice(0, -6);
-    query.endsWith("phoneNumber", suffix).startsWith("phoneNumber", prefix);*/
     query.endsWith("phoneNumber", number);
     return query;
 }
