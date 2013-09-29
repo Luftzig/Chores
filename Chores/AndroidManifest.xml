@@ -100,7 +100,7 @@
         
        
         <receiver android:name=".AlarmReciever" />
-        <receiver android:name=".PullSessionReciever"></receiver>
+        <receiver android:name=".PullSessionReceiver"></receiver>
 
         <service
             android:name=".AlarmService"
