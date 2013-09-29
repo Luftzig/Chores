@@ -14,11 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import il.ac.huji.chores.Chore.CHORE_STATUS;
-import il.ac.huji.chores.dal.ApartmentDAL;
-import il.ac.huji.chores.dal.ChoreDAL;
-import il.ac.huji.chores.dal.CoinsDAL;
-import il.ac.huji.chores.dal.NotificationsDAL;
-import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.dal.*;
 import il.ac.huji.chores.exceptions.DataNotFoundException;
 import il.ac.huji.chores.exceptions.FailedToGetRoommateException;
 import il.ac.huji.chores.exceptions.FailedToSaveOperationException;
@@ -48,7 +44,7 @@ public class ChoreCardFragment extends Fragment {
 
 	}
 
-	/*
+	/**
 	 * this method receives arguments that contain info about the current chore,
 	 * and organiz UI accordingly (set right text in text view and buttons,
 	 * removes buttons if needed). ownerOpen - true if the the owner of this
@@ -213,12 +209,14 @@ public class ChoreCardFragment extends Fragment {
 		}
 	}
 
-	// Sets button listeners to the steal chore, done chore, and suggest chore
-	// buttons.
-	// The function's arguments are the buttons, or null if the button shouldn't
-	// have any functionality.
-	// roommates - a list of the user roommates. needed only for chore
-	// suggestion.
+	/**
+     * Sets button listeners to the steal chore, done chore, and suggest chore
+	 * buttons.
+	 * The function's arguments are the buttons, or null if the button shouldn't
+	 * have any functionality.
+	 * roommates - a list of the user roommates. needed only for chore
+	 * suggestion.
+	 */
 	private void setListenersToCardButtons(Button doneButton,
 			Button suggestButton, Button StealButton, final Chore chore,
 			final String curUser, final List<String> roommates) {
@@ -237,9 +235,7 @@ public class ChoreCardFragment extends Fragment {
 						updateDebtAndCoinsCollected(chore.getCoinsNum(),
 								chore.getAssignedTo(), sender, roommates);
 
-						// MessagesToServer.notifyRoomates(roommates, "DONE",
-						// chore.getId());
-						NotificationsDAL.notifyChoreDone(chore, sender,
+						PullNotificationsDAL.notifyChoreDone(chore, sender,
 								roommates);
 
 					} catch (ParseException e) {
@@ -313,7 +309,7 @@ public class ChoreCardFragment extends Fragment {
 						// MessagesToServer.notifyRoomates(list , "STEAL",
 						// chore.getId());
 						String sender = RoommateDAL.getRoomateUsername();
-						NotificationsDAL.notifySuggestStealChore(chore, sender,
+						PullNotificationsDAL.notifySuggestStealChore(chore, sender,
 								list);
 					} catch (UserNotLoggedInException e) {
 						LoginActivity.OpenLoginScreen(getActivity(), false);
@@ -398,8 +394,8 @@ public class ChoreCardFragment extends Fragment {
 
 								String sender = RoommateDAL
 										.getRoomateUsername();
-								NotificationsDAL.notifySuggestChore(chore,
-										sender, selectedItems);
+								PullNotificationsDAL.notifySuggestChore(chore,
+                                        sender, selectedItems);
 								getActivity().finish();
 							}
 						})

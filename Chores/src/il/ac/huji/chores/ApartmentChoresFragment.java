@@ -19,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import il.ac.huji.chores.dal.ChoreDAL;
 import il.ac.huji.chores.dal.NotificationsDAL;
+import il.ac.huji.chores.dal.PullNotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
@@ -353,7 +354,7 @@ public class ApartmentChoresFragment extends Fragment {
                     List<String> roommates = new ArrayList<String>();
                     roommates.add(oldOwner);
 
-                    NotificationsDAL.notifySuggestChoreAccepted(chore, user, roommates);
+                    PullNotificationsDAL.notifySuggestChoreAccepted(chore, user, roommates);
                 } catch (UserNotLoggedInException e) {
                     LoginActivity.OpenLoginScreen(context, false);
                     return null;

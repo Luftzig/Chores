@@ -8,10 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import com.parse.ParseException;
-import il.ac.huji.chores.dal.ApartmentDAL;
-import il.ac.huji.chores.dal.ApartmentSettingsDAL;
-import il.ac.huji.chores.dal.NotificationsDAL;
-import il.ac.huji.chores.dal.RoommateDAL;
+import il.ac.huji.chores.dal.*;
 import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -187,7 +184,7 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
         try {
             String apartmentId = jsonData.getString("apartmentId");
             ApartmentDAL.addRoommateToApartment(apartmentId);
-            NotificationsDAL.notifyInvitationAccepted(RoommateDAL.getRoomateUsername(), apartmentId);
+            PullNotificationsDAL.notifyInvitationAccepted(RoommateDAL.getRoomateUsername(), apartmentId);
         } catch (UserNotLoggedInException e) {
             LoginActivity.OpenLoginScreen(choresMainActivity, false);
         } catch (JSONException e) {

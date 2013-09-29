@@ -53,16 +53,45 @@ Parse.Cloud.define("invite", function(request, response) {
     }
     var query = findPhones(phone);
     var usersPromise = query.find(function (results) {
-        console.log("Found users");
+        console.log("Found users: " + results.length);
     });
-    Parse.Promise.when(usersPromise).then(function (users) {
+    query.each(function (user) {
+        console.log("creating for user " + user + " apartmentId " + apartmentId);
+        var Notification = Parse.Object.extend("Notifications");
+        var notification = new Notification();
+        return notification.save({
+            sender: inviterName,
+            type: "PARSE_INVITATION_CHANNEL_KEY",
+            target: [user.getUsername()],
+            info: "{apartmentId: " + apartmentId + "}"
+        }, {
+            success: function () {
+                console.log("Save success");
+            },
+            error: function () {
+                console.log("Save failed");
+            }
+        });
+    }).then(function () {
+                response.success("Invitations sent");
+            }, function (error) {
+                response.error(error);
+    });
+
+/*    Parse.Promise.when(usersPromise).then(function (users) {
         if (users.length > 0) {
+            var promises = [];
             for (var i in users) {
                 if (users[i] == null || users[i] === undefined) {
                     continue;
                 }
                 console.log("Inviting user " + users[i].getUsername());
                 var installationsQuery = new Parse.Query(Parse.Installation);
+                var createPromise = createNotification(inviterName, users[i].getUsername(), apartmentId);
+                createPromise.then("Save completed");
+                return createPromise;
+                console.log("Should not be called");
+                promises.push(createPromise);
                 installationsQuery.equalTo("username", users[i].get("username"));
                 Parse.Push.send({
                     where: installationsQuery,
@@ -76,18 +105,29 @@ Parse.Cloud.define("invite", function(request, response) {
                     }
                 });
             }
+            return Parse.Promise.when(promises);
         } else {
             console.log("User with request phone number " + phone + "was not found");
             console.log("Inviting by SMS");
+            return;
         }
-        return;
     }).then(function() {
             response.success("Invitations sent");
     }, function(error) {
             respose.error(error);
-    });
+    });*/
 });
 
+function createNotification(inviter, invited, apartmentId) {
+    var Notification = Parse.Object.extend("Notification");
+    var notification = new Notification();
+    return notification.save({
+        sender: inviter,
+        type: "PARSE_INVITATION_CHANNEL_KEY",
+        target: [invited],
+        info: {apartmentId: apartmentId}
+    });
+}
 
 /* Updating statistics */
 Parse.Cloud.job("statisticsUpdate", function (request, status) {
