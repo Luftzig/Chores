@@ -190,6 +190,12 @@ public class PullNotificationsDAL {
 			case PARSE_JOINED_CHANNEL_KEY:
 				msg = obj.getString("sender") + " has joined the apartment!";
 				break;
+				
+			case PARSE_INVITATION_CHANNEL_KEY:
+				
+				msg = "You were invited to join " + obj.getString("sender") + "'s apartment.";
+				notification.put("apartmentId",obj.getString("apartmentId"));
+				break;
 			}
 			notification.put("msg", msg);
 		} catch (JSONException e1) {
