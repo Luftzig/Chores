@@ -10,6 +10,7 @@ import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Constants.ParseChannelKeys;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -107,13 +108,16 @@ public class PullNotificationsDAL extends NotificationsDAL {
 	}
 
 	public static List<JSONObject> pullAllNotifications() {
+		
+		
 		ParseUser currUser = ParseUser.getCurrentUser();
 		List<String> target = new ArrayList<String>();
 		target.add(currUser.getUsername());
 		List<JSONObject> notifications = new ArrayList<JSONObject>();
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
 				"Notifications");
-		query.whereContainedIn("target", target);
+		Date lastUpdate =  currUser.getDate("lastUpdate");
+		query.whereContainedIn("target", target).whereGreaterThan("createdAt",lastUpdate);
 
 		List<ParseObject> results;
 		try {
@@ -128,6 +132,8 @@ public class PullNotificationsDAL extends NotificationsDAL {
 				System.out.println("json:"+jsonRes.toString());
 			}
 		}
+		currUser.put("lastUpdate", new Date());
+		currUser.saveInBackground();
 		return notifications;
 	}
 

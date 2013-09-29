@@ -1,6 +1,7 @@
 package il.ac.huji.chores.dal;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import android.view.Menu;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
@@ -46,15 +49,13 @@ public class DALTestActivity extends Activity {
 
 		try {
 			RoommateDAL.Login("Yoav Luft", "1234");
-			Chore chore = new ApartmentChore();
-			chore.setApartment("apt id");
-			chore.setName("chore to pull");
-			chore.setId("chore ID");
-			chore.setDeadline(new Date());
-			String sender = "anna";
-			List<String> roommates = new ArrayList<String>();
-			roommates.add("Shani");
-			roommates.add("Yoav Lufy");
+			ParseUser curr = ParseUser.getCurrentUser();
+			Calendar c = Calendar.getInstance();
+			c.set(2014, 1, 1);
+			
+			Date old =  c.getTime();
+			curr.put("lastUpdate", old);
+			curr.saveInBackground();
 		//	PullNotificationsDAL.notifySuggestChore(chore, sender, roommates);
 			List<JSONObject> results = PullNotificationsDAL.pullAllNotifications();
 			
