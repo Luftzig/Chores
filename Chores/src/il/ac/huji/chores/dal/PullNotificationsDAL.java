@@ -36,7 +36,7 @@ public class PullNotificationsDAL {
 		notification.saveInBackground();
 
 	}
-	
+
 	public static void notifyChoreMissed(Chore chore, String sender,
 			List<String> roommates) {
 		NotificationsDAL.notifyChoreMissed(chore,sender,roommates);
@@ -161,14 +161,17 @@ public class PullNotificationsDAL {
 				msg = obj.getString("sender") + " finished the chore "
 						+ obj.getString("info");
 				break;
+
 			case PARSE_MISSED_CHANNEL_KEY:
 				msg = obj.getString("sender") + " missed the chore "
 						+ obj.getString("info");
 				break;
+
 			case PARSE_STEAL_CHANNEL_KEY:
 				msg = obj.getString("sender") + " stole the chore "
 						+ obj.getString("info");
 				break;
+
 			case PARSE_SUGGEST_CHANNEL_KEY:
 				JSONObject json = new JSONObject(obj.getString("info"));
 				msg = obj.getString("sender")
@@ -178,7 +181,6 @@ public class PullNotificationsDAL {
 				notification.put("choreId", json.getString("choreId"));
 				notification.put("sender", obj.getString("sender"));
 				notification.put("deadline", json.getLong("deadline"));
-
 				break;
 
 			case PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY:
@@ -190,9 +192,8 @@ public class PullNotificationsDAL {
 			case PARSE_JOINED_CHANNEL_KEY:
 				msg = obj.getString("sender") + " has joined the apartment!";
 				break;
-				
+
 			case PARSE_INVITATION_CHANNEL_KEY:
-				
 				msg = "You were invited to join " + obj.getString("sender") + "'s apartment.";
 				notification.put("apartmentId",obj.getString("apartmentId"));
 				break;
