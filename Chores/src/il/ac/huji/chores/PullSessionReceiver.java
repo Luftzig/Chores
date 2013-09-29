@@ -13,18 +13,21 @@ import java.util.List;
 
 public class PullSessionReceiver extends BroadcastReceiver {
 
-    private final ChoresMainActivity activityContext;
-    private final ChoresBroadcastReceiver choresBroadcastReceiver;
+    private ChoresMainActivity activityContext;
+    private ChoresBroadcastReceiver choresBroadcastReceiver;
 
     public PullSessionReceiver() {
-        activityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
-        choresBroadcastReceiver = activityContext.getReceiver();
         Log.d("PullSessionReceiver.constructor", "");
     }
 
     @Override
 	public void onReceive(Context context, Intent intent) {
+        activityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
+        choresBroadcastReceiver = activityContext.getReceiver();
         List<JSONObject> notificationJson = PullNotificationsDAL.pullAllNotifications();
+        if (notificationJson == null) {
+            return;
+        }
         for (JSONObject jsonObject : notificationJson) {
             intent.putExtra("com.parse.Data", jsonObject.toString());
             choresBroadcastReceiver.onReceive(context, intent);

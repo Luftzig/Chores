@@ -20,6 +20,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import javax.annotation.Nullable;
+
 public class PullNotificationsDAL extends NotificationsDAL {
 
 	public static void notifyChoreDone(Chore chore, String sender,
@@ -106,9 +108,16 @@ public class PullNotificationsDAL extends NotificationsDAL {
 
 	}
 
+    /**
+     * @return a list of JSON objects representing queued message, or null if Parse is not ready yet
+     */
+    @Nullable
 	public static List<JSONObject> pullAllNotifications() {
 		ParseUser currUser = ParseUser.getCurrentUser();
-		List<String> target = new ArrayList<String>();
+        if (currUser == null) {
+            return null;
+        }
+        List<String> target = new ArrayList<String>();
 		target.add(currUser.getUsername());
 		List<JSONObject> notifications = new ArrayList<JSONObject>();
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
