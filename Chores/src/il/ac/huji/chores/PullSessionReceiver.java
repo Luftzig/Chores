@@ -19,6 +19,7 @@ public class PullSessionReceiver extends BroadcastReceiver {
     public PullSessionReceiver() {
         activityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
         choresBroadcastReceiver = activityContext.getReceiver();
+        Log.d("PullSessionReceiver.constructor", "");
     }
 
     @Override
