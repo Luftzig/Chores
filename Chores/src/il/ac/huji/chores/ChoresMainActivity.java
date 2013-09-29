@@ -10,6 +10,10 @@ import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 public class ChoresMainActivity extends Activity {
 
+    public ChoresBroadcastReceiver getReceiver() {
+        return receiver;
+    }
+
     ChoresBroadcastReceiver receiver;
     private static boolean isActionBarSetup = false;
 
