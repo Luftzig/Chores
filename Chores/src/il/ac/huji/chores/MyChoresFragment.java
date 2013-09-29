@@ -3,7 +3,6 @@ package il.ac.huji.chores;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +26,7 @@ import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
@@ -45,7 +42,6 @@ import static android.graphics.Color.*;
 public class MyChoresFragment extends Fragment {
 
 	private MyChoresListAdapter adapter;
-	private List<Chore> chores;
 	private CategorySeries coinSeries;
     private CategorySeries debtSeries;
 	private XYMultipleSeriesDataset dataSet = new XYMultipleSeriesDataset();
@@ -105,42 +101,7 @@ public class MyChoresFragment extends Fragment {
         }
 
         final View placeholder = ViewUtils.hideLoadingView(listView, getActivity(), R.id.progressBar);
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    roommatesChores = ChoreDAL.getRoommatesChores();
-                } catch (UserNotLoggedInException e) {
-                    LoginActivity.OpenLoginScreen(getActivity(), false);
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                if (getActivity() == null) {
-                    return;
-                }
-                adapter.clear();
-                adapter.addAll(roommatesChores);
-                adapter.sort(new DeadlineComparator());
-                if (adapter == null || adapter.getCount() == 0) {
-                    listView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                    messageBox.setText(R.string.my_chores_no_chores_message);
-                    messageBox.setVisibility(View.VISIBLE);
-                    return;
-                } else {
-                    ViewUtils.hideLoadingView(messageBox, getActivity(), listView);
-                }
-                if(ParseUser.getCurrentUser().get("apartmentID") == null){
-                    messageBox.setText(R.string.my_chores_no_apartment);
-                }
-                ViewUtils.replacePlaceholder(listView, placeholder);
-            }
-        }.execute();
-
+        new PopulateAdapterAsyncTask().execute();
 		// Coins Chart stuff
 		final ProgressBar progressBar = new ProgressBar(getActivity());
 		chartFrame.removeAllViews();
@@ -151,9 +112,7 @@ public class MyChoresFragment extends Fragment {
 
 			@Override
 			protected void onPostExecute(Exception e) {
-				super.onPostExecute(e); // To change body of overridden
-				// methods use File | Settings |
-				// File Templates.
+				super.onPostExecute(e);
                 chartFrame.removeAllViewsInLayout();
                 if (e != null) {
                     if (e instanceof ParseException) {
@@ -341,51 +300,53 @@ public class MyChoresFragment extends Fragment {
 			}
 		});
 
-		new AsyncTask<Void, Void, Void>() {
+        new PopulateAdapterAsyncTask().execute();
 
-			@Override
-			protected Void doInBackground(Void... voids) {
-				try {
-					chores = ChoreDAL.getRoommatesChores();
-
-				} catch (UserNotLoggedInException e) {
-					LoginActivity.OpenLoginScreen(getActivity(), false);
-				}
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(Void aVoid) {
-				super.onPostExecute(aVoid); // To change body of overridden
-				// methods use File | Settings |
-				// File Templates.
-				ViewUtils.replacePlaceholder(listView, progressBar);
-				Activity context = getActivity();
-				if (context == null) {
-					return;
-				}
-				adapter = new MyChoresListAdapter(context, chores);
-				adapter.sort(new DeadlineComparator());
-				listView.setAdapter(adapter);
-
-				if (adapter == null || adapter.getCount() == 0) {
-					String apartment = null;;
-					try {
-						apartment = RoommateDAL.getApartmentID();
-					} catch (UserNotLoggedInException e) {
-						LoginActivity.OpenLoginScreen(getActivity(), false);
-
-					}
-					if(apartment == null || apartment.equals("")){
-						messageBox.setText(R.string.my_chores_no_apartment);
-					} else {
-                        messageBox.setText(R.string.my_chores_no_chores_message);
-					}
-					ViewUtils.hideLoadingView(listView, context, messageBox);
-				} else {
-					ViewUtils.hideLoadingView(messageBox, context, listView);
-				}
-			}
-		}.execute();
+        adapter = new MyChoresListAdapter(getActivity(), new ArrayList<Chore>());
+        listView.setAdapter(adapter);
 	}
+
+    private class PopulateAdapterAsyncTask extends AsyncTask<Void, Void, List<Chore>> {
+
+        @Override
+        protected List<Chore> doInBackground(Void... voids) {
+            try {
+                return ChoreDAL.getRoommatesChores();
+            } catch (UserNotLoggedInException e) {
+                LoginActivity.OpenLoginScreen(getActivity(), false);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Chore> chores) {
+            ViewUtils.replacePlaceholder(listView, progressBar);
+            Activity context = getActivity();
+            if (context == null) {
+                return;
+            }
+            if (adapter == null || chores.size() == 0) {
+                String apartment = null;
+                ;
+                try {
+                    apartment = RoommateDAL.getApartmentID();
+                } catch (UserNotLoggedInException e) {
+                    LoginActivity.OpenLoginScreen(getActivity(), false);
+
+                }
+                if (apartment == null || apartment.equals("")) {
+                    messageBox.setText(R.string.my_chores_no_apartment);
+                } else {
+                    messageBox.setText(R.string.my_chores_no_chores_message);
+                }
+                ViewUtils.hideLoadingView(listView, context, messageBox);
+            } else {
+                adapter.addAll(chores);
+                adapter.sort(new DeadlineComparator());
+                adapter.notifyDataSetChanged();
+                ViewUtils.hideLoadingView(messageBox, context, listView);
+            }
+        }
+
+    }
 }
