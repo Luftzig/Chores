@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 import il.ac.huji.chores.dal.ApartmentDAL;
 import il.ac.huji.chores.dal.ApartmentSettingsDAL;
+
 import il.ac.huji.chores.dal.NotificationsDAL;
 import il.ac.huji.chores.dal.RoommateDAL;
 import il.ac.huji.chores.exceptions.FailedToGetApartmentSettings;
@@ -21,6 +22,7 @@ import com.parse.ParseException;
 public class ChoresMainActivity extends Activity {
 
     ActivityBroadcastReceiver receiver;
+    
     private static boolean isActionBarSetup = false;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +225,7 @@ public class ChoresMainActivity extends Activity {
         SETTINGS
     }
 
+  
     private class ActivityBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

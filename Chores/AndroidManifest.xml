@@ -15,14 +15,22 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    
+     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".ChoresApp"
         android:allowBackup="true"
         android:debuggable="true"
         android:icon="@drawable/icon36"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".ChoresApp" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="il.ac.huji.chores.ChoresMainActivity"
             android:alwaysRetainTaskState="true"
@@ -30,17 +38,20 @@
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-      <!--  <activity
+        
+        <activity
             android:name="il.ac.huji.chores.dal.DALTestActivity"
             android:label="@string/title_activity_apartment_settings" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
+        </activity>
+        
         <activity
             android:name="il.ac.huji.chores.ApartmentSettingsActivity"
             android:label="@string/title_activity_apartment_settings"
@@ -58,7 +69,7 @@
         <activity
             android:name="il.ac.huji.chores.NewApartmentDialogActivity"
             android:label=""
-             android:theme="@android:style/Theme.Dialog" >
+            android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
             android:name="il.ac.huji.chores.ChoreCardActivity"
@@ -86,6 +97,8 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        
+       
         <receiver android:name=".AlarmReciever" />
 
         <service

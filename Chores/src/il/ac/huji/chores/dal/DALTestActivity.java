@@ -1,5 +1,6 @@
 package il.ac.huji.chores.dal;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 
+import il.ac.huji.chores.ApartmentChore;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.ChoreInfo;
 import il.ac.huji.chores.ChoreInfo.CHORE_INFO_PERIOD;
@@ -42,13 +44,24 @@ public class DALTestActivity extends Activity {
 
 		try {
 			RoommateDAL.Login("ANNA_COINS", "123123");
-			Date today = new Date();
-			List<Chore> results = ChoreDAL.getAllChoresCreatedAfter(today.getTime());
+			Chore chore = new ApartmentChore();
+			chore.setApartment("apt id");
+			chore.setName("chore to pull");
+			chore.setId("chore ID");
+			String sender = "anna";
+			List<String> roommates = new ArrayList<String>();
+			roommates.add("Shani");
+			roommates.add("Yoav");
+			//PullNotificationsDAL.notifyChoreDone(chore, sender, roommates);
+			//PullNotificationsDAL.notifyChoreMissed(chore, sender, roommates);
+			PullNotificationsDAL.notifyInvitationAccepted(sender, "LkX1fKO0wf");
+			PullNotificationsDAL.notifySuggestChore(chore, sender, roommates);
+			PullNotificationsDAL.notifySuggestChoreAccepted(chore, sender, roommates);
+			PullNotificationsDAL.notifySuggestStealChore(chore, sender, roommates);
+			//Date today = new Date();
+			//List<Chore> results = ChoreDAL.getAllChoresCreatedAfter(today.getTime());
 			
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UserNotLoggedInException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
