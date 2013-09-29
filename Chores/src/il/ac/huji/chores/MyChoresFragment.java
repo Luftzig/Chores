@@ -98,7 +98,7 @@ public class MyChoresFragment extends Fragment {
 		Log.d("MyChoresFragment", "onResume");
 		super.onResume();
 
-		if (adapter != null || ParseUser.getCurrentUser().get("apartmentID") == null) {
+		if (adapter == null || ParseUser.getCurrentUser().get("apartmentID") == null) {
             Log.w("MyChoresFragment.onResume", "adapter is null or no apartment");
             messageBox.setText(R.string.my_chores_no_apartment);
             return;
@@ -171,9 +171,10 @@ public class MyChoresFragment extends Fragment {
                 Activity context = getActivity();
 				if (context == null || dataSet == null || renderer == null
                         || dataSet.getSeriesCount() != renderer.getSeriesRendererCount()) {
-					return;
-				}
-				if(dataSet == null ||renderer == null){
+                    chartFrame.setVisibility(View.GONE);
+                    return;
+                }
+                if(dataSet == null ||renderer == null){
 					chartFrame.setVisibility(View.GONE);
 					return;
 				}
@@ -368,7 +369,7 @@ public class MyChoresFragment extends Fragment {
 				listView.setAdapter(adapter);
 
 				if (adapter == null || adapter.getCount() == 0) {
-					String apartment=null;;
+					String apartment = null;;
 					try {
 						apartment = RoommateDAL.getApartmentID();
 					} catch (UserNotLoggedInException e) {
@@ -381,8 +382,7 @@ public class MyChoresFragment extends Fragment {
                         messageBox.setText(R.string.my_chores_no_chores_message);
 					}
 					ViewUtils.hideLoadingView(listView, context, messageBox);
-				}
-				else{
+				} else {
 					ViewUtils.hideLoadingView(messageBox, context, listView);
 				}
 			}
