@@ -313,7 +313,9 @@ public class MyChoresFragment extends Fragment {
             try {
                 return ChoreDAL.getRoommatesChores();
             } catch (UserNotLoggedInException e) {
-                LoginActivity.OpenLoginScreen(getActivity(), false);
+            	if(getActivity() != null){
+            		LoginActivity.OpenLoginScreen(getActivity(), false);
+            	}
             }
             return null;
         }
