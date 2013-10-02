@@ -25,6 +25,9 @@ public class PullSessionReceiver extends BroadcastReceiver {
     @Override
 	public void onReceive(final Context context, final Intent intent) {
         activityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
+        if(activityContext == null){
+        	return;
+        }
         choresBroadcastReceiver = activityContext.getReceiver();
         final List<JSONObject> notificationJson = Lists.newArrayList();
         new AsyncTask<Void, Void, Void>() {
@@ -44,19 +47,19 @@ public class PullSessionReceiver extends BroadcastReceiver {
         }.execute();
     }
 
-    private void notifyMessage(String title, String message, Class targetActivity) {
-        Notification.Builder builder = new Notification.Builder(activityContext)
-                .setSmallIcon(R.drawable.icon48)
-                .setContentTitle(title)
-                .setContentText(message);
-        Intent targetIntent = new Intent(activityContext, targetActivity);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(activityContext);
-        stackBuilder.addParentStack(targetActivity);
-        stackBuilder.addNextIntent(targetIntent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        NotificationManager notificationManager =
-                (NotificationManager) activityContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
-    }
+//    private void notifyMessage(String title, String message, Class targetActivity) {
+//        Notification.Builder builder = new Notification.Builder(activityContext)
+//                .setSmallIcon(R.drawable.icon48)
+//                .setContentTitle(title)
+//                .setContentText(message);
+//        Intent targetIntent = new Intent(activityContext, targetActivity);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(activityContext);
+//        stackBuilder.addParentStack(targetActivity);
+//        stackBuilder.addNextIntent(targetIntent);
+//        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(pendingIntent);
+//        NotificationManager notificationManager =
+//                (NotificationManager) activityContext.getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.notify(0, builder.build());
+//    }
 }
