@@ -161,6 +161,7 @@ public class ChoresRest {
 		curCal.set(Calendar.HOUR, 0);
 		
 		Calendar startCal = Calendar.getInstance();// a calendar that holds the start time of the next chore to schedule
+		Calendar sanityCal = Calendar.getInstance();//to check deadline is after start
 		
 		
 		for(int j=0; j < times; j++){
@@ -181,6 +182,12 @@ public class ChoresRest {
 				}
 	
 				Date deadline = calculateDeadline(choreInfo,curCal.getTime(),i);
+				sanityCal.setTime(deadline);
+				if(sanityCal.before(startCal)){
+					sanityCal.setTime(chore.getStartsFrom());
+					deadline = sanityCal.getTime();
+				}
+				
 				chore.setDeadline(deadline);
 				
 				chores.add(chore);

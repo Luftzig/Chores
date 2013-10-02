@@ -8,6 +8,7 @@ import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_SUGGEST_ACCEPTE
 import static il.ac.huji.chores.Constants.ParseChannelKeys.PARSE_SUGGEST_CHANNEL_KEY;
 import il.ac.huji.chores.Chore;
 import il.ac.huji.chores.Constants.ParseChannelKeys;
+import il.ac.huji.chores.exceptions.UserNotLoggedInException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,6 +192,10 @@ public class PullNotificationsDAL {
 				break;
 
 			case PARSE_INVITATION_CHANNEL_KEY:
+				if(RoommateDAL.getApartmentID() != null)
+				{
+					return null;
+				}
 				msg = "You were invited to join " + obj.getString("sender") + "'s apartment.";
                 JSONObject info = new JSONObject(obj.getString("info"));
                 notification.put("apartmentId", info.getString("apartmentId"));
@@ -198,6 +203,8 @@ public class PullNotificationsDAL {
 			}
 			notification.put("msg", msg);
 		} catch (JSONException e1) {
+			return null;
+		} catch (UserNotLoggedInException e) {
 			return null;
 		}
 		return notification;

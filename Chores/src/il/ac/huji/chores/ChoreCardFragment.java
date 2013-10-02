@@ -117,26 +117,7 @@ public class ChoreCardFragment extends Fragment {
 		try {
 			roommatesList = ApartmentDAL.getApartmentRoommates(RoommateDAL
 					.getApartmentID());
-		} catch (UserNotLoggedInException e) {
-			// TODO Auto-generated catch block
-			LoginActivity.OpenLoginScreen(getActivity(), false);
-			return;
-		} catch (ParseException e) {
-
-			if (e.getCode() == ParseException.CONNECTION_FAILED) {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.chores_connection_failed),
-						Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.general_error), Toast.LENGTH_LONG)
-						.show();
-			}
-		}
+		
 
 		// handle buttons
 		if (beforeStartDate) { // can't do chore yet
@@ -207,6 +188,27 @@ public class ChoreCardFragment extends Fragment {
 
 			}
 		}
+		
+		} catch (UserNotLoggedInException e) {
+			// TODO Auto-generated catch block
+			LoginActivity.OpenLoginScreen(getActivity(), false);
+			return;
+		} catch (ParseException e) {
+
+			if (e.getCode() == ParseException.CONNECTION_FAILED) {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.chores_connection_failed),
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.general_error), Toast.LENGTH_LONG)
+						.show();
+			}
+		}
 	}
 
 	/**
@@ -216,10 +218,15 @@ public class ChoreCardFragment extends Fragment {
 	 * have any functionality.
 	 * roommates - a list of the user roommates. needed only for chore
 	 * suggestion.
+	 * @throws ParseException 
 	 */
 	private void setListenersToCardButtons(Button doneButton,
 			Button suggestButton, Button StealButton, final Chore chore,
-			final String curUser, final List<String> roommates) {
+			final String curUser, final List<String> roommates) throws ParseException {
+		
+		final String sender = RoommateDAL.getRoomateUsername();
+		final List<String> partialRoommates = ApartmentDAL.getApartmentRoommates(chore.getApartment());
+		partialRoommates.remove(sender);// get roommates without sender
 
 		if (doneButton != null) {
 			doneButton.setOnClickListener(new OnClickListener() {
@@ -230,13 +237,13 @@ public class ChoreCardFragment extends Fragment {
 					try {
 						ChoreDAL.updateChoreStatus(chore.getId(),
 								CHORE_STATUS.STATUS_DONE);
-						String sender = RoommateDAL.getRoomateUsername();
-
+						
+						
 						updateDebtAndCoinsCollected(chore.getCoinsNum(),
 								chore.getAssignedTo(), sender, roommates);
 
 						PullNotificationsDAL.notifyChoreDone(chore, sender,
-								roommates);
+								partialRoommates);
 
 					} catch (ParseException e) {
 						if (e.getCode() == ParseException.CONNECTION_FAILED) {
@@ -264,7 +271,7 @@ public class ChoreCardFragment extends Fragment {
 				public void onClick(View v) {
 					// start alert dialog to choose the roommate.
 
-					openChoreSuggestionDialog(chore, roommates);
+					openChoreSuggestionDialog(chore, partialRoommates);
 				}
 			});
 
