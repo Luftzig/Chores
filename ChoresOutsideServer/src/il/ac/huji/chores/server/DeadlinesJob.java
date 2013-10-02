@@ -27,7 +27,7 @@ public class DeadlinesJob implements Job {
 			chore = parse.getChoreObj(choreId);
 
 			JSONObject status = new JSONObject();
-			status.put("status", CHORE_STATUS.STATUS_FUTURE.toString());
+			status.put("status", CHORE_STATUS.STATUS_MISS.toString());
 	
 
 			if(chore.getStatus() == CHORE_STATUS.STATUS_FUTURE){

@@ -41,7 +41,11 @@ public class PullSessionReceiver extends BroadcastReceiver {
 
             @Override
             protected Void doInBackground(Void... params) {
-                notificationJson.addAll(PullNotificationsDAL.pullAllNotifications());
+            	List<JSONObject> pulls = PullNotificationsDAL.pullAllNotifications();
+            	if(notificationJson == null || pulls == null){
+            		return null;
+            	}
+                notificationJson.addAll(pulls);
                 return null;  //To change body of implemented methods use File | Settings | File Templates.
             }
         }.execute();

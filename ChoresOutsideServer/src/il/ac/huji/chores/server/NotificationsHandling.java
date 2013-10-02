@@ -64,7 +64,7 @@ public class NotificationsHandling {
 
         //JSONArray channels = new JSONArray(channelsList);
         sendNotification(usersStatement, data);
-        updateTableHelper(PARSE_MISSED_CHANNEL_KEY, CHORES_SERVER, getRoommatesNames(roommates), chore.getName());
+        updateTableHelper(PARSE_MISSED_CHANNEL_KEY, chore.getAssignedTo(), getRoommatesNames(roommates), chore.getName());
     }
 
     private static void updateTableHelper(Constants.ParseChannelKeys type, String sender, List<String> target, Object info)
@@ -72,7 +72,7 @@ public class NotificationsHandling {
         ParseRestClientImpl parse = new ParseRestClientImpl();
         JSONObject notification = new JSONObject();
         notification.put("sender", sender);
-        notification.put("info", info);
+        notification.put("info", info.toString());
         notification.put("target", target);
         notification.put("type", type.toString());
         parse.createObject("Notifications", notification.toString());

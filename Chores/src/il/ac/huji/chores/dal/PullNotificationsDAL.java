@@ -152,13 +152,19 @@ public class PullNotificationsDAL {
 		String type = obj.getString("type");
 		try {
 			notification.put("notificationType", type);
-
+			JSONObject info;
 			String msg = "";
 			switch (ParseChannelKeys.valueOf(type)) {
 			case PARSE_DONE_CHANNEL_KEY:
 				msg = obj.getString("sender") + " finished the chore "
 						+ obj.getString("info");
 				break;
+				
+			case PARSE_NEW_CHORES_CHANNEL_KEY:
+				msg = "new chores has been divided";
+				info = new JSONObject(obj.getString("info"));
+	            notification.put("updateTime", info.getString("updateTime"));
+	            break;
 
 			case PARSE_MISSED_CHANNEL_KEY:
 				msg = obj.getString("sender") + " missed the chore "
@@ -197,7 +203,7 @@ public class PullNotificationsDAL {
 					return null;
 				}
 				msg = "You were invited to join " + obj.getString("sender") + "'s apartment.";
-                JSONObject info = new JSONObject(obj.getString("info"));
+                info = new JSONObject(obj.getString("info"));
                 notification.put("apartmentId", info.getString("apartmentId"));
 				break;
 			}
