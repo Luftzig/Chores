@@ -185,6 +185,9 @@ public class ChoresRest {
 				sanityCal.setTime(deadline);
 				if(sanityCal.before(startCal)){
 					sanityCal.setTime(chore.getStartsFrom());
+					sanityCal.set(Calendar.SECOND, 59);
+					sanityCal.set(Calendar.MINUTE, 59);
+					sanityCal.set(Calendar.HOUR, 23);
 					deadline = sanityCal.getTime();
 				}
 				
