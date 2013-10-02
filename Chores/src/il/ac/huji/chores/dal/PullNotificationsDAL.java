@@ -70,7 +70,7 @@ public class PullNotificationsDAL {
 			json.put("name", chore.getName());
 			json.put("deadline", chore.getDeadline().getTime());
 			json.put("choreId", chore.getId());
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 
 		}
 		notification.put("info", json.toString());
@@ -93,7 +93,6 @@ public class PullNotificationsDAL {
 		notification.put("target", roommates);
 		notification.put("type", PARSE_SUGGEST_ACCEPTED_CHANNEL_KEY.toString());
 		notification.saveInBackground();
-
 	}
 
 	public static void notifyInvitationAccepted(String accepter,
@@ -115,8 +114,6 @@ public class PullNotificationsDAL {
      */
     @Nullable
 	public static List<JSONObject> pullAllNotifications() {
-		
-		
 		ParseUser currUser = ParseUser.getCurrentUser();
         if (currUser == null) {
             return null;
@@ -195,7 +192,8 @@ public class PullNotificationsDAL {
 
 			case PARSE_INVITATION_CHANNEL_KEY:
 				msg = "You were invited to join " + obj.getString("sender") + "'s apartment.";
-				notification.put("apartmentId",obj.getString("apartmentId"));
+                JSONObject info = new JSONObject(obj.getString("info"));
+                notification.put("apartmentId", info.getString("apartmentId"));
 				break;
 			}
 			notification.put("msg", msg);

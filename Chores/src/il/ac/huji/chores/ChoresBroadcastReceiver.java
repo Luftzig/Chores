@@ -21,7 +21,10 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         ChoresMainActivity mainActivityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
-        assert mainActivityContext != null;
+        if (mainActivityContext == null) {
+            Log.e("ChoresBroadcastReceiver", "mainActivityContext is null");
+            return;
+        }
         ActionBar bar = AppSetup.getActionBar();
         JSONObject jsonData;
         try {
@@ -64,7 +67,10 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
     private boolean handleNewChoresMessage() throws UserNotLoggedInException {
         Settings settings = new Settings();
         Context mainActivityContext = AppSetup.getMainActivityContext();
-        assert mainActivityContext != null;
+        if (mainActivityContext == null) {
+            Log.e("ChoresBroadcastReceiver", "mainActivityContext is null");
+            return false;
+        }
         try {
             settings = ApartmentSettingsDAL.getSettings();
         } catch (ParseException e) {
@@ -105,7 +111,10 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
         }
 
         final ChoresMainActivity mainActivityContext = (ChoresMainActivity) AppSetup.getMainActivityContext();
-        assert mainActivityContext != null;
+        if (mainActivityContext == null) {
+            Log.e("ChoresBroadcastReceiver", "mainActivityContext is null");
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivityContext);
         builder.setMessage(dialogMsg);
         String positiveButtonTxt = "OK";
@@ -180,7 +189,10 @@ public class ChoresBroadcastReceiver extends BroadcastReceiver {
 
     private void acceptApartmentInvitation(JSONObject jsonData, ChoresMainActivity choresMainActivity) {
         Context mainActivityContext = AppSetup.getMainActivityContext();
-        assert mainActivityContext != null;
+        if (mainActivityContext == null) {
+            Log.e("ChoresBroadcastReceiver", "mainActivityContext is null");
+            return;
+        }
         try {
             String apartmentId = jsonData.getString("apartmentId");
             ApartmentDAL.addRoommateToApartment(apartmentId);

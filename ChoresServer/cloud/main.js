@@ -119,7 +119,7 @@ Parse.Cloud.define("invite", function(request, response) {
 });
 
 function createNotification(inviter, invited, apartmentId) {
-    var Notification = Parse.Object.extend("Notification");
+    var Notification = Parse.Object.extend("Notifications");
     var notification = new Notification();
     return notification.save({
         sender: inviter,

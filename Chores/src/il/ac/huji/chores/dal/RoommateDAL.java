@@ -92,7 +92,6 @@ public class RoommateDAL {
 		roommate.put("phoneNumber", sanitizePhoneNumber(phoneNumber));
 		roommate.put("lastUpdated",new Date());
 		try {
-			
 			roommate.save();
 			CoinsDAL.createDefaultCoinsForRoommate();
 		} catch (ParseException e) {
